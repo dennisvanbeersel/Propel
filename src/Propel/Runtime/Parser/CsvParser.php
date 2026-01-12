@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\Parser;
 
@@ -63,10 +63,7 @@ class CsvParser extends AbstractParser
      */
     public string $escapechar = '\\';
 
-    /**
-     * @var int
-     */
-    public $quoting = self::QUOTE_MINIMAL;
+    public int $quoting = self::QUOTE_MINIMAL;
 
     /**
      * Converts data from an associative array to CSV.

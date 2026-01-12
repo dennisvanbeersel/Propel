@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\Connection;
 
@@ -25,17 +25,13 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
 {
     /**
      * The wrapped statement class
-     *
-     * @var \PDOStatement
      */
-    protected $statement;
+    protected PDOStatement $statement;
 
     /**
      * The connection wrapper generating this object
-     *
-     * @var \Propel\Runtime\Connection\ConnectionWrapper
      */
-    protected $connection;
+    protected ConnectionWrapper $connection;
 
     /**
      * Hashmap for resolving the PDO::PARAM_* class constants to their human-readable names.
@@ -45,7 +41,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @var array<int, string>
      */
-    protected static $typeMap = [
+    protected static array $typeMap = [
         PDO::PARAM_NULL => 'PDO::PARAM_NULL',
         PDO::PARAM_INT => 'PDO::PARAM_INT',
         PDO::PARAM_STR => 'PDO::PARAM_STR',
@@ -56,12 +52,9 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @var array<string, mixed> The values that have been bound
      */
-    protected $boundValues = [];
+    protected array $boundValues = [];
 
-    /**
-     * @var string
-     */
-    protected $sql;
+    protected string $sql;
 
     /**
      * Creates a Statement instance

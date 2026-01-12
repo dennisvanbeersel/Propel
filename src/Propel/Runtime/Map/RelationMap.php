@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\Map;
 
@@ -56,62 +56,36 @@ class RelationMap
      */
     public const LEFT_TO_RIGHT = 1;
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var string|null
-     */
-    protected $pluralName;
+    protected ?string $pluralName = null;
 
-    /**
-     * @var int
-     */
-    protected $type;
+    protected ?int $type = null;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $localTable;
+    protected TableMap $localTable;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $foreignTable;
+    protected TableMap $foreignTable;
 
-    /**
-     * @var bool
-     */
-    protected $polymorphic = false;
+    protected bool $polymorphic = false;
 
     /**
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $localColumns = [];
+    protected array $localColumns = [];
 
     /**
      * Values used for polymorphic associations.
-     *
-     * @var array
      */
-    protected $localValues = [];
+    protected array $localValues = [];
 
     /**
      * @var array<\Propel\Runtime\Map\ColumnMap|null>
      */
-    protected $foreignColumns = [];
+    protected array $foreignColumns = [];
 
-    /**
-     * @var string|null
-     */
-    protected $onUpdate;
+    protected ?string $onUpdate = null;
 
-    /**
-     * @var string|null
-     */
-    protected $onDelete;
+    protected ?string $onDelete = null;
 
     /**
      * @param string $name Name of the relation.

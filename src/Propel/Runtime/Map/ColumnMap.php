@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\Map;
 
@@ -31,87 +31,63 @@ class ColumnMap
 {
     /**
      * Propel type of the column
-     *
-     * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * Size of the column
-     *
-     * @var int
      */
-    protected $size = 0;
+    protected int $size = 0;
 
     /**
      * Is it a primary key?
-     *
-     * @var bool
      */
-    protected $pk = false;
+    protected bool $pk = false;
 
     /**
      * Is null value allowed?
-     *
-     * @var bool
      */
-    protected $notNull = false;
+    protected bool $notNull = false;
 
     /**
      * The default value for this column
-     *
-     * @var string|bool|null
      */
-    protected $defaultValue;
+    protected string|int|bool|null $defaultValue = null;
 
     /**
      * Name of the table that this column is related to
-     *
-     * @var string
      */
-    protected $relatedTableName = '';
+    protected string $relatedTableName = '';
 
     /**
      * Name of the column that this column is related to
-     *
-     * @var string
      */
-    protected $relatedColumnName = '';
+    protected string $relatedColumnName = '';
 
     /**
      * The TableMap for this column
-     *
-     * @var \Propel\Runtime\Map\TableMap
      */
-    protected $table;
+    protected TableMap $table;
 
     /**
      * The name of the column
-     *
-     * @var string
      */
-    protected $columnName;
+    protected string $columnName;
 
     /**
      * The php name of the column
-     *
-     * @var string
      */
-    protected $phpName;
+    protected string $phpName;
 
     /**
      * The allowed values for an ENUM or SET column
-     *
-     * @var array
      */
-    protected $valueSet = [];
+    protected array $valueSet = [];
 
     /**
      * Is this a primaryString column?
-     *
-     * @var bool
      */
-    protected $isPkString = false;
+    protected bool $isPkString = false;
 
     /**
      * @param string $name The name of the column.
@@ -375,11 +351,11 @@ class ColumnMap
     /**
      * Sets the default value for this column.
      *
-     * @param string|bool|null $defaultValue the default value for the column
+     * @param string|int|bool $defaultValue the default value for the column
      *
      * @return void
      */
-    public function setDefaultValue($defaultValue): void
+    public function setDefaultValue(string|int|bool|null $defaultValue): void
     {
         $this->defaultValue = $defaultValue;
     }
@@ -387,9 +363,9 @@ class ColumnMap
     /**
      * Gets the default value for this column.
      *
-     * @return string|bool|null
+     * @return string|int|bool|null
      */
-    public function getDefaultValue()
+    public function getDefaultValue(): string|int|bool|null
     {
         return $this->defaultValue;
     }

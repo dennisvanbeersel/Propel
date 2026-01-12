@@ -57,64 +57,48 @@ class StandardServiceContainer implements ServiceContainerInterface
     /**
      * @var array<string, \Propel\Runtime\Adapter\AdapterInterface> List of database adapter instances
      */
-    protected $adapters = [];
+    protected array $adapters = [];
 
     /**
      * @phpstan-var array<string, class-string<\Propel\Runtime\Adapter\AdapterInterface>>
      *
      * @var array<string, string> List of database adapter classes
      */
-    protected $adapterClasses = [];
+    protected array $adapterClasses = [];
 
-    /**
-     * @var string
-     */
-    protected $defaultDatasource = ServiceContainerInterface::DEFAULT_DATASOURCE_NAME;
+    protected string $defaultDatasource = ServiceContainerInterface::DEFAULT_DATASOURCE_NAME;
 
     /**
      * @phpstan-var class-string<\Propel\Runtime\Map\DatabaseMap>
-     *
-     * @var string
      */
-    protected $databaseMapClass = ServiceContainerInterface::DEFAULT_DATABASE_MAP_CLASS;
+    protected string $databaseMapClass = ServiceContainerInterface::DEFAULT_DATABASE_MAP_CLASS;
 
     /**
      * @var array<\Propel\Runtime\Map\DatabaseMap>|null List of database map instances. Is null if not initialized.
      * @see StandardServiceContainer::initDatabaseMaps();
      */
-    protected $databaseMaps;
+    protected ?array $databaseMaps = null;
 
     /**
      * @var array<\Propel\Runtime\Connection\ConnectionManagerInterface> List of connection managers
      */
-    protected $connectionManagers = [];
+    protected array $connectionManagers = [];
 
     /**
      * @phpstan-var class-string<\Propel\Runtime\Util\Profiler>
-     *
-     * @var string
      */
-    protected $profilerClass = ServiceContainerInterface::DEFAULT_PROFILER_CLASS;
+    protected string $profilerClass = ServiceContainerInterface::DEFAULT_PROFILER_CLASS;
 
-    /**
-     * @var array
-     */
-    protected $profilerConfiguration = [];
+    protected array $profilerConfiguration = [];
 
-    /**
-     * @var \Propel\Runtime\Util\Profiler|null
-     */
-    protected $profiler;
+    protected ?Profiler $profiler = null;
 
     /**
      * @var array<\Psr\Log\LoggerInterface> List of loggers
      */
-    protected $loggers = [];
+    protected array $loggers = [];
 
-    /**
-     * @var array
-     */
-    protected $loggerConfigurations = [];
+    protected array $loggerConfigurations = [];
 
     /**
      * @return string

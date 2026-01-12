@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
@@ -35,53 +35,40 @@ abstract class AbstractCriterion
      */
     public const ODER = ' OR ';
 
-    /**
-     * @var mixed
-     */
-    protected $value;
+    protected mixed $value;
 
     /**
      * Comparison value.
-     *
-     * @var string
      */
-    protected $comparison;
+    protected string $comparison = '';
 
     /**
      * Table name
-     *
-     * @var string|null
      */
-    protected $table;
+    protected ?string $table = null;
 
     /**
      * Real table name
-     *
-     * @var string
      */
-    protected $realtable;
+    protected ?string $realtable = null;
 
     /**
      * Column name
-     *
-     * @var string
      */
-    protected $column;
+    protected string $column = '';
 
     /**
      * The DBAdapter which might be used to get db specific
      * variations of sql.
-     *
-     * @var \Propel\Runtime\Adapter\AdapterInterface
      */
-    protected $db;
+    protected ?AdapterInterface $db = null;
 
     /**
      * Other connected criterions
      *
      * @var array<int, \Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion>
      */
-    protected $clauses = [];
+    protected array $clauses = [];
 
     /**
      * Operators for connected criterions
@@ -89,7 +76,7 @@ abstract class AbstractCriterion
      *
      * @var array<int, string>
      */
-    protected $conjunctions = [];
+    protected array $conjunctions = [];
 
     /**
      * Create a new instance.
