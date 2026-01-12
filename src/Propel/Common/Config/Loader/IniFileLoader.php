@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
@@ -122,7 +124,7 @@ class IniFileLoader extends FileLoader
         $config = [];
 
         foreach ($section as $key => $value) {
-            $this->parseKey($key, $value, $config);
+            $this->parseKey((string)$key, $value, $config);
         }
 
         return $config;
