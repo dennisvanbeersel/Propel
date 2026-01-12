@@ -275,10 +275,15 @@ class RelationMap
         }
 
         for ($i = 0, $size = count($this->localColumns); $i < $size; $i++) {
+            $foreignColumn = $this->foreignColumns[$i];
+            if ($foreignColumn === null) {
+                // Skip polymorphic relation entries with no foreign column
+                continue;
+            }
             if ($direction === self::LOCAL_TO_FOREIGN) {
-                $h[$this->localColumns[$i]->getFullyQualifiedName()] = $this->foreignColumns[$i]->getFullyQualifiedName();
+                $h[$this->localColumns[$i]->getFullyQualifiedName()] = $foreignColumn->getFullyQualifiedName();
             } else {
-                $h[$this->foreignColumns[$i]->getFullyQualifiedName()] = $this->localColumns[$i]->getFullyQualifiedName();
+                $h[$foreignColumn->getFullyQualifiedName()] = $this->localColumns[$i]->getFullyQualifiedName();
             }
         }
 

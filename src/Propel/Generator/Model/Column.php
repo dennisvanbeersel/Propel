@@ -359,10 +359,10 @@ class Column extends MappingModel
             $domain->replaceScale($scale);
 
             $defval = $this->getAttribute('defaultValue', $this->getAttribute('default'));
-            if ($defval !== null && strtolower($defval) !== 'null') {
-                $domain->setDefaultValue(new ColumnDefaultValue($defval, ColumnDefaultValue::TYPE_VALUE));
+            if ($defval !== null && strtolower((string)$defval) !== 'null') {
+                $domain->setDefaultValue(new ColumnDefaultValue((string)$defval, ColumnDefaultValue::TYPE_VALUE));
             } elseif ($this->getAttribute('defaultExpr') !== null) {
-                $domain->setDefaultValue(new ColumnDefaultValue($this->getAttribute('defaultExpr'), ColumnDefaultValue::TYPE_EXPR));
+                $domain->setDefaultValue(new ColumnDefaultValue((string)$this->getAttribute('defaultExpr'), ColumnDefaultValue::TYPE_EXPR));
             }
 
             if ($this->getAttribute('valueSet')) {
@@ -1521,7 +1521,7 @@ class Column extends MappingModel
     public function setDefaultValue($defaultValue): void
     {
         if (!$defaultValue instanceof ColumnDefaultValue) {
-            $defaultValue = new ColumnDefaultValue($defaultValue, ColumnDefaultValue::TYPE_VALUE);
+            $defaultValue = new ColumnDefaultValue($defaultValue === null ? null : (string)$defaultValue, ColumnDefaultValue::TYPE_VALUE);
         }
 
         $this->domain->setDefaultValue($defaultValue);

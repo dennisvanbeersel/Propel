@@ -415,9 +415,9 @@ abstract class DataModelBuilder
      *
      * @param string $name
      *
-     * @return string|null
+     * @return mixed
      */
-    public function getBuildProperty(string $name): ?string
+    public function getBuildProperty(string $name): mixed
     {
         if ($this->getGeneratorConfig()) {
             return $this->getGeneratorConfig()->getConfigProperty($name);

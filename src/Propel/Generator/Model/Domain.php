@@ -125,9 +125,9 @@ class Domain extends MappingModel
         // Default value
         $defval = $this->getAttribute('defaultValue', $this->getAttribute('default'));
         if ($defval !== null) {
-            $this->setDefaultValue(new ColumnDefaultValue($defval, ColumnDefaultValue::TYPE_VALUE));
+            $this->setDefaultValue(new ColumnDefaultValue((string)$defval, ColumnDefaultValue::TYPE_VALUE));
         } elseif ($this->getAttribute('defaultExpr') !== null) {
-            $this->setDefaultValue(new ColumnDefaultValue($this->getAttribute('defaultExpr'), ColumnDefaultValue::TYPE_EXPR));
+            $this->setDefaultValue(new ColumnDefaultValue((string)$this->getAttribute('defaultExpr'), ColumnDefaultValue::TYPE_EXPR));
         }
 
         $this->size = $this->getAttribute('size') ? (int)$this->getAttribute('size') : null;

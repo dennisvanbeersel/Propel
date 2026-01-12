@@ -208,10 +208,16 @@ class TableMap
     /**
      * Get the DatabaseMap containing this TableMap.
      *
+     * @throws \Propel\Runtime\Exception\LogicException If DatabaseMap is not set.
+     *
      * @return \Propel\Runtime\Map\DatabaseMap A DatabaseMap.
      */
     public function getDatabaseMap(): DatabaseMap
     {
+        if ($this->dbMap === null) {
+            throw new LogicException('DatabaseMap is not set on this TableMap.');
+        }
+
         return $this->dbMap;
     }
 

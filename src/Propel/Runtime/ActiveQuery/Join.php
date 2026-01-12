@@ -817,7 +817,11 @@ class Join
         $rightTableName = $this->getRightTableWithAlias();
 
         if ($this->isIdentifierQuotingEnabled()) {
-            $rightTableName = $this->getAdapter()->quoteIdentifierTable($rightTableName);
+            $adapter = $this->getAdapter();
+            if ($adapter === null) {
+                throw new LogicException('Adapter is required when identifier quoting is enabled');
+            }
+            $rightTableName = $adapter->quoteIdentifierTable($rightTableName);
         }
 
         return sprintf(

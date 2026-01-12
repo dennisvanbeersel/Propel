@@ -200,9 +200,9 @@ abstract class AbstractCriterion
      * The AdapterInterface which might be used to get db specific
      * variations of sql.
      *
-     * @return \Propel\Runtime\Adapter\AdapterInterface value of db.
+     * @return \Propel\Runtime\Adapter\AdapterInterface|null value of db.
      */
-    public function getAdapter(): AdapterInterface
+    public function getAdapter(): ?AdapterInterface
     {
         return $this->db;
     }
