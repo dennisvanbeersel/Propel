@@ -1,11 +1,12 @@
 <?php
 
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Generator\Builder\Om;
 
@@ -484,7 +485,7 @@ class " . $this->getUnqualifiedClassName() . " extends TableMap
      *
      * @var array<string>
      */
-    protected $normalizedColumnNameMap = [' . $arrayString . PHP_EOL
+    protected array $normalizedColumnNameMap = [' . $arrayString . PHP_EOL
             . '    ];' . PHP_EOL;
     }
 
