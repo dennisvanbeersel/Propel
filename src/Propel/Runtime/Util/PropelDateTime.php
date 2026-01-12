@@ -167,7 +167,7 @@ class PropelDateTime extends DateTime
         if (static::isTimestamp($value)) { // if it's a unix timestamp
             $format = 'U';
             $valueStr = (string)$value;
-            if (strpos($valueStr, '.')) {
+            if (str_contains($valueStr, '.')) {
                 //with milliseconds
                 $format = 'U.u';
             }

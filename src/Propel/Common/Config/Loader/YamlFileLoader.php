@@ -41,7 +41,7 @@ class YamlFileLoader extends FileLoader
         }
 
         $data = file_get_contents($path);
-        if (!$data) {
+        if ($data === false) {
             throw new InputOutputException(sprintf('Unable to read configuration file `%s`.', $resource));
         }
 

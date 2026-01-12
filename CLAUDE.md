@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Propel2 is an open-source Object-Relational Mapping (ORM) for PHP. It provides Active Record style persistence and query building for PHP applications.
+Propel2 is an open-source Object-Relational Mapping (ORM) for PHP. It provides Active Record-style persistence and query building for PHP applications.
 
 ## Build and Development Commands
 

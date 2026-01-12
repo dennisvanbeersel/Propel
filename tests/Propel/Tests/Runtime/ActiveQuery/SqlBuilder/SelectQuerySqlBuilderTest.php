@@ -86,7 +86,7 @@ class SelectQuerySqlBuilderTest extends TestCaseFixtures
         return [
             // [<query>, <from tables>, <expected clause>, <expected params>, <message>]
             [BookQuery::create(), [], 'FROM book', [], 'Build simple from should work' ],
-            [BookQuery::create(), ['book', 'book', '', null], 'FROM book', [], 'Builder should remove duplicates and emptie values' ],
+            [BookQuery::create(), ['book', 'book', '', null], 'FROM book', [], 'Builder should remove duplicates and empty values' ],
             [BookQuery::create()->innerJoinAuthor(), [], 'FROM book INNER JOIN author ON (book.author_id=author.id)', [], 'Builder should build FROM with simple join' ],
             [BookQuery::create()->innerJoinAuthor(), ['author'], 'FROM book INNER JOIN author ON (book.author_id=author.id)', [], 'Builder should remove duplicate join tables' ],
 

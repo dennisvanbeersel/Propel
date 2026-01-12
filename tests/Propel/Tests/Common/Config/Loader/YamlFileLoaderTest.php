@@ -92,11 +92,8 @@ EOF;
     /**
      * @return void
      */
-    public function testYamlFileIsEmpty()
+    public function testYamlFileIsEmptyReturnsEmptyArray(): void
     {
-        $this->expectException(InputOutputException::class);
-        $this->expectExceptionMessage("Unable to read configuration file `empty.yaml`.");
-
         $this->newFile('empty.yaml', '');
 
         $actual = $this->loader->load('empty.yaml');
