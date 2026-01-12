@@ -361,6 +361,7 @@ class XmlDumper implements DumperInterface
         }
 
         foreach ($behavior->getParameters() as $name => $value) {
+            /** @var \DOMElement $parameterNode */
             $parameterNode = $behaviorNode->appendChild($this->document->createElement('parameter'));
             $parameterNode->setAttribute('name', $name);
             $parameterNode->setAttribute('value', $value);
@@ -515,6 +516,7 @@ class XmlDumper implements DumperInterface
         }
 
         for ($i = 0, $size = count($foreignKey->getLocalColumns()); $i < $size; $i++) {
+            /** @var \DOMElement $refNode */
             $refNode = $foreignKeyNode->appendChild($this->document->createElement('reference'));
             $refNode->setAttribute('local', $foreignKey->getLocalColumnName($i));
             $refNode->setAttribute('foreign', $foreignKey->getForeignColumnName($i));
@@ -586,12 +588,13 @@ class XmlDumper implements DumperInterface
         $indexNode->setAttribute('name', $index->getName());
 
         foreach ($index->getColumns() as $columnName) {
+            /** @var \DOMElement $indexColumnNode */
             $indexColumnNode = $indexNode->appendChild($this->document->createElement($nodeType . '-column'));
             $indexColumnNode->setAttribute('name', $columnName);
 
             $size = $index->getColumnSize($columnName);
             if ($size) {
-                $indexColumnNode->setAttribute('size', $size);
+                $indexColumnNode->setAttribute('size', (string)$size);
             }
         }
 

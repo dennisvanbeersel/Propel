@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
     colors="true"
-    convertErrorsToExceptions="true"
-    convertNoticesToExceptions="true"
-    convertWarningsToExceptions="true"
     bootstrap="tests/bootstrap.php"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd"
+    cacheDirectory=".phpunit.cache"
+    displayDetailsOnTestsThatTriggerDeprecations="true"
+    displayDetailsOnTestsThatTriggerWarnings="true"
 >
-
     <testsuites>
         <testsuite name="propel2">
             <directory>tests/Propel/Tests/</directory>
@@ -23,20 +22,14 @@
     </groups>
 
     <php>
-        <env name="DB" value="mysql"/> <!-- mysql, sqlite, pgsql -->
+        <env name="DB" value="mysql"/>
         <env name="DB_USER" value=""/>
         <env name="DB_PW" value=""/>
     </php>
 
-    <logging />
-
-    <coverage>
+    <source>
         <include>
             <directory>src/Propel/</directory>
         </include>
-        <report>
-            <php outputFile="tests/clover.cov" />
-        </report>
-    </coverage>
-
+    </source>
 </phpunit>
