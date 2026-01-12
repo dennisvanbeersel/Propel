@@ -703,9 +703,9 @@ class StandardServiceContainerTest extends BaseTestCase
 
 class TestableServiceContainer extends StandardServiceContainer
 {
-    public $adapterClasses = [];
+    public array $adapterClasses = [];
 
-    public $adapters = [];
+    public array $adapters = [];
 }
 
 class MyDatabaseMap extends DatabaseMap
