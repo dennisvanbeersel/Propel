@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
@@ -549,7 +551,7 @@ class ObjectCollection extends Collection
     protected function getHashCode($object): string
     {
         if (is_object($object) && is_callable([$object, 'hashCode'])) {
-            return $object->hashCode();
+            return (string)$object->hashCode();
         }
 
         return spl_object_hash($object);

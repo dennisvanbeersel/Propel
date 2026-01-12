@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
@@ -52,7 +54,7 @@ trait TableMapTrait
             throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(static::$fieldKeys[$fromType], true));
         }
 
-        return $toNames[$key];
+        return (string)$toNames[$key];
     }
 
     /**

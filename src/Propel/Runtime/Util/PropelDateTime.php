@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
@@ -164,12 +166,13 @@ class PropelDateTime extends DateTime
     {
         if (static::isTimestamp($value)) { // if it's a unix timestamp
             $format = 'U';
-            if (strpos($value, '.')) {
+            $valueStr = (string)$value;
+            if (strpos($valueStr, '.')) {
                 //with milliseconds
                 $format = 'U.u';
             }
 
-            $dateTimeObject = DateTime::createFromFormat($format, $value, new DateTimeZone('UTC'));
+            $dateTimeObject = DateTime::createFromFormat($format, $valueStr, new DateTimeZone('UTC'));
             if ($dateTimeObject === false) {
                 throw new Exception(sprintf('Cannot create DateTime from format `%s`', $format));
             }
