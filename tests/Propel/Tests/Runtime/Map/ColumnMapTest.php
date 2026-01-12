@@ -39,6 +39,9 @@ class ColumnMapTest extends TestCaseFixtures
     protected const TYPE = 'type';
 
     protected $databaseMap;
+    protected $dmap;
+    protected $tmap;
+    protected $cmap;
 
     /**
      * @return void

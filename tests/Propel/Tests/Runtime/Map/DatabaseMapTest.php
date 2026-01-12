@@ -24,6 +24,7 @@ use Propel\Tests\TestCaseFixtures;
 class DatabaseMapTest extends TestCaseFixtures
 {
     protected $databaseMap;
+    protected $databaseName;
 
     /**
      * @return void

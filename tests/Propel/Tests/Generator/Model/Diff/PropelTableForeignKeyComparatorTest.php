@@ -22,6 +22,7 @@ use Propel\Tests\TestCase;
  */
 class PropelTableForeignKeyComparatorTest extends TestCase
 {
+    protected $platform;
     /**
      * @return void
      */

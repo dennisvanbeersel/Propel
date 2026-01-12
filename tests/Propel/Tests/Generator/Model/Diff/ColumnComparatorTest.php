@@ -19,6 +19,8 @@ use Propel\Tests\TestCase;
  */
 class ColumnComparatorTest extends TestCase
 {
+    protected $platform;
+
     /**
      * @return void
      */

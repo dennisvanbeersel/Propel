@@ -23,6 +23,7 @@ use Propel\Tests\TestCase;
  */
 class PropelTableIndexComparatorTest extends TestCase
 {
+    protected $platform;
     /**
      * @return void
      */

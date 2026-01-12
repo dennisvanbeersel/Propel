@@ -386,7 +386,7 @@ public function getSyncParent(?ConnectionInterface \$con = null)
     \$parent->set{$phpName}(\$this->get{$phpName}());";
         }
         foreach ($parentTable->getForeignKeys() as $fk) {
-            if (isset($fk->isParentChild) && $fk->isParentChild) {
+            if ($fk->isParentChild) {
                 continue;
             }
             $refPhpName = $this->builder->getFKPhpNameAffix($fk, false);

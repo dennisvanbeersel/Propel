@@ -56,6 +56,11 @@ class ForeignKey extends MappingModel
     public const SETNULL = 'SET NULL';
 
     /**
+     * Whether this foreign key represents a parent-child relationship (used by ConcreteInheritance behavior)
+     */
+    public bool $isParentChild = false;
+
+    /**
      * @var string
      */
     private $foreignTableCommonName;
