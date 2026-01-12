@@ -104,6 +104,34 @@ The `bin/propel` CLI provides commands for:
 - Uses Spryker coding standard (extended from PSR-12)
 - PHPStan level 7 compliance required
 - PHP 8.3+ compatibility required
+- Use `declare(strict_types=1)` in all PHP files
+
+## Development Principles
+
+Follow these core principles when making changes:
+
+### YAGNI (You Aren't Gonna Need It)
+- Only implement what is currently needed
+- Don't add features, abstractions, or configurability "for the future"
+- Remove unused code rather than commenting it out
+
+### SOLID
+- **Single Responsibility**: Each class/method should have one reason to change
+- **Open/Closed**: Extend behavior through inheritance/composition, not modification
+- **Liskov Substitution**: Subtypes must be substitutable for their base types
+- **Interface Segregation**: Prefer small, focused interfaces over large ones
+- **Dependency Inversion**: Depend on abstractions, not concrete implementations
+
+### DRY (Don't Repeat Yourself)
+- Extract common logic into reusable methods/traits
+- But avoid premature abstraction - three occurrences before extracting
+- Configuration and constants should have a single source of truth
+
+### KISS (Keep It Simple, Stupid)
+- Prefer simple, readable solutions over clever ones
+- Minimize nesting and cyclomatic complexity
+- Use early returns to reduce indentation
+- Clear variable/method names over comments explaining unclear code
 
 ## Schema Definition
 
