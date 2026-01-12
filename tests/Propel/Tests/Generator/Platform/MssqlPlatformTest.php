@@ -18,6 +18,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class MssqlPlatformTest extends PlatformTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new MssqlPlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

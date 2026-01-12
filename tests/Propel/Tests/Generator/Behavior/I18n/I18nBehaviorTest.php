@@ -119,7 +119,7 @@ EOF;
         $this->assertEmpty($builder->getSQL());
     }
 
-    public function schemaDataProvider()
+    public static function schemaDataProvider()
     {
         $schema1 = <<<EOF
 <database name="i18n_behavior_test_0">
@@ -398,7 +398,7 @@ EOF;
         $this->assertStringContainsString($expected, $builder->getSQL());
     }
 
-    public function customPkSchemaDataProvider()
+    public static function customPkSchemaDataProvider()
     {
         $schema1 = <<<EOF
 <database name="i18n_behavior_test_custom_pk_0">

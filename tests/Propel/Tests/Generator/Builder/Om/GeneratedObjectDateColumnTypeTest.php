@@ -57,12 +57,13 @@ XML;
         $entity->setDatecolumn($dateValue);
 
         $insertStatement = $this->createMockInsertStatement();
+        $bindValueCalls = [];
         $insertStatement
             ->method('bindValue')
-            ->withConsecutive(
-                [':p0', null, PDO::PARAM_INT],
-                [':p1', $dateValue->format('Y-m-d'), PDO::PARAM_STR]
-            );
+            ->willReturnCallback(function ($param, $value, $type) use (&$bindValueCalls) {
+                $bindValueCalls[] = [$param, $value, $type];
+                return true;
+            });
 
         $con = $this->createMockConnection();
         $con
@@ -77,6 +78,11 @@ XML;
                 return $insertStatement;
             });
         $entity->save($con);
+
+        // Verify bindValue calls were made with correct parameters
+        $this->assertCount(2, $bindValueCalls);
+        $this->assertEquals([':p0', null, PDO::PARAM_INT], $bindValueCalls[0]);
+        $this->assertEquals([':p1', $dateValue->format('Y-m-d'), PDO::PARAM_STR], $bindValueCalls[1]);
     }
 
     /**

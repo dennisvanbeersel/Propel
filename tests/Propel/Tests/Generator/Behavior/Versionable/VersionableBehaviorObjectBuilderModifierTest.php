@@ -271,7 +271,7 @@ EOF;
         $this->assertTrue(method_exists('VersionableBehaviorTest7', 'setMyComment'));
     }
 
-    public function providerForNewActiveRecordTests()
+    public static function providerForNewActiveRecordTests()
     {
         return [
             ['\VersionableBehaviorTest1'],

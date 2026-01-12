@@ -32,7 +32,7 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  */
 class QueryBuilderInheritanceTest extends BookstoreTestBase
 {
-    public function constructProvider()
+    public static function constructProvider()
     {
         return [
             ['BookstoreCashierQuery'],

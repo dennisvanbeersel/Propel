@@ -18,26 +18,27 @@ class SelectQuerySqlBuilderTest extends TestCaseFixtures
     /**
      * @var bool
      */
-    protected $configLoaded = false;
+    protected static bool $configLoaded = false;
 
     /**
-     * @return void
+     * Initialize config once for all tests
      */
-    protected function loadConfig(): void
+    public static function setUpBeforeClass(): void
     {
-        if ($this->configLoaded) {
-            return;
+        if (!self::$configLoaded) {
+            // Force parent setup to initialize database maps
+            $instance = new static('setUpBeforeClass');
+            $instance->setUp();
+            self::$configLoaded = true;
         }
-        parent::setUp();
-        $this->setupWasExecuted = true;
     }
 
     /**
      * @return mixed[][]
      */
-    public function havingClauseDataProvider(): array
+    public static function havingClauseDataProvider(): array
     {
-        $this->loadConfig();
+        self::setUpBeforeClass();
 
         return [
             // [<criteria>, <having clause>, <params>, <message>]]
@@ -78,7 +79,7 @@ class SelectQuerySqlBuilderTest extends TestCaseFixtures
     /**
      * @return mixed[][]
      */
-    public function fromClauseDataProvider(): array
+    public static function fromClauseDataProvider(): array
     {
         return [
             // [<query>, <from tables>, <expected clause>, <expected params>, <message>]
@@ -121,9 +122,9 @@ class SelectQuerySqlBuilderTest extends TestCaseFixtures
     /**
      * @return mixed[][]
      */
-    public function removeRecursiveSubqueryTableAliasesDataProvider(): array
+    public static function removeRecursiveSubqueryTableAliasesDataProvider(): array
     {
-        $this->loadConfig();
+        self::setUpBeforeClass();
 
         $query = BookQuery::create()->addSelectQuery(BookQuery::create(), 'subquery');
 

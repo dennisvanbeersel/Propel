@@ -23,6 +23,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class MysqlPlatformTest extends PlatformTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new MysqlPlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *
@@ -956,7 +961,7 @@ CREATE TABLE `foo`
         $this->assertEquals('`price` DECIMAL(10,3)', $this->getPlatform()->getColumnDDL($column));
     }
     
-    public function typeMappingDataProvider()
+    public static function typeMappingDataProvider()
     {
         return [
             [PropelTypes::DATETIME, 'DATETIME'],

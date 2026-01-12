@@ -14,6 +14,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class OraclePlatformMigrationTest extends PlatformMigrationTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new OraclePlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

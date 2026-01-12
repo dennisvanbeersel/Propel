@@ -70,7 +70,7 @@ class IndexTest extends ModelTestCase
         $this->assertSame($indexName, $index->getName());
     }
 
-    public function provideTableSpecificAttributes()
+    public static function provideTableSpecificAttributes()
     {
         return [
             [ 'books', 64, 'books_i_no_columns' ],
@@ -83,8 +83,17 @@ class IndexTest extends ModelTestCase
      *
      * @return void
      */
-    public function testAddIndexedColumns($columns)
+    public function testAddIndexedColumns($columns): void
     {
+        // Handle the 'mocks' case by creating Column mocks
+        if ($columns === 'mocks') {
+            $columns = [
+                $this->getColumnMock('foo', [ 'size' => 100 ]),
+                $this->getColumnMock('bar', [ 'size' => 5   ]),
+                $this->getColumnMock('baz', [ 'size' => 0   ]),
+            ];
+        }
+
         $index = new Index();
         $index->setColumns($columns);
 
@@ -100,21 +109,17 @@ class IndexTest extends ModelTestCase
         $this->assertNull($index->getColumnSize('baz'));
     }
 
-    public function provideColumnDefinitions()
+    public static function provideColumnDefinitions(): array
     {
-        $dataset[0][] = [
-            $this->getColumnMock('foo', [ 'size' => 100 ]),
-            $this->getColumnMock('bar', [ 'size' => 5   ]),
-            $this->getColumnMock('baz', [ 'size' => 0   ]),
+        // Return column definitions as arrays - mocks will be created in test method if needed
+        return [
+            'array_definitions' => [[
+                [ 'name' => 'foo', 'size' => 100 ],
+                [ 'name' => 'bar', 'size' => 5 ],
+                [ 'name' => 'baz', 'size' => 0 ],
+            ]],
+            'use_mocks' => ['mocks'],  // Signal to create mocks from same data
         ];
-
-        $dataset[1][] = [
-            [ 'name' => 'foo', 'size' => 100 ],
-            [ 'name' => 'bar', 'size' => 5 ],
-            [ 'name' => 'baz', 'size' => 0 ],
-        ];
-
-        return $dataset;
     }
 
     /**
@@ -159,7 +164,7 @@ class IndexTest extends ModelTestCase
         $this->assertFalse($index->hasColumnAtPosition(0, $name, 5, $case));
     }
 
-    public function provideColumnAttributes()
+    public static function provideColumnAttributes()
     {
         return [
             [ 'bar', false ],

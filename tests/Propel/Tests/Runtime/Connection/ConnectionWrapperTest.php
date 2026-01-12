@@ -127,7 +127,7 @@ class ConnectionWrapperTest extends BookstoreTestBase
         $this->assertSame($expected, $this->con->isInDebugMode(), $message);
     }
     
-    public function debugModeProvider()
+    public static function debugModeProvider()
     {
         // [class state, instance state, expected state, message]
         return [

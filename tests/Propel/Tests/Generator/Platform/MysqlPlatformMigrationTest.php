@@ -24,6 +24,14 @@ class MysqlPlatformMigrationTest extends MysqlPlatformMigrationTestProvider
     protected $platform;
 
     /**
+     * Get platform for static context (data providers)
+     */
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new MysqlPlatform();
+    }
+
+    /**
      * Get the Platform object for this class
      *
      * @return \Propel\Generator\Platform\MysqlPlatform

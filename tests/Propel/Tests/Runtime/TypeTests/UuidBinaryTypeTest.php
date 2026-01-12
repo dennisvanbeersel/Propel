@@ -20,7 +20,10 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 class UuidBinaryTypeTest extends BookstoreTestBase
 {
     /** @var string */
-    protected $uuid = 'ffb35e14-6bd9-409b-a3f5-f176bfe54ebb';
+    protected const UUID = 'ffb35e14-6bd9-409b-a3f5-f176bfe54ebb';
+
+    /** @var string */
+    protected $uuid = self::UUID;
 
     /** @var \Propel\Tests\Bookstore\Book2 */
     protected $book;
@@ -46,7 +49,7 @@ class UuidBinaryTypeTest extends BookstoreTestBase
         $this->assertSame($this->uuid, $retrievedBook->getUuidBin());
     }
 
-    public function uuidFilterDataProvider(): array
+    public static function uuidFilterDataProvider(): array
     {
         return [
             // description, uuid value
@@ -81,14 +84,16 @@ class UuidBinaryTypeTest extends BookstoreTestBase
         $this->assertSame($expectedBin, $paramValue, $description . ' - Uuid query params should be converted');
     }
 
-    public function queryConfiguratorDataProvider(){
-        $uuidBin = UuidConverter::uuidToBin($this->uuid, true);
+    public static function queryConfiguratorDataProvider(): array
+    {
+        $uuid = self::UUID;
+        $uuidBin = UuidConverter::uuidToBin($uuid, true);
 
         return [
             // description, configurator
             //['where string', fn(Book2Query $query) => $query->where("book2.uuid_bin = '$uuidBin'")],
             ['where with param', fn(Book2Query $query) => $query->where("book2.uuid_bin = ?", $uuidBin, \PDO::PARAM_LOB)],
-            ['filterBy', fn(Book2Query $query) => $query->filterByUuidBin($this->uuid)],
+            ['filterBy', fn(Book2Query $query) => $query->filterByUuidBin($uuid)],
         ];
     }
 

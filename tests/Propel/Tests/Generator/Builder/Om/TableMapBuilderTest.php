@@ -409,7 +409,7 @@ class TableMapBuilderTest extends BookstoreTestBase
     /**
      * @return array
      */
-    public function stringifyDataProvider(): array
+    public static function stringifyDataProvider(): array
     {
         return [
             [1, 'int should stay int'],

@@ -102,7 +102,7 @@ class ModelCriteriaGroupByArrayTest extends BookstoreEmptyTestBase
     /**
      * @return array
      */
-    public function dataForTestException()
+    public static function dataForTestException()
     {
         return [
             'empty string' => [''],

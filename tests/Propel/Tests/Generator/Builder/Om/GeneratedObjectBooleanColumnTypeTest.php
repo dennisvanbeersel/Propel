@@ -54,7 +54,7 @@ EOF;
     /**
      * @return array
      */
-    public function providerForSetter()
+    public static function providerForSetter()
     {
         return [
             [true, true],

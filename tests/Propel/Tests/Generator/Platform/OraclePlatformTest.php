@@ -18,6 +18,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class OraclePlatformTest extends PlatformTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new OraclePlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

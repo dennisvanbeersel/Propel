@@ -19,6 +19,11 @@ class MysqlPlatformMigrationMyISAMTest extends PlatformMigrationTestProvider
 
     protected $platform;
 
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new MysqlPlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

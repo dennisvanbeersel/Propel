@@ -210,7 +210,7 @@ class PropelQueryTest extends BookstoreTestBase
         }
     }
     
-    public function findMethodsProvider()
+    public static function findMethodsProvider()
     {
         return [
             ['find', null],

@@ -21,6 +21,11 @@ use Propel\Runtime\Connection\ConnectionFactory;
 
 class SqlitePlatformTest extends PlatformTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new SqlitePlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

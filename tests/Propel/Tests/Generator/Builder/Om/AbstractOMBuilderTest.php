@@ -81,7 +81,7 @@ EOF;
         $this->assertEquals($expectedPath, $builder->getPackagePath());
     }
 
-    public function dataGetPackagePath()
+    public static function dataGetPackagePath()
     {
         return [
             ['', ''],

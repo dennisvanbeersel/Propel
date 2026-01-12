@@ -56,7 +56,7 @@ class PgsqlSchemaParserTest extends TestCaseFixturesDatabase
         Propel::init(__DIR__ . '/../../../../Fixtures/bookstore/build/conf/bookstore-conf.php');
     }
 
-    public function parseDataProvider()
+    public static function parseDataProvider()
     {
         return [
             // columnDDL, expectedColumnPhpName, type, expectedColumnDefaultType, expectedColumnDefaultValue, expectedSize, expectedScale

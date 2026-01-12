@@ -256,7 +256,7 @@ class ColumnTest extends ModelTestCase
         $this->assertSame($expected, $column->getDefaultValueString());
     }
 
-    public function provideDefaultValues()
+    public static function provideDefaultValues()
     {
         return [
             ['DOUBLE', 3.14, '3.14'],
@@ -445,7 +445,7 @@ class ColumnTest extends ModelTestCase
         $this->assertSame($pdoType, $column->getPDOType());
     }
 
-    public function providePdoTypes()
+    public static function providePdoTypes()
     {
         return [
             ['CHAR', PDO::PARAM_STR],
@@ -586,7 +586,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isTemporalType());
     }
 
-    public function provideMappingTemporalTypes()
+    public static function provideMappingTemporalTypes()
     {
         return [
             ['DATE'],
@@ -624,7 +624,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isLobType());
     }
 
-    public function provideMappingLobTypes()
+    public static function provideMappingLobTypes()
     {
         return [
             ['VARBINARY', 'string', true],
@@ -660,7 +660,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isBooleanType());
     }
 
-    public function provideMappingBooleanTypes()
+    public static function provideMappingBooleanTypes()
     {
         return [
             ['BOOLEAN'],
@@ -696,7 +696,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isNumericType());
     }
 
-    public function provideMappingNumericTypes()
+    public static function provideMappingNumericTypes()
     {
         return [
             ['SMALLINT', 'int', true],
@@ -738,7 +738,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isUuidType());
     }
 
-    public function provideMappingUuidTypes()
+    public static function provideMappingUuidTypes()
     {
         return [
             // column type, php type, 
@@ -775,7 +775,7 @@ class ColumnTest extends ModelTestCase
         $this->assertTrue($column->isTextType());
     }
 
-    public function provideMappingTextTypes()
+    public static function provideMappingTextTypes()
     {
         return [
             ['CHAR'],
