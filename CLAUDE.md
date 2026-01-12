@@ -103,7 +103,7 @@ The `bin/propel` CLI provides commands for:
 
 - Uses Spryker coding standard (extended from PSR-12)
 - PHPStan level 7 compliance required
-- PHP 7.4+ compatibility (avoid 8.0+ only functions)
+- PHP 8.3+ compatibility required
 
 ## Schema Definition
 

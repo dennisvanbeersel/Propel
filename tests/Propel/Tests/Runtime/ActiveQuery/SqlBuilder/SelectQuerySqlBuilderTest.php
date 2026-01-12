@@ -81,6 +81,8 @@ class SelectQuerySqlBuilderTest extends TestCaseFixtures
      */
     public static function fromClauseDataProvider(): array
     {
+        self::setUpBeforeClass();
+
         return [
             // [<query>, <from tables>, <expected clause>, <expected params>, <message>]
             [BookQuery::create(), [], 'FROM book', [], 'Build simple from should work' ],
