@@ -42,78 +42,63 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
 
     /**
      * Set debug mode for all instances without instance-specific configuration.
-     *
-     * @var bool
      */
-    public static $useDebugMode = false;
+    public static bool $useDebugMode = false;
 
     /**
      * Instance-specific debug mode setting.
-     *
-     * @var bool|null
      */
-    protected $useDebugModeOnInstance;
+    protected ?bool $useDebugModeOnInstance = null;
 
     /**
-     * @var string The datasource name associated to this connection
+     * The datasource name associated to this connection.
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
-     * The wrapped connection class
-     *
-     * @var \Propel\Runtime\Connection\ConnectionInterface|null
+     * The wrapped connection class.
      */
-    protected $connection;
+    protected ?ConnectionInterface $connection = null;
 
     /**
      * The current transaction depth.
-     *
-     * @var int
      */
-    protected $nestedTransactionCount = 0;
+    protected int $nestedTransactionCount = 0;
 
     /**
-     * @var bool
-     * Whether the final commit is possible
-     * Is false if a nested transaction is rolled back
+     * Whether the final commit is possible.
+     * Is false if a nested transaction is rolled back.
      */
-    protected $isUncommitable = false;
+    protected bool $isUncommitable = false;
 
     /**
      * Count of queries performed.
-     *
-     * @var int
      */
-    protected $queryCount = 0;
+    protected int $queryCount = 0;
 
     /**
      * SQL code of the latest performed query.
-     *
-     * @var string
      */
-    protected $lastExecutedQuery;
+    protected string $lastExecutedQuery = '';
 
     /**
      * Cache of prepared statements (StatementWrapper) keyed by SQL.
      *
-     * @var array [sql => StatementWrapper]
+     * @var array<string, StatementWrapper>
      */
-    protected $cachedPreparedStatements = [];
+    protected array $cachedPreparedStatements = [];
 
     /**
      * Whether to cache prepared statements.
-     *
-     * @var bool
      */
-    protected $isCachePreparedStatements = false;
+    protected bool $isCachePreparedStatements = false;
 
     /**
      * The list of methods that trigger logging.
      *
-     * @var array
+     * @var array<int, string>
      */
-    protected $logMethods = [
+    protected array $logMethods = [
         'exec',
         'query',
         'execute',
@@ -121,10 +106,8 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
 
     /**
      * Configured logger.
-     *
-     * @var \Psr\Log\LoggerInterface
      */
-    protected $logger;
+    protected ?LoggerInterface $logger = null;
 
     /**
      * Determines if debug mode is used on this connection instance.

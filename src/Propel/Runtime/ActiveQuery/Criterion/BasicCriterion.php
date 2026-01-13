@@ -19,10 +19,7 @@ use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
  */
 class BasicCriterion extends AbstractCriterion
 {
-    /**
-     * @var bool
-     */
-    protected $ignoreStringCase = false;
+    protected bool $ignoreStringCase = false;
 
     /**
      * Create a new instance.

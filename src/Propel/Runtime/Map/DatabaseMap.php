@@ -37,8 +37,6 @@ class DatabaseMap
 {
     /**
      * Name of the database.
-     *
-     * @var string
      */
     protected string $name;
 
@@ -47,14 +45,14 @@ class DatabaseMap
      *
      * @var array<string, \Propel\Runtime\Map\TableMap|class-string<\Propel\Runtime\Map\TableMap>>
      */
-    protected $tables = [];
+    protected array $tables = [];
 
     /**
      * Tables in the database, using table phpName as key
      *
      * @var array<string, \Propel\Runtime\Map\TableMap|class-string<\Propel\Runtime\Map\TableMap>>
      */
-    protected $tablesByPhpName = [];
+    protected array $tablesByPhpName = [];
 
     /**
      * @param string $name Name of the database.

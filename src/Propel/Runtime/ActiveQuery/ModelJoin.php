@@ -21,20 +21,11 @@ use Propel\Runtime\Map\TableMap;
  */
 class ModelJoin extends Join
 {
-    /**
-     * @var \Propel\Runtime\Map\RelationMap
-     */
-    protected $relationMap;
+    protected ?RelationMap $relationMap = null;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap|null
-     */
-    protected $tableMap;
+    protected ?TableMap $tableMap = null;
 
-    /**
-     * @var \Propel\Runtime\ActiveQuery\ModelJoin|null
-     */
-    protected $previousJoin;
+    protected ?ModelJoin $previousJoin = null;
 
     /**
      * @param \Propel\Runtime\Map\RelationMap $relationMap

@@ -23,14 +23,11 @@ class PdoConnection implements ConnectionInterface
     use TransactionTrait;
 
     /**
-     * @var string The datasource name associated to this connection
+     * The datasource name associated to this connection.
      */
-    protected $name;
+    protected ?string $name = null;
 
-    /**
-     * @var \PDO
-     */
-    protected $pdo;
+    protected PDO $pdo;
 
     /**
      * Forward any calls to an inaccessible method to the proxied connection.

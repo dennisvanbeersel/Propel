@@ -22,10 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 class ArrayCollection extends Collection
 {
-    /**
-     * @var \Propel\Runtime\ActiveRecord\ActiveRecordInterface
-     */
-    protected $workerObject;
+    protected ?ActiveRecordInterface $workerObject = null;
 
     /**
      * Save all the elements in the collection

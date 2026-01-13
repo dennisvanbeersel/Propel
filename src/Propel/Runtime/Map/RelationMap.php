@@ -56,15 +56,9 @@ class RelationMap
      */
     public const LEFT_TO_RIGHT = 1;
 
-    protected string $name;
-
     protected ?string $pluralName = null;
 
     protected ?int $type = null;
-
-    protected TableMap $localTable;
-
-    protected TableMap $foreignTable;
 
     protected bool $polymorphic = false;
 
@@ -75,6 +69,8 @@ class RelationMap
 
     /**
      * Values used for polymorphic associations.
+     *
+     * @var array<mixed>
      */
     protected array $localValues = [];
 
@@ -92,12 +88,11 @@ class RelationMap
      * @param \Propel\Runtime\Map\TableMap $localTable Local table map.
      * @param \Propel\Runtime\Map\TableMap $foreignTable Foreign table map.
      */
-    public function __construct(string $name, TableMap $localTable, TableMap $foreignTable)
-    {
-        $this->name = $name;
-        $this->localTable = $localTable;
-        $this->foreignTable = $foreignTable;
-    }
+    public function __construct(
+        protected string $name,
+        protected TableMap $localTable,
+        protected TableMap $foreignTable,
+    ) {}
 
     /**
      * @return bool

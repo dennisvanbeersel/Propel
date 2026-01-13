@@ -20,10 +20,7 @@ use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
  */
 class LikeCriterion extends AbstractCriterion
 {
-    /**
-     * @var bool
-     */
-    protected $ignoreStringCase = false;
+    protected bool $ignoreStringCase = false;
 
     /**
      * Create a new instance.

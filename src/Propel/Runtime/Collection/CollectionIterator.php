@@ -19,13 +19,10 @@ use ArrayIterator;
  */
 class CollectionIterator extends ArrayIterator implements IteratorInterface
 {
-    /**
-     * @var \Propel\Runtime\Collection\Collection
-     */
     protected Collection $collection;
 
     /**
-     * @var array
+     * @var array<int|string, int>
      */
     protected array $positions = [];
 

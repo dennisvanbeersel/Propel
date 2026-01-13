@@ -32,24 +32,20 @@ class Lock
      *
      * @see self::SHARED
      * @see self::EXCLUSIVE
-     *
-     * @var string
      */
-    protected $type;
+    protected string $type;
 
     /**
      * Table names to lock
      *
      * @var array<string>
      */
-    protected $tableNames;
+    protected array $tableNames;
 
     /**
      * Whether to issue a non-blocking lock
-     *
-     * @var bool
      */
-    protected $noWait;
+    protected bool $noWait;
 
     /**
      * @param string $type Lock type

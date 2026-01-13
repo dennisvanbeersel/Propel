@@ -28,14 +28,14 @@ use Propel\Runtime\Propel;
 class ObjectCollection extends Collection
 {
     /**
-     * @var array
+     * @var array<string, int|string>
      */
-    protected $index = [];
+    protected array $index = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $indexSplHash = [];
+    protected array $indexSplHash = [];
 
     /**
      * @param array $data

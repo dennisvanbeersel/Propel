@@ -21,60 +21,27 @@ use Propel\Runtime\Map\TableMap;
  */
 class ModelWith
 {
-    /**
-     * @var string
-     */
-    protected $modelName;
+    protected string $modelName;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $getTableMap;
+    protected TableMap $getTableMap;
 
-    /**
-     * @var bool
-     */
-    protected $isSingleTableInheritance = false;
+    protected bool $isSingleTableInheritance = false;
 
-    /**
-     * @var bool
-     */
-    protected $isAdd = false;
+    protected bool $isAdd = false;
 
-    /**
-     * @var bool
-     */
-    protected $isWithOneToMany = false;
+    protected bool $isWithOneToMany = false;
 
-    /**
-     * @var string
-     */
-    protected $relationName;
+    protected string $relationName;
 
-    /**
-     * @var string
-     */
-    protected $relationMethod;
+    protected string $relationMethod;
 
-    /**
-     * @var string
-     */
-    protected $initMethod;
+    protected string $initMethod;
 
-    /**
-     * @var string
-     */
-    protected $resetPartialMethod = '';
+    protected string $resetPartialMethod = '';
 
-    /**
-     * @var string
-     */
-    protected $leftPhpName;
+    protected ?string $leftPhpName = null;
 
-    /**
-     * @var string
-     */
-    protected $rightPhpName;
+    protected string $rightPhpName;
 
     /**
      * @param \Propel\Runtime\ActiveQuery\ModelJoin|null $join

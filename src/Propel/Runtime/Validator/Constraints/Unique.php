@@ -14,13 +14,7 @@ use Symfony\Component\Validator\Constraint;
 
 class Unique extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $message = 'This value is already stored in your database';
+    public string $message = 'This value is already stored in your database';
 
-    /**
-     * @var string
-     */
-    public $column = '';
+    public string $column = '';
 }

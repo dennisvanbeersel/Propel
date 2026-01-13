@@ -12,15 +12,12 @@ namespace Propel\Runtime\ActiveQuery\SqlBuilder;
 
 class PreparedStatementDto
 {
-    /**
-     * @var string
-     */
-    private $sqlStatement;
+    private string $sqlStatement;
 
     /**
      * @var array<mixed>
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * @param string $sqlStatement

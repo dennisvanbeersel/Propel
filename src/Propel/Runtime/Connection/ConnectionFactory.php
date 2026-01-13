@@ -17,17 +17,12 @@ use Propel\Runtime\Exception\InvalidArgumentException;
 
 class ConnectionFactory
 {
-    /**
-     * @var string
-     */
     public const DEFAULT_CONNECTION_CLASS = '\Propel\Runtime\Connection\ConnectionWrapper';
 
     /**
      * If true, ConnectionFactory will use ProfilerConnectionWrapper.
-     *
-     * @var bool
      */
-    public static $useProfilerConnection = false;
+    public static bool $useProfilerConnection = false;
 
     /**
      * Open a database connection based on a configuration.

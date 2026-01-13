@@ -18,7 +18,7 @@ trait InstancePoolTrait
     /**
      * @var array<object>
      */
-    public static $instances = [];
+    public static array $instances = [];
 
     /**
      * @param object $object

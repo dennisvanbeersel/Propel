@@ -18,10 +18,7 @@ use Throwable;
 
 class InsertQueryExecutor extends AbstractQueryExecutor
 {
-    /**
-     * @var \Propel\Runtime\Map\ColumnMap|null
-     */
-    protected $primaryKeyColumn;
+    protected ?\Propel\Runtime\Map\ColumnMap $primaryKeyColumn = null;
 
     /**
      * @param \Propel\Runtime\ActiveQuery\Criteria $criteria

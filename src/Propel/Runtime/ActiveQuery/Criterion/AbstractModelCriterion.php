@@ -19,10 +19,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
  */
 abstract class AbstractModelCriterion extends AbstractCriterion
 {
-    /**
-     * @var string
-     */
-    protected $clause = '';
+    protected string $clause = '';
 
     /**
      * Create a new instance.

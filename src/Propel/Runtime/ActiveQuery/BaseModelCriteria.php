@@ -25,48 +25,27 @@ use Traversable;
  */
 class BaseModelCriteria extends Criteria implements IteratorAggregate
 {
-    /**
-     * @var string|null
-     */
-    protected $modelName;
+    protected ?string $modelName = null;
 
     /**
-     * @var string|null
      * @phpstan-var class-string<\Propel\Runtime\Map\TableMap>|null
      */
-    protected $modelTableMapName;
+    protected ?string $modelTableMapName = null;
 
-    /**
-     * @var bool
-     */
-    protected $useAliasInSQL = false;
+    protected bool $useAliasInSQL = false;
 
-    /**
-     * @var string|null
-     */
-    protected $modelAlias;
+    protected ?string $modelAlias = null;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $tableMap;
+    protected TableMap $tableMap;
 
-    /**
-     * @var \Propel\Runtime\Formatter\AbstractFormatter|null
-     */
-    protected $formatter;
+    protected ?AbstractFormatter $formatter = null;
 
-    /**
-     * @var array
-     */
-    protected $with = [];
+    protected array $with = [];
 
     /**
      * @phpstan-var class-string<\Propel\Runtime\Formatter\AbstractFormatter>
-     *
-     * @var string
      */
-    protected $defaultFormatterClass = ModelCriteria::FORMAT_OBJECT;
+    protected string $defaultFormatterClass = ModelCriteria::FORMAT_OBJECT;
 
     /**
      * Creates a new instance with the default capacity which corresponds to

@@ -17,8 +17,5 @@ namespace Propel\Runtime\Connection;
  */
 class DebugPDO extends ConnectionWrapper
 {
-    /**
-     * @var bool
-     */
-    protected $useDebugModeOnInstance = true;
+    protected ?bool $useDebugModeOnInstance = true;
 }

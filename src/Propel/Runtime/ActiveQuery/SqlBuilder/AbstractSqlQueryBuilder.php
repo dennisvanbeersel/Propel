@@ -20,10 +20,7 @@ use Propel\Runtime\Propel;
  */
 abstract class AbstractSqlQueryBuilder
 {
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criteria
-     */
-    protected $criteria;
+    protected Criteria $criteria;
 
     /**
      * @var \Propel\Runtime\Adapter\SqlAdapterInterface

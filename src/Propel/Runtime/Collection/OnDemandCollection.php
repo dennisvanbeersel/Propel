@@ -24,10 +24,7 @@ use Traversable;
  */
 class OnDemandCollection extends Collection
 {
-    /**
-     * @var \Propel\Runtime\Collection\OnDemandIterator
-     */
-    private $lastIterator;
+    private ?OnDemandIterator $lastIterator = null;
 
     /**
      * @param \Propel\Runtime\Formatter\ObjectFormatter $formatter

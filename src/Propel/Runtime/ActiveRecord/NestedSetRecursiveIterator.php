@@ -21,15 +21,9 @@ use RecursiveIterator;
  */
 class NestedSetRecursiveIterator implements RecursiveIterator
 {
-    /**
-     * @var object
-     */
-    protected $topNode;
+    protected object $topNode;
 
-    /**
-     * @var object
-     */
-    protected $curNode;
+    protected ?object $curNode = null;
 
     /**
      * @param object $node

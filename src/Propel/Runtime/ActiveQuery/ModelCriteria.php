@@ -81,47 +81,29 @@ class ModelCriteria extends BaseModelCriteria
      */
     public const FORMAT_ON_DEMAND = '\Propel\Runtime\Formatter\OnDemandFormatter';
 
-    /**
-     * @var \Propel\Runtime\ActiveQuery\ModelCriteria|null
-     */
-    protected $primaryCriteria;
+    protected ?ModelCriteria $primaryCriteria = null;
 
-    /**
-     * @var string|null
-     */
-    protected $entityNotFoundExceptionClass;
+    protected ?string $entityNotFoundExceptionClass = null;
 
-    /**
-     * @var bool
-     */
-    protected $isWithOneToMany = false;
+    protected bool $isWithOneToMany = false;
 
     /**
      * This is introduced to prevent useQuery->join from going wrong
-     *
-     * @var \Propel\Runtime\ActiveQuery\Join|null
      */
-    protected $previousJoin;
+    protected ?Join $previousJoin = null;
 
     /**
      * Whether to clone the current object before termination methods
-     *
-     * @var bool
      */
-    protected $isKeepQuery = true;
+    protected bool $isKeepQuery = true;
 
     // this is for the select method
-    /**
-     * @var array|string|null
-     */
-    protected $select;
+    protected array|string|null $select = null;
 
     /**
      * Used to memorize whether we added self-select columns before.
-     *
-     * @var bool
      */
-    protected $isSelfSelected = false;
+    protected bool $isSelfSelected = false;
 
     /**
      * Indicates that this query is wrapped in an InnerQueryCriterion.
@@ -130,10 +112,8 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @see ModelCriteria::useAbstractInnerQueryCriterion()
      * @see ModelCriteria::endUse()
-     *
-     * @var bool
      */
-    protected $isInnerQueryInCriterion = false;
+    protected bool $isInnerQueryInCriterion = false;
 
     /**
      * Adds a condition on a column based on a pseudo SQL clause

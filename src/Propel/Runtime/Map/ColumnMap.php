@@ -30,11 +30,6 @@ use Propel\Runtime\Map\Exception\ForeignKeyNotFoundException;
 class ColumnMap
 {
     /**
-     * Propel type of the column
-     */
-    protected string $type;
-
-    /**
      * Size of the column
      */
     protected int $size = 0;
@@ -65,22 +60,9 @@ class ColumnMap
     protected string $relatedColumnName = '';
 
     /**
-     * The TableMap for this column
-     */
-    protected TableMap $table;
-
-    /**
-     * The name of the column
-     */
-    protected string $columnName;
-
-    /**
-     * The php name of the column
-     */
-    protected string $phpName;
-
-    /**
      * The allowed values for an ENUM or SET column
+     *
+     * @var array<string>
      */
     protected array $valueSet = [];
 
@@ -90,18 +72,17 @@ class ColumnMap
     protected bool $isPkString = false;
 
     /**
-     * @param string $name The name of the column.
-     * @param \Propel\Runtime\Map\TableMap $containingTable TableMap of the table this column is in.
+     * @param string $columnName The name of the column.
+     * @param \Propel\Runtime\Map\TableMap $table TableMap of the table this column is in.
      * @param string $phpName The php name of the column.
      * @param string $type A string specifying the Propel type.
      */
-    public function __construct(string $name, TableMap $containingTable, string $phpName, string $type)
-    {
-        $this->columnName = $name;
-        $this->table = $containingTable;
-        $this->phpName = $phpName;
-        $this->type = $type;
-    }
+    public function __construct(
+        protected string $columnName,
+        protected TableMap $table,
+        protected string $phpName,
+        protected string $type,
+    ) {}
 
     /**
      * Get the name of a column.

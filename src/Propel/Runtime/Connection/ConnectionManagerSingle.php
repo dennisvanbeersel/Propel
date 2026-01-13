@@ -19,19 +19,13 @@ use Propel\Runtime\Adapter\AdapterInterface;
 class ConnectionManagerSingle implements ConnectionManagerInterface
 {
     /**
-     * @var string The datasource name associated to this connection
+     * The datasource name associated to this connection.
      */
-    protected $name;
+    protected string $name;
 
-    /**
-     * @var array
-     */
-    protected $configuration = [];
+    protected array $configuration = [];
 
-    /**
-     * @var \Propel\Runtime\Connection\ConnectionInterface|null
-     */
-    protected $connection;
+    protected ?ConnectionInterface $connection = null;
 
     /**
      * @param string $name The datasource name associated to this connection
