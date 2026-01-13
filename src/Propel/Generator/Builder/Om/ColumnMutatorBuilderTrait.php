@@ -206,7 +206,7 @@ trait ColumnMutatorBuilderTrait
         foreach ($column->getReferrers() as $refFK) {
             $tblFK = $this->getDatabase()->getTable($refFK->getForeignTableName());
 
-            if ($tblFK->getName() != $table->getName()) {
+            if ($tblFK->getName() !== $table->getName()) {
                 foreach ($column->getForeignKeys() as $fk) {
                     $tblFK = $table->getDatabase()->getTable($fk->getForeignTableName());
                     $colFK = $tblFK->getColumn($fk->getMappedForeignColumn($column->getName()));
@@ -539,7 +539,7 @@ trait ColumnMutatorBuilderTrait
             $script .= '$con';
         }
         $script .= ") as \$element) {
-            if (\$element != \$value) {
+            if (\$element !== \$value) {
                 \$targetArray []= \$element;
             }
         }

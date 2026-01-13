@@ -455,7 +455,7 @@ trait ReferrerBuilderTrait
                         \$this->init" . $this->getRefFKPhpNameAffix($refFK, true) . "(false);
 
                         foreach (\$$collName as \$obj) {
-                            if (false == \$this->{$collName}->contains(\$obj)) {
+                            if (false === \$this->{$collName}->contains(\$obj)) {
                                 \$this->{$collName}->append(\$obj);
                             }
                         }

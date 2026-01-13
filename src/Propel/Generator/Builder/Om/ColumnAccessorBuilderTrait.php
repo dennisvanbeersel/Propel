@@ -253,7 +253,7 @@ trait ColumnAccessorBuilderTrait
         }
 
         $script .= "
-        if (null == \$this->$cloUnserialized && is_resource(\$this->$clo)) {
+        if (null === \$this->$cloUnserialized && is_resource(\$this->$clo)) {
             if (\$serialisedString = stream_get_contents(\$this->$clo)) {
                 \$this->$cloUnserialized = unserialize(\$serialisedString);
             }

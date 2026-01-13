@@ -219,7 +219,7 @@ class BaseModelCriteria extends Criteria implements IteratorAggregate
     public function setModelAlias(string $modelAlias, bool $useAliasInSQL = false)
     {
         if ($useAliasInSQL) {
-            $this->addAlias($modelAlias, $this->tableMap->getName());
+            $this->addAlias($modelAlias, $this->getTableMapOrFail()->getName());
             $this->useAliasInSQL = true;
         }
 
@@ -313,7 +313,7 @@ class BaseModelCriteria extends Criteria implements IteratorAggregate
             return $this->modelAlias;
         }
 
-        return $this->getTableMap()->getName();
+        return $this->getTableMapOrFail()->getName();
     }
 
     /**

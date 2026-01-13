@@ -99,15 +99,17 @@ class PropelTemplate
                 if ($tempFile === false) {
                     throw new InvalidArgumentException('Unable to create temp file for template rendering');
                 }
-                file_put_contents($tempFile, '<?php ?>' . $this->template . '<?php ');
+                $written = file_put_contents($tempFile, '<?php ?>' . $this->template . '<?php ');
+                if ($written === false) {
+                    unlink($tempFile);
+
+                    throw new InvalidArgumentException('Unable to write template content to temp file');
+                }
                 require $tempFile;
             }
         } catch (Exception $e) {
             // need to end output buffering before throwing the exception #7596
             ob_end_clean();
-            if (is_string($tempFile) && file_exists($tempFile)) {
-                unlink($tempFile);
-            }
 
             throw $e;
         } finally {
