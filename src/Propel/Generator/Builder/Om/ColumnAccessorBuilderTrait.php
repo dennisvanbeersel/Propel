@@ -502,7 +502,7 @@ trait ColumnAccessorBuilderTrait
      * " . $column->getDescription();
         if ($column->isLazyLoad()) {
             $script .= "
-     * @param ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
+     * @param ConnectionInterface \$con An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
         }
         $script .= "
      * @return string|null
@@ -571,7 +571,7 @@ trait ColumnAccessorBuilderTrait
      * " . $column->getDescription();
         if ($column->isLazyLoad()) {
             $script .= "
-     * @param ConnectionInterface An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
+     * @param ConnectionInterface \$con An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
         }
         $script .= "
      * @return array|null

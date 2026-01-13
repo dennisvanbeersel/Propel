@@ -36,7 +36,7 @@ class BaseModelCriteria extends Criteria implements IteratorAggregate
 
     protected ?string $modelAlias = null;
 
-    protected TableMap $tableMap;
+    protected ?TableMap $tableMap = null;
 
     protected ?AbstractFormatter $formatter = null;
 

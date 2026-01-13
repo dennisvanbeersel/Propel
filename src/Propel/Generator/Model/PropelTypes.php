@@ -168,7 +168,7 @@ class PropelTypes
         self::PHP_ARRAY => self::PHP_ARRAY_NATIVE_TYPE,
         self::ENUM => self::ENUM_NATIVE_TYPE,
         self::SET => self::SET_NATIVE_TYPE,
-        self::GEOMETRY => self::GEOMETRY,
+        self::GEOMETRY => self::GEOMETRY_NATIVE_TYPE,
         self::JSON => self::JSON_TYPE,
         self::UUID => self::UUID_NATIVE_TYPE,
         self::UUID_BINARY => self::UUID_NATIVE_TYPE,

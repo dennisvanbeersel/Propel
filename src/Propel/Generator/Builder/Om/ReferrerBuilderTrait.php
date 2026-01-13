@@ -101,7 +101,7 @@ trait ReferrerBuilderTrait
      * @param ConnectionInterface \$con optional connection object
      * @param string \$joinBehavior optional join type to use (defaults to $joinBehavior)
      * @return ObjectCollection|{$className}[] List of $className objects
-     * @phpstan-return ObjectCollection&\Traversable<$className}> List of $className objects
+     * @phpstan-return ObjectCollection&\Traversable<{$className}> List of $className objects
      */
     public function get" . $relCol . 'Join' . $relCol2 . "(?Criteria \$criteria = null, ?ConnectionInterface \$con = null, \$joinBehavior = $joinBehavior)
     {";

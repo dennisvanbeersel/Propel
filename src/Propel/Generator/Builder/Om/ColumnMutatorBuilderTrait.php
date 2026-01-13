@@ -117,7 +117,8 @@ trait ColumnMutatorBuilderTrait
 
         if ($column->getTypeHint()) {
             $typeHint = $column->getTypeHint();
-            if ($typeHint !== 'array') {
+            // Don't call declareClass for primitive types or array
+            if (!in_array($typeHint, ['array', 'int', 'string', 'bool', 'float', 'mixed'], true)) {
                 $typeHint = $this->declareClass($typeHint);
             }
 
@@ -225,9 +226,9 @@ trait ColumnMutatorBuilderTrait
         // update associated " . $tblFK->getPhpName() . "
         if (\$this->$collName !== null) {
             foreach (\$this->$collName as \$referrerObject) {
-                    \$referrerObject->set" . $colFK->getPhpName() . "(\$v);
-                }
+                \$referrerObject->set" . $colFK->getPhpName() . "(\$v);
             }
+        }
 ";
                     }
                 }

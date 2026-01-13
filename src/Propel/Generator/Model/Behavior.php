@@ -121,9 +121,9 @@ class Behavior extends MappingModel
     /**
      * Returns the id of the Behavior
      *
-     * @return string
+     * @return string|null
      */
-    public function getId(): string
+    public function getId(): ?string
     {
         return $this->id;
     }
@@ -194,9 +194,9 @@ class Behavior extends MappingModel
      * Returns the table this behavior is applied to if behavior is applied to
      * a database element.
      *
-     * @return \Propel\Generator\Model\Database
+     * @return \Propel\Generator\Model\Database|null
      */
-    public function getDatabase(): Database
+    public function getDatabase(): ?Database
     {
         return $this->database;
     }

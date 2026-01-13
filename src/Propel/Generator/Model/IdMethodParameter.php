@@ -38,9 +38,9 @@ class IdMethodParameter extends MappingModel
     /**
      * Returns the parameter name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -94,9 +94,9 @@ class IdMethodParameter extends MappingModel
     /**
      * Returns the parent table.
      *
-     * @return \Propel\Generator\Model\Table
+     * @return \Propel\Generator\Model\Table|null
      */
-    public function getTable(): Table
+    public function getTable(): ?Table
     {
         return $this->parentTable;
     }

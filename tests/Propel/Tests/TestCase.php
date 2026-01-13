@@ -87,22 +87,6 @@ class TestCase extends PHPUnitTestCase
     }
 
     /**
-     * @return bool
-     */
-    protected function runningOnOracle()
-    {
-        return $this->isDb('oracle');
-    }
-
-    /**
-     * @return bool
-     */
-    protected function runningOnMSSQL()
-    {
-        return $this->isDb('mssql');
-    }
-
-    /**
      * @return \Propel\Generator\Platform\PlatformInterface
      */
     protected function getPlatform(): PlatformInterface

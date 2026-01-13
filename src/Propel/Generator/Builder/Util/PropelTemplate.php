@@ -88,17 +88,32 @@ class PropelTemplate
          */
         ob_implicit_flush(false);
 
+        /** @var string|null $tempFile */
+        $tempFile = null;
         try {
             if ($this->templateFile !== null) {
                 require $this->templateFile;
             } else {
-                eval('?>' . $this->template . '<?php ');
+                // Use a temp file instead of eval() for security
+                $tempFile = tempnam(sys_get_temp_dir(), 'propel_tpl_');
+                if ($tempFile === false) {
+                    throw new InvalidArgumentException('Unable to create temp file for template rendering');
+                }
+                file_put_contents($tempFile, '<?php ?>' . $this->template . '<?php ');
+                require $tempFile;
             }
         } catch (Exception $e) {
             // need to end output buffering before throwing the exception #7596
             ob_end_clean();
+            if (is_string($tempFile) && file_exists($tempFile)) {
+                unlink($tempFile);
+            }
 
             throw $e;
+        } finally {
+            if (is_string($tempFile) && file_exists($tempFile)) {
+                unlink($tempFile);
+            }
         }
 
         return (string)ob_get_clean();
