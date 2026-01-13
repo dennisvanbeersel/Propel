@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidClauseException;
@@ -17,10 +19,7 @@ use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
  */
 class LikeModelCriterion extends BasicModelCriterion
 {
-    /**
-     * @var bool
-     */
-    protected $ignoreStringCase = false;
+    protected bool $ignoreStringCase = false;
 
     /**
      * Sets ignore case.
@@ -62,10 +61,11 @@ class LikeModelCriterion extends BasicModelCriterion
         // LIKE is case insensitive in mySQL and SQLite, but not in PostGres
         // If the column is case insensitive, use ILIKE / NOT ILIKE instead of LIKE / NOT LIKE
         if ($this->ignoreStringCase) {
-            if ($this->getAdapter() instanceof PgsqlAdapter) {
+            $adapter = $this->getAdapter();
+            if ($adapter instanceof PgsqlAdapter) {
                 $this->clause = preg_replace('/LIKE \?$/i', 'ILIKE ?', $this->clause);
             } else {
-                throw new InvalidClauseException('Case insensitive LIKE is only supported in PostreSQL');
+                throw new InvalidClauseException('Case insensitive LIKE is only supported in PostgreSQL');
             }
         }
         parent::appendPsForUniqueClauseTo($sb, $params);

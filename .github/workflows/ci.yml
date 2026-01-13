@@ -8,195 +8,129 @@ on:
   workflow_dispatch:
 
 jobs:
-    testsuite:
-        name: "Test Suite"
-        runs-on: ubuntu-22.04
-        strategy:
-            fail-fast: false
-            matrix:
-                php-version: [ '7.4', '8.0', '8.1', '8.2', '8.3', '8.4' ]
-                db-type: [ sqlite, mysql, pgsql, agnostic ]
-                symfony-version: [ '5-min', '5-max', '6-min', '6-max', '7-min', '7-max']
-                exclude:
-                  - symfony-version: '6-min'
-                    php-version: '7.4'
-                  - symfony-version: '6-max'
-                    php-version: '7.4'
-                  - symfony-version: '6-min'
-                    php-version: '8.0'
-                  - symfony-version: '6-max'
-                    php-version: '8.0'
-                  - symfony-version: '7-min'
-                    php-version: '7.4'
-                  - symfony-version: '7-max'
-                    php-version: '7.4'
-                  - symfony-version: '7-min'
-                    php-version: '8.0'
-                  - symfony-version: '7-max'
-                    php-version: '8.0'
-                  - symfony-version: '7-min'
-                    php-version: '8.1'
-                  - symfony-version: '7-max'
-                    php-version: '8.1'
+  testsuite:
+    name: "Test Suite"
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        php-version: ['8.3', '8.4']
+        db-type: [sqlite, mysql, pgsql, agnostic]
+        symfony-version: ['7-min', '7-max']
+    env:
+      DB_NAME: 'propel_tests'
+      DB_USER: 'propel'
+      DB_PW: 'propel'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL
+        if: matrix.db-type == 'pgsql'
+        uses: CasperWA/postgresql-action@v1.2
+        with:
+          postgresql db: ${{ env.DB_NAME }}
+          postgresql user: ${{ env.DB_USER }}
+          postgresql password: ${{ env.DB_PW }}
+
+      - name: Install MySQL
+        if: matrix.db-type == 'mysql'
+        uses: mirromutth/mysql-action@v1.1
+        with:
+          mysql root password: ${{ env.DB_PW }}
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          extensions: json, libxml, pdo, pdo_mysql, pdo_sqlite, pdo_pgsql, sqlite3
+          coverage: pcov
+
+      - name: Composer cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
+
+      - name: Use Symfony ${{ matrix.symfony-version }} composer.json
+        run: mv tests/composer/composer-symfony${{ matrix.symfony-version }}.json composer.json
+
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist --optimize-autoloader
+
+      - name: Wait for MySQL
+        if: matrix.db-type == 'mysql'
+        run: |
+          for i in {1..10}; do
+            mysqladmin -h 127.0.0.1 -u root status >/dev/null 2>&1 && exit 0 || sleep 6
+            echo 'Waiting for MySQL...'
+          done
+          echo 'MySQL did not start'
+          exit 1
         env:
-            DB_NAME: 'propel_tests'
-            DB_USER: 'propel'
-            DB_PW: 'propel'
-        steps:
-            - name: Install PostgreSQL latest
-              if: matrix.db-type == 'pgsql' && matrix.php-version != '7.4'
-              uses: CasperWA/postgresql-action@v1.2
-              with:
-                  postgresql db: $DB_NAME
-                  postgresql user: $DB_USER
-                  postgresql password: $DB_PW
+          MYSQL_PWD: ${{ env.DB_PW }}
 
-            - name: Install PostgreSQL 16
-              if: matrix.db-type == 'pgsql' && matrix.php-version == '7.4' && matrix.symfony-version == '5-max'
-              uses: CasperWA/postgresql-action@v1.2
-              with:
-                  postgresql version: 16
-                  postgresql db: $DB_NAME
-                  postgresql user: $DB_USER
-                  postgresql password: $DB_PW
+      - name: Create MySQL user
+        if: matrix.db-type == 'mysql'
+        run: |
+          mysql -h 127.0.0.1 -u root -e "
+            CREATE USER '${{ env.DB_USER }}'@'localhost' IDENTIFIED BY '${{ env.DB_PW }}';
+            CREATE USER '${{ env.DB_USER }}'@'%' IDENTIFIED BY '${{ env.DB_PW }}';
+            GRANT ALL PRIVILEGES ON *.* TO '${{ env.DB_USER }}'@'localhost';
+            GRANT ALL PRIVILEGES ON *.* TO '${{ env.DB_USER }}'@'%';
+            FLUSH PRIVILEGES;
+          "
+        env:
+          MYSQL_PWD: ${{ env.DB_PW }}
 
-            - name: Install PostgreSQL min
-              if: matrix.db-type == 'pgsql' && matrix.php-version == '7.4' && matrix.symfony-version == '5-min'
-              uses: CasperWA/postgresql-action@v1.2
-              with:
-                  postgresql version: 9
-                  postgresql db: $DB_NAME
-                  postgresql user: $DB_USER
-                  postgresql password: $DB_PW
+      - name: Setup test database
+        if: matrix.db-type != 'agnostic'
+        run: tests/bin/setup.${{ matrix.db-type }}.sh
 
-            - name: Install MySQL latest
-              if: matrix.db-type == 'mysql' && matrix.php-version != '7.4'
-              uses: mirromutth/mysql-action@v1.1
-              with:
-                  mysql root password: $DB_PW
+      - name: Run tests
+        run: vendor/bin/phpunit -c tests/${{ matrix.db-type }}.phpunit.xml --colors=always
 
-            - name: Install MariaDb min
-              if: matrix.db-type == 'mysql' && matrix.php-version == '7.4'
-              uses: getong/mariadb-action@v1.1
-              with:
-                  mariadb version: '10.2'
-                  mysql root password: $DB_PW
+      - name: Upload coverage
+        if: matrix.php-version == '8.3' && matrix.symfony-version == '7-max' && matrix.db-type == 'mysql'
+        uses: codecov/codecov-action@v4
+        with:
+          files: tests/coverage.xml
+          flags: php${{ matrix.php-version }},${{ matrix.db-type }}
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
-            - name: Setup PHP, with composer and extensions
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: ${{ matrix.php-version }}
-                  extensions: json, libxml, pdo, pdo_mysql, pdo_sqlite, pdo_pgsql, sqlite3
-                  coverage: pcov
+  code-quality:
+    name: "Code Quality"
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
 
-            - name: Checkout
-              uses: actions/checkout@v2
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, pdo, pdo_mysql, pdo_sqlite, pdo_pgsql, sqlite3
 
-            - name: Composer get cache directory
-              id: composer-cache
-              run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+      - name: Composer cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache
+          key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
+          restore-keys: ${{ runner.os }}-composer-
 
-            - name: Composer cache dependencies
-              uses: actions/cache@v4
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.json') }}
-                  restore-keys: ${{ runner.os }}-composer-
+      - name: Validate composer.json
+        run: composer validate
 
-            - name: Move specific composer.json (Symfony version ${{ matrix.symfony-version }})
-              run: mv tests/composer/composer-symfony${{ matrix.symfony-version }}.json composer.json
+      - name: Composer install
+        run: composer install --prefer-dist --no-interaction
 
-            - name: Composer install (Symfony version ${{ matrix.symfony-version }})
-              run: composer install --no-progress --prefer-dist --optimize-autoloader
+      - name: PHPStan
+        run: composer stan
 
-            - name: Wait for MySQL server to load
-              if: matrix.db-type == 'mysql'
-              run: |
-                bash -c "
-                for i in {1..10}; do
-                  mysqladmin -h 127.0.0.1 -u root status >/dev/null 2>&1 && exit 0 || sleep 6
-                  echo 'trying again'
-                done;
-                echo 'could not establish connection after 10 tries'
-                exit 1
-                "
-              env:
-                MYSQL_PWD: ${{ env.DB_PW }}
+      - name: Psalm
+        run: composer psalm
 
-            - name: Create MySQL Propel user
-              if: matrix.db-type == 'mysql'
-              run: |
-                mysql -h 127.0.0.1 -u root -e "
-                  CREATE USER '$DB_USER'@'localhost' IDENTIFIED BY '$DB_PW';
-                  CREATE USER '$DB_USER'@'%' IDENTIFIED BY '$DB_PW';
-                  GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'localhost';
-                  GRANT ALL PRIVILEGES ON *.* TO '$DB_USER'@'%';
-                  FLUSH PRIVILEGES;
-                "
-              env:
-                MYSQL_PWD: ${{ env.DB_PW }}
-
-            - name: Setup database for test suite
-              if: matrix.db-type != 'agnostic'
-              run: tests/bin/setup.${{ matrix.db-type }}.sh
-
-            - name: Run tests
-              shell: 'script -q -e -c "bash {0}"'
-              run: |
-                if [[ ${{ matrix.php-version }} == '7.4' && ${{ matrix.symfony-version }} == '5-max' ]]; then
-                  export CODECOVERAGE=1 && vendor/bin/phpunit -c tests/${{ matrix.db-type }}.phpunit.xml --verbose --coverage-clover=tests/coverage.xml
-                else
-                  vendor/bin/phpunit -c tests/${{ matrix.db-type }}.phpunit.xml
-                fi
-              env:
-                SYMFONY_VERSION: ${{ matrix.symfony-version }}
-
-            - name: Code Coverage Report
-              if: success() && matrix.php-version == '7.4' && matrix.symfony-version == '5-max'
-              uses: codecov/codecov-action@v1
-              with:
-                  flags: ${{ matrix.php-version }}, ${{ matrix.db-type }}, ${{ matrix.symfony-version }}
-                  file: tests/coverage.xml
-
-    code-style-and-static-analysis:
-        runs-on: ubuntu-22.04
-        steps:
-            - name: Setup PHP
-              id: setup-php
-              uses: shivammathur/setup-php@v2
-              with:
-                  php-version: '8.1'
-                  extensions: json, libxml, pdo, pdo_mysql, pdo_sqlite, pdo_pgsql, sqlite3
-                  coverage: pcov
-
-            - uses: actions/checkout@v2
-
-            - name: Composer get cache directory
-              id: composer-cache
-              run: |
-                  echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
-
-            - name: Composer cache
-              uses: actions/cache@v4
-              with:
-                  path: ${{ steps.composer-cache.outputs.dir }}
-                  key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
-                  restore-keys: |
-                      ${{ runner.os }}-composer-
-
-            - name: Composer validate
-              run: composer validate
-
-            - name: Composer install
-              run: composer install --prefer-dist --no-interaction
-
-            - name: PHPStan
-              env:
-                PHPSTAN: 1
-              run: composer stan
-
-            - name: Psalm
-              run: composer psalm -- --php-version=${{ steps.setup-php.outputs.php-version }}
-
-            - name: Code Style
-              run: composer cs-check
+      - name: Code Style
+        run: composer cs-check

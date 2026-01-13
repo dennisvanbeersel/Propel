@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveRecord;
 
 use RecursiveIterator;
@@ -19,15 +21,9 @@ use RecursiveIterator;
  */
 class NestedSetRecursiveIterator implements RecursiveIterator
 {
-    /**
-     * @var object
-     */
-    protected $topNode;
+    protected object $topNode;
 
-    /**
-     * @var object
-     */
-    protected $curNode;
+    protected ?object $curNode = null;
 
     /**
      * @param object $node

@@ -73,7 +73,7 @@ EOF;
         ];
         $expected = <<<'EOF'
 $serviceContainer->setAdapterClass('bookstore-cms', 'mysql');
-$manager = new \Propel\Runtime\Connection\ConnectionManagerMasterSlave('bookstore-cms');
+$manager = new \Propel\Runtime\Connection\ConnectionManagerPrimaryReplica('bookstore-cms');
 $manager->setReadConfiguration(array (
   0 =>
   array (
@@ -244,7 +244,7 @@ $manager->setConfiguration(array (
 ));
 $serviceContainer->setConnectionManager($manager);
 $serviceContainer->setAdapterClass('bookstore-cms', 'mysql');
-$manager = new \Propel\Runtime\Connection\ConnectionManagerMasterSlave('bookstore-cms');
+$manager = new \Propel\Runtime\Connection\ConnectionManagerPrimaryReplica('bookstore-cms');
 $manager->setReadConfiguration(array (
   0 =>
   array (

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Common\Util;
 
 use RuntimeException;
@@ -63,10 +65,10 @@ trait PathTrait
 
         $elements = array_reverse($elements);
         // Propel/Generator/ prefixes are just noise and filtered out
-        if ($elements[0] === 'Propel') {
+        if (($elements[0] ?? null) === 'Propel') {
             array_shift($elements);
         }
-        if ($elements[0] === 'Generator') {
+        if (($elements[0] ?? null) === 'Generator') {
             array_shift($elements);
         }
 

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\QueryCache;
 
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
@@ -23,7 +25,7 @@ class QueryCacheBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'backend' => 'apc',
         'lifetime' => '3600',
     ];

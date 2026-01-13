@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\SqlBuilder;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -18,10 +20,7 @@ use Propel\Runtime\Propel;
  */
 abstract class AbstractSqlQueryBuilder
 {
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criteria
-     */
-    protected $criteria;
+    protected Criteria $criteria;
 
     /**
      * @var \Propel\Runtime\Adapter\SqlAdapterInterface

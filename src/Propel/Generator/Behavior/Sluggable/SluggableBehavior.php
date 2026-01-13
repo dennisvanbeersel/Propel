@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\Sluggable;
 
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
@@ -29,7 +31,7 @@ class SluggableBehavior extends Behavior
     /**
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'slug_column' => 'slug',
         'slug_pattern' => '',
         'replace_pattern' => '/\W+/',

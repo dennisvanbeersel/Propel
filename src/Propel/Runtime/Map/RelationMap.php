@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Map;
 
 /**
@@ -54,74 +56,43 @@ class RelationMap
      */
     public const LEFT_TO_RIGHT = 1;
 
-    /**
-     * @var string
-     */
-    protected $name;
+    protected ?string $pluralName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $pluralName;
+    protected ?int $type = null;
 
-    /**
-     * @var int
-     */
-    protected $type;
-
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $localTable;
-
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $foreignTable;
-
-    /**
-     * @var bool
-     */
-    protected $polymorphic = false;
+    protected bool $polymorphic = false;
 
     /**
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $localColumns = [];
+    protected array $localColumns = [];
 
     /**
      * Values used for polymorphic associations.
      *
-     * @var array
+     * @var array<mixed>
      */
-    protected $localValues = [];
+    protected array $localValues = [];
 
     /**
      * @var array<\Propel\Runtime\Map\ColumnMap|null>
      */
-    protected $foreignColumns = [];
+    protected array $foreignColumns = [];
 
-    /**
-     * @var string|null
-     */
-    protected $onUpdate;
+    protected ?string $onUpdate = null;
 
-    /**
-     * @var string|null
-     */
-    protected $onDelete;
+    protected ?string $onDelete = null;
 
     /**
      * @param string $name Name of the relation.
      * @param \Propel\Runtime\Map\TableMap $localTable Local table map.
      * @param \Propel\Runtime\Map\TableMap $foreignTable Foreign table map.
      */
-    public function __construct(string $name, TableMap $localTable, TableMap $foreignTable)
-    {
-        $this->name = $name;
-        $this->localTable = $localTable;
-        $this->foreignTable = $foreignTable;
-    }
+    public function __construct(
+        protected string $name,
+        protected TableMap $localTable,
+        protected TableMap $foreignTable,
+    ) {}
 
     /**
      * @return bool
@@ -299,10 +270,15 @@ class RelationMap
         }
 
         for ($i = 0, $size = count($this->localColumns); $i < $size; $i++) {
+            $foreignColumn = $this->foreignColumns[$i];
+            if ($foreignColumn === null) {
+                // Skip polymorphic relation entries with no foreign column
+                continue;
+            }
             if ($direction === self::LOCAL_TO_FOREIGN) {
-                $h[$this->localColumns[$i]->getFullyQualifiedName()] = $this->foreignColumns[$i]->getFullyQualifiedName();
+                $h[$this->localColumns[$i]->getFullyQualifiedName()] = $foreignColumn->getFullyQualifiedName();
             } else {
-                $h[$this->foreignColumns[$i]->getFullyQualifiedName()] = $this->localColumns[$i]->getFullyQualifiedName();
+                $h[$foreignColumn->getFullyQualifiedName()] = $this->localColumns[$i]->getFullyQualifiedName();
             }
         }
 

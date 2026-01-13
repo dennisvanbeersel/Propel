@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Om;
 
 use Propel\Common\Util\PathTrait;
@@ -39,21 +41,21 @@ abstract class AbstractOMBuilder extends DataModelBuilder
      *
      * @var array<string, array<string, string>>
      */
-    protected $declaredClasses = [];
+    protected array $declaredClasses = [];
 
     /**
      * Mapping between fully qualified classnames and their short classname or alias
      *
      * @var array<string, string>
      */
-    protected $declaredShortClassesOrAlias = [];
+    protected array $declaredShortClassesOrAlias = [];
 
     /**
      * List of classes that can be use without alias when model don't have namespace
      *
      * @var array<string>
      */
-    protected $whiteListOfDeclaredClasses = ['PDO', 'Exception', 'DateTime'];
+    protected array $whiteListOfDeclaredClasses = ['PDO', 'Exception', 'DateTime'];
 
     /**
      * Builds the PHP source for current class and returns it as a string.

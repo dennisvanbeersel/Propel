@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Adapter\Pdo;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -283,7 +285,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
 
         $tableNames = $lock->getTableNames();
         if ($tableNames) {
-            $tableNames = array_map([$this, 'quoteIdentifier'], array_unique($tableNames));
+            $tableNames = array_map($this->quoteIdentifier(...), array_unique($tableNames));
             $sql .= ' OF ' . implode(', ', $tableNames);
         }
 

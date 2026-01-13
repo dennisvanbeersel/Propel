@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\AggregateColumn;
 
 use InvalidArgumentException;
@@ -27,7 +29,7 @@ class AggregateColumnBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'name' => null,
         'expression' => null,
         'condition' => null,

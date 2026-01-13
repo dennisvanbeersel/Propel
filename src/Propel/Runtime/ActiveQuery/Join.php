@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery;
 
 use Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion;
@@ -48,80 +50,49 @@ class Join
      *
      * @var list<string|null>
      */
-    protected $left = [];
+    protected array $left = [];
 
-    /**
-     * @var array
-     */
-    protected $leftValues = [];
+    protected array $leftValues = [];
 
-    /**
-     * @var array
-     */
-    protected $rightValues = [];
+    protected array $rightValues = [];
 
     /**
      * The right parts of the join condition
      *
      * @var list<string|null>
      */
-    protected $right = [];
+    protected array $right = [];
 
     /**
      * The comparison operators for each pair of columns in the join condition
      *
      * @var array<int, string>
      */
-    protected $operators = [];
+    protected array $operators = [];
 
     /**
      * The type of the join (LEFT JOIN, ...)
-     *
-     * @var string|null
      */
-    protected $joinType;
+    protected ?string $joinType = null;
 
     /**
      * The number of conditions in the join
-     *
-     * @var int
      */
-    protected $count = 0;
+    protected int $count = 0;
 
-    /**
-     * @var \Propel\Runtime\Adapter\AdapterInterface|null
-     */
-    protected $db;
+    protected ?AdapterInterface $db = null;
 
-    /**
-     * @var string|null
-     */
-    protected $leftTableName;
+    protected ?string $leftTableName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $rightTableName;
+    protected ?string $rightTableName = null;
 
-    /**
-     * @var string|null
-     */
-    protected $leftTableAlias;
+    protected ?string $leftTableAlias = null;
 
-    /**
-     * @var string|null
-     */
-    protected $rightTableAlias;
+    protected ?string $rightTableAlias = null;
 
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion|null
-     */
-    protected $joinCondition;
+    protected ?AbstractCriterion $joinCondition = null;
 
-    /**
-     * @var bool
-     */
-    protected $identifierQuoting = false;
+    protected bool $identifierQuoting = false;
 
     /**
      * Constructor
@@ -815,7 +786,11 @@ class Join
         $rightTableName = $this->getRightTableWithAlias();
 
         if ($this->isIdentifierQuotingEnabled()) {
-            $rightTableName = $this->getAdapter()->quoteIdentifierTable($rightTableName);
+            $adapter = $this->getAdapter();
+            if ($adapter === null) {
+                throw new LogicException('Adapter is required when identifier quoting is enabled');
+            }
+            $rightTableName = $adapter->quoteIdentifierTable($rightTableName);
         }
 
         return sprintf(

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -17,10 +19,7 @@ use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
  */
 class BasicCriterion extends AbstractCriterion
 {
-    /**
-     * @var bool
-     */
-    protected $ignoreStringCase = false;
+    protected bool $ignoreStringCase = false;
 
     /**
      * Create a new instance.
@@ -84,8 +83,11 @@ class BasicCriterion extends AbstractCriterion
                 // default case, it is a normal col = value expression; value
                 // will be replaced w/ '?' and will be inserted later using PDO bindValue()
                 if ($this->ignoreStringCase) {
-                    /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
                     $sqlAdapter = $this->getAdapter();
+                    if ($sqlAdapter === null) {
+                        throw new InvalidValueException('Adapter is required for case-insensitive comparison');
+                    }
+                    /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
                     $sb .= $sqlAdapter->ignoreCase($field) . $this->comparison . $sqlAdapter->ignoreCase(':p' . count($params));
                 } else {
                     $sb .= $field . $this->comparison . ':p' . count($params);

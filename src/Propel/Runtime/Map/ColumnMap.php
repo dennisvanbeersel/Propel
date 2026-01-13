@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Map;
 
 use Propel\Generator\Model\PropelTypes;
@@ -28,102 +30,59 @@ use Propel\Runtime\Map\Exception\ForeignKeyNotFoundException;
 class ColumnMap
 {
     /**
-     * Propel type of the column
-     *
-     * @var string
-     */
-    protected $type;
-
-    /**
      * Size of the column
-     *
-     * @var int
      */
-    protected $size = 0;
+    protected int $size = 0;
 
     /**
      * Is it a primary key?
-     *
-     * @var bool
      */
-    protected $pk = false;
+    protected bool $pk = false;
 
     /**
      * Is null value allowed?
-     *
-     * @var bool
      */
-    protected $notNull = false;
+    protected bool $notNull = false;
 
     /**
      * The default value for this column
-     *
-     * @var string|bool|null
      */
-    protected $defaultValue;
+    protected string|int|bool|null $defaultValue = null;
 
     /**
      * Name of the table that this column is related to
-     *
-     * @var string
      */
-    protected $relatedTableName = '';
+    protected string $relatedTableName = '';
 
     /**
      * Name of the column that this column is related to
-     *
-     * @var string
      */
-    protected $relatedColumnName = '';
-
-    /**
-     * The TableMap for this column
-     *
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $table;
-
-    /**
-     * The name of the column
-     *
-     * @var string
-     */
-    protected $columnName;
-
-    /**
-     * The php name of the column
-     *
-     * @var string
-     */
-    protected $phpName;
+    protected string $relatedColumnName = '';
 
     /**
      * The allowed values for an ENUM or SET column
      *
-     * @var array
+     * @var array<string>
      */
-    protected $valueSet = [];
+    protected array $valueSet = [];
 
     /**
      * Is this a primaryString column?
-     *
-     * @var bool
      */
-    protected $isPkString = false;
+    protected bool $isPkString = false;
 
     /**
-     * @param string $name The name of the column.
-     * @param \Propel\Runtime\Map\TableMap $containingTable TableMap of the table this column is in.
+     * @param string $columnName The name of the column.
+     * @param \Propel\Runtime\Map\TableMap $table TableMap of the table this column is in.
      * @param string $phpName The php name of the column.
      * @param string $type A string specifying the Propel type.
      */
-    public function __construct(string $name, TableMap $containingTable, string $phpName, string $type)
-    {
-        $this->columnName = $name;
-        $this->table = $containingTable;
-        $this->phpName = $phpName;
-        $this->type = $type;
-    }
+    public function __construct(
+        protected string $columnName,
+        protected TableMap $table,
+        protected string $phpName,
+        protected string $type,
+    ) {}
 
     /**
      * Get the name of a column.
@@ -373,11 +332,11 @@ class ColumnMap
     /**
      * Sets the default value for this column.
      *
-     * @param string|bool|null $defaultValue the default value for the column
+     * @param string|int|bool $defaultValue the default value for the column
      *
      * @return void
      */
-    public function setDefaultValue($defaultValue): void
+    public function setDefaultValue(string|int|bool|null $defaultValue): void
     {
         $this->defaultValue = $defaultValue;
     }
@@ -385,9 +344,9 @@ class ColumnMap
     /**
      * Gets the default value for this column.
      *
-     * @return string|bool|null
+     * @return string|int|bool|null
      */
-    public function getDefaultValue()
+    public function getDefaultValue(): string|int|bool|null
     {
         return $this->defaultValue;
     }

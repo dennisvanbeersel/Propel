@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Reverse;
 
 use PDO;
@@ -28,17 +30,14 @@ use RuntimeException;
  */
 class MysqlSchemaParser extends AbstractSchemaParser
 {
-    /**
-     * @var bool
-     */
-    private $addVendorInfo = false;
+    private bool $addVendorInfo = false;
 
     /**
      * Map MySQL native types to Propel types.
      *
      * @var array<string>
      */
-    private static $mysqlTypeMap = [
+    private static array $mysqlTypeMap = [
         'tinyint' => PropelTypes::TINYINT,
         'smallint' => PropelTypes::SMALLINT,
         'mediumint' => PropelTypes::SMALLINT,
@@ -75,7 +74,7 @@ class MysqlSchemaParser extends AbstractSchemaParser
     /**
      * @var array<int>
      */
-    protected static $defaultTypeSizes = [
+    protected static array $defaultTypeSizes = [
         'char' => 1,
         'tinyint' => 4,
         'smallint' => 6,

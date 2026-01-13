@@ -63,7 +63,7 @@ END;
         $this->assertEquals($expectedSql, $actualSql, 'Generated SQL does not match expected SQL');
     }
 
-    public function dataLimit()
+    public static function dataLimit()
     {
         return [
 
@@ -139,7 +139,7 @@ END;
         $this->assertEquals($expectedSql, $actualSql, 'Generated SQL does not match expected SQL');
     }
 
-    public function dataOffset()
+    public static function dataOffset()
     {
         return [
 
@@ -215,7 +215,7 @@ END;
         $this->assertEquals($expectedSql, $actualSql, 'Generated SQL does not match expected SQL');
     }
 
-    public function dataOffsetAndLimit()
+    public static function dataOffsetAndLimit()
     {
         return [
 

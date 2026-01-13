@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Util;
 
 use DateTime;
@@ -164,12 +166,13 @@ class PropelDateTime extends DateTime
     {
         if (static::isTimestamp($value)) { // if it's a unix timestamp
             $format = 'U';
-            if (strpos($value, '.')) {
+            $valueStr = (string)$value;
+            if (str_contains($valueStr, '.')) {
                 //with milliseconds
                 $format = 'U.u';
             }
 
-            $dateTimeObject = DateTime::createFromFormat($format, $value, new DateTimeZone('UTC'));
+            $dateTimeObject = DateTime::createFromFormat($format, $valueStr, new DateTimeZone('UTC'));
             if ($dateTimeObject === false) {
                 throw new Exception(sprintf('Cannot create DateTime from format `%s`', $format));
             }

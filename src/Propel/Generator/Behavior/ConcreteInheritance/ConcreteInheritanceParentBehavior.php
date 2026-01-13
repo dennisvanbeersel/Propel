@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\ConcreteInheritance;
 
 use Propel\Generator\Builder\Om\ObjectBuilder;
@@ -30,7 +32,7 @@ class ConcreteInheritanceParentBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'descendant_column' => 'descendant_class',
     ];
 

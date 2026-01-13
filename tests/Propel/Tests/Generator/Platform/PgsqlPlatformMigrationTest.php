@@ -18,6 +18,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class PgsqlPlatformMigrationTest extends PlatformMigrationTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new PgsqlPlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

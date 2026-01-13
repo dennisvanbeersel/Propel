@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use ArrayAccess;
@@ -45,32 +47,18 @@ use Traversable;
  */
 class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializable
 {
-    /**
-     * @var string
-     */
-    protected $model = '';
+    protected string $model = '';
 
     /**
-     * The fully qualified classname of the model
-     *
-     * @var string
+     * The fully qualified classname of the model.
      */
-    protected $fullyQualifiedModel = '';
+    protected string $fullyQualifiedModel = '';
 
-    /**
-     * @var \Propel\Runtime\Formatter\AbstractFormatter
-     */
-    protected $formatter;
+    protected ?AbstractFormatter $formatter = null;
 
-    /**
-     * @var array
-     */
-    protected $data = [];
+    protected array $data = [];
 
-    /**
-     * @var \Propel\Common\Pluralizer\PluralizerInterface|null
-     */
-    private $pluralizer;
+    private ?PluralizerInterface $pluralizer = null;
 
     /**
      * @param array $data

@@ -31,7 +31,7 @@ class UuidConverterMysqlCompatibilityTest extends BookstoreTestBase
         }
     }
 
-    public function operationsDataProvider(): array
+    public static function operationsDataProvider(): array
     {
         return [
             // description, mysql function , converter callback, input value, input bin

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\SqlBuilder;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -16,16 +18,13 @@ use Propel\Runtime\ActiveQuery\Criteria;
  */
 class UpdateQuerySqlBuilder extends AbstractSqlQueryBuilder
 {
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criteria
-     */
-    protected $updateValues;
+    protected Criteria $updateValues;
 
     /**
      * @psalm-var array<string, array<string>>
      * @var array<array<string>>
      */
-    protected $updateTablesColumns;
+    protected array $updateTablesColumns;
 
     /**
      * @param \Propel\Runtime\ActiveQuery\Criteria $criteria

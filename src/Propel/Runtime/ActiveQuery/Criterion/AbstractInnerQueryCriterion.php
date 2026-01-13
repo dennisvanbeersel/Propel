@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -23,19 +25,16 @@ use Propel\Runtime\Map\RelationMap;
 abstract class AbstractInnerQueryCriterion extends AbstractCriterion
 {
     /**
-     * @var string|null Left side of the operator, can be empty.
+     * Left side of the operator, can be empty.
      */
-    protected $leftOperand;
+    protected ?string $leftOperand = null;
 
     /**
-     * @var string|null The sql operator expression, i.e. "IN" or "NOT IN".
+     * The sql operator expression, i.e. "IN" or "NOT IN".
      */
-    protected $sqlOperator;
+    protected ?string $sqlOperator = null;
 
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criteria
-     */
-    protected $innerQuery;
+    protected Criteria $innerQuery;
 
     /**
      * Resolves the operator as given by the user to the SQL operator statement.

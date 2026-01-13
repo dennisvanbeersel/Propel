@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Map;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -73,28 +75,26 @@ class TableMap
      *
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $columns = [];
+    protected array $columns = [];
 
     /**
      * Columns in the table, using table phpName as key
      *
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $columnsByPhpName = [];
+    protected array $columnsByPhpName = [];
 
     /**
      * Map of normalized column names
      *
      * @var array<string>
      */
-    protected $normalizedColumnNameMap = [];
+    protected array $normalizedColumnNameMap = [];
 
     /**
      * The database this table belongs to
-     *
-     * @var \Propel\Runtime\Map\DatabaseMap
      */
-    protected $dbMap;
+    protected ?DatabaseMap $dbMap = null;
 
     /**
      * The name of the table
@@ -103,85 +103,66 @@ class TableMap
 
     /**
      * The PHP name of the table
-     *
-     * @var string
      */
-    protected $phpName;
+    protected ?string $phpName = null;
 
     /**
      * The ClassName for this table
-     *
-     * @var string
      */
-    protected $classname;
+    protected ?string $classname = null;
 
     /**
      * The Package for this table
-     *
-     * @var string
      */
-    protected $package;
+    protected ?string $package = null;
 
     /**
      * Whether to use an id generator for pkey
-     *
-     * @var bool
      */
-    protected $useIdGenerator = false;
+    protected bool $useIdGenerator = false;
 
     /**
      * Whether the table uses single table inheritance
-     *
-     * @var bool
      */
-    protected $isSingleTableInheritance = false;
+    protected bool $isSingleTableInheritance = false;
 
     /**
      * Whether the table is a Many to Many table
-     *
-     * @var bool
      */
-    protected $isCrossRef = false;
+    protected bool $isCrossRef = false;
 
     /**
      * The primary key columns in the table
      *
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $primaryKeys = [];
+    protected array $primaryKeys = [];
 
     /**
      * The foreign key columns in the table
      *
      * @var array<\Propel\Runtime\Map\ColumnMap>
      */
-    protected $foreignKeys = [];
+    protected array $foreignKeys = [];
 
     /**
      *  The relationships in the table
      *
      * @var array<\Propel\Runtime\Map\RelationMap>
      */
-    protected $relations = [];
+    protected array $relations = [];
 
     /**
      *  Relations are lazy loaded. This property tells if the relations are loaded or not
-     *
-     * @var bool
      */
-    protected $relationsBuilt = false;
+    protected bool $relationsBuilt = false;
 
     /**
      *  Object to store information that is needed if the for generating primary keys
-     *
-     * @var mixed
      */
-    protected $pkInfo;
+    protected mixed $pkInfo = null;
 
-    /**
-     * @var bool
-     */
-    protected $identifierQuoting = false;
+    protected bool $identifierQuoting = false;
 
     /**
      * Construct a new TableMap.
@@ -227,10 +208,16 @@ class TableMap
     /**
      * Get the DatabaseMap containing this TableMap.
      *
+     * @throws \Propel\Runtime\Exception\LogicException If DatabaseMap is not set.
+     *
      * @return \Propel\Runtime\Map\DatabaseMap A DatabaseMap.
      */
     public function getDatabaseMap(): DatabaseMap
     {
+        if ($this->dbMap === null) {
+            throw new LogicException('DatabaseMap is not set on this TableMap.');
+        }
+
         return $this->dbMap;
     }
 

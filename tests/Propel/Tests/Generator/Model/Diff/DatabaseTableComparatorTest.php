@@ -23,6 +23,7 @@ use Propel\Tests\TestCase;
  */
 class DatabaseTableComparatorTest extends TestCase
 {
+    protected $platform;
     /**
      * @return void
      */

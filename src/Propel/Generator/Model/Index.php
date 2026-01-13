@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Model;
 
 /**
@@ -17,37 +19,29 @@ namespace Propel\Generator\Model;
  */
 class Index extends MappingModel
 {
-    /**
-     * @var string|null
-     */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * The Table instance.
-     *
-     * @var \Propel\Generator\Model\Table|null
      */
-    protected $table;
+    protected ?Table $table = null;
 
     /**
      * @var array<string>
      */
-    protected $columns = [];
+    protected array $columns = [];
 
     /**
      * @var array<\Propel\Generator\Model\Column>
      */
-    protected $columnObjects = [];
+    protected array $columnObjects = [];
 
     /**
      * @var array<int>
      */
-    protected $columnsSize = [];
+    protected array $columnsSize = [];
 
-    /**
-     * @var bool
-     */
-    protected $autoNaming = false;
+    protected bool $autoNaming = false;
 
     /**
      * Creates a new Index instance.
@@ -198,7 +192,7 @@ class Index extends MappingModel
         } else {
             $this->columns[] = $name = $data ? $data['name'] : null;
             if (isset($data['size']) && $data['size'] > 0) {
-                $this->columnsSize[$name] = $data['size'];
+                $this->columnsSize[$name] = (int)$data['size'];
             }
             if ($this->getTable()) {
                 $this->columnObjects[] = $this->getTable()->getColumn($name);

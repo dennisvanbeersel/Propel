@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery;
 
 use Countable;
@@ -16,7 +18,7 @@ trait InstancePoolTrait
     /**
      * @var array<object>
      */
-    public static $instances = [];
+    public static array $instances = [];
 
     /**
      * @param object $object

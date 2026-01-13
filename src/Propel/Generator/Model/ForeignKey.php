@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Model;
 
 use Propel\Generator\Platform\PlatformInterface;
@@ -25,110 +27,62 @@ class ForeignKey extends MappingModel
     /**
      * These constants are the uppercase equivalents of the onDelete / onUpdate
      * values in the schema definition.
-     *
-     * @var string
      */
     public const NONE = ''; // No 'ON [ DELETE | UPDATE]' behavior
 
-    /**
-     * @var string
-     */
     public const NOACTION = 'NO ACTION';
 
-    /**
-     * @var string
-     */
     public const CASCADE = 'CASCADE';
 
-    /**
-     * @var string
-     */
     public const RESTRICT = 'RESTRICT';
 
-    /**
-     * @var string
-     */
     public const SETDEFAULT = 'SET DEFAULT';
 
-    /**
-     * @var string
-     */
     public const SETNULL = 'SET NULL';
 
     /**
-     * @var string
+     * Whether this foreign key represents a parent-child relationship (used by ConcreteInheritance behavior)
      */
-    private $foreignTableCommonName;
+    public bool $isParentChild = false;
 
-    /**
-     * @var string
-     */
-    private $foreignSchemaName;
+    private ?string $foreignTableCommonName = null;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $foreignSchemaName = null;
 
-    /**
-     * @var string|null
-     */
-    private $phpName;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $refPhpName;
+    private ?string $phpName = null;
 
-    /**
-     * @var string
-     */
-    private $defaultJoin;
+    private ?string $refPhpName = null;
 
-    /**
-     * @var string
-     */
-    private $onUpdate = '';
+    private ?string $defaultJoin = null;
 
-    /**
-     * @var string
-     */
-    private $onDelete = '';
+    private string $onUpdate = '';
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $parentTable;
+    private string $onDelete = '';
+
+    private Table $parentTable;
 
     /**
      * @var array<string>
      */
-    private $localColumns = [];
+    private array $localColumns = [];
 
     /**
      * @var array<string|null>
      */
-    private $foreignColumns = [];
+    private array $foreignColumns = [];
 
     /**
      * @var array<string|null>
      */
-    private $localValues = [];
+    private array $localValues = [];
 
-    /**
-     * @var bool
-     */
-    private $skipSql = false;
+    private bool $skipSql = false;
 
-    /**
-     * @var string
-     */
-    private $interface;
+    private ?string $interface = null;
 
-    /**
-     * @var bool
-     */
-    private $autoNaming = false;
+    private bool $autoNaming = false;
 
     /**
      * Constructs a new ForeignKey object.
@@ -178,9 +132,7 @@ class ForeignKey extends MappingModel
 
             $newName .= substr(md5(strtolower(implode(':', $hash))), 0, 6);
 
-            if ($this->parentTable !== null) {
-                $newName = $this->parentTable->getCommonName() . '_' . $newName;
-            }
+            $newName = $this->parentTable->getCommonName() . '_' . $newName;
 
             $this->name = $newName;
             $this->autoNaming = true;

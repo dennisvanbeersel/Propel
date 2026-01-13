@@ -52,7 +52,7 @@ class DefaultPlatformTest extends TestCase
         $this->assertEquals('1', $p->getBooleanString($value));
     }
 
-    public function provideValidBooleanValues()
+    public static function provideValidBooleanValues()
     {
         return [
             [true],
@@ -79,7 +79,7 @@ class DefaultPlatformTest extends TestCase
         $this->assertEquals('0', $p->getBooleanString($value));
     }
 
-    public function provideInvalidBooleanValues()
+    public static function provideInvalidBooleanValues()
     {
         return [
             [false],
@@ -113,7 +113,7 @@ class DefaultPlatformTest extends TestCase
         $this->assertEquals($expected, $quoted);
     }
 
-    protected function createColumn($type, $defaultValue)
+    protected static function createColumn($type, $defaultValue): Column
     {
         $column = new Column('');
         $column->setType($type);
@@ -122,7 +122,7 @@ class DefaultPlatformTest extends TestCase
         return $column;
     }
 
-    public function createEnumColumn($defaultValues, $defaultValue)
+    protected static function createEnumColumn($defaultValues, $defaultValue): Column
     {
         $column = new Column('');
         $column->setType(PropelTypes::ENUM);
@@ -132,7 +132,7 @@ class DefaultPlatformTest extends TestCase
         return $column;
     }
 
-    public function createSetColumn($defaultValues, $defaultValue)
+    protected static function createSetColumn($defaultValues, $defaultValue): Column
     {
         $column = new Column('');
         $column->setType(PropelTypes::SET);
@@ -142,25 +142,25 @@ class DefaultPlatformTest extends TestCase
         return $column;
     }
 
-    public function getColumnDefaultValueDDLDataProvider(): array
+    public static function getColumnDefaultValueDDLDataProvider(): array
     {
         return [
-            [$this->createColumn(PropelTypes::INTEGER, 0), 'DEFAULT 0'],
-            [$this->createColumn(PropelTypes::INTEGER, '0'), 'DEFAULT 0'],
-            [$this->createColumn(PropelTypes::VARCHAR, 'foo'), "DEFAULT 'foo'"],
-            [$this->createColumn(PropelTypes::VARCHAR, 0), "DEFAULT '0'"],
-            [$this->createColumn(PropelTypes::BOOLEAN, true), 'DEFAULT 1'],
-            [$this->createColumn(PropelTypes::BOOLEAN, false), 'DEFAULT 0'],
-            [$this->createColumn(PropelTypes::BOOLEAN, 'true'), 'DEFAULT 1'],
-            [$this->createColumn(PropelTypes::BOOLEAN, 'false'), 'DEFAULT 0'],
-            [$this->createColumn(PropelTypes::BOOLEAN, 'TRUE'), 'DEFAULT 1'],
-            [$this->createColumn(PropelTypes::BOOLEAN, 'FALSE'), 'DEFAULT 0'],
-            [$this->createEnumColumn(['foo', 'bar', 'baz'], 'foo'), 'DEFAULT 0'],
-            [$this->createEnumColumn(['foo', 'bar', 'baz'], 'bar'), 'DEFAULT 1'],
-            [$this->createEnumColumn(['foo', 'bar', 'baz'], 'baz'), 'DEFAULT 2'],
-            [$this->createSetColumn(['foo', 'bar', 'baz'], 'foo'), 'DEFAULT 1'],
-            [$this->createSetColumn(['foo', 'bar', 'baz'], 'bar'), 'DEFAULT 2'],
-            [$this->createSetColumn(['foo', 'bar', 'baz'], 'baz'), 'DEFAULT 4'],
+            [self::createColumn(PropelTypes::INTEGER, 0), 'DEFAULT 0'],
+            [self::createColumn(PropelTypes::INTEGER, '0'), 'DEFAULT 0'],
+            [self::createColumn(PropelTypes::VARCHAR, 'foo'), "DEFAULT 'foo'"],
+            [self::createColumn(PropelTypes::VARCHAR, 0), "DEFAULT '0'"],
+            [self::createColumn(PropelTypes::BOOLEAN, true), 'DEFAULT 1'],
+            [self::createColumn(PropelTypes::BOOLEAN, false), 'DEFAULT 0'],
+            [self::createColumn(PropelTypes::BOOLEAN, 'true'), 'DEFAULT 1'],
+            [self::createColumn(PropelTypes::BOOLEAN, 'false'), 'DEFAULT 0'],
+            [self::createColumn(PropelTypes::BOOLEAN, 'TRUE'), 'DEFAULT 1'],
+            [self::createColumn(PropelTypes::BOOLEAN, 'FALSE'), 'DEFAULT 0'],
+            [self::createEnumColumn(['foo', 'bar', 'baz'], 'foo'), 'DEFAULT 0'],
+            [self::createEnumColumn(['foo', 'bar', 'baz'], 'bar'), 'DEFAULT 1'],
+            [self::createEnumColumn(['foo', 'bar', 'baz'], 'baz'), 'DEFAULT 2'],
+            [self::createSetColumn(['foo', 'bar', 'baz'], 'foo'), 'DEFAULT 1'],
+            [self::createSetColumn(['foo', 'bar', 'baz'], 'bar'), 'DEFAULT 2'],
+            [self::createSetColumn(['foo', 'bar', 'baz'], 'baz'), 'DEFAULT 4'],
         ];
     }
 
@@ -174,14 +174,14 @@ class DefaultPlatformTest extends TestCase
         $this->assertEquals($default, $this->getPlatform()->getColumnDefaultValueDDL($column));
     }
 
-    public function getColumnBindingDataProvider(): array
+    public static function getColumnBindingDataProvider(): array
     {
         return [
-            [$this->createColumn(PropelTypes::DATE, '2020-02-03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d") : null, PDO::PARAM_STR);'],
-            [$this->createColumn(PropelTypes::TIME, '11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("H:i:s.u") : null, PDO::PARAM_STR);'],
-            [$this->createColumn(PropelTypes::TIMESTAMP, '2020-02-03 11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);'],
-            [$this->createColumn(PropelTypes::DATETIME, '2022-06-28 11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);'],
-            [$this->createColumn(PropelTypes::BLOB, 'BLOB'), '$stmt->bindValue(ID, ACCESSOR, PDO::PARAM_LOB);'],
+            [self::createColumn(PropelTypes::DATE, '2020-02-03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d") : null, PDO::PARAM_STR);'],
+            [self::createColumn(PropelTypes::TIME, '11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("H:i:s.u") : null, PDO::PARAM_STR);'],
+            [self::createColumn(PropelTypes::TIMESTAMP, '2020-02-03 11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);'],
+            [self::createColumn(PropelTypes::DATETIME, '2022-06-28 11:01:03'), '$stmt->bindValue(ID, ACCESSOR ? ACCESSOR->format("Y-m-d H:i:s.u") : null, PDO::PARAM_STR);'],
+            [self::createColumn(PropelTypes::BLOB, 'BLOB'), '$stmt->bindValue(ID, ACCESSOR, PDO::PARAM_LOB);'],
         ];
     }
 

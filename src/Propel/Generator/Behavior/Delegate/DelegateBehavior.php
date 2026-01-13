@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\Delegate;
 
 use InvalidArgumentException;
@@ -41,7 +43,7 @@ class DelegateBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'to' => '',
     ];
 

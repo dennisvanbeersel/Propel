@@ -25,7 +25,7 @@ class AbstractQueryExecutorTest extends BookstoreTestBase
     /**
      * @return array
      */
-    public function queryExceptionOutputFormatDataProvider()
+    public static function queryExceptionOutputFormatDataProvider()
     {
         // [$useDebug, $sqlStatement, $internalErrorMessage, $expectedPublicMessage]
         return [

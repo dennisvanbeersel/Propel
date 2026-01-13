@@ -102,6 +102,11 @@ class Table extends ScopedMappingModel implements IdMethod
 
     private bool $isAbstract = false;
 
+    /**
+     * Whether this table is a version table (used by Versionable behavior)
+     */
+    public bool $isVersionTable = false;
+
     private ?string $alias = null;
 
     private ?string $interface = null;

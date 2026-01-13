@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use ArrayIterator;
@@ -17,13 +19,10 @@ use ArrayIterator;
  */
 class CollectionIterator extends ArrayIterator implements IteratorInterface
 {
-    /**
-     * @var \Propel\Runtime\Collection\Collection
-     */
     protected Collection $collection;
 
     /**
-     * @var array
+     * @var array<int|string, int>
      */
     protected array $positions = [];
 

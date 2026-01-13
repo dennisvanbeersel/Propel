@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder;
 
 use Propel\Common\Pluralizer\PluralizerInterface;
@@ -39,15 +41,11 @@ abstract class DataModelBuilder
 {
     /**
      * The current table.
-     *
-     * @var \Propel\Generator\Model\Table
      */
     private Table $table;
 
     /**
      * The generator config object holding build properties, etc.
-     *
-     * @var \Propel\Generator\Config\GeneratorConfigInterface|null
      */
     private ?GeneratorConfigInterface $generatorConfig = null;
 
@@ -60,64 +58,46 @@ abstract class DataModelBuilder
 
     /**
      * Object builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\ObjectBuilder|null
      */
     private ?ObjectBuilder $objectBuilder = null;
 
     /**
      * Stub Object builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\AbstractObjectBuilder|null
      */
     private ?AbstractObjectBuilder $stubObjectBuilder = null;
 
     /**
      * Query builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\AbstractOMBuilder|null
      */
     private ?AbstractOMBuilder $queryBuilder = null;
 
     /**
      * Stub Query builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\AbstractOMBuilder|null
      */
     private ?AbstractOMBuilder $stubQueryBuilder = null;
 
     /**
      * TableMap builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\TableMapBuilder|null
      */
     protected ?TableMapBuilder $tablemapBuilder = null;
 
     /**
      * Stub Interface builder class for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\AbstractOMBuilder|null
      */
     private ?AbstractOMBuilder $interfaceBuilder = null;
 
     /**
      * Stub child object for current table.
-     *
-     * @var \Propel\Generator\Builder\Om\MultiExtendObjectBuilder|null
      */
     private ?MultiExtendObjectBuilder $multiExtendObjectBuilder = null;
 
     /**
      * The Pluralizer class to use.
-     *
-     * @var \Propel\Common\Pluralizer\PluralizerInterface|null
      */
     private ?PluralizerInterface $pluralizer = null;
 
     /**
-     * The platform class
-     *
-     * @var \Propel\Generator\Platform\PlatformInterface|null
+     * The platform class.
      */
     protected ?PlatformInterface $platform = null;
 
@@ -413,9 +393,9 @@ abstract class DataModelBuilder
      *
      * @param string $name
      *
-     * @return string|null
+     * @return mixed
      */
-    public function getBuildProperty(string $name): ?string
+    public function getBuildProperty(string $name): mixed
     {
         if ($this->getGeneratorConfig()) {
             return $this->getGeneratorConfig()->getConfigProperty($name);

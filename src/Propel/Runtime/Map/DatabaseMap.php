@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Map;
 
 use Propel\Runtime\Adapter\AdapterInterface;
@@ -35,8 +37,6 @@ class DatabaseMap
 {
     /**
      * Name of the database.
-     *
-     * @var string
      */
     protected string $name;
 
@@ -45,14 +45,14 @@ class DatabaseMap
      *
      * @var array<string, \Propel\Runtime\Map\TableMap|class-string<\Propel\Runtime\Map\TableMap>>
      */
-    protected $tables = [];
+    protected array $tables = [];
 
     /**
      * Tables in the database, using table phpName as key
      *
      * @var array<string, \Propel\Runtime\Map\TableMap|class-string<\Propel\Runtime\Map\TableMap>>
      */
-    protected $tablesByPhpName = [];
+    protected array $tablesByPhpName = [];
 
     /**
      * @param string $name Name of the database.
@@ -225,7 +225,7 @@ class DatabaseMap
      */
     public function registerTableMapClasses(array $tableMapClasses): void
     {
-        array_map([$this, 'registerTableMapClass'], $tableMapClasses);
+        array_map($this->registerTableMapClass(...), $tableMapClasses);
     }
 
     /**

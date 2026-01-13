@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Common\Config\Loader;
 
 use Propel\Common\Config\Exception\InputOutputException;
@@ -39,7 +41,7 @@ class YamlFileLoader extends FileLoader
         }
 
         $data = file_get_contents($path);
-        if (!$data) {
+        if ($data === false) {
             throw new InputOutputException(sprintf('Unable to read configuration file `%s`.', $resource));
         }
 

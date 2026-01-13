@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Connection;
 
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
@@ -18,23 +20,17 @@ use Propel\Runtime\Util\Profiler;
 class ProfilerConnectionWrapper extends ConnectionWrapper
 {
     /**
-     * Whether the debug is enabled
-     *
-     * @var bool
+     * Whether the debug is enabled.
      */
-    protected $useDebugModeOnInstance = true;
+    protected ?bool $useDebugModeOnInstance = true;
+
+    protected ?Profiler $profiler = null;
 
     /**
-     * @var \Propel\Runtime\Util\Profiler
-     */
-    protected $profiler;
-
-    /**
-     * @var bool
      * Whether the logging is enabled only for slow queries.
      * The slow threshold is set on the profiler.
      */
-    protected $isSlowOnly = false;
+    protected bool $isSlowOnly = false;
 
     /**
      * @param \Propel\Runtime\Util\Profiler $profiler

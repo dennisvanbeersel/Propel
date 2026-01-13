@@ -6,7 +6,7 @@
  * file that was distributed with this source code.
  */
 
-declare(strict_types = 1);
+declare(strict_types=1);
 
 namespace Propel\Runtime\ActiveQuery;
 
@@ -28,39 +28,18 @@ class Lock
     public const EXCLUSIVE = 'EXCLUSIVE';
 
     /**
-     * Lock type, either shared or exclusive
+     * @param string $type Lock type (either shared or exclusive)
+     * @param array<string> $tableNames Table names to lock
+     * @param bool $noWait Whether to issue a non-blocking lock
      *
      * @see self::SHARED
      * @see self::EXCLUSIVE
-     *
-     * @var string
      */
-    protected $type;
-
-    /**
-     * Table names to lock
-     *
-     * @var array<string>
-     */
-    protected $tableNames;
-
-    /**
-     * Whether to issue a non-blocking lock
-     *
-     * @var bool
-     */
-    protected $noWait;
-
-    /**
-     * @param string $type Lock type
-     * @param array<string> $tableNames Table names to lock
-     * @param bool $noWait Whether to issue a non-blocking lock
-     */
-    public function __construct(string $type, array $tableNames = [], bool $noWait = false)
-    {
-        $this->type = $type;
-        $this->tableNames = $tableNames;
-        $this->noWait = $noWait;
+    public function __construct(
+        protected readonly string $type,
+        protected readonly array $tableNames = [],
+        protected readonly bool $noWait = false,
+    ) {
     }
 
     /**

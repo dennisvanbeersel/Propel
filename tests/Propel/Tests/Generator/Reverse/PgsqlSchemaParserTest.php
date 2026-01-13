@@ -56,7 +56,7 @@ class PgsqlSchemaParserTest extends TestCaseFixturesDatabase
         Propel::init(__DIR__ . '/../../../../Fixtures/bookstore/build/conf/bookstore-conf.php');
     }
 
-    public function parseDataProvider()
+    public static function parseDataProvider()
     {
         return [
             // columnDDL, expectedColumnPhpName, type, expectedColumnDefaultType, expectedColumnDefaultValue, expectedSize, expectedScale
@@ -97,7 +97,7 @@ class PgsqlSchemaParserTest extends TestCaseFixturesDatabase
 
         $defaultValue = $column->getDefaultValue();
         if($expectedDefaultType === null){
-            $this->assertNull($expectedDefaultType);
+            $this->assertNull($defaultValue);
         } else {
             $this->assertEquals($expectedDefaultType, $defaultValue->getType());
             $this->assertEquals($expectedDefaultValue, $defaultValue->getValue());

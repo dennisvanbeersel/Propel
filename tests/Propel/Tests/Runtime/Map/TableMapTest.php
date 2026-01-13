@@ -27,6 +27,10 @@ use Propel\Tests\TestCase;
 class TableMapTest extends TestCase
 {
     protected $databaseMap;
+    protected $tableName;
+    protected $tmap;
+    protected $rmap1;
+    protected $rmap2;
 
     /**
      * @return void

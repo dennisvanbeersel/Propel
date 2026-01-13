@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Reverse;
 
 use PDO;
@@ -32,7 +34,7 @@ class PgsqlSchemaParser extends AbstractSchemaParser
      *
      * @var array<string>
      */
-    private static $pgsqlTypeMap = [
+    private static array $pgsqlTypeMap = [
         'bool' => PropelTypes::BOOLEAN,
         'boolean' => PropelTypes::BOOLEAN,
         'tinyint' => PropelTypes::TINYINT,
@@ -80,7 +82,7 @@ class PgsqlSchemaParser extends AbstractSchemaParser
     /**
      * @var array<int>
      */
-    protected static $defaultTypeSizes = [
+    protected static array $defaultTypeSizes = [
         'char' => 1,
         'character' => 1,
         'integer' => 32,

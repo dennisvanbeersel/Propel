@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\QueryExecutor;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -16,10 +18,7 @@ use Throwable;
 
 class InsertQueryExecutor extends AbstractQueryExecutor
 {
-    /**
-     * @var \Propel\Runtime\Map\ColumnMap|null
-     */
-    protected $primaryKeyColumn;
+    protected ?\Propel\Runtime\Map\ColumnMap $primaryKeyColumn = null;
 
     /**
      * @param \Propel\Runtime\ActiveQuery\Criteria $criteria

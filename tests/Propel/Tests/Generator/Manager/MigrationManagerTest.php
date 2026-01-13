@@ -427,7 +427,7 @@ class MigrationManagerTest extends TestCase
     /**
      * @return array<int, array<int, array<int, mixed>>>
      */
-    public function getAllDatabaseVersionsDataProvider(): array
+    public static function getAllDatabaseVersionsDataProvider(): array
     {
         return [
             [
@@ -468,7 +468,7 @@ class MigrationManagerTest extends TestCase
     /**
      * @return array<string, array<int, array<int>|int>>
      */
-    public function getGetNonExecutedMigrationTimestampsByVersionDataProvider(): array
+    public static function getGetNonExecutedMigrationTimestampsByVersionDataProvider(): array
     {
         return [
             'The method should return full diff if a specific version is not provided.' => [
@@ -494,7 +494,7 @@ class MigrationManagerTest extends TestCase
     /**
      * @return array<string, array<int, array|int>>
      */
-    public function getAlreadyExecutedTimestampsDataProvider(): array
+    public static function getAlreadyExecutedTimestampsDataProvider(): array
     {
         return [
             'The method should return an empty array if no intersection is found.' => [
@@ -513,7 +513,7 @@ class MigrationManagerTest extends TestCase
     /**
      * @return array<string, array<int, array|int>>
      */
-    public function getAlreadyExecutedMigrationTimestampsByVersionDataProvider(): array
+    public static function getAlreadyExecutedMigrationTimestampsByVersionDataProvider(): array
     {
         return [
             'The method should return full intersection if a specific version is not provided.' => [
@@ -544,7 +544,7 @@ class MigrationManagerTest extends TestCase
     /**
      * @return array<int, array<int, mixed>>
      */
-    public function isDatabaseVersionsAppliedDataProvider(): array
+    public static function isDatabaseVersionsAppliedDataProvider(): array
     {
         return [
             [

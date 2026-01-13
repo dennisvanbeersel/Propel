@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\QueryExecutor;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -25,25 +27,17 @@ abstract class AbstractQueryExecutor
      * Defaults to true, but is overridden by subclasses.
      *
      * @see AbstractQueryExecutor::getConnection()
-     *
-     * @var bool
      */
     protected const NEEDS_WRITE_CONNECTION = true;
 
-    /**
-     * @var \Propel\Runtime\Connection\ConnectionInterface
-     */
-    protected $con;
+    protected ConnectionInterface $con;
 
     /**
      * @var \Propel\Runtime\Adapter\SqlAdapterInterface
      */
     protected $adapter;
 
-    /**
-     * @var \Propel\Runtime\ActiveQuery\Criteria
-     */
-    protected $criteria;
+    protected Criteria $criteria;
 
     /**
      * @var \Propel\Runtime\Map\DatabaseMap

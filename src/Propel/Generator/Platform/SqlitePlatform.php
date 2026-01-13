@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Platform;
 
 use PDO;
@@ -34,18 +36,14 @@ class SqlitePlatform extends DefaultPlatform
     /**
      * If we should generate FOREIGN KEY statements.
      * This is since SQLite version 3.6.19 possible.
-     *
-     * @var bool|null
      */
-    protected $foreignKeySupport;
+    protected ?bool $foreignKeySupport = null;
 
     /**
      * If we should alter the table through creating a temporarily created table,
      * moving all items to the new one and finally rename the temp table.
-     *
-     * @var bool
      */
-    protected $tableAlteringWorkaround = true;
+    protected bool $tableAlteringWorkaround = true;
 
     /**
      * @return void

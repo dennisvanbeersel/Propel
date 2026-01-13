@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\AggregateColumn;
 
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
@@ -25,7 +27,7 @@ class AggregateColumnRelationBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'foreign_table' => '',
         'update_method' => '',
         'aggregate_name' => '',

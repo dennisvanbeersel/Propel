@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\Versionable;
 
 use Propel\Generator\Model\Behavior;
@@ -25,7 +27,7 @@ class VersionableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'version_column' => 'version',
         'version_table' => '',
         'log_created_at' => 'false',
@@ -55,7 +57,7 @@ class VersionableBehavior extends Behavior
     /**
      * @var int
      */
-    protected $tableModificationOrder = 80;
+    protected int $tableModificationOrder = 80;
 
     /**
      * @return void
@@ -67,7 +69,7 @@ class VersionableBehavior extends Behavior
                 // don't add the same behavior twice
                 continue;
             }
-            if (property_exists($table, 'isVersionTable')) {
+            if ($table->isVersionTable) {
                 // don't add the behavior to version tables
                 continue;
             }

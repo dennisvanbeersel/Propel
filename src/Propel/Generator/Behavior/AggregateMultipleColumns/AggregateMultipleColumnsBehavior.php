@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\AggregateMultipleColumns;
 
 use InvalidArgumentException;
@@ -64,7 +66,7 @@ class AggregateMultipleColumnsBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         self::PARAMETER_KEY_FOREIGN_TABLE => null,
         self::PARAMETER_KEY_FOREIGN_SCHEMA => null,
         self::PARAMETER_KEY_CONDITION => null,

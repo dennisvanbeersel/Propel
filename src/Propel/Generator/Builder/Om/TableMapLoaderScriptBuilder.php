@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Om;
 
 use Propel\Common\Util\PathTrait;
@@ -29,10 +31,7 @@ class TableMapLoaderScriptBuilder
      */
     public const FILENAME = 'loadDatabase.php';
 
-    /**
-     * @var \Propel\Generator\Config\GeneratorConfigInterface
-     */
-    protected $generatorConfig;
+    protected GeneratorConfigInterface $generatorConfig;
 
     /**
      * @param \Propel\Generator\Config\GeneratorConfigInterface $generatorConfig

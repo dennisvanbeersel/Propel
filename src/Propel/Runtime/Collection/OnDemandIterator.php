@@ -6,12 +6,14 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
 use Propel\Runtime\Exception\PropelException;
-use Propel\Runtime\Formatter\AbstractFormatter;
+use Propel\Runtime\Formatter\ObjectFormatter;
 use Propel\Runtime\Propel;
 
 /**
@@ -21,41 +23,26 @@ use Propel\Runtime\Propel;
  */
 class OnDemandIterator implements IteratorInterface
 {
-    /**
-     * @var \Propel\Runtime\Formatter\ObjectFormatter
-     */
-    protected $formatter;
+    protected ObjectFormatter $formatter;
+
+    protected DataFetcherInterface $dataFetcher;
 
     /**
-     * @var \Propel\Runtime\DataFetcher\DataFetcherInterface
+     * @var array<mixed>|bool|null
      */
-    protected $dataFetcher;
+    protected array|bool|null $currentRow = null;
 
-    /**
-     * @var array|bool|null
-     */
-    protected $currentRow;
+    protected int $currentKey = -1;
 
-    /**
-     * @var int
-     */
-    protected $currentKey;
+    protected ?bool $isValid = null;
 
-    /**
-     * @var bool
-     */
-    protected $isValid;
-
-    /**
-     * @var bool
-     */
-    protected $enableInstancePoolingOnFinish;
+    protected bool $enableInstancePoolingOnFinish = false;
 
     /**
      * @param \Propel\Runtime\Formatter\ObjectFormatter $formatter
      * @param \Propel\Runtime\DataFetcher\DataFetcherInterface $dataFetcher
      */
-    public function __construct(AbstractFormatter $formatter, DataFetcherInterface $dataFetcher)
+    public function __construct(ObjectFormatter $formatter, DataFetcherInterface $dataFetcher)
     {
         $this->currentKey = -1;
         $this->formatter = $formatter;
@@ -147,12 +134,6 @@ class OnDemandIterator implements IteratorInterface
     public function rewind(): void
     {
         // check that the hydration can begin
-        if ($this->formatter === null) {
-            throw new PropelException('The On Demand collection requires a formatter. Add it by calling setFormatter()');
-        }
-        if ($this->dataFetcher === null) {
-            throw new PropelException('The On Demand collection requires a dataFetcher. Add it by calling setDataFetcher()');
-        }
         if ($this->isValid !== null) {
             throw new PropelException('The On Demand collection can only be iterated once');
         }
@@ -166,6 +147,6 @@ class OnDemandIterator implements IteratorInterface
      */
     public function valid(): bool
     {
-        return $this->isValid;
+        return $this->isValid ?? false;
     }
 }

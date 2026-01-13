@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Connection;
 
 use Propel\Runtime\Adapter\AdapterInterface;
@@ -16,34 +18,22 @@ use Propel\Runtime\Adapter\AdapterInterface;
 class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
 {
     /**
-     * @var string The datasource name associated to this connection
+     * The datasource name associated to this connection.
      */
-    protected $name;
+    protected string $name;
+
+    protected array $writeConfiguration = [];
+
+    protected ?ConnectionInterface $writeConnection = null;
+
+    protected array $readConfiguration = [];
+
+    protected ?ConnectionInterface $readConnection = null;
 
     /**
-     * @var array
+     * Whether a call to getReadConnection() always returns a write connection.
      */
-    protected $writeConfiguration = [];
-
-    /**
-     * @var \Propel\Runtime\Connection\ConnectionInterface|null
-     */
-    protected $writeConnection;
-
-    /**
-     * @var array
-     */
-    protected $readConfiguration = [];
-
-    /**
-     * @var \Propel\Runtime\Connection\ConnectionInterface|null
-     */
-    protected $readConnection;
-
-    /**
-     * @var bool Whether a call to getReadConnection() always returns a write connection.
-     */
-    protected $isForcePrimaryConnection = false;
+    protected bool $isForcePrimaryConnection = false;
 
     /**
      * @param string $name The datasource name associated to this connection

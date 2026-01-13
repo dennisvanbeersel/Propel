@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -26,14 +28,14 @@ use Propel\Runtime\Propel;
 class ObjectCollection extends Collection
 {
     /**
-     * @var array
+     * @var array<string, int|string>
      */
-    protected $index = [];
+    protected array $index = [];
 
     /**
-     * @var array
+     * @var array<string, string>
      */
-    protected $indexSplHash = [];
+    protected array $indexSplHash = [];
 
     /**
      * @param array $data
@@ -549,7 +551,7 @@ class ObjectCollection extends Collection
     protected function getHashCode($object): string
     {
         if (is_object($object) && is_callable([$object, 'hashCode'])) {
-            return $object->hashCode();
+            return (string)$object->hashCode();
         }
 
         return spl_object_hash($object);

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Model;
 
 use Propel\Generator\Config\GeneratorConfigInterface;
@@ -20,12 +22,9 @@ trait BehaviorableTrait
     /**
      * @var array<\Propel\Generator\Model\Behavior>
      */
-    protected $behaviors = [];
+    protected array $behaviors = [];
 
-    /**
-     * @var \Propel\Generator\Util\BehaviorLocator
-     */
-    private $behaviorLocator;
+    private ?BehaviorLocator $behaviorLocator = null;
 
     /**
      * @return \Propel\Generator\Config\GeneratorConfigInterface|null

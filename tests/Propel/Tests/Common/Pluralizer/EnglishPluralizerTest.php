@@ -17,7 +17,7 @@ use Propel\Common\Pluralizer\StandardEnglishPluralizer;
  */
 class EnglishPluralizerTest extends TestCase
 {
-    public function getPluralFormDataProvider()
+    public static function getPluralFormDataProvider()
     {
         return [
             ['', 's'],

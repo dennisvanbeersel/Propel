@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use PDO;
@@ -20,10 +22,9 @@ class RawModelCriterion extends AbstractModelCriterion
 {
     /**
      * Binding type to be used for Criteria::RAW comparison
-     *
-     * @var int Any of the PDO::PARAM_ constant values
+     * Any of the PDO::PARAM_ constant values
      */
-    protected $type;
+    protected int $type;
 
     /**
      * Create a new instance.

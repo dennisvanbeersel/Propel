@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Map;
 
 use Propel\Runtime\Exception\PropelException;
@@ -52,7 +54,7 @@ trait TableMapTrait
             throw new PropelException("'$name' could not be found in the field names of type '$fromType'. These are: " . print_r(static::$fieldKeys[$fromType], true));
         }
 
-        return $toNames[$key];
+        return (string)$toNames[$key];
     }
 
     /**

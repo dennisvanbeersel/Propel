@@ -59,11 +59,6 @@
       <code>$this-&gt;columnObjects</code>
     </InvalidPropertyAssignmentValue>
   </file>
-  <file src="src/Propel/Generator/Reverse/OracleSchemaParser.php">
-    <InvalidArrayOffset occurrences="1">
-      <code>$row[0]</code>
-    </InvalidArrayOffset>
-  </file>
   <file src="src/Propel/Generator/Util/QuickBuilder.php">
     <NullArgument occurrences="1">
       <code>null</code>
@@ -107,30 +102,10 @@
       <code>setIgnoreCase</code>
     </UndefinedMethod>
   </file>
-  <file src="src/Propel/Runtime/Adapter/Pdo/MssqlAdapter.php">
-    <InvalidArrayOffset occurrences="2">
-      <code>$orders[$orderArr[$selColArr[$selColCount]]['key']]</code>
-      <code>$orders[$orderArr[$selColArr[0]]['key']]</code>
-    </InvalidArrayOffset>
-  </file>
-  <file src="src/Propel/Runtime/Adapter/Pdo/OracleAdapter.php">
-    <InvalidReturnStatement occurrences="1">
-      <code>$dataFetcher-&gt;fetchColumn()</code>
-    </InvalidReturnStatement>
-  </file>
   <file src="src/Propel/Runtime/Adapter/Pdo/PgsqlAdapter.php">
     <InvalidReturnStatement occurrences="1">
       <code>$dataFetcher-&gt;fetchColumn()</code>
     </InvalidReturnStatement>
-  </file>
-  <file src="src/Propel/Runtime/Adapter/Pdo/SqlsrvAdapter.php">
-    <UndefinedConstant occurrences="5">
-      <code>PDO::SQLSRV_ATTR_ENCODING</code>
-      <code>PDO::SQLSRV_ATTR_ENCODING</code>
-      <code>PDO::SQLSRV_ENCODING_BINARY</code>
-      <code>PDO::SQLSRV_ENCODING_SYSTEM</code>
-      <code>PDO::SQLSRV_ENCODING_UTF8</code>
-    </UndefinedConstant>
   </file>
   <file src="src/Propel/Runtime/Collection/ArrayCollection.php">
     <UndefinedMethod occurrences="1">

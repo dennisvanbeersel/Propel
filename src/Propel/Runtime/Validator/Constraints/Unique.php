@@ -6,19 +6,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 
 class Unique extends Constraint
 {
-    /**
-     * @var string
-     */
-    public $message = 'This value is already stored in your database';
+    public string $message = 'This value is already stored in your database';
 
-    /**
-     * @var string
-     */
-    public $column = '';
+    public string $column = '';
 }

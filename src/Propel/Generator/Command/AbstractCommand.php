@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Command;
 
 use Propel\Generator\Config\GeneratorConfig;
@@ -37,10 +39,7 @@ abstract class AbstractCommand extends Command
      */
     public const CODE_ERROR = 1;
 
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem|null
-     */
-    protected $filesystem;
+    protected ?Filesystem $filesystem = null;
 
     /**
      * {@inheritDoc}
@@ -50,7 +49,7 @@ abstract class AbstractCommand extends Command
     protected function configure()
     {
         $this
-            ->addOption('platform', null, InputOption::VALUE_REQUIRED, 'The platform to use. Define a full qualified class name or mysql|pgsql|sqlite|mssql|oracle.')
+            ->addOption('platform', null, InputOption::VALUE_REQUIRED, 'The platform to use. Define a full qualified class name or mysql|pgsql|sqlite.')
             ->addOption('config-dir', null, InputOption::VALUE_REQUIRED, 'The directory where the configuration file is placed.', self::DEFAULT_CONFIG_DIRECTORY)
             ->addOption('recursive', null, InputOption::VALUE_NONE, 'Search recursive for *schema.xml inside the input directory');
     }

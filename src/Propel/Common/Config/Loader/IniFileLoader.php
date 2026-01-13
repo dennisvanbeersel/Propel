@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Common\Config\Loader;
 
 use Propel\Common\Config\Exception\IniParseException;
@@ -122,7 +124,7 @@ class IniFileLoader extends FileLoader
         $config = [];
 
         foreach ($section as $key => $value) {
-            $this->parseKey($key, $value, $config);
+            $this->parseKey((string)$key, $value, $config);
         }
 
         return $config;

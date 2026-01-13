@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Om;
 
 use Propel\Generator\Exception\BuildException;
@@ -24,10 +26,8 @@ class MultiExtendObjectBuilder extends AbstractObjectBuilder
 {
     /**
      * The current child "object" we are operating on.
-     *
-     * @var \Propel\Generator\Model\Inheritance|null
      */
-    private $child;
+    private ?Inheritance $child = null;
 
     /**
      * Returns the name of the current class being built.

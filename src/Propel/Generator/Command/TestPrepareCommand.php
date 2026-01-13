@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Command;
 
 use Propel\Generator\Behavior\AggregateMultipleColumns\AggregateMultipleColumnsBehavior;
@@ -45,9 +47,9 @@ class TestPrepareCommand extends AbstractCommand
     public const DEFAULT_DB_PASSWD = '';
 
     /**
-     * @var array
+     * @var array<string, array<string>>
      */
-    protected $fixtures = [
+    protected array $fixtures = [
         //directory - array of connections
         'bookstore' => ['bookstore', 'bookstore-cms', 'bookstore-behavior'],
         'namespaced' => ['bookstore_namespaced'],
@@ -58,10 +60,7 @@ class TestPrepareCommand extends AbstractCommand
         'quoting' => ['quoting'],
     ];
 
-    /**
-     * @var string
-     */
-    protected $root;
+    protected string $root;
 
     public function __construct()
     {

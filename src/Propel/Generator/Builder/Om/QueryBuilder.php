@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Om;
 
 use Propel\Generator\Builder\Util\PropelTemplate;
@@ -128,8 +130,8 @@ class QueryBuilder extends AbstractOMBuilder
     protected function getRelationNames(): array
     {
         $table = $this->getTable();
-        $fkRelationNames = array_map([$this, 'getFKPhpNameAffix'], $table->getForeignKeys());
-        $refFkRelationNames = array_filter(array_map([$this, 'getRefFKPhpNameAffix'], $table->getReferrers()));
+        $fkRelationNames = array_map($this->getFKPhpNameAffix(...), $table->getForeignKeys());
+        $refFkRelationNames = array_filter(array_map($this->getRefFKPhpNameAffix(...), $table->getReferrers()));
 
         return array_merge($fkRelationNames, $refFkRelationNames);
     }
@@ -245,7 +247,7 @@ class QueryBuilder extends AbstractOMBuilder
      */
     protected function addEntityNotFoundExceptionClass(string &$script): void
     {
-        $script .= "    protected \$entityNotFoundExceptionClass = '" . addslashes($this->getEntityNotFoundExceptionClass()) . "';\n";
+        $script .= "    protected ?string \$entityNotFoundExceptionClass = '" . addslashes($this->getEntityNotFoundExceptionClass()) . "';\n";
     }
 
     /**

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\Archivable;
 
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
@@ -32,7 +34,7 @@ class ArchivableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'archive_table' => '',
         'archive_phpname' => null,
         'archive_class' => '',

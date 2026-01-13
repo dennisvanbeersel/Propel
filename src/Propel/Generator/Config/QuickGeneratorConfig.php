@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Config;
 
 use Propel\Common\Config\ConfigurationManager;
@@ -21,10 +23,7 @@ use Propel\Runtime\Connection\ConnectionInterface;
 
 class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConfigInterface
 {
-    /**
-     * @var \Propel\Generator\Util\BehaviorLocator|null
-     */
-    protected $behaviorLocator;
+    protected ?BehaviorLocator $behaviorLocator = null;
 
     /**
      * @param array|null $extraConf

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Om;
 
 use Propel\Generator\Exception\BuildException;
@@ -23,10 +25,8 @@ class ExtensionQueryInheritanceBuilder extends AbstractOMBuilder
 {
     /**
      * The current child "object" we are operating on.
-     *
-     * @var \Propel\Generator\Model\Inheritance|null
      */
-    protected $child;
+    protected ?Inheritance $child = null;
 
     /**
      * Returns the name of the current class being built.

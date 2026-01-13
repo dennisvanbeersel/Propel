@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use Propel\Runtime\Collection\Exception\ReadOnlyModelException;
@@ -22,10 +24,7 @@ use Traversable;
  */
 class OnDemandCollection extends Collection
 {
-    /**
-     * @var \Propel\Runtime\Collection\OnDemandIterator
-     */
-    private $lastIterator;
+    private ?OnDemandIterator $lastIterator = null;
 
     /**
      * @param \Propel\Runtime\Formatter\ObjectFormatter $formatter

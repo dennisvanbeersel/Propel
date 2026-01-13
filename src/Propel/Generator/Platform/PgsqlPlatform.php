@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Platform;
 
 use Propel\Generator\Exception\EngineException;
@@ -31,10 +33,7 @@ use Propel\Generator\Model\Unique;
  */
 class PgsqlPlatform extends DefaultPlatform
 {
-    /**
-     * @var string
-     */
-    protected $createOrDropSequences = '';
+    protected string $createOrDropSequences = '';
 
     /**
      * Initializes db specific domain mapping.

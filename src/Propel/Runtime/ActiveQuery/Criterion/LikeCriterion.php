@@ -6,9 +6,12 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
 use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
 
 /**
@@ -17,10 +20,7 @@ use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
  */
 class LikeCriterion extends AbstractCriterion
 {
-    /**
-     * @var bool
-     */
-    protected $ignoreStringCase = false;
+    protected bool $ignoreStringCase = false;
 
     /**
      * Create a new instance.
@@ -71,9 +71,13 @@ class LikeCriterion extends AbstractCriterion
     {
         $field = ($this->table === null) ? $this->column : $this->table . '.' . $this->column;
         $db = $this->getAdapter();
+
         // If selection is case insensitive use ILIKE for PostgreSQL or SQL
         // UPPER() function on column name for other databases.
         if ($this->ignoreStringCase) {
+            if ($db === null) {
+                throw new InvalidValueException('Adapter is required for case-insensitive LIKE comparison');
+            }
             if ($db instanceof PgsqlAdapter) {
                 if ($this->comparison === Criteria::LIKE) {
                     $this->comparison = Criteria::ILIKE;
@@ -81,6 +85,7 @@ class LikeCriterion extends AbstractCriterion
                     $this->comparison = Criteria::NOT_ILIKE;
                 }
             } else {
+                /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $db */
                 $field = $db->ignoreCase($field);
             }
         }
@@ -92,6 +97,7 @@ class LikeCriterion extends AbstractCriterion
         // If selection is case insensitive use SQL UPPER() function
         // on criteria or, if Postgres we are using ILIKE, so not necessary.
         if ($this->ignoreStringCase && !($db instanceof PgsqlAdapter)) {
+            /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $db */
             $sb .= $db->ignoreCase(':p' . count($params));
         } else {
             $sb .= ':p' . count($params);

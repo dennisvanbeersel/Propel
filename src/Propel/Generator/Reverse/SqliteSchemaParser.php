@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Reverse;
 
 use PDO;
@@ -25,10 +27,7 @@ use Propel\Generator\Model\Unique;
  */
 class SqliteSchemaParser extends AbstractSchemaParser
 {
-    /**
-     * @var bool
-     */
-    protected $addVendorInfo;
+    protected bool $addVendorInfo = false;
 
     /**
      * Map Sqlite native types to Propel types.
@@ -38,7 +37,7 @@ class SqliteSchemaParser extends AbstractSchemaParser
      *
      * @var array<string>
      */
-    private static $sqliteTypeMap = [
+    private static array $sqliteTypeMap = [
         'tinyint' => PropelTypes::TINYINT,
         'smallint' => PropelTypes::SMALLINT,
         'mediumint' => PropelTypes::SMALLINT,

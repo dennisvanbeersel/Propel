@@ -514,7 +514,7 @@ class ModelCriteriaTest extends BookstoreTestBase
         );
     }
 
-    public function filterByWithSubqueryDataProvider(): array
+    public static function filterByWithSubqueryDataProvider(): array
     {
         return [
             // operator input, operator in query

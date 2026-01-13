@@ -6,19 +6,18 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\SqlBuilder;
 
 class PreparedStatementDto
 {
-    /**
-     * @var string
-     */
-    private $sqlStatement;
+    private string $sqlStatement;
 
     /**
      * @var array<mixed>
      */
-    private $parameters;
+    private array $parameters;
 
     /**
      * @param string $sqlStatement

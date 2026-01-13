@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Model;
 
 /**
@@ -16,25 +18,13 @@ namespace Propel\Generator\Model;
  */
 class ColumnDefaultValue
 {
-    /**
-     * @var string
-     */
     public const TYPE_VALUE = 'value';
 
-    /**
-     * @var string
-     */
     public const TYPE_EXPR = 'expr';
 
-    /**
-     * @var string|int|null The default value, as specified in the schema.
-     */
-    private $value;
+    private string|int|null $value = null;
 
-    /**
-     * @var string The type of value represented by this object (DefaultValue::TYPE_VALUE or DefaultValue::TYPE_EXPR).
-     */
-    private $type = self::TYPE_VALUE;
+    private string $type = self::TYPE_VALUE;
 
     /**
      * Creates a new DefaultValue object.

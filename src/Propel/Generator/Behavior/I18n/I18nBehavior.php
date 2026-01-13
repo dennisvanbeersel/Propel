@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\I18n;
 
 use Propel\Generator\Behavior\Validate\ValidateBehavior;
@@ -35,7 +37,7 @@ class I18nBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'i18n_table' => '%TABLE%_i18n',
         'i18n_phpname' => '%PHPNAME%I18n',
         'i18n_columns' => '',
@@ -49,7 +51,7 @@ class I18nBehavior extends Behavior
     /**
      * @var int
      */
-    protected $tableModificationOrder = 70;
+    protected int $tableModificationOrder = 70;
 
     /**
      * @var \Propel\Generator\Behavior\I18n\I18nBehaviorObjectBuilderModifier|null

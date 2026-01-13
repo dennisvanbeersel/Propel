@@ -42,9 +42,8 @@ class PropelTest extends BaseTestCase
     public function testGetServiceContainerAlwaysReturnsTheSameInstance()
     {
         $sc1 = Propel::getServiceContainer();
-        $sc1->foo = 'bar';
         $sc2 = Propel::getServiceContainer();
-        $this->assertSame($sc1, $sc2);
+        $this->assertSame($sc1, $sc2, 'getServiceContainer() should always return the same instance');
     }
 
     /**

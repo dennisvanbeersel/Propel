@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Platform;
 
 use PDO;
@@ -31,25 +33,13 @@ use Propel\Generator\Platform\Util\MysqlUuidMigrationBuilder;
  */
 class MysqlPlatform extends DefaultPlatform
 {
-    /**
-     * @var string
-     */
-    protected $tableEngineKeyword = 'ENGINE';
+    protected string $tableEngineKeyword = 'ENGINE';
 
-    /**
-     * @var string
-     */
-    protected $defaultTableEngine = 'InnoDB';
+    protected string $defaultTableEngine = 'InnoDB';
 
-    /**
-     * @var string|null
-     */
-    protected $serverVersion;
+    protected ?string $serverVersion = null;
 
-    /**
-     * @var bool
-     */
-    protected $useUuidNativeType = false;
+    protected bool $useUuidNativeType = false;
 
     /**
      * Initializes db specific domain mapping.
@@ -908,7 +898,7 @@ ALTER TABLE %s DROP %s;
      */
     public function getModifyColumnsDDL(array $columnDiffs): string
     {
-        $modifyColumnStatements = array_map([$this, 'getModifyColumnDDL'], $columnDiffs);
+        $modifyColumnStatements = array_map($this->getModifyColumnDDL(...), $columnDiffs);
 
         return implode('', $modifyColumnStatements);
     }

@@ -21,6 +21,7 @@ use Propel\Tests\TestCase;
  */
 class PropelTablePkColumnComparatorTest extends TestCase
 {
+    protected $platform;
     /**
      * @return void
      */

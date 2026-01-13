@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Builder\Util;
 
 use Exception;
@@ -18,15 +20,9 @@ use Propel\Generator\Exception\InvalidArgumentException;
  */
 class PropelTemplate
 {
-    /**
-     * @var string|null
-     */
-    protected $template;
+    protected ?string $template = null;
 
-    /**
-     * @var string|null
-     */
-    protected $templateFile;
+    protected ?string $templateFile = null;
 
     /**
      * Sets a string as a template.
@@ -92,17 +88,34 @@ class PropelTemplate
          */
         ob_implicit_flush(false);
 
+        /** @var string|null $tempFile */
+        $tempFile = null;
         try {
             if ($this->templateFile !== null) {
                 require $this->templateFile;
             } else {
-                eval('?>' . $this->template . '<?php ');
+                // Use a temp file instead of eval() for security
+                $tempFile = tempnam(sys_get_temp_dir(), 'propel_tpl_');
+                if ($tempFile === false) {
+                    throw new InvalidArgumentException('Unable to create temp file for template rendering');
+                }
+                $written = file_put_contents($tempFile, '<?php ?>' . $this->template . '<?php ');
+                if ($written === false) {
+                    unlink($tempFile);
+
+                    throw new InvalidArgumentException('Unable to write template content to temp file');
+                }
+                require $tempFile;
             }
         } catch (Exception $e) {
             // need to end output buffering before throwing the exception #7596
             ob_end_clean();
 
             throw $e;
+        } finally {
+            if (is_string($tempFile) && file_exists($tempFile)) {
+                unlink($tempFile);
+            }
         }
 
         return (string)ob_get_clean();

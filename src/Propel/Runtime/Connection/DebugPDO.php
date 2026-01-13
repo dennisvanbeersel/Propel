@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Connection;
 
 /**
@@ -15,8 +17,5 @@ namespace Propel\Runtime\Connection;
  */
 class DebugPDO extends ConnectionWrapper
 {
-    /**
-     * @var bool
-     */
-    protected $useDebugModeOnInstance = true;
+    protected ?bool $useDebugModeOnInstance = true;
 }

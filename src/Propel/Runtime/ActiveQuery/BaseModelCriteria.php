@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery;
 
 use ArrayIterator;
@@ -23,48 +25,27 @@ use Traversable;
  */
 class BaseModelCriteria extends Criteria implements IteratorAggregate
 {
-    /**
-     * @var string|null
-     */
-    protected $modelName;
+    protected ?string $modelName = null;
 
     /**
-     * @var string|null
      * @phpstan-var class-string<\Propel\Runtime\Map\TableMap>|null
      */
-    protected $modelTableMapName;
+    protected ?string $modelTableMapName = null;
 
-    /**
-     * @var bool
-     */
-    protected $useAliasInSQL = false;
+    protected bool $useAliasInSQL = false;
 
-    /**
-     * @var string|null
-     */
-    protected $modelAlias;
+    protected ?string $modelAlias = null;
 
-    /**
-     * @var \Propel\Runtime\Map\TableMap
-     */
-    protected $tableMap;
+    protected ?TableMap $tableMap = null;
 
-    /**
-     * @var \Propel\Runtime\Formatter\AbstractFormatter|null
-     */
-    protected $formatter;
+    protected ?AbstractFormatter $formatter = null;
 
-    /**
-     * @var array
-     */
-    protected $with = [];
+    protected array $with = [];
 
     /**
      * @phpstan-var class-string<\Propel\Runtime\Formatter\AbstractFormatter>
-     *
-     * @var string
      */
-    protected $defaultFormatterClass = ModelCriteria::FORMAT_OBJECT;
+    protected string $defaultFormatterClass = ModelCriteria::FORMAT_OBJECT;
 
     /**
      * Creates a new instance with the default capacity which corresponds to
@@ -238,7 +219,7 @@ class BaseModelCriteria extends Criteria implements IteratorAggregate
     public function setModelAlias(string $modelAlias, bool $useAliasInSQL = false)
     {
         if ($useAliasInSQL) {
-            $this->addAlias($modelAlias, $this->tableMap->getName());
+            $this->addAlias($modelAlias, $this->getTableMapOrFail()->getName());
             $this->useAliasInSQL = true;
         }
 
@@ -332,7 +313,7 @@ class BaseModelCriteria extends Criteria implements IteratorAggregate
             return $this->modelAlias;
         }
 
-        return $this->getTableMap()->getName();
+        return $this->getTableMapOrFail()->getName();
     }
 
     /**

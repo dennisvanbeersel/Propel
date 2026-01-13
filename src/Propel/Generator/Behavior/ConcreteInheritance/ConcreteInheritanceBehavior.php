@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\ConcreteInheritance;
 
 use Propel\Generator\Builder\Om\ObjectBuilder;
@@ -35,7 +37,7 @@ class ConcreteInheritanceBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'extends' => '',
         'descendant_column' => 'descendant_class',
         'copy_data_to_parent' => 'true',
@@ -386,7 +388,7 @@ public function getSyncParent(?ConnectionInterface \$con = null)
     \$parent->set{$phpName}(\$this->get{$phpName}());";
         }
         foreach ($parentTable->getForeignKeys() as $fk) {
-            if (isset($fk->isParentChild) && $fk->isParentChild) {
+            if ($fk->isParentChild) {
                 continue;
             }
             $refPhpName = $this->builder->getFKPhpNameAffix($fk, false);

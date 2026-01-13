@@ -22,6 +22,11 @@ use Propel\Generator\Platform\PlatformInterface;
 
 class MysqlPlatformMyISAMTest extends PlatformTestProvider
 {
+    protected static function getStaticPlatform(): PlatformInterface
+    {
+        return new MysqlPlatform();
+    }
+
     /**
      * Get the Platform object for this class
      *

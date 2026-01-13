@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\Collection;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
@@ -20,10 +22,7 @@ use Propel\Runtime\Exception\PropelException;
  */
 class ArrayCollection extends Collection
 {
-    /**
-     * @var \Propel\Runtime\ActiveRecord\ActiveRecordInterface
-     */
-    protected $workerObject;
+    protected ?ActiveRecordInterface $workerObject = null;
 
     /**
      * Save all the elements in the collection

@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Common\Config;
 
 use InvalidArgumentException;
@@ -126,7 +128,7 @@ class PropelConfiguration implements ConfigurationInterface
                                     ->enumNode('adapter')
                                         ->isRequired()
                                         ->cannotBeEmpty()
-                                        ->values(['mysql', 'pgsql', 'sqlite', 'mssql', 'sqlsrv', 'oracle'])
+                                        ->values(['mysql', 'pgsql', 'sqlite'])
                                     ->end()
                                     ->scalarNode('dsn')->isRequired()->cannotBeEmpty()->end()
                                     ->scalarNode('user')->isRequired()->end()
@@ -188,12 +190,6 @@ class PropelConfiguration implements ConfigurationInterface
                                     ->children()
                                         ->scalarNode('foreignKey')->end()
                                         ->scalarNode('tableAlteringWorkaround')->end()
-                                    ->end()
-                                ->end()
-                                ->arrayNode('oracle')
-                                    ->addDefaultsIfNotSet()
-                                    ->children()
-                                        ->scalarNode('autoincrementSequencePattern')->defaultValue('${table}_SEQ')->end()
                                     ->end()
                                 ->end()
                             ->end()

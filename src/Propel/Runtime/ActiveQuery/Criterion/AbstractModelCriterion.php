@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criteria;
@@ -17,10 +19,7 @@ use Propel\Runtime\ActiveQuery\Criteria;
  */
 abstract class AbstractModelCriterion extends AbstractCriterion
 {
-    /**
-     * @var string
-     */
-    protected $clause = '';
+    protected string $clause = '';
 
     /**
      * Create a new instance.

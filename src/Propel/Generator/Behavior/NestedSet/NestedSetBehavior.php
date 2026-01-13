@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Behavior\NestedSet;
 
 use Propel\Generator\Model\Behavior;
@@ -23,7 +25,7 @@ class NestedSetBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'left_column' => 'tree_left',
         'right_column' => 'tree_right',
         'level_column' => 'tree_level',

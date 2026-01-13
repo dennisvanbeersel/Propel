@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Generator\Model;
 
 /**
@@ -18,20 +20,11 @@ namespace Propel\Generator\Model;
  */
 class IdMethodParameter extends MappingModel
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var mixed
-     */
-    private $value;
+    private mixed $value = null;
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $parentTable;
+    private ?Table $parentTable = null;
 
     /**
      * @return void
@@ -45,9 +38,9 @@ class IdMethodParameter extends MappingModel
     /**
      * Returns the parameter name.
      *
-     * @return string
+     * @return string|null
      */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -101,9 +94,9 @@ class IdMethodParameter extends MappingModel
     /**
      * Returns the parent table.
      *
-     * @return \Propel\Generator\Model\Table
+     * @return \Propel\Generator\Model\Table|null
      */
-    public function getTable(): Table
+    public function getTable(): ?Table
     {
         return $this->parentTable;
     }

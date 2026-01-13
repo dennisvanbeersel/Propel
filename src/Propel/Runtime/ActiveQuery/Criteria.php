@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Runtime\ActiveQuery;
 
 use Exception;
@@ -229,182 +231,146 @@ class Criteria
      */
     public const LOGICAL_AND = 'AND';
 
-    /**
-     * @var bool
-     */
-    protected $ignoreCase = false;
+    protected bool $ignoreCase = false;
 
-    /**
-     * @var bool
-     */
-    protected $singleRecord = false;
+    protected bool $singleRecord = false;
 
     /**
      * Storage of select data. Collection of column names.
      *
      * @var array<string>
      */
-    protected $selectColumns = [];
+    protected array $selectColumns = [];
 
     /**
      * Storage of aliased select data. Collection of column names.
      *
      * @var array<string>
      */
-    protected $asColumns = [];
+    protected array $asColumns = [];
 
     /**
      * Storage of select modifiers data. Collection of modifier names.
      *
      * @var array<string>
      */
-    protected $selectModifiers = [];
+    protected array $selectModifiers = [];
 
     /**
      * Lock to be used to retrieve rows (if any).
-     *
-     * @var \Propel\Runtime\ActiveQuery\Lock|null
      */
-    protected $lock;
+    protected ?Lock $lock = null;
 
     /**
      * Storage of conditions data. Collection of Criterion objects.
      *
      * @var array<\Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion>
      */
-    protected $map = [];
+    protected array $map = [];
 
     /**
      * Storage of ordering data. Collection of column names.
      *
      * @var array<string>
      */
-    protected $orderByColumns = [];
+    protected array $orderByColumns = [];
 
     /**
      * Storage of grouping data. Collection of column names.
      *
      * @var array<string>
      */
-    protected $groupByColumns = [];
+    protected array $groupByColumns = [];
 
     /**
      * Storage of having data.
-     *
-     * @var \Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion|null
      */
-    protected $having;
+    protected ?AbstractCriterion $having = null;
 
     /**
      * Storage of join data. collection of Join objects.
      *
      * @var array<\Propel\Runtime\ActiveQuery\Join>
      */
-    protected $joins = [];
+    protected array $joins = [];
 
     /**
      * @var array<\Propel\Runtime\ActiveQuery\Criteria>
      */
-    protected $selectQueries = [];
+    protected array $selectQueries = [];
 
     /**
      * The name of the database.
-     *
-     * @var string
      */
-    protected $dbName;
+    protected string $dbName;
 
     /**
      * The primary table for this Criteria.
      * Useful in cases where there are no select or where
      * columns.
-     *
-     * @var string
      */
-    protected $primaryTableName;
+    protected ?string $primaryTableName = null;
 
     /**
      * The name of the database as given in the constructor.
-     *
-     * @var string|null
      */
-    protected $originalDbName;
+    protected ?string $originalDbName = null;
 
     /**
      * To limit the number of rows to return. <code>-1</code> means return all
      * rows.
-     *
-     * @var int
      */
-    protected $limit = -1;
+    protected int $limit = -1;
 
     /**
      * To start the results at a row other than the first one.
-     *
-     * @var int
      */
-    protected $offset = 0;
+    protected int $offset = 0;
 
     /**
      * Comment to add to the SQL query
-     *
-     * @var string
      */
-    protected $queryComment;
+    protected ?string $queryComment = null;
 
     /**
      * @var array<string>
      */
-    protected $aliases = [];
+    protected array $aliases = [];
 
-    /**
-     * @var bool
-     */
-    protected $useTransaction = false;
+    protected bool $useTransaction = false;
 
     /**
      * Storage for Criterions expected to be combined
      *
      * @var array<string, \Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion>
      */
-    protected $namedCriterions = [];
+    protected array $namedCriterions = [];
 
     /**
      * Default operator for combination of criterions
      *
      * @see addUsingOperator()
-     * @var string Criteria::LOGICAL_AND or Criteria::LOGICAL_OR
      */
-    protected $defaultCombineOperator = self::LOGICAL_AND;
+    protected string $defaultCombineOperator = self::LOGICAL_AND;
 
-    /**
-     * @var \Propel\Runtime\Util\PropelConditionalProxy|null
-     */
-    protected $conditionalProxy;
+    protected ?PropelConditionalProxy $conditionalProxy = null;
 
     /**
      * Whether identifier should be quoted.
-     *
-     * @var bool
      */
-    protected $identifierQuoting = false;
+    protected bool $identifierQuoting = false;
 
     /**
-     * @var array
+     * @var array<int, \Propel\Runtime\Map\ColumnMap>
      */
-    public $replacedColumns = [];
+    public array $replacedColumns = [];
 
     /**
      * temporary property used in replaceNames
-     *
-     * @var string|null
      */
-    protected $currentAlias;
+    protected ?string $currentAlias = null;
 
-    /**
-     * @var bool
-     */
-    protected $foundMatch = false;
+    protected bool $foundMatch = false;
 
     /**
      * Creates a new instance with the default capacity which corresponds to
@@ -450,7 +416,7 @@ class Criteria
         $this->asColumns = [];
         $this->joins = [];
         $this->selectQueries = [];
-        $this->dbName = $this->originalDbName;
+        $this->setDbName($this->originalDbName);
         $this->offset = 0;
         $this->limit = -1;
         $this->aliases = [];

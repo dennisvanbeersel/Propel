@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Common\Config\Loader;
 
 use Propel\Common\Config\Exception\InvalidArgumentException;
@@ -44,8 +46,11 @@ class PhpFileLoader extends FileLoader
         //Use output buffering because in case $file contains invalid non-php content (i.e. plain text), include() function
         //write it on stdoutput
         ob_start();
-        $content = include $path;
-        ob_end_clean();
+        try {
+            $content = include $path;
+        } finally {
+            ob_end_clean();
+        }
 
         if (!is_array($content)) {
             throw new InvalidArgumentException("The configuration file '$resource' has invalid content.");
