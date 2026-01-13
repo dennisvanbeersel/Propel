@@ -74,9 +74,6 @@ class InitCommand extends AbstractCommand
             'mysql' => 'MySQL',
             'sqlite' => 'SQLite',
             'pgsql' => 'PostgreSQL',
-            'oracle' => 'Oracle',
-            'sqlsrv' => 'MSSQL (via pdo-sqlsrv)',
-            'mssql' => 'MSSQL (via pdo-mssql)',
         ];
 
         $options['rdbms'] = $consoleHelper->select('Please pick your favorite database management system', $supportedRdbms);
@@ -242,22 +239,7 @@ class InitCommand extends AbstractCommand
      */
     private function initDsn(ConsoleHelper $consoleHelper, string $rdbms)
     {
-        switch ($rdbms) {
-            case 'oracle':
-                $help = 'https://php.net/manual/en/ref.pdo-oci.connection.php#refsect1-ref.pdo-oci.connection-description';
-
-                break;
-            case 'sqlsrv':
-                $help = 'https://php.net/manual/en/ref.pdo-sqlsrv.connection.php#refsect1-ref.pdo-sqlsrv.connection-description';
-
-                break;
-            case 'mssql':
-                $help = 'https://php.net/manual/en/ref.pdo-dblib.connection.php#refsect1-ref.pdo-dblib.connection-description';
-
-                break;
-            default:
-                $help = 'https://php.net/manual/en/pdo.drivers.php';
-        }
+        $help = 'https://php.net/manual/en/pdo.drivers.php';
 
         return $consoleHelper->askQuestion(sprintf('Please enter the dsn (see <comment>%s</comment>) for your database connection', $help));
     }

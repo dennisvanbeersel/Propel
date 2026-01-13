@@ -50,7 +50,7 @@ class DataDictionaryExportManager extends AbstractManager
         $tables = $this->getOrderedTables($database);
 
         $tocMd = $this->buildToc($tables);
-        $tablesMd = array_map([$this, 'buildMarkdownForTable'], $tables);
+        $tablesMd = array_map($this->buildMarkdownForTable(...), $tables);
         $tableSectionMd = implode(PHP_EOL, $tablesMd);
 
         return <<< EOT
@@ -123,7 +123,7 @@ EOT;
         $numberOfDataColumns = count(self::COLUMN_TABLE_HEADERS);
         $headerSepMd = '|' . str_repeat('---|', $numberOfDataColumns);
 
-        $columnRows = array_map([$this, 'buildMarkdownForColumn'], $table->getColumns());
+        $columnRows = array_map($this->buildMarkdownForColumn(...), $table->getColumns());
         $columnRowsMd = implode(PHP_EOL, $columnRows);
 
         return <<< EOT

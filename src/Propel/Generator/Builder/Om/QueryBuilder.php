@@ -130,8 +130,8 @@ class QueryBuilder extends AbstractOMBuilder
     protected function getRelationNames(): array
     {
         $table = $this->getTable();
-        $fkRelationNames = array_map([$this, 'getFKPhpNameAffix'], $table->getForeignKeys());
-        $refFkRelationNames = array_filter(array_map([$this, 'getRefFKPhpNameAffix'], $table->getReferrers()));
+        $fkRelationNames = array_map($this->getFKPhpNameAffix(...), $table->getForeignKeys());
+        $refFkRelationNames = array_filter(array_map($this->getRefFKPhpNameAffix(...), $table->getReferrers()));
 
         return array_merge($fkRelationNames, $refFkRelationNames);
     }

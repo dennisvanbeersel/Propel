@@ -56,25 +56,12 @@ class PhpNameGenerator implements NameGeneratorInterface
             }
         }
 
-        switch ($method) {
-            case self::CONV_METHOD_CLEAN:
-                $phpName = $this->cleanMethod($schemaName);
-
-                break;
-            case self::CONV_METHOD_PHPNAME:
-                $phpName = $this->phpNameMethod($schemaName);
-
-                break;
-            case self::CONV_METHOD_NOCHANGE:
-                $phpName = $this->noChangeMethod($schemaName);
-
-                break;
-            case self::CONV_METHOD_UNDERSCORE:
-            default:
-                $phpName = $this->underscoreMethod($schemaName);
-        }
-
-        return $phpName;
+        return match ($method) {
+            self::CONV_METHOD_CLEAN => $this->cleanMethod($schemaName),
+            self::CONV_METHOD_PHPNAME => $this->phpNameMethod($schemaName),
+            self::CONV_METHOD_NOCHANGE => $this->noChangeMethod($schemaName),
+            default => $this->underscoreMethod($schemaName),
+        };
     }
 
     /**

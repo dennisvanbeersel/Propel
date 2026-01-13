@@ -225,7 +225,7 @@ class DatabaseMap
      */
     public function registerTableMapClasses(array $tableMapClasses): void
     {
-        array_map([$this, 'registerTableMapClass'], $tableMapClasses);
+        array_map($this->registerTableMapClass(...), $tableMapClasses);
     }
 
     /**

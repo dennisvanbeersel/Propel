@@ -28,35 +28,18 @@ class Lock
     public const EXCLUSIVE = 'EXCLUSIVE';
 
     /**
-     * Lock type, either shared or exclusive
+     * @param string $type Lock type (either shared or exclusive)
+     * @param array<string> $tableNames Table names to lock
+     * @param bool $noWait Whether to issue a non-blocking lock
      *
      * @see self::SHARED
      * @see self::EXCLUSIVE
      */
-    protected string $type;
-
-    /**
-     * Table names to lock
-     *
-     * @var array<string>
-     */
-    protected array $tableNames;
-
-    /**
-     * Whether to issue a non-blocking lock
-     */
-    protected bool $noWait;
-
-    /**
-     * @param string $type Lock type
-     * @param array<string> $tableNames Table names to lock
-     * @param bool $noWait Whether to issue a non-blocking lock
-     */
-    public function __construct(string $type, array $tableNames = [], bool $noWait = false)
-    {
-        $this->type = $type;
-        $this->tableNames = $tableNames;
-        $this->noWait = $noWait;
+    public function __construct(
+        protected readonly string $type,
+        protected readonly array $tableNames = [],
+        protected readonly bool $noWait = false,
+    ) {
     }
 
     /**

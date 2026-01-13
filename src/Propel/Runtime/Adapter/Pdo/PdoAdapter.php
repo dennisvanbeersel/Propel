@@ -271,7 +271,7 @@ abstract class PdoAdapter
      */
     public function quoteIdentifierTable(string $table): string
     {
-        return implode(' ', array_map([$this, 'quoteIdentifier'], explode(' ', $table)));
+        return implode(' ', array_map($this->quoteIdentifier(...), explode(' ', $table)));
     }
 
     /**

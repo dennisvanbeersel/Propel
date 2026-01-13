@@ -18,14 +18,8 @@ namespace Propel\Generator\Model;
  */
 class ColumnDefaultValue
 {
-    /**
-     * @var string
-     */
     public const TYPE_VALUE = 'value';
 
-    /**
-     * @var string
-     */
     public const TYPE_EXPR = 'expr';
 
     private string|int|null $value = null;

@@ -19,46 +19,10 @@ parameters:
 			path: src/Propel/Common/Config/Loader/JsonFileLoader.php
 
 		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeDefinition\:\:requiresAtLeastOneElement\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Common/Config/PropelConfiguration.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:arrayNode\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Common/Config/PropelConfiguration.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:booleanNode\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Common/Config/PropelConfiguration.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:end\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Common/Config/PropelConfiguration.php
-
-		-
-			message: '#^Call to an undefined method Symfony\\Component\\Config\\Definition\\Builder\\NodeParentInterface\:\:scalarNode\(\)\.$#'
-			identifier: method.notFound
-			count: 4
-			path: src/Propel/Common/Config/PropelConfiguration.php
-
-		-
 			message: '#^Call to an undefined method Propel\\Generator\\Config\\GeneratorConfigInterface\:\:get\(\)\.$#'
 			identifier: method.notFound
 			count: 1
 			path: src/Propel/Generator/Behavior/Archivable/ArchivableBehaviorObjectBuilderModifier.php
-
-		-
-			message: '#^Access to an undefined property Propel\\Generator\\Model\\ForeignKey\:\:\$isParentChild\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceBehavior.php
 
 		-
 			message: '#^Method Propel\\Generator\\Behavior\\I18n\\I18nBehavior\:\:getI18nColumnNamesFromConfig\(\) should return list\<string\> but returns array\<int\<0, max\>, string\>\.$#'
@@ -71,12 +35,6 @@ parameters:
 			identifier: parameterByRef.type
 			count: 1
 			path: src/Propel/Generator/Behavior/I18n/I18nBehaviorObjectBuilderModifier.php
-
-		-
-			message: '#^Access to an undefined property Propel\\Generator\\Model\\Table\:\:\$isVersionTable\.$#'
-			identifier: property.notFound
-			count: 1
-			path: src/Propel/Generator/Behavior/Versionable/VersionableBehavior.php
 
 		-
 			message: '#^Variable \$col might not be defined\.$#'
@@ -277,12 +235,6 @@ parameters:
 			path: src/Propel/Generator/Platform/MysqlPlatform.php
 
 		-
-			message: '#^Call to function is_array\(\) with array\<Propel\\Generator\\Model\\Column\> will always evaluate to true\.$#'
-			identifier: function.alreadyNarrowedType
-			count: 1
-			path: src/Propel/Generator/Platform/OraclePlatform.php
-
-		-
 			message: '#^Call to an undefined method Propel\\Generator\\Model\\ForeignKey\:\:equals\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -301,12 +253,6 @@ parameters:
 			path: src/Propel/Generator/Reverse/MysqlSchemaParser.php
 
 		-
-			message: '#^Call to an undefined method Propel\\Generator\\Config\\GeneratorConfigInterface\:\:get\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Reverse/OracleSchemaParser.php
-
-		-
 			message: '#^Variable \$strDefault might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
@@ -323,12 +269,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: src/Propel/Generator/Reverse/SqliteSchemaParser.php
-
-		-
-			message: '#^Call to an undefined method DOMNode\:\:setAttribute\(\)\.$#'
-			identifier: method.notFound
-			count: 6
-			path: src/Propel/Generator/Schema/Dumper/XmlDumper.php
 
 		-
 			message: '#^Call to an undefined method Propel\\Generator\\Config\\GeneratorConfigInterface\:\:get\(\)\.$#'
@@ -377,12 +317,6 @@ parameters:
 			identifier: method.childParameterType
 			count: 1
 			path: src/Propel/Runtime/ActiveQuery/Criterion/ExistsCriterion.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\Adapter\\AdapterInterface\:\:ignoreCase\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: src/Propel/Runtime/ActiveQuery/Criterion/LikeCriterion.php
 
 		-
 			message: '#^Trait Propel\\Runtime\\ActiveQuery\\InstancePoolTrait is used zero times and is not analysed\.$#'
@@ -443,12 +377,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Propel/Runtime/ActiveQuery/ModelCriteria.php
-
-		-
-			message: '#^Method Propel\\Runtime\\ActiveQuery\\SqlBuilder\\AbstractSqlQueryBuilder\:\:buildStatementFromCriterion\(\) never assigns null to &\$params so it can be removed from the by\-ref type\.$#'
-			identifier: parameterByRef.unusedType
-			count: 1
-			path: src/Propel/Runtime/ActiveQuery/SqlBuilder/AbstractSqlQueryBuilder.php
 
 		-
 			message: '#^Parameter &\$params by\-ref type of method Propel\\Runtime\\ActiveQuery\\SqlBuilder\\SelectQuerySqlBuilder\:\:build\(\) expects array\<mixed\>, array\<mixed\>\|null given\.$#'
