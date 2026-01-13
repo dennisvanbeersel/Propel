@@ -40,7 +40,7 @@ class ArrayToPhpConverter
 
                 // set connection settings
                 if (isset($params['slaves'])) {
-                    $conf[] = "\$manager = new \Propel\Runtime\Connection\ConnectionManagerMasterSlave('{$name}');";
+                    $conf[] = "\$manager = new \Propel\Runtime\Connection\ConnectionManagerPrimaryReplica('{$name}');";
                     $conf[] = '$manager->setReadConfiguration(' . var_export($params['slaves'], true) . ');';
                 } elseif (isset($params['dsn'])) {
                     $conf[] = "\$manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('{$name}');";
