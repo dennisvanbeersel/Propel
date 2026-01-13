@@ -27,7 +27,7 @@ class SortableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'rank_column' => 'sortable_rank',
         'use_scope' => 'false',
         'scope_column' => '',

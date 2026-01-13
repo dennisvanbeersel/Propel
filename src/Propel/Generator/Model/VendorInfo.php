@@ -20,15 +20,12 @@ use Propel\Generator\Exception\SchemaException;
  */
 class VendorInfo extends MappingModel
 {
-    /**
-     * @var string|null
-     */
-    private $type;
+    private ?string $type = null;
 
     /**
-     * @var array
+     * @var array<string, mixed>
      */
-    private $parameters;
+    private array $parameters = [];
 
     /**
      * Creates a new VendorInfo instance.

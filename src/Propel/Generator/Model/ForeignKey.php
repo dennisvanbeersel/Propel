@@ -62,80 +62,44 @@ class ForeignKey extends MappingModel
      */
     public bool $isParentChild = false;
 
-    /**
-     * @var string
-     */
-    private $foreignTableCommonName;
+    private ?string $foreignTableCommonName = null;
 
-    /**
-     * @var string
-     */
-    private $foreignSchemaName;
+    private ?string $foreignSchemaName = null;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $phpName;
+    private ?string $phpName = null;
 
-    /**
-     * @var string|null
-     */
-    private $refPhpName;
+    private ?string $refPhpName = null;
 
-    /**
-     * @var string
-     */
-    private $defaultJoin;
+    private ?string $defaultJoin = null;
 
-    /**
-     * @var string
-     */
-    private $onUpdate = '';
+    private string $onUpdate = '';
 
-    /**
-     * @var string
-     */
-    private $onDelete = '';
+    private string $onDelete = '';
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $parentTable;
+    private Table $parentTable;
 
     /**
      * @var array<string>
      */
-    private $localColumns = [];
+    private array $localColumns = [];
 
     /**
      * @var array<string|null>
      */
-    private $foreignColumns = [];
+    private array $foreignColumns = [];
 
     /**
      * @var array<string|null>
      */
-    private $localValues = [];
+    private array $localValues = [];
 
-    /**
-     * @var bool
-     */
-    private $skipSql = false;
+    private bool $skipSql = false;
 
-    /**
-     * @var string
-     */
-    private $interface;
+    private ?string $interface = null;
 
-    /**
-     * @var bool
-     */
-    private $autoNaming = false;
+    private bool $autoNaming = false;
 
     /**
      * Constructs a new ForeignKey object.
@@ -185,9 +149,7 @@ class ForeignKey extends MappingModel
 
             $newName .= substr(md5(strtolower(implode(':', $hash))), 0, 6);
 
-            if ($this->parentTable !== null) {
-                $newName = $this->parentTable->getCommonName() . '_' . $newName;
-            }
+            $newName = $this->parentTable->getCommonName() . '_' . $newName;
 
             $this->name = $newName;
             $this->autoNaming = true;

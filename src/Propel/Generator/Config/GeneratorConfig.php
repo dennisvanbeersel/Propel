@@ -35,17 +35,14 @@ class GeneratorConfig extends ConfigurationManager implements GeneratorConfigInt
 {
     protected const PLURALIZER = PluralizerInterface::class;
 
-    /**
-     * @var \Propel\Generator\Util\BehaviorLocator
-     */
-    protected $behaviorLocator;
+    protected ?BehaviorLocator $behaviorLocator = null;
 
     /**
      * Connections configured in the `generator` section of the configuration file
      *
-     * @var array
+     * @var array<string, mixed>|null
      */
-    protected $buildConnections;
+    protected ?array $buildConnections = null;
 
     /**
      * @inheritDoc

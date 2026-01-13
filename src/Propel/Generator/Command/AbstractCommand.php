@@ -39,10 +39,7 @@ abstract class AbstractCommand extends Command
      */
     public const CODE_ERROR = 1;
 
-    /**
-     * @var \Symfony\Component\Filesystem\Filesystem|null
-     */
-    protected $filesystem;
+    protected ?Filesystem $filesystem = null;
 
     /**
      * {@inheritDoc}

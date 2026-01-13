@@ -32,108 +32,72 @@ class Database extends ScopedMappingModel
 
     /**
      * The database's platform.
-     *
-     * @var \Propel\Generator\Platform\PlatformInterface|null
      */
-    private $platform;
+    private ?PlatformInterface $platform = null;
 
     /**
      * @var array<\Propel\Generator\Model\Table>
      */
-    private $tables = [];
+    private array $tables = [];
 
-    /**
-     * @var string|null
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $baseClass;
+    private ?string $baseClass = null;
 
-    /**
-     * @var string|null
-     */
-    private $baseQueryClass;
+    private ?string $baseQueryClass = null;
 
-    /**
-     * @var string
-     */
-    private $defaultIdMethod;
+    private string $defaultIdMethod;
 
-    /**
-     * @var string
-     */
-    private $defaultPhpNamingMethod;
+    private string $defaultPhpNamingMethod;
 
     /**
      * The default accessor visibility.
      *
      * It may be one of public, private and protected.
-     *
-     * @var string
      */
-    private $defaultAccessorVisibility;
+    private string $defaultAccessorVisibility;
 
     /**
      * The default mutator visibility.
      *
      * It may be one of public, private and protected.
-     *
-     * @var string
      */
-    private $defaultMutatorVisibility;
+    private string $defaultMutatorVisibility;
 
     /**
-     * @var array
+     * @var array<string, \Propel\Generator\Model\Domain>
      */
-    private $domainMap = [];
+    private array $domainMap = [];
 
-    /**
-     * @var bool
-     */
-    private $heavyIndexing = false;
+    private bool $heavyIndexing = false;
 
-    /**
-     * @var bool
-     */
-    private $identifierQuoting = false;
+    private bool $identifierQuoting = false;
 
-    /**
-     * @var \Propel\Generator\Model\Schema|null
-     */
-    private $parentSchema;
+    private ?Schema $parentSchema = null;
 
     /**
      * @var array<\Propel\Generator\Model\Table>
      */
-    private $tablesByName = [];
+    private array $tablesByName = [];
 
     /**
      * @var array<\Propel\Generator\Model\Table>
      */
-    private $tablesByLowercaseName = [];
+    private array $tablesByLowercaseName = [];
 
     /**
      * @var array<\Propel\Generator\Model\Table>
      */
-    private $tablesByPhpName = [];
+    private array $tablesByPhpName = [];
 
     /**
      * @var array<string>
      */
-    private $sequences = [];
+    private array $sequences = [];
 
-    /**
-     * @var string
-     */
-    protected $defaultStringFormat;
+    protected string $defaultStringFormat;
 
-    /**
-     * @var string|null
-     */
-    protected $tablePrefix;
+    protected ?string $tablePrefix = null;
 
     /**
      * Constructs a new Database object.

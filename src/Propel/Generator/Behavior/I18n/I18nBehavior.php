@@ -37,7 +37,7 @@ class I18nBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'i18n_table' => '%TABLE%_i18n',
         'i18n_phpname' => '%PHPNAME%I18n',
         'i18n_columns' => '',
@@ -51,7 +51,7 @@ class I18nBehavior extends Behavior
     /**
      * @var int
      */
-    protected $tableModificationOrder = 70;
+    protected int $tableModificationOrder = 70;
 
     /**
      * @var \Propel\Generator\Behavior\I18n\I18nBehaviorObjectBuilderModifier|null

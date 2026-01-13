@@ -20,20 +20,11 @@ namespace Propel\Generator\Model;
  */
 class IdMethodParameter extends MappingModel
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var mixed
-     */
-    private $value;
+    private mixed $value = null;
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $parentTable;
+    private ?Table $parentTable = null;
 
     /**
      * @return void

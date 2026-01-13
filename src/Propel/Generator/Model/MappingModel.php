@@ -22,16 +22,16 @@ abstract class MappingModel implements MappingModelInterface
     /**
      * The list of attributes.
      *
-     * @var array
+     * @var array<string, mixed>
      */
-    protected $attributes = [];
+    protected array $attributes = [];
 
     /**
      * The list of vendor's information.
      *
      * @var array<\Propel\Generator\Model\VendorInfo>
      */
-    protected $vendorInfos = [];
+    protected array $vendorInfos = [];
 
     /**
      * Loads a mapping definition from an array.

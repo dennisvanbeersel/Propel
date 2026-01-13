@@ -24,7 +24,7 @@ class AutoAddPkBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'name' => 'id',
         'autoIncrement' => 'true',
         'type' => 'INTEGER',

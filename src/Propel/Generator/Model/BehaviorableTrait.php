@@ -22,12 +22,9 @@ trait BehaviorableTrait
     /**
      * @var array<\Propel\Generator\Model\Behavior>
      */
-    protected $behaviors = [];
+    protected array $behaviors = [];
 
-    /**
-     * @var \Propel\Generator\Util\BehaviorLocator
-     */
-    private $behaviorLocator;
+    private ?BehaviorLocator $behaviorLocator = null;
 
     /**
      * @return \Propel\Generator\Config\GeneratorConfigInterface|null

@@ -26,10 +26,8 @@ class QueryInheritanceBuilder extends AbstractOMBuilder
 {
     /**
      * The current child "object" we are operating on.
-     *
-     * @var \Propel\Generator\Model\Inheritance|null
      */
-    protected $child;
+    protected ?Inheritance $child = null;
 
     /**
      * Returns the name of the current class being built.

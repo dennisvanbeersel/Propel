@@ -19,37 +19,29 @@ namespace Propel\Generator\Model;
  */
 class Index extends MappingModel
 {
-    /**
-     * @var string|null
-     */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * The Table instance.
-     *
-     * @var \Propel\Generator\Model\Table|null
      */
-    protected $table;
+    protected ?Table $table = null;
 
     /**
      * @var array<string>
      */
-    protected $columns = [];
+    protected array $columns = [];
 
     /**
      * @var array<\Propel\Generator\Model\Column>
      */
-    protected $columnObjects = [];
+    protected array $columnObjects = [];
 
     /**
      * @var array<int>
      */
-    protected $columnsSize = [];
+    protected array $columnsSize = [];
 
-    /**
-     * @var bool
-     */
-    protected $autoNaming = false;
+    protected bool $autoNaming = false;
 
     /**
      * Creates a new Index instance.

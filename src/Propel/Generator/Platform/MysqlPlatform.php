@@ -33,25 +33,13 @@ use Propel\Generator\Platform\Util\MysqlUuidMigrationBuilder;
  */
 class MysqlPlatform extends DefaultPlatform
 {
-    /**
-     * @var string
-     */
-    protected $tableEngineKeyword = 'ENGINE';
+    protected string $tableEngineKeyword = 'ENGINE';
 
-    /**
-     * @var string
-     */
-    protected $defaultTableEngine = 'InnoDB';
+    protected string $defaultTableEngine = 'InnoDB';
 
-    /**
-     * @var string|null
-     */
-    protected $serverVersion;
+    protected ?string $serverVersion = null;
 
-    /**
-     * @var bool
-     */
-    protected $useUuidNativeType = false;
+    protected bool $useUuidNativeType = false;
 
     /**
      * Initializes db specific domain mapping.

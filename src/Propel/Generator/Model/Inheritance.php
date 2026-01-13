@@ -19,30 +19,15 @@ namespace Propel\Generator\Model;
  */
 class Inheritance extends MappingModel
 {
-    /**
-     * @var string|null
-     */
-    private $key;
+    private ?string $key = null;
 
-    /**
-     * @var string|null
-     */
-    private $className;
+    private ?string $className = null;
 
-    /**
-     * @var string|null
-     */
-    private $package;
+    private ?string $package = null;
 
-    /**
-     * @var string|null
-     */
-    private $ancestor;
+    private ?string $ancestor = null;
 
-    /**
-     * @var \Propel\Generator\Model\Column|null
-     */
-    private $column;
+    private ?Column $column = null;
 
     /**
      * Returns a key name.

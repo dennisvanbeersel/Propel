@@ -27,7 +27,7 @@ class AggregateColumnRelationBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'foreign_table' => '',
         'update_method' => '',
         'aggregate_name' => '',

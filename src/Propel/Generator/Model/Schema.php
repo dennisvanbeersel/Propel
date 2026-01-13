@@ -29,27 +29,15 @@ class Schema
     /**
      * @var array<\Propel\Generator\Model\Database>
      */
-    private $databases;
+    private array $databases = [];
 
-    /**
-     * @var \Propel\Generator\Platform\PlatformInterface
-     */
-    private $platform;
+    private ?PlatformInterface $platform = null;
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name = '';
 
-    /**
-     * @var bool
-     */
-    private $isInitialized;
+    private bool $isInitialized = false;
 
-    /**
-     * @var \Propel\Generator\Config\GeneratorConfigInterface
-     */
-    protected $generatorConfig;
+    protected ?GeneratorConfigInterface $generatorConfig = null;
 
     /**
      * Creates a new instance for the specified database type.
@@ -83,9 +71,9 @@ class Schema
      * Returns the platform object to use for any databases added to this
      * application schema.
      *
-     * @return \Propel\Generator\Platform\PlatformInterface
+     * @return \Propel\Generator\Platform\PlatformInterface|null
      */
-    public function getPlatform(): PlatformInterface
+    public function getPlatform(): ?PlatformInterface
     {
         return $this->platform;
     }

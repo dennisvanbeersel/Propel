@@ -37,7 +37,7 @@ class ConcreteInheritanceBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'extends' => '',
         'descendant_column' => 'descendant_class',
         'copy_data_to_parent' => 'true',

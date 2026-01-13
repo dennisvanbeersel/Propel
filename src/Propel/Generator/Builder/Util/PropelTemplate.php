@@ -20,15 +20,9 @@ use Propel\Generator\Exception\InvalidArgumentException;
  */
 class PropelTemplate
 {
-    /**
-     * @var string|null
-     */
-    protected $template;
+    protected ?string $template = null;
 
-    /**
-     * @var string|null
-     */
-    protected $templateFile;
+    protected ?string $templateFile = null;
 
     /**
      * Sets a string as a template.

@@ -28,70 +28,56 @@ class Behavior extends MappingModel
 
     /**
      * The table object on which the behavior is applied.
-     *
-     * @var \Propel\Generator\Model\Table
      */
-    protected $table;
+    protected ?Table $table = null;
 
     /**
      * The database object.
-     *
-     * @var \Propel\Generator\Model\Database
      */
-    protected $database;
+    protected ?Database $database = null;
 
     /**
      * The behavior id.
-     *
-     * @var string
      */
-    protected $id;
+    protected ?string $id = null;
 
     /**
      * The behavior name.
-     *
-     * @var string
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * A collection of parameters.
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [];
+    protected array $parameters = [];
 
     /**
      * Whether the table has been
      * modified by the behavior.
-     *
-     * @var bool
      */
-    protected $isTableModified = false;
+    protected bool $isTableModified = false;
 
     /**
      * The absolute path to the directory
      * that contains the behavior's templates
      * files.
-     *
-     * @var string
      */
-    protected $dirname;
+    protected ?string $dirname = null;
 
     /**
      * A collection of additional builders.
      *
-     * @var array
+     * @var array<string>
      */
-    protected $additionalBuilders = [];
+    protected array $additionalBuilders = [];
 
     /**
      * The order in which the behavior must
      * be applied.
-     *
-     * @var int
      */
-    protected $tableModificationOrder = 50;
+    protected int $tableModificationOrder = 50;
 
     /**
      * Sets the name of the Behavior

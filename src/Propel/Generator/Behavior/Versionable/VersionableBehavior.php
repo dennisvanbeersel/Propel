@@ -27,7 +27,7 @@ class VersionableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'version_column' => 'version',
         'version_table' => '',
         'log_created_at' => 'false',
@@ -57,7 +57,7 @@ class VersionableBehavior extends Behavior
     /**
      * @var int
      */
-    protected $tableModificationOrder = 80;
+    protected int $tableModificationOrder = 80;
 
     /**
      * @return void

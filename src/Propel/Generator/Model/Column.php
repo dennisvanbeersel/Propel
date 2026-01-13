@@ -46,183 +46,99 @@ class Column extends MappingModel
     /**
      * @var array<string>
      */
-    public static $validVisibilities = [
+    public static array $validVisibilities = [
         'public',
         'protected',
         'private',
     ];
 
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
 
-    /**
-     * @var string|null
-     */
-    private $description;
+    private ?string $description = null;
 
-    /**
-     * @var string|null
-     */
-    private $phpName;
+    private ?string $phpName = null;
 
-    /**
-     * @var string|null
-     */
-    private $phpSingularName;
+    private ?string $phpSingularName = null;
 
-    /**
-     * @var string|null
-     */
-    private $phpNamingMethod;
+    private ?string $phpNamingMethod = null;
 
-    /**
-     * @var bool
-     */
-    private $isNotNull = false;
+    private bool $isNotNull = false;
 
-    /**
-     * @var string|null
-     */
-    private $namePrefix;
+    private ?string $namePrefix = null;
 
-    /**
-     * @var string|null
-     */
-    private $accessorVisibility;
+    private ?string $accessorVisibility = null;
 
-    /**
-     * @var string|null
-     */
-    private $mutatorVisibility;
+    private ?string $mutatorVisibility = null;
 
-    /**
-     * @var string|null
-     */
-    private $typeHint;
+    private ?string $typeHint = null;
 
     /**
      * The name to use for the tableMap constant that identifies this column.
      * (Will be converted to all-uppercase in the templates.)
-     *
-     * @var string
      */
-    private $tableMapName;
+    private ?string $tableMapName = null;
 
     /**
-     * Native PHP type (scalar or class name)
-     *
-     * @var string "string", "boolean", "int", "double"
+     * Native PHP type (scalar or class name): "string", "boolean", "int", "double"
      */
-    private $phpType;
+    private ?string $phpType = null;
+
+    private ?Domain $domain = null;
+
+    private ?Table $parentTable = null;
+
+    private ?int $position = null;
+
+    private bool $isPrimaryKey = false;
+
+    private bool $isNodeKey = false;
+
+    private string $nodeKeySep = '.';
+
+    private bool $isNestedSetLeftKey = false;
+
+    private bool $isNestedSetRightKey = false;
+
+    private bool $isTreeScopeKey = false;
+
+    private bool $isUnique = false;
+
+    private bool $isAutoIncrement = false;
+
+    private bool $isLazyLoad = false;
 
     /**
-     * @var \Propel\Generator\Model\Domain|null
+     * @var array<\Propel\Generator\Model\ForeignKey>
      */
-    private $domain;
+    private array $referrers = [];
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $parentTable;
-
-    /**
-     * @var int|null
-     */
-    private $position;
-
-    /**
-     * @var bool
-     */
-    private $isPrimaryKey = false;
-
-    /**
-     * @var bool
-     */
-    private $isNodeKey = false;
-
-    /**
-     * @var string
-     */
-    private $nodeKeySep;
-
-    /**
-     * @var bool
-     */
-    private $isNestedSetLeftKey = false;
-
-    /**
-     * @var bool
-     */
-    private $isNestedSetRightKey = false;
-
-    /**
-     * @var bool
-     */
-    private $isTreeScopeKey = false;
-
-    /**
-     * @var bool
-     */
-    private $isUnique = false;
-
-    /**
-     * @var bool
-     */
-    private $isAutoIncrement = false;
-
-    /**
-     * @var bool
-     */
-    private $isLazyLoad = false;
-
-    /**
-     * @var array
-     */
-    private $referrers = [];
-
-    /**
-     * @var bool
-     */
-    private $isPrimaryString = false;
+    private bool $isPrimaryString = false;
 
     // only one type is supported currently, which assumes the
     // column either contains the classnames or a key to
     // classnames specified in the schema.    Others may be
     // supported later.
 
-    /**
-     * @var string|null
-     */
-    private $inheritanceType;
+    private ?string $inheritanceType = null;
+
+    private bool $isInheritance = false;
+
+    private bool $isEnumeratedClasses = false;
 
     /**
-     * @var bool
+     * @var array<\Propel\Generator\Model\Inheritance>|null
      */
-    private $isInheritance = false;
-
-    /**
-     * @var bool
-     */
-    private $isEnumeratedClasses = false;
-
-    /**
-     * @var array|null
-     */
-    private $inheritanceList;
+    private ?array $inheritanceList = null;
 
     /**
      * maybe this can be retrieved from vendor specific information
-     *
-     * @var bool
      */
-    private $needsTransactionInPostgres = false;
+    private bool $needsTransactionInPostgres = false;
 
     /**
      * @var array<string>
      */
-    protected $valueSet = [];
+    protected array $valueSet = [];
 
     /**
      * Creates a new column and set the name.

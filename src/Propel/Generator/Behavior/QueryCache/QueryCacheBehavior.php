@@ -25,7 +25,7 @@ class QueryCacheBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'backend' => 'apc',
         'lifetime' => '3600',
     ];

@@ -34,7 +34,7 @@ class ArchivableBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'archive_table' => '',
         'archive_phpname' => null,
         'archive_class' => '',

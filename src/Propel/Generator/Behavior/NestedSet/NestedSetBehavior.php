@@ -25,7 +25,7 @@ class NestedSetBehavior extends Behavior
      *
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'left_column' => 'tree_left',
         'right_column' => 'tree_right',
         'level_column' => 'tree_level',

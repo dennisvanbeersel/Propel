@@ -41,19 +41,14 @@ class DefaultPlatform implements PlatformInterface
      *
      * @var array<\Propel\Generator\Model\Domain>
      */
-    protected $schemaDomainMap;
+    protected array $schemaDomainMap;
 
     /**
      * The database connection.
-     *
-     * @var \Propel\Runtime\Connection\ConnectionInterface|null Database connection.
      */
-    protected $con;
+    protected ?ConnectionInterface $con = null;
 
-    /**
-     * @var bool
-     */
-    protected $identifierQuoting = true;
+    protected bool $identifierQuoting = true;
 
     /**
      * @param \Propel\Runtime\Connection\ConnectionInterface|null $con Optional database connection to use in this platform.

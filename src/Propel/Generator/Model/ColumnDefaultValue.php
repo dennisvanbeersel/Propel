@@ -28,15 +28,9 @@ class ColumnDefaultValue
      */
     public const TYPE_EXPR = 'expr';
 
-    /**
-     * @var string|int|null The default value, as specified in the schema.
-     */
-    private $value;
+    private string|int|null $value = null;
 
-    /**
-     * @var string The type of value represented by this object (DefaultValue::TYPE_VALUE or DefaultValue::TYPE_EXPR).
-     */
-    private $type = self::TYPE_VALUE;
+    private string $type = self::TYPE_VALUE;
 
     /**
      * Creates a new DefaultValue object.

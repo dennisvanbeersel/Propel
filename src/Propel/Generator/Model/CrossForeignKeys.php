@@ -45,31 +45,25 @@ class CrossForeignKeys
 {
     /**
      * The middle-table.
-     *
-     * @var \Propel\Generator\Model\Table
      */
-    protected $table;
+    protected Table $table;
 
     /**
      * The target table (which has crossRef=true).
-     *
-     * @var \Propel\Generator\Model\Table
      */
-    protected $middleTable;
+    protected Table $middleTable;
 
     /**
      * All other outgoing relations from the middle-table to other tables.
      *
      * @var array<\Propel\Generator\Model\ForeignKey>
      */
-    protected $crossForeignKeys = [];
+    protected array $crossForeignKeys = [];
 
     /**
      * The incoming foreign key from the middle-table to this table.
-     *
-     * @var \Propel\Generator\Model\ForeignKey|null
      */
-    protected $incomingForeignKey;
+    protected ?ForeignKey $incomingForeignKey = null;
 
     /**
      * @param \Propel\Generator\Model\ForeignKey $foreignKey

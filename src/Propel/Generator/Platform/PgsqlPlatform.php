@@ -33,10 +33,7 @@ use Propel\Generator\Model\Unique;
  */
 class PgsqlPlatform extends DefaultPlatform
 {
-    /**
-     * @var string
-     */
-    protected $createOrDropSequences = '';
+    protected string $createOrDropSequences = '';
 
     /**
      * Initializes db specific domain mapping.

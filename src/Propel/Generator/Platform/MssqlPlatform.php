@@ -26,10 +26,7 @@ use Propel\Generator\Model\Unique;
  */
 class MssqlPlatform extends DefaultPlatform
 {
-    /**
-     * @var int
-     */
-    protected static $dropCount = 0;
+    protected static int $dropCount = 0;
 
     /**
      * Initializes db specific domain mapping.

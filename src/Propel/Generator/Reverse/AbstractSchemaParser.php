@@ -25,53 +25,45 @@ abstract class AbstractSchemaParser implements SchemaParserInterface
 {
     /**
      * The database connection.
-     *
-     * @var \Propel\Runtime\Connection\ConnectionInterface
      */
-    protected $dbh;
+    protected ConnectionInterface $dbh;
 
     /**
      * Stack of warnings.
      *
      * @var list<string>
      */
-    protected $warnings = [];
+    protected array $warnings = [];
 
     /**
      * GeneratorConfig object holding build properties.
-     *
-     * @var \Propel\Generator\Config\GeneratorConfigInterface
      */
-    private $generatorConfig;
+    private ?GeneratorConfigInterface $generatorConfig = null;
 
     /**
      * Map native DB types to Propel types.
      * (Override in subclasses.)
      *
-     * @var array
+     * @var array<string, string>|null
      */
-    protected $nativeToPropelTypeMap;
+    protected ?array $nativeToPropelTypeMap = null;
 
     /**
      * Map to hold reverse type mapping (initialized on-demand).
      *
-     * @var array
+     * @var array<string, string>|null
      */
-    protected $reverseTypeMap;
+    protected ?array $reverseTypeMap = null;
 
     /**
      * Name of the propel migration table - to be ignored in reverse
-     *
-     * @var string
      */
-    protected $migrationTable = 'propel_migration';
+    protected string $migrationTable = 'propel_migration';
 
     /**
      * The database's platform.
-     *
-     * @var \Propel\Generator\Platform\PlatformInterface|null
      */
-    protected $platform;
+    protected ?PlatformInterface $platform = null;
 
     /**
      * Constructor.
@@ -206,7 +198,9 @@ abstract class AbstractSchemaParser implements SchemaParserInterface
     protected function getMappedNativeType(string $propelType): ?string
     {
         if ($this->reverseTypeMap === null) {
-            $this->reverseTypeMap = array_flip($this->getTypeMapping());
+            /** @var array<string, string> $flipped */
+            $flipped = array_flip($this->getTypeMapping());
+            $this->reverseTypeMap = $flipped;
         }
 
         return $this->reverseTypeMap[$propelType] ?? null;

@@ -23,45 +23,21 @@ use Propel\Generator\Exception\EngineException;
  */
 class Domain extends MappingModel
 {
-    /**
-     * @var string|null
-     */
-    private $name;
+    private ?string $name = null;
 
-    /**
-     * @var string|null
-     */
-    private $description;
+    private ?string $description = null;
 
-    /**
-     * @var int|null
-     */
-    private $size;
+    private ?int $size = null;
 
-    /**
-     * @var int|null
-     */
-    private $scale;
+    private ?int $scale = null;
 
-    /**
-     * @var string|null
-     */
-    private $mappingType;
+    private ?string $mappingType = null;
 
-    /**
-     * @var string|null
-     */
-    private $sqlType;
+    private ?string $sqlType = null;
 
-    /**
-     * @var \Propel\Generator\Model\ColumnDefaultValue|null
-     */
-    private $defaultValue;
+    private ?ColumnDefaultValue $defaultValue = null;
 
-    /**
-     * @var \Propel\Generator\Model\Database|null
-     */
-    private $database;
+    private ?Database $database = null;
 
     /**
      * Creates a new Domain object.

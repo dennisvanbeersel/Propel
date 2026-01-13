@@ -45,7 +45,7 @@ class OracleSchemaParser extends AbstractSchemaParser
      *
      * @var array<string>
      */
-    private static $oracleTypeMap = [
+    private static array $oracleTypeMap = [
         'BLOB' => PropelTypes::BLOB,
         'CHAR' => PropelTypes::CHAR,
         'CLOB' => PropelTypes::CLOB,

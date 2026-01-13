@@ -31,10 +31,7 @@ class TableMapLoaderScriptBuilder
      */
     public const FILENAME = 'loadDatabase.php';
 
-    /**
-     * @var \Propel\Generator\Config\GeneratorConfigInterface
-     */
-    protected $generatorConfig;
+    protected GeneratorConfigInterface $generatorConfig;
 
     /**
      * @param \Propel\Generator\Config\GeneratorConfigInterface $generatorConfig

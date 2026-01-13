@@ -35,7 +35,7 @@ class MssqlSchemaParser extends AbstractSchemaParser
      *
      * @var array<string>
      */
-    private static $mssqlTypeMap = [
+    private static array $mssqlTypeMap = [
         'binary' => PropelTypes::BINARY,
         'bit' => PropelTypes::BOOLEAN,
         'char' => PropelTypes::CHAR,

@@ -31,7 +31,7 @@ class SluggableBehavior extends Behavior
     /**
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'slug_column' => 'slug',
         'slug_pattern' => '',
         'replace_pattern' => '/\W+/',

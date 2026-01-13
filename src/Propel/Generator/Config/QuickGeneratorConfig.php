@@ -23,10 +23,7 @@ use Propel\Runtime\Connection\ConnectionInterface;
 
 class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConfigInterface
 {
-    /**
-     * @var \Propel\Generator\Util\BehaviorLocator|null
-     */
-    protected $behaviorLocator;
+    protected ?BehaviorLocator $behaviorLocator = null;
 
     /**
      * @param array|null $extraConf

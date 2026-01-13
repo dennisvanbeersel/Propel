@@ -12,9 +12,15 @@ namespace Propel\Generator\Builder\Util;
 
 use Propel\Generator\Config\GeneratorConfigInterface;
 use Propel\Generator\Exception\SchemaException;
+use Propel\Generator\Model\Behavior;
+use Propel\Generator\Model\Column;
+use Propel\Generator\Model\Database;
+use Propel\Generator\Model\ForeignKey;
 use Propel\Generator\Model\Index;
 use Propel\Generator\Model\Schema;
+use Propel\Generator\Model\Table;
 use Propel\Generator\Model\Unique;
+use Propel\Generator\Model\VendorInfo;
 use Propel\Generator\Platform\PlatformInterface;
 
 /**
@@ -30,94 +36,49 @@ use Propel\Generator\Platform\PlatformInterface;
  */
 class SchemaReader
 {
-    /**
-     * @var bool
-     */
     public const DEBUG = false;
 
-    /**
-     * @var \Propel\Generator\Model\Schema
-     */
-    private $schema;
+    private Schema $schema;
 
     /**
-     * @var \XMLParser|resource
+     * @var \XMLParser|resource|null
      */
-    private $parser;
+    private mixed $parser = null;
 
-    /**
-     * @var \Propel\Generator\Model\Database
-     */
-    private $currDB;
+    private ?Database $currDB = null;
 
-    /**
-     * @var \Propel\Generator\Model\Table
-     */
-    private $currTable;
+    private ?Table $currTable = null;
 
-    /**
-     * @var \Propel\Generator\Model\Column
-     */
-    private $currColumn;
+    private ?Column $currColumn = null;
 
-    /**
-     * @var \Propel\Generator\Model\ForeignKey
-     */
-    private $currFK;
+    private ?ForeignKey $currFK = null;
 
-    /**
-     * @var \Propel\Generator\Model\Index
-     */
-    private $currIndex;
+    private ?Index $currIndex = null;
 
-    /**
-     * @var \Propel\Generator\Model\Unique
-     */
-    private $currUnique;
+    private ?Unique $currUnique = null;
 
-    /**
-     * @var \Propel\Generator\Model\Behavior
-     */
-    private $currBehavior;
+    private ?Behavior $currBehavior = null;
 
-    /**
-     * @var \Propel\Generator\Model\VendorInfo
-     */
-    private $currVendorObject;
+    private ?VendorInfo $currVendorObject = null;
 
-    /**
-     * @var bool
-     */
-    private $isForReferenceOnly = false;
+    private bool $isForReferenceOnly = false;
 
-    /**
-     * @var string|null
-     */
-    private $currentPackage;
+    private ?string $currentPackage = null;
 
-    /**
-     * @var string|null
-     */
-    private $currentXmlFile;
+    private ?string $currentXmlFile = null;
 
-    /**
-     * @var string|null
-     */
-    private $defaultPackage;
+    private ?string $defaultPackage;
 
-    /**
-     * @var array|null
-     */
-    private $currParameterListCollector;
+    private ?array $currParameterListCollector = null;
 
     /**
      * Two-dimensional array,
      * first dimension is for schemas(key is the path to the schema file),
      * second is for tags within the schema.
      *
-     * @var array
+     * @var array<string, array<string>>
      */
-    private $schemasTagsStack = [];
+    private array $schemasTagsStack = [];
 
     /**
      * Creates a new instance for the specified database type.
@@ -509,8 +470,12 @@ class SchemaReader
     protected function peekCurrentSchemaTag()
     {
         $keys = array_keys($this->schemasTagsStack);
+        $lastKey = end($keys);
+        if ($lastKey === false) {
+            return false;
+        }
 
-        return end($this->schemasTagsStack[end($keys)]);
+        return end($this->schemasTagsStack[$lastKey]);
     }
 
     /**
@@ -519,8 +484,12 @@ class SchemaReader
     protected function popCurrentSchemaTag()
     {
         $keys = array_keys($this->schemasTagsStack);
+        $lastKey = end($keys);
+        if ($lastKey === false) {
+            return false;
+        }
 
-        return array_pop($this->schemasTagsStack[end($keys)]);
+        return array_pop($this->schemasTagsStack[$lastKey]);
     }
 
     /**
@@ -531,7 +500,11 @@ class SchemaReader
     protected function pushCurrentSchemaTag(string $tag): void
     {
         $keys = array_keys($this->schemasTagsStack);
-        $this->schemasTagsStack[end($keys)][] = $tag;
+        $lastKey = end($keys);
+        if ($lastKey === false) {
+            return;
+        }
+        $this->schemasTagsStack[$lastKey][] = $tag;
     }
 
     /**

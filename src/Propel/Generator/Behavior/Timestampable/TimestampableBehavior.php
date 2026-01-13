@@ -26,7 +26,7 @@ class TimestampableBehavior extends Behavior
     /**
      * @var array<string, mixed>
      */
-    protected $parameters = [
+    protected array $parameters = [
         'create_column' => 'created_at',
         'update_column' => 'updated_at',
         'disable_created_at' => 'false',
