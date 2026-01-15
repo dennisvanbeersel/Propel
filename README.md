@@ -6,11 +6,22 @@ Propel2 is an open-source Object-Relational Mapping (ORM) for PHP.
 [![codecov](https://codecov.io/gh/propelorm/Propel2/branch/master/graph/badge.svg?token=L1thFB9nOG)](https://codecov.io/gh/propelorm/Propel2)
 [![PHPStan](https://img.shields.io/badge/PHPStan-level%207-brightgreen.svg?style=flat)](https://phpstan.org/)
 [![Code Climate](https://codeclimate.com/github/propelorm/Propel2/badges/gpa.svg)](https://codeclimate.com/github/propelorm/Propel2)
-[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%207.4-8892BF.svg)](https://php.net/)
+[![Minimum PHP Version](http://img.shields.io/badge/php-%3E%3D%208.3-8892BF.svg)](https://php.net/)
 [![License](https://poser.pugx.org/propel/propel/license.svg)](https://packagist.org/packages/propel/propel)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/propelorm/Propel)
 
 ## Requirements
+
+- **PHP 8.3+** with `strict_types` declarations throughout
+- **PDO** with drivers for your database of choice
+
+### Supported Databases
+
+- MySQL / MariaDB
+- PostgreSQL
+- SQLite
+
+### Symfony Components (^7.0)
 
 Propel uses the following Symfony Components:
 
@@ -22,8 +33,7 @@ Propel uses the following Symfony Components:
 * [Validator](https://github.com/symfony/validator)
 * [Yaml](https://github.com/symfony/yaml)
 
-Propel primarily relies on [**Composer**](https://github.com/composer/composer) to manage dependencies, but you
-also can use [ClassLoader](https://github.com/symfony/ClassLoader) (see the `autoload.php.dist` file for instance).
+Propel relies on [**Composer**](https://github.com/composer/composer) to manage dependencies.
 
 
 ## Installation
@@ -31,13 +41,51 @@ also can use [ClassLoader](https://github.com/symfony/ClassLoader) (see the `aut
 Read the [Propel documentation](http://propelorm.org/documentation/01-installation.html).
 
 
+## Development
+
+### Running Tests
+
+```bash
+# Run all tests (requires database setup)
+composer test
+
+# Run database-agnostic tests only (no database required)
+composer test:agnostic
+
+# Run tests for specific database
+composer test:mysql
+composer test:sqlite
+composer test:pgsql
+```
+
+### Code Quality
+
+```bash
+# Run full test suite including static analysis
+composer testsuite
+
+# Code style check/fix
+composer cs-check
+composer cs-fix
+
+# Static analysis (PHPStan level 7)
+composer stan
+
+# Psalm analysis
+composer psalm
+```
+
 ## Contribute
 
 Everybody is welcome to contribute to Propel! Just [fork the repository](https://docs.github.com/en/get-started/quickstart/fork-a-repo) and [create a pull request](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request).
 
-Please include unit tests to verify your changes. Have a look at the [test suite guide](http://propelorm.org/documentation/cookbook/working-with-test-suite.html) for more details about test development in Propel, like how to run tests locally. It also has information on how to apply [Propel coding standards](https://github.com/propelorm/Propel2/wiki/Coding-Standards).
+**Requirements for contributions:**
+- Use `declare(strict_types=1)` in all PHP files
+- Follow [Spryker coding standards](https://github.com/spryker/code-sniffer) (extended from PSR-12)
+- Pass PHPStan level 7 analysis
+- Include unit tests for your changes
 
-More detailed information can be found in our [contribution guideline](http://propelorm.org/contribute.html).
+Have a look at the [test suite guide](http://propelorm.org/documentation/cookbook/working-with-test-suite.html) for more details about test development in Propel.
 
 Thank you!
 
