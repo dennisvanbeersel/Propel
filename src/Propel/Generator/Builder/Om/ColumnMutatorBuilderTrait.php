@@ -384,7 +384,7 @@ trait ColumnMutatorBuilderTrait
         $this->addMutatorOpen($script, $col);
 
         $script .= "
-        if (null === \$this->$clo || stream_get_contents(\$this->$clo) !== serialize(\$v)) {
+        if (null === \$this->$clo || (rewind(\$this->$clo) !== false && stream_get_contents(\$this->$clo) !== serialize(\$v))) {
             \$this->$cloUnserialized = \$v;
             \$this->$clo = fopen('php://memory', 'r+');
             fwrite(\$this->$clo, serialize(\$v));
