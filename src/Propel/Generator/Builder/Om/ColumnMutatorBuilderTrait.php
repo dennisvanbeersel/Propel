@@ -463,7 +463,7 @@ trait ColumnMutatorBuilderTrait
     {
         $clo = $col->getLowercasedName();
         $cfc = $col->getPhpName();
-        $visibility = $col->getAccessorVisibility();
+        $visibility = $col->getMutatorVisibility();
         $singularPhpName = $col->getPhpSingularName();
         $columnType = ($col->getType() === PropelTypes::PHP_ARRAY) ? 'array' : 'set';
         $script .= "
@@ -511,7 +511,7 @@ trait ColumnMutatorBuilderTrait
     {
         $clo = $col->getLowercasedName();
         $cfc = $col->getPhpName();
-        $visibility = $col->getAccessorVisibility();
+        $visibility = $col->getMutatorVisibility();
         $singularPhpName = $col->getPhpSingularName();
         $columnType = ($col->getType() === PropelTypes::PHP_ARRAY) ? 'array' : 'set';
         $script .= "
