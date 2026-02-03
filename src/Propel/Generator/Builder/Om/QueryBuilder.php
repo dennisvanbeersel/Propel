@@ -1157,6 +1157,9 @@ class QueryBuilder extends AbstractOMBuilder
             \$$variableName = in_array(strtolower(\$$variableName), array('false', 'off', '-', 'no', 'n', '0', ''), true) ? false : true;
         }";
         } elseif ($col->isUuidBinaryType()) {
+            $this->declareClasses(
+                'Propel\Runtime\Util\UuidConverter',
+            );
             $uuidSwapFlag = $this->getUuidSwapFlagLiteral();
             $script .= "
         \$$variableName = UuidConverter::uuidToBinRecursive(\$$variableName, $uuidSwapFlag);";
