@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+    PHPUnit deprecation/warning settings are disabled temporarily.
+    TODO: Address PHPUnit 12 deprecations before PHPUnit 12 release:
+    - Replace returnValue() with willReturn()
+    - Replace getMockForTrait() with alternative approaches
+    - Fix dynamic property deprecations in generated code
+    Re-enable these settings once deprecations are addressed.
+-->
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"

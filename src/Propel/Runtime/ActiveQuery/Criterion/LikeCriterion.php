@@ -13,6 +13,7 @@ namespace Propel\Runtime\ActiveQuery\Criterion;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
 use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
+use Propel\Runtime\Adapter\SqlAdapterInterface;
 
 /**
  * Specialized Criterion used for LIKE expressions
@@ -87,9 +88,8 @@ class LikeCriterion extends AbstractCriterion
                     $this->comparison = Criteria::NOT_ILIKE;
                 }
             } else {
-                /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
-                $sqlAdapter = $adapter;
-                $field = $sqlAdapter->ignoreCase($field);
+                assert($adapter instanceof SqlAdapterInterface);
+                $field = $adapter->ignoreCase($field);
             }
         }
 
@@ -100,9 +100,8 @@ class LikeCriterion extends AbstractCriterion
         // If selection is case insensitive use SQL UPPER() function
         // on criteria or, if Postgres we are using ILIKE, so not necessary.
         if ($this->ignoreStringCase && !($adapter instanceof PgsqlAdapter)) {
-            /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
-            $sqlAdapter = $adapter;
-            $sb .= $sqlAdapter->ignoreCase(':p' . count($params));
+            assert($adapter instanceof SqlAdapterInterface);
+            $sb .= $adapter->ignoreCase(':p' . count($params));
         } else {
             $sb .= ':p' . count($params);
         }

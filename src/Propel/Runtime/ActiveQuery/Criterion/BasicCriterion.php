@@ -12,6 +12,7 @@ namespace Propel\Runtime\ActiveQuery\Criterion;
 
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
+use Propel\Runtime\Adapter\SqlAdapterInterface;
 
 /**
  * Specialized Criterion used for traditional expressions,
@@ -87,9 +88,8 @@ class BasicCriterion extends AbstractCriterion
                     if ($adapter === null) {
                         throw new InvalidValueException('Adapter is required for case-insensitive comparison');
                     }
-                    /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
-                    $sqlAdapter = $adapter;
-                    $sb .= $sqlAdapter->ignoreCase($field) . $this->comparison . $sqlAdapter->ignoreCase(':p' . count($params));
+                    assert($adapter instanceof SqlAdapterInterface);
+                    $sb .= $adapter->ignoreCase($field) . $this->comparison . $adapter->ignoreCase(':p' . count($params));
                 } else {
                     $sb .= $field . $this->comparison . ':p' . count($params);
                 }
