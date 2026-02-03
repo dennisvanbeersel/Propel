@@ -542,6 +542,7 @@ class MigrationManager extends AbstractManager
         foreach ([$migrationsUp, $migrationsDown] as $migrations) {
             $connectionNames = array_keys($migrations);
             foreach ($connectionNames as $index => $connectionName) {
+                $connectionName = (string)$connectionName;
                 if (array_key_exists($connectionName, $connectionToVariableName)) {
                     continue;
                 }

@@ -310,10 +310,13 @@ class Profiler
         $suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $total = count($suffix);
 
-        for ($i = 0; $absBytes > 1024 && $i < $total - 1; $i++) {
+        $i = 0;
+        while ($absBytes > 1024 && $i < $total - 1) {
             $absBytes /= 1024;
+            $i++;
         }
 
+        /** @var int<0, 8> $i */
         return self::toPrecision($sign * $absBytes, $precision) . $suffix[$i];
     }
 

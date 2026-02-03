@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<files psalm-version="6.14.3@d0b040a91f280f071c1abcb1b77ce3822058725a">
+<files psalm-version="6.15.0@204d06619833a297b402cbc66be7f2df74437db4">
   <file src="src/Propel/Common/Config/ConfigurationManager.php">
     <UnsupportedPropertyReferenceUsage>
       <code><![CDATA[$configSection = &$this->config[$section]]]></code>
@@ -392,9 +392,6 @@
     </PossiblyUnusedProperty>
   </file>
   <file src="src/Propel/Generator/Builder/DataModelBuilder.php">
-    <InvalidArgument>
-      <code><![CDATA[$this]]></code>
-    </InvalidArgument>
     <PossiblyUnusedMethod>
       <code><![CDATA[getNewBuilder]]></code>
       <code><![CDATA[getNewQueryBuilder]]></code>
@@ -556,6 +553,7 @@
       <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
     </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
+      <code><![CDATA[addDoInsertBodyWithIdMethod]]></code>
       <code><![CDATA[addHasArrayElement]]></code>
       <code><![CDATA[addLazyLoader]]></code>
     </PossiblyUnusedMethod>
@@ -1029,6 +1027,7 @@
       <code><![CDATA[getTable]]></code>
       <code><![CDATA[getTableName]]></code>
       <code><![CDATA[setName]]></code>
+      <code><![CDATA[setValue]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/IdMethodType.php">
@@ -1037,14 +1036,12 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Model/Index.php">
-    <InvalidPropertyAssignmentValue>
-      <code><![CDATA[$this->columnObjects]]></code>
-    </InvalidPropertyAssignmentValue>
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setupObject(): void]]></code>
     </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getTableName]]></code>
+      <code><![CDATA[hasColumns]]></code>
       <code><![CDATA[setColumnObjects]]></code>
     </PossiblyUnusedMethod>
   </file>
@@ -1141,6 +1138,9 @@
     <MissingOverrideAttribute>
       <code><![CDATA[protected function setupObject(): void]]></code>
     </MissingOverrideAttribute>
+    <PossiblyUnusedMethod>
+      <code><![CDATA[isEmpty]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Platform/DefaultPlatform.php">
     <MissingOverrideAttribute>
@@ -1763,6 +1763,21 @@
       <code><![CDATA[subString]]></code>
     </PossiblyUnusedMethod>
   </file>
+  <file src="src/Propel/Runtime/Adapter/Exception/ColumnNotFoundException.php">
+    <UnusedClass>
+      <code><![CDATA[ColumnNotFoundException]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Propel/Runtime/Adapter/Exception/MalformedClauseException.php">
+    <UnusedClass>
+      <code><![CDATA[MalformedClauseException]]></code>
+    </UnusedClass>
+  </file>
+  <file src="src/Propel/Runtime/Adapter/Exception/UnsupportedEncodingException.php">
+    <UnusedClass>
+      <code><![CDATA[UnsupportedEncodingException]]></code>
+    </UnusedClass>
+  </file>
   <file src="src/Propel/Runtime/Adapter/Pdo/MysqlAdapter.php">
     <MissingOverrideAttribute>
       <code><![CDATA[protected function prepareParams(array $params): array]]></code>
@@ -1787,6 +1802,7 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[cleanupSQL]]></code>
       <code><![CDATA[compareRegex]]></code>
+      <code><![CDATA[createSelectSqlPart]]></code>
       <code><![CDATA[getAdapterId]]></code>
       <code><![CDATA[getConnection]]></code>
       <code><![CDATA[getGroupBy]]></code>
@@ -1799,6 +1815,12 @@
       <code><![CDATA[supportsAliasesInDelete]]></code>
       <code><![CDATA[toUpperCase]]></code>
     </PossiblyUnusedMethod>
+    <PossiblyUnusedParam>
+      <code><![CDATA[$dbMap]]></code>
+      <code><![CDATA[$params]]></code>
+      <code><![CDATA[$sql]]></code>
+      <code><![CDATA[$values]]></code>
+    </PossiblyUnusedParam>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[\Propel\Runtime\ActiveQuery\Criteria]]></code>
       <code><![CDATA[bool]]></code>
@@ -2107,6 +2129,11 @@
       <code><![CDATA[public function execute(?array $inputParameters = null): bool]]></code>
     </MissingOverrideAttribute>
   </file>
+  <file src="src/Propel/Runtime/Connection/PropelPDO.php">
+    <UnusedClass>
+      <code><![CDATA[PropelPDO]]></code>
+    </UnusedClass>
+  </file>
   <file src="src/Propel/Runtime/Connection/StatementInterface.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[bindColumn]]></code>
@@ -2206,10 +2233,8 @@
       <code><![CDATA[bindColumn]]></code>
       <code><![CDATA[fetchAll]]></code>
       <code><![CDATA[getStyle]]></code>
+      <code><![CDATA[setStyle]]></code>
     </PossiblyUnusedMethod>
-    <PossiblyUnusedReturnValue>
-      <code><![CDATA[int]]></code>
-    </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Runtime/Formatter/AbstractFormatter.php">
     <PossiblyUnusedMethod>
@@ -2495,9 +2520,6 @@
     </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Propel/Runtime/Util/Profiler.php">
-    <InvalidArrayOffset>
-      <code><![CDATA[$suffix[$i]]]></code>
-    </InvalidArrayOffset>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
       <code><![CDATA[getConfiguration]]></code>

@@ -195,7 +195,10 @@ class Index extends MappingModel
                 $this->columnsSize[$name] = (int)$data['size'];
             }
             if ($this->getTable()) {
-                $this->columnObjects[] = $this->getTable()->getColumn($name);
+                $column = $this->getTable()->getColumn($name);
+                if ($column !== null) {
+                    $this->columnObjects[] = $column;
+                }
             }
         }
     }
