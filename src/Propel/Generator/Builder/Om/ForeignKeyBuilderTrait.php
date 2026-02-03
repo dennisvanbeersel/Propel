@@ -204,7 +204,7 @@ trait ForeignKeyBuilderTrait
                 $localColumns[$rightValueOrColumn->getPosition()] = '$this->' . $clo;
 
                 if ($cptype === 'int' || $cptype === 'float' || $cptype === 'double') {
-                    $conditional .= $and . '$this->' . $clo . ' != 0';
+                    $conditional .= $and . '$this->' . $clo . ' !== null';
                 } elseif ($cptype === 'string') {
                     $conditional .= $and . '($this->' . $clo . ' !== "" && $this->' . $clo . ' !== null)';
                 } else {
