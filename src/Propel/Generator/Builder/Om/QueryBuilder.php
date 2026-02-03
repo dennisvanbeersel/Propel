@@ -247,8 +247,7 @@ class QueryBuilder extends AbstractOMBuilder
      */
     protected function addEntityNotFoundExceptionClass(string &$script): void
     {
-        $exceptionClass = $this->getEntityNotFoundExceptionClass();
-        $script .= "    protected ?string \$entityNotFoundExceptionClass = " . ($exceptionClass !== null ? "'" . addslashes($exceptionClass) . "'" : 'null') . ";\n";
+        $script .= "    protected ?string \$entityNotFoundExceptionClass = " . var_export($this->getEntityNotFoundExceptionClass(), true) . ";\n";
     }
 
     /**
