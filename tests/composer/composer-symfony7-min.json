@@ -1,5 +1,5 @@
 {
-    "name": "propel/propel",
+    "name": "maturix/propel",
     "type": "library",
     "description": "Propel2 is an open-source Object-Relational Mapping (ORM) for PHP.",
     "keywords": ["ORM", "persistence", "Active Record"],
@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=8.3",
-        "psr/log": "^3.0",
+        "psr/log": "^2.0 || ^3.0",
         "symfony/yaml": "~7.0.0",
         "symfony/config": "~7.0.0",
         "symfony/console": "~7.0.0",
@@ -26,7 +26,7 @@
         "ext-pdo": "*",
         "ext-json": "*",
         "ext-xml": "*",
-        "monolog/monolog": "^3.0",
+        "monolog/monolog": "^2.3 || ^3.0",
         "phpstan/phpstan": "^2.0",
         "phpunit/phpunit": "^10.5 || ^11.0",
         "spryker/code-sniffer": "^0.17.2",
