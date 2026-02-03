@@ -310,7 +310,7 @@ class Profiler
         $suffix = ['B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
         $total = count($suffix);
 
-        for ($i = 0; $absBytes > 1024 && $i < $total; $i++) {
+        for ($i = 0; $absBytes > 1024 && $i < $total - 1; $i++) {
             $absBytes /= 1024;
         }
 

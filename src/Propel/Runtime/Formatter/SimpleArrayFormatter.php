@@ -119,9 +119,9 @@ class SimpleArrayFormatter extends AbstractFormatter
     }
 
     /**
-     * @param array $row
+     * @param array<array-key, mixed> $row
      *
-     * @return array|string|false
+     * @return mixed|array<array-key, mixed>
      */
     public function getStructuredArrayFromRow(array $row)
     {
