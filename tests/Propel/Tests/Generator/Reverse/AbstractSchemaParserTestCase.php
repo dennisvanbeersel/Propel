@@ -23,7 +23,7 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  *
  * @group database
  */
-abstract class AbstractSchemaParserTest extends BookstoreTestBase
+abstract class AbstractSchemaParserTestCase extends BookstoreTestBase
 {
     /**
      * @var \Propel\Generator\Reverse\SchemaParserInterface
