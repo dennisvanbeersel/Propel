@@ -1206,7 +1206,7 @@ class QueryBuilder extends AbstractOMBuilder
             if (\$this->containsKey(\$key)) {
                 \$this->addAnd(\$key, \$$variableName, \$comparison);
             } else {
-                \$this->addAnd(\$key, \$$variableName, \$comparison);
+                \$this->add(\$key, \$$variableName, \$comparison);
             }
             \$this->addOr(\$key, null, Criteria::ISNULL);
 
