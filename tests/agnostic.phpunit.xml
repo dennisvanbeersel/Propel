@@ -7,6 +7,9 @@
     cacheDirectory=".phpunit.cache"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
+    failOnDeprecation="false"
+    failOnPhpunitDeprecation="false"
+    failOnWarning="false"
 >
     <testsuites>
         <testsuite name="propel2">
