@@ -372,7 +372,7 @@ class CsvParser extends AbstractParser
      */
     protected function unserialize(string $input)
     {
-        return unserialize($input);
+        return unserialize($input, ['allowed_classes' => true]);
     }
 
     /**
