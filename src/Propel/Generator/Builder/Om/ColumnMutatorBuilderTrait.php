@@ -539,7 +539,7 @@ trait ColumnMutatorBuilderTrait
             $script .= '$con';
         }
         $script .= ") as \$element) {
-            if (\$element !== \$value) {
+            if (\$element != \$value) {
                 \$targetArray []= \$element;
             }
         }
