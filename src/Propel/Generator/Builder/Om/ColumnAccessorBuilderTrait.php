@@ -338,7 +338,7 @@ trait ColumnAccessorBuilderTrait
     {
         $clo = $column->getLowercasedName();
         $script .= "
-        return json_decode(\$this->$clo, \$asArray);";
+        return json_decode(\$this->$clo, \$asArray, 512, JSON_THROW_ON_ERROR);";
     }
 
     /**
