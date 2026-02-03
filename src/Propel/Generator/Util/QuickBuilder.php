@@ -263,7 +263,7 @@ class QuickBuilder
 
         $pdo = new PdoConnection($dsn, $user, $pass);
         $con = new ConnectionWrapper($pdo);
-        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_WARNING);
+        $con->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
         /** @phpstan-var \Propel\Runtime\Adapter\Pdo\SqliteAdapter $adapter */
         $adapter->initConnection($con, []);
         $this->buildSQL($con);

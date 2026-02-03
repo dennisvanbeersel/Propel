@@ -83,11 +83,12 @@ class BasicCriterion extends AbstractCriterion
                 // default case, it is a normal col = value expression; value
                 // will be replaced w/ '?' and will be inserted later using PDO bindValue()
                 if ($this->ignoreStringCase) {
-                    $sqlAdapter = $this->getAdapter();
-                    if ($sqlAdapter === null) {
+                    $adapter = $this->getAdapter();
+                    if ($adapter === null) {
                         throw new InvalidValueException('Adapter is required for case-insensitive comparison');
                     }
                     /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $sqlAdapter */
+                    $sqlAdapter = $adapter;
                     $sb .= $sqlAdapter->ignoreCase($field) . $this->comparison . $sqlAdapter->ignoreCase(':p' . count($params));
                 } else {
                     $sb .= $field . $this->comparison . ':p' . count($params);

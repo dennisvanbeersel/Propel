@@ -762,6 +762,8 @@ class Join
      *
      * @param array $params
      *
+     * @throws \Propel\Runtime\Exception\LogicException
+     *
      * @return string SQL join clause with join condition
      */
     public function getClause(array &$params): string

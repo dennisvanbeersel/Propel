@@ -82,7 +82,8 @@ class ColumnMap
         protected TableMap $table,
         protected string $phpName,
         protected string $type,
-    ) {}
+    ) {
+    }
 
     /**
      * Get the name of a column.

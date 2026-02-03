@@ -27,6 +27,8 @@ abstract class AbstractQueryExecutor
      * Defaults to true, but is overridden by subclasses.
      *
      * @see AbstractQueryExecutor::getConnection()
+     *
+     * @var bool
      */
     protected const NEEDS_WRITE_CONNECTION = true;
 
