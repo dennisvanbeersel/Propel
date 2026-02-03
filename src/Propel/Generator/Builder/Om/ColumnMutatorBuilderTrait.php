@@ -414,9 +414,9 @@ trait ColumnMutatorBuilderTrait
         $script .= "
         if (is_string(\$v)) {
             // JSON as string needs to be decoded/encoded to get a reliable comparison (spaces, ...)
-            \$v = json_decode(\$v);
+            \$v = json_decode(\$v, false, 512, JSON_THROW_ON_ERROR);
         }
-        \$encodedValue = json_encode(\$v);
+        \$encodedValue = json_encode(\$v, JSON_THROW_ON_ERROR);
         if (\$encodedValue !== \$this->$clo) {
             \$this->$clo = \$encodedValue;
             \$this->modifiedColumns[" . $this->getColumnConstant($col) . "] = true;
