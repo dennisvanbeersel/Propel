@@ -36,6 +36,9 @@ use Propel\Generator\Platform\PlatformInterface;
  */
 class SchemaReader
 {
+    /**
+     * @var bool
+     */
     public const DEBUG = false;
 
     private Schema $schema;

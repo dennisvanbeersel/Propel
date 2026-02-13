@@ -254,8 +254,9 @@ trait ColumnAccessorBuilderTrait
 
         $script .= "
         if (null === \$this->$cloUnserialized && is_resource(\$this->$clo)) {
+            rewind(\$this->$clo);
             if (\$serialisedString = stream_get_contents(\$this->$clo)) {
-                \$this->$cloUnserialized = unserialize(\$serialisedString);
+                \$this->$cloUnserialized = unserialize(\$serialisedString, ['allowed_classes' => true]);
             }
         }
 
@@ -338,7 +339,7 @@ trait ColumnAccessorBuilderTrait
     {
         $clo = $column->getLowercasedName();
         $script .= "
-        return json_decode(\$this->$clo, \$asArray);";
+        return \$this->$clo !== null ? json_decode(\$this->$clo, \$asArray, 512, JSON_THROW_ON_ERROR) : null;";
     }
 
     /**

@@ -2344,9 +2344,9 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
 
         $script .= "
         if (\$validPk) {
-            return crc32(json_encode(\$this->getPrimaryKey(), JSON_UNESCAPED_UNICODE));
+            return crc32(json_encode(\$this->getPrimaryKey(), JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
         } elseif (\$validPrimaryKeyFKs) {
-            return crc32(json_encode(\$primaryKeyFKs, JSON_UNESCAPED_UNICODE));
+            return crc32(json_encode(\$primaryKeyFKs, JSON_UNESCAPED_UNICODE | JSON_THROW_ON_ERROR));
         }
 
         return spl_object_hash(\$this);

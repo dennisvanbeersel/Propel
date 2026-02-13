@@ -1172,7 +1172,7 @@ class " . $this->getUnqualifiedClassName() . " extends TableMap
             \$col = \$offset + " . $this->getTableMapClass() . '::NUM_HYDRATE_COLUMNS;';
         if ($table->isAbstract()) {
             $script .= "
-        } elseif (null == \$key) {
+        } elseif (null === \$key) {
             // empty resultset, probably from a left join
             // since this table is abstract, we can't hydrate an empty object
             \$obj = null;

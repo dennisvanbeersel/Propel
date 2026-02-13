@@ -444,7 +444,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
     #[\ReturnTypeWillChange]
     public function unserialize($data): void
     {
-        $repr = unserialize($data);
+        $repr = unserialize($data, ['allowed_classes' => true]);
         $this->exchangeArray($repr['data']);
         $this->model = $repr['model'];
         $this->fullyQualifiedModel = $repr['fullyQualifiedModel'];

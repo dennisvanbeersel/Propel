@@ -27,17 +27,34 @@ class ForeignKey extends MappingModel
     /**
      * These constants are the uppercase equivalents of the onDelete / onUpdate
      * values in the schema definition.
+     *
+     * @var string
      */
     public const NONE = ''; // No 'ON [ DELETE | UPDATE]' behavior
 
+    /**
+     * @var string
+     */
     public const NOACTION = 'NO ACTION';
 
+    /**
+     * @var string
+     */
     public const CASCADE = 'CASCADE';
 
+    /**
+     * @var string
+     */
     public const RESTRICT = 'RESTRICT';
 
+    /**
+     * @var string
+     */
     public const SETDEFAULT = 'SET DEFAULT';
 
+    /**
+     * @var string
+     */
     public const SETNULL = 'SET NULL';
 
     /**

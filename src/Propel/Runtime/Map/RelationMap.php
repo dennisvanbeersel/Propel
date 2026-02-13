@@ -92,7 +92,8 @@ class RelationMap
         protected string $name,
         protected TableMap $localTable,
         protected TableMap $foreignTable,
-    ) {}
+    ) {
+    }
 
     /**
      * @return bool

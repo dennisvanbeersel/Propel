@@ -249,7 +249,7 @@ abstract class DataModelBuilder
     {
         /** @var static $builder */
         $builder = new $classname($table);
-        $builder->setGeneratorConfig($this);
+        $builder->setGeneratorConfig($this->getGeneratorConfig());
 
         return $builder;
     }

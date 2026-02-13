@@ -6,6 +6,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Generator\Reverse;
 
 use PDO;
@@ -21,7 +23,7 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
  * @group database
  * @group mysql
  */
-class MysqlSchemaParserTest extends AbstractSchemaParserTest
+class MysqlSchemaParserTest extends AbstractSchemaParserTestCase
 {
     /**
      * @return string

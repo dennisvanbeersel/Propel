@@ -204,7 +204,7 @@ trait ForeignKeyBuilderTrait
                 $localColumns[$rightValueOrColumn->getPosition()] = '$this->' . $clo;
 
                 if ($cptype === 'int' || $cptype === 'float' || $cptype === 'double') {
-                    $conditional .= $and . '$this->' . $clo . ' != 0';
+                    $conditional .= $and . '$this->' . $clo . ' !== null';
                 } elseif ($cptype === 'string') {
                     $conditional .= $and . '($this->' . $clo . ' !== "" && $this->' . $clo . ' !== null)';
                 } else {
@@ -249,7 +249,9 @@ trait ForeignKeyBuilderTrait
         if ($fk->isLocalPrimaryKey()) {
             $script .= "
             // Because this foreign key represents a one-to-one relationship, we will create a bi-directional association.
-            \$this->{$varName}->set" . $this->getRefFKPhpNameAffix($fk, false) . '($this);';
+            if (\$this->{$varName} !== null) {
+                \$this->{$varName}->set" . $this->getRefFKPhpNameAffix($fk, false) . '($this);
+            }';
         } else {
             $script .= "
             /* The following can be used additionally to

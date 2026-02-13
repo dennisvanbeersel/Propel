@@ -84,7 +84,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * Cache of prepared statements (StatementWrapper) keyed by SQL.
      *
-     * @var array<string, StatementWrapper>
+     * @var array<string, \Propel\Runtime\Connection\StatementWrapper>
      */
     protected array $cachedPreparedStatements = [];
 

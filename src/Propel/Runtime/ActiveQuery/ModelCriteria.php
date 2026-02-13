@@ -135,7 +135,7 @@ class ModelCriteria extends BaseModelCriteria
      */
     public function condition(string $conditionName, string $clause, $value = null, $bindingType = null)
     {
-        $this->addCond($conditionName, $this->getCriterionForClause($clause, $value, $bindingType), null, $bindingType);
+        $this->addCond($conditionName, $this->getCriterionForClause($clause, $value, $bindingType));
 
         return $this;
     }

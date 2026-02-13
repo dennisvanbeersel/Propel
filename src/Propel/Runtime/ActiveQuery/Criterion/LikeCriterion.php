@@ -13,6 +13,7 @@ namespace Propel\Runtime\ActiveQuery\Criterion;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException;
 use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
+use Propel\Runtime\Adapter\SqlAdapterInterface;
 
 /**
  * Specialized Criterion used for LIKE expressions
@@ -65,28 +66,30 @@ class LikeCriterion extends AbstractCriterion
      * @param string $sb The string that will receive the Prepared Statement
      * @param array $params A list to which Prepared Statement parameters will be appended
      *
+     * @throws \Propel\Runtime\ActiveQuery\Criterion\Exception\InvalidValueException
+     *
      * @return void
      */
     protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void
     {
         $field = ($this->table === null) ? $this->column : $this->table . '.' . $this->column;
-        $db = $this->getAdapter();
+        $adapter = $this->getAdapter();
 
         // If selection is case insensitive use ILIKE for PostgreSQL or SQL
         // UPPER() function on column name for other databases.
         if ($this->ignoreStringCase) {
-            if ($db === null) {
+            if ($adapter === null) {
                 throw new InvalidValueException('Adapter is required for case-insensitive LIKE comparison');
             }
-            if ($db instanceof PgsqlAdapter) {
+            if ($adapter instanceof PgsqlAdapter) {
                 if ($this->comparison === Criteria::LIKE) {
                     $this->comparison = Criteria::ILIKE;
                 } elseif ($this->comparison === Criteria::NOT_LIKE) {
                     $this->comparison = Criteria::NOT_ILIKE;
                 }
             } else {
-                /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $db */
-                $field = $db->ignoreCase($field);
+                assert($adapter instanceof SqlAdapterInterface);
+                $field = $adapter->ignoreCase($field);
             }
         }
 
@@ -96,9 +99,9 @@ class LikeCriterion extends AbstractCriterion
 
         // If selection is case insensitive use SQL UPPER() function
         // on criteria or, if Postgres we are using ILIKE, so not necessary.
-        if ($this->ignoreStringCase && !($db instanceof PgsqlAdapter)) {
-            /** @var \Propel\Runtime\Adapter\SqlAdapterInterface $db */
-            $sb .= $db->ignoreCase(':p' . count($params));
+        if ($this->ignoreStringCase && !($adapter instanceof PgsqlAdapter)) {
+            assert($adapter instanceof SqlAdapterInterface);
+            $sb .= $adapter->ignoreCase(':p' . count($params));
         } else {
             $sb .= ':p' . count($params);
         }

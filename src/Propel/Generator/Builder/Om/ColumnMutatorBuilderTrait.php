@@ -384,7 +384,7 @@ trait ColumnMutatorBuilderTrait
         $this->addMutatorOpen($script, $col);
 
         $script .= "
-        if (null === \$this->$clo || stream_get_contents(\$this->$clo) !== serialize(\$v)) {
+        if (null === \$this->$clo || (rewind(\$this->$clo) !== false && stream_get_contents(\$this->$clo) !== serialize(\$v))) {
             \$this->$cloUnserialized = \$v;
             \$this->$clo = fopen('php://memory', 'r+');
             fwrite(\$this->$clo, serialize(\$v));
@@ -414,9 +414,9 @@ trait ColumnMutatorBuilderTrait
         $script .= "
         if (is_string(\$v)) {
             // JSON as string needs to be decoded/encoded to get a reliable comparison (spaces, ...)
-            \$v = json_decode(\$v);
+            \$v = json_decode(\$v, false, 512, JSON_THROW_ON_ERROR);
         }
-        \$encodedValue = json_encode(\$v);
+        \$encodedValue = json_encode(\$v, JSON_THROW_ON_ERROR);
         if (\$encodedValue !== \$this->$clo) {
             \$this->$clo = \$encodedValue;
             \$this->modifiedColumns[" . $this->getColumnConstant($col) . "] = true;
@@ -463,7 +463,7 @@ trait ColumnMutatorBuilderTrait
     {
         $clo = $col->getLowercasedName();
         $cfc = $col->getPhpName();
-        $visibility = $col->getAccessorVisibility();
+        $visibility = $col->getMutatorVisibility();
         $singularPhpName = $col->getPhpSingularName();
         $columnType = ($col->getType() === PropelTypes::PHP_ARRAY) ? 'array' : 'set';
         $script .= "
@@ -511,7 +511,7 @@ trait ColumnMutatorBuilderTrait
     {
         $clo = $col->getLowercasedName();
         $cfc = $col->getPhpName();
-        $visibility = $col->getAccessorVisibility();
+        $visibility = $col->getMutatorVisibility();
         $singularPhpName = $col->getPhpSingularName();
         $columnType = ($col->getType() === PropelTypes::PHP_ARRAY) ? 'array' : 'set';
         $script .= "
@@ -539,7 +539,7 @@ trait ColumnMutatorBuilderTrait
             $script .= '$con';
         }
         $script .= ") as \$element) {
-            if (\$element !== \$value) {
+            if (\$element != \$value) {
                 \$targetArray []= \$element;
             }
         }

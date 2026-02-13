@@ -1086,8 +1086,8 @@ class Criteria
         $join->setIdentifierQuoting($this->isIdentifierQuotingEnabled());
         $joinCondition = null;
         foreach ($conditions as $condition) {
-            $left = $condition[0];
-            $right = $condition[1];
+            $left = (string)$condition[0];
+            $right = (string)$condition[1];
             $pos = strrpos($left, '.');
             if ($pos) {
                 $leftTableAlias = substr($left, 0, $pos);

@@ -247,7 +247,7 @@ class QueryBuilder extends AbstractOMBuilder
      */
     protected function addEntityNotFoundExceptionClass(string &$script): void
     {
-        $script .= "    protected ?string \$entityNotFoundExceptionClass = '" . addslashes($this->getEntityNotFoundExceptionClass()) . "';\n";
+        $script .= '    protected ?string $entityNotFoundExceptionClass = ' . var_export($this->getEntityNotFoundExceptionClass(), true) . ";\n";
     }
 
     /**
@@ -1157,6 +1157,9 @@ class QueryBuilder extends AbstractOMBuilder
             \$$variableName = in_array(strtolower(\$$variableName), array('false', 'off', '-', 'no', 'n', '0', ''), true) ? false : true;
         }";
         } elseif ($col->isUuidBinaryType()) {
+            $this->declareClasses(
+                'Propel\Runtime\Util\UuidConverter',
+            );
             $uuidSwapFlag = $this->getUuidSwapFlagLiteral();
             $script .= "
         \$$variableName = UuidConverter::uuidToBinRecursive(\$$variableName, $uuidSwapFlag);";
@@ -1206,7 +1209,7 @@ class QueryBuilder extends AbstractOMBuilder
             if (\$this->containsKey(\$key)) {
                 \$this->addAnd(\$key, \$$variableName, \$comparison);
             } else {
-                \$this->addAnd(\$key, \$$variableName, \$comparison);
+                \$this->add(\$key, \$$variableName, \$comparison);
             }
             \$this->addOr(\$key, null, Criteria::ISNULL);
 
