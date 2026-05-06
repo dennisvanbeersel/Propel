@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Base;
 
 use \DateTime;
@@ -491,7 +493,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param string|null $format The date/time format string (either date()-style or strftime()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00.
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.
      *
      * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
      *
@@ -513,7 +515,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param string|null $format The date/time format string (either date()-style or strftime()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00.
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.
      *
      * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
      *
@@ -816,15 +818,9 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
             $this->not_enabled = (null !== $col) ? (boolean) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('Created', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00 00:00:00') {
-                $col = null;
-            }
             $this->created = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 6 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('Updated', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00 00:00:00') {
-                $col = null;
-            }
             $this->updated = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 7 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('RoleId', TableMap::TYPE_PHPNAME, $indexType)];
@@ -1157,11 +1153,11 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
 
                         break;
                     case 'enabled':
-                        $stmt->bindValue($identifier, (int) $this->enabled, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->enabled, PDO::PARAM_BOOL);
 
                         break;
                     case 'not_enabled':
-                        $stmt->bindValue($identifier, (int) $this->not_enabled, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->not_enabled, PDO::PARAM_BOOL);
 
                         break;
                     case 'created':
@@ -1219,7 +1215,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BookstoreEmployeeAccountTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)BookstoreEmployeeAccountTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1377,7 +1373,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      */
     public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BookstoreEmployeeAccountTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)BookstoreEmployeeAccountTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Base;
 
 use \DateTime;
@@ -436,7 +438,7 @@ abstract class BookClubList implements ActiveRecordInterface
      * @param string|null $format The date/time format string (either date()-style or strftime()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00 00:00:00.
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.
      *
      * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
      *
@@ -577,9 +579,6 @@ abstract class BookClubList implements ActiveRecordInterface
             $this->theme = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookClubListTableMap::translateFieldName('CreatedAt', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00 00:00:00') {
-                $col = null;
-            }
             $this->created_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $this->resetModified();
@@ -974,7 +973,7 @@ abstract class BookClubList implements ActiveRecordInterface
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BookClubListTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)BookClubListTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1093,7 +1092,7 @@ abstract class BookClubList implements ActiveRecordInterface
      */
     public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = BookClubListTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)BookClubListTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
 

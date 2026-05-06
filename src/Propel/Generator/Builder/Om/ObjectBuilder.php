@@ -1851,7 +1851,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     protected function addGetByNameBody(string &$script): void
     {
         $script .= "
-        \$pos = " . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
+        \$pos = (int)" . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
         \$field = \$this->getByPosition(\$pos);";
     }
 
@@ -1992,7 +1992,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      */
     public function setByName(string \$name, \$value, string \$type = TableMap::$defaultKeyType)
     {
-        \$pos = " . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
+        \$pos = (int)" . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
 
         \$this->setByPosition(\$pos, \$value);
 

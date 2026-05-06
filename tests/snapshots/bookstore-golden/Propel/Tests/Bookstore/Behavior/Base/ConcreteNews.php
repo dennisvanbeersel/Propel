@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Behavior\Base;
 
 use \Exception;
@@ -923,7 +925,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ConcreteNewsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)ConcreteNewsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1072,7 +1074,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      */
     public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ConcreteNewsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)ConcreteNewsTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
 

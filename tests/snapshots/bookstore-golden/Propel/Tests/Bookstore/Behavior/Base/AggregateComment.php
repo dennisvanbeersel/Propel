@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Behavior\Base;
 
 use \Exception;
@@ -726,7 +728,7 @@ abstract class AggregateComment implements ActiveRecordInterface
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AggregateCommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)AggregateCommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -818,7 +820,7 @@ abstract class AggregateComment implements ActiveRecordInterface
      */
     public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = AggregateCommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)AggregateCommentTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
 

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Behavior;
 
 use Propel\Tests\Bookstore\Behavior\Base\SortableTable11 as BaseSortableTable11;

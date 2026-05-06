@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Map;
 
 use Propel\Runtime\Propel;
@@ -191,7 +193,7 @@ class BookOpinionTableMap extends TableMap
         $this->addForeignPrimaryKey('book_id', 'BookId', 'INTEGER' , 'book', 'id', true, null, null);
         $this->addForeignPrimaryKey('reader_id', 'ReaderId', 'INTEGER' , 'book_reader', 'id', true, null, null);
         $this->addColumn('rating', 'Rating', 'DECIMAL', false, null, null);
-        $this->addColumn('recommend_to_friend', 'RecommendToFriend', 'BOOLEAN', false, 1, null);
+        $this->addColumn('recommend_to_friend', 'RecommendToFriend', 'BOOLEAN', false, null, null);
     }
 
     /**

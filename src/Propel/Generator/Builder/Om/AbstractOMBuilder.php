@@ -91,6 +91,8 @@ abstract class AbstractOMBuilder extends DataModelBuilder
 
         $script = "<?php
 
+declare(strict_types=1);
+
 " . $script;
 
         return $this->clean($script);

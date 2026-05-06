@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Base;
 
 use \Exception;
@@ -547,7 +549,7 @@ abstract class CountryTranslation implements ActiveRecordInterface
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = CountryTranslationTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)CountryTranslationTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;

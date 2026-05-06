@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Behavior;
 
 use Propel\Tests\Bookstore\Behavior\Base\Table14Query as BaseTable14Query;

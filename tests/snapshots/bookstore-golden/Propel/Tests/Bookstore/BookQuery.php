@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore;
 
 use Propel\Tests\Bookstore\Base\BookQuery as BaseBookQuery;

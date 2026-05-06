@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Base;
 
 use Propel\Runtime\ActiveQuery\Criteria;

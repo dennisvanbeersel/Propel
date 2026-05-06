@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Propel\Tests\Bookstore\Base;
 
 use \DateTime;
@@ -387,7 +389,7 @@ abstract class Review implements ActiveRecordInterface
      * @param string|null $format The date/time format string (either date()-style or strftime()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL), and 0 if column value is 0000-00-00.
+     * @return string|DateTime Formatted date/time value as string or DateTime object (if format is NULL).
      *
      * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
      *
@@ -623,9 +625,6 @@ abstract class Review implements ActiveRecordInterface
             $this->reviewed_by = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : ReviewTableMap::translateFieldName('ReviewDate', TableMap::TYPE_PHPNAME, $indexType)];
-            if ($col === '0000-00-00') {
-                $col = null;
-            }
             $this->review_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ReviewTableMap::translateFieldName('Recommended', TableMap::TYPE_PHPNAME, $indexType)];
@@ -904,7 +903,7 @@ abstract class Review implements ActiveRecordInterface
 
                         break;
                     case 'recommended':
-                        $stmt->bindValue($identifier, (int) $this->recommended, PDO::PARAM_INT);
+                        $stmt->bindValue($identifier, $this->recommended, PDO::PARAM_BOOL);
 
                         break;
                     case 'status':
@@ -961,7 +960,7 @@ abstract class Review implements ActiveRecordInterface
      */
     public function getByName(string $name, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ReviewTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)ReviewTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
         $field = $this->getByPosition($pos);
 
         return $field;
@@ -1073,7 +1072,7 @@ abstract class Review implements ActiveRecordInterface
      */
     public function setByName(string $name, $value, string $type = TableMap::TYPE_PHPNAME)
     {
-        $pos = ReviewTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
+        $pos = (int)ReviewTableMap::translateFieldName($name, $type, TableMap::TYPE_NUM);
 
         $this->setByPosition($pos, $value);
 

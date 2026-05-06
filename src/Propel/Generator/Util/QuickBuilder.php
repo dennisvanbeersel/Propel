@@ -512,6 +512,15 @@ class QuickBuilder
         }
 
         $script = str_replace('<?php', '', $script);
+        // The combined script is concatenated and prefixed with a single
+        // `<?php` opener at the consumer (see buildClassesToPhysical /
+        // buildClassesToVirtual). Each generated file emits its own
+        // `declare(strict_types=1);` statement, but PHP only allows that
+        // declaration as the very first statement of a file. Strip the
+        // per-file declarations here so the concatenated output stays
+        // syntactically valid; strict_types in the combined sandbox file is
+        // not required for QuickBuilder's runtime tests.
+        $script = preg_replace('/^\s*declare\s*\(\s*strict_types\s*=\s*1\s*\)\s*;\s*$/m', '', $script);
 
         return $script;
     }
