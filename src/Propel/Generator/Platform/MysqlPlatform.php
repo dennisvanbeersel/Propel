@@ -64,6 +64,14 @@ class MysqlPlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::REAL, 'DOUBLE'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BINARY', 16));
 
+        // Phase C (umbrella §6.4): MySQL native JSON; JSONB folds to JSON (MySQL has no JSONB).
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'JSON'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'JSON'));
+        // INET/CIDR/TSVECTOR are PG-only; MySQL gets compatible substitutes with comment hints.
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'VARBINARY', 16));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'VARBINARY', 17));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TEXT'));
+
         $this->setUuidTypeMapping();
     }
 

@@ -83,6 +83,14 @@ class SqlitePlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::SET, 'INT'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BLOB'));
 
+        // Phase C (umbrella §6.4 + §1.2 frozen-feature stance): SQLite stores
+        // JSON/JSONB/INET/CIDR/TSVECTOR as TEXT (no native type support).
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TEXT'));
+
         // no native UUID type, use UUID_BINARY
         $this->schemaDomainMap[PropelTypes::UUID] = $this->schemaDomainMap[PropelTypes::UUID_BINARY];
     }

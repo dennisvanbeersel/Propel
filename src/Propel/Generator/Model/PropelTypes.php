@@ -179,6 +179,35 @@ class PropelTypes
     public const JSON = 'JSON';
 
     /**
+     * Phase C (umbrella §6.4): native PostgreSQL JSONB.
+     * Maps to JSON on MySQL with deprecation note (MySQL has no JSONB).
+     *
+     * @var string
+     */
+    public const JSONB = 'JSONB';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL INET.
+     *
+     * @var string
+     */
+    public const INET = 'INET';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL CIDR.
+     *
+     * @var string
+     */
+    public const CIDR = 'CIDR';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL TSVECTOR.
+     *
+     * @var string
+     */
+    public const TSVECTOR = 'TSVECTOR';
+
+    /**
      * @var string
      */
     public const CHAR_NATIVE_TYPE = 'string';
@@ -388,6 +417,11 @@ class PropelTypes
         self::BU_TIMESTAMP,
         self::SET,
         self::JSON,
+        // Phase C (umbrella §6.4)
+        self::JSONB,
+        self::INET,
+        self::CIDR,
+        self::TSVECTOR,
         self::UUID,
         self::UUID_BINARY,
     ];
@@ -429,6 +463,11 @@ class PropelTypes
         self::SET => self::SET_NATIVE_TYPE,
         self::GEOMETRY => self::GEOMETRY_NATIVE_TYPE,
         self::JSON => self::JSON_TYPE,
+        // Phase C (umbrella §6.4): all five new types are PHP-string-backed.
+        self::JSONB => self::JSON_TYPE,
+        self::INET => self::JSON_TYPE,
+        self::CIDR => self::JSON_TYPE,
+        self::TSVECTOR => self::JSON_TYPE,
         self::UUID => self::UUID_NATIVE_TYPE,
         self::UUID_BINARY => self::UUID_NATIVE_TYPE,
     ];
@@ -475,6 +514,11 @@ class PropelTypes
         self::BU_DATE => PDO::PARAM_STR,
         self::BU_TIMESTAMP => PDO::PARAM_STR,
         self::JSON => PDO::PARAM_STR,
+        // Phase C (umbrella §6.4): all five new types bind as strings on PDO.
+        self::JSONB => PDO::PARAM_STR,
+        self::INET => PDO::PARAM_STR,
+        self::CIDR => PDO::PARAM_STR,
+        self::TSVECTOR => PDO::PARAM_STR,
         self::UUID => PDO::PARAM_STR,
         self::UUID_BINARY => PDO::PARAM_LOB,
     ];

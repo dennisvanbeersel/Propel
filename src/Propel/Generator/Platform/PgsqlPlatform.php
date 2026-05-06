@@ -65,6 +65,13 @@ class PgsqlPlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::DATETIME, 'TIMESTAMP'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID, 'uuid'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BYTEA'));
+
+        // Phase C (umbrella §6.4): native PostgreSQL types.
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'JSON'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'JSONB'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'INET'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'CIDR'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TSVECTOR'));
     }
 
     /**
