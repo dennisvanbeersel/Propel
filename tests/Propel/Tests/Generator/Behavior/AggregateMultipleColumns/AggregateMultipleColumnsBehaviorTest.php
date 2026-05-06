@@ -25,9 +25,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Uses the tables defined in tests/Fixtures/bookstore/behavior-aggregate-multiple-schema.xml
  *
  * @author Moritz Ringler
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AggregateMultipleColumnsBehaviorTest extends BookstoreTestBase
 {
     /**

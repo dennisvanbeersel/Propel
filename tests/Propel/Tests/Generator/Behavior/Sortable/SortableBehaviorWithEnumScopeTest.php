@@ -14,9 +14,8 @@ use Propel\Tests\Bookstore\Behavior\SortableTable13Query;
  * Tests for SortableBehavior class
  *
  * @author Arnaud Lejosne
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SortableBehaviorWithEnumScopeTest extends TestCase
 {
     /**

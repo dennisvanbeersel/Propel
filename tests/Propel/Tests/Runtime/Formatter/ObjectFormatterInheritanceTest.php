@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for ObjectFormatter.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ObjectFormatterInheritanceTest extends BookstoreEmptyTestBase
 {
     /**

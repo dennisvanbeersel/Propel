@@ -13,9 +13,7 @@ use Propel\Tests\Bookstore\Book2;
 use Propel\Tests\Bookstore\Map\Book2TableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class UuidTypeTest extends BookstoreTestBase
 {
     /**

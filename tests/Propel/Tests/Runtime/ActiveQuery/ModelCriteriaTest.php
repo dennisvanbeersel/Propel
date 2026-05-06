@@ -41,9 +41,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for ModelCriteria.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ModelCriteriaTest extends BookstoreTestBase
 {
     /**
@@ -248,10 +247,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider conditionsForTestWhere
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestWhere')]
     public function testWhere($clause, $value, $sql, $params)
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Book');
@@ -371,10 +369,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testWhereTypeValue()
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Book', 'b');
@@ -524,10 +521,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider filterByWithSubqueryDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('filterByWithSubqueryDataProvider')]
     public function testFilterByWithSubquery(string $description, ?string $operatorInput, string $sqlOperator)
     {
         $subquery = AuthorQuery::create()->filterByAge(40, Criteria::GREATER_EQUAL)->select('FirstName');
@@ -610,10 +606,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testHavingWithColumn()
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Book');
@@ -1592,10 +1587,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider conditionsForTestWithColumn
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestWithColumn')]
     public function testWithColumn($clause, $alias, $selectTranslation)
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Book');
@@ -1622,10 +1616,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider conditionsForTestWithColumnAndQuotes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestWithColumnAndQuotes')]
     public function testWithColumnAndQuotes($clause, $alias, $selectTranslation)
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Author');
@@ -2552,10 +2545,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider conditionsForTestGetRelationName
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestGetRelationName')]
     public function testGetRelationName($relation, $relationName)
     {
         $this->assertEquals($relationName, ModelCriteria::getrelationName($relation));
@@ -3263,10 +3255,9 @@ class ModelCriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testJoinSelectColumn()
     {
         BookQuery::create()

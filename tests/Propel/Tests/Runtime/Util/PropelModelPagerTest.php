@@ -20,9 +20,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test the utility class PropelModelPager
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PropelModelPagerTest extends BookstoreEmptyTestBase
 {
     private $authorId;

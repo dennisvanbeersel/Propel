@@ -460,10 +460,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForInvalidConnections
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForInvalidConnections')]
     public function testRuntimeOrGeneratorConnectionIsNotInConfiguredConnectionsThrowsException($yamlConf, $section)
     {
         $this->expectException(InvalidConfigurationException::class);
@@ -473,10 +472,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForInvalidDefaultConnection
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForInvalidDefaultConnection')]
     public function testRuntimeOrGeneratorDefaultConnectionIsNotInConfiguredConnectionsThrowsException($yamlConf, $section)
     {
         $this->expectException(InvalidConfigurationException::class);

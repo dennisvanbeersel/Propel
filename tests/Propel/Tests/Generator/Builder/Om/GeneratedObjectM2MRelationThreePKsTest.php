@@ -43,9 +43,8 @@ use Relation6UserQuery;
 
 /**
  * Tests for a M2M relation with three pks where each is a FK.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectM2MRelationThreePKsTest extends PlatformDatabaseBuildTimeBase
 {
     protected $databaseName = 'migration';

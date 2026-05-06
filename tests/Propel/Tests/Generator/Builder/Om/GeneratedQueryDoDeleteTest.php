@@ -51,9 +51,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  *
  * @see BookstoreDataPopulator
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedQueryDoDeleteTest extends BookstoreEmptyTestBase
 {
     /**
@@ -453,10 +452,10 @@ class GeneratedQueryDoDeleteTest extends BookstoreEmptyTestBase
     /**
      * Test passing null values to removeInstanceFromPool().
      *
-     * @doesNotPerformAssertions
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testRemoveInstanceFromPool_Null()
     {
         // if it throws an exception, then it's broken.

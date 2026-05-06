@@ -32,10 +32,9 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideDomainData
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDomainData')]
     public function testSetupObject($default, $expression)
     {
         $platform = $this->getPlatformMock();
@@ -130,10 +129,9 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideBooleanValues
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideBooleanValues')]
     public function testGetBooleanValue($mappingType, $booleanAsString, $expected)
     {
         $value = $this->getColumnDefaultValueMock();
@@ -185,10 +183,9 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideSizeDefinitions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSizeDefinitions')]
     public function testGetSizeDefinition($size, $scale, $definition)
     {
         $domain = new Domain('FLOAT', 'DOUBLE', $size, $scale);

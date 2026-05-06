@@ -39,10 +39,9 @@ class SqlParserTest extends TestCase
     }
 
     /**
-     * @dataProvider stripSqlCommentsDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stripSqlCommentsDataProvider')]
     public function testStripSQLComments($input, $output)
     {
         $parser = new SqlParser();
@@ -64,10 +63,9 @@ class SqlParserTest extends TestCase
     }
 
     /**
-     * @dataProvider convertLineFeedsToUnixStyleDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('convertLineFeedsToUnixStyleDataProvider')]
     public function testConvertLineFeedsToUnixStyle($input, $output)
     {
         $parser = new SqlParser();
@@ -93,10 +91,9 @@ class SqlParserTest extends TestCase
     }
 
     /**
-     * @dataProvider explodeIntoStatementsDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('explodeIntoStatementsDataProvider')]
     public function testExplodeIntoStatements($input, $output)
     {
         $parser = new SqlParser();

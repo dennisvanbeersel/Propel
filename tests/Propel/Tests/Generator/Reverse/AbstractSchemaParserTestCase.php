@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * @author Moritz Ringler
  *
  * @abstract
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 abstract class AbstractSchemaParserTestCase extends BookstoreTestBase
 {
     /**

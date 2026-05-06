@@ -26,9 +26,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
 /**
  * Test for PropelPDO subclass.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PropelPDOTest extends BookstoreTestBase
 {
     /**
@@ -83,10 +82,9 @@ class PropelPDOTest extends BookstoreTestBase
     }
 
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testPdoSignature()
     {
         $con = $this->con;
@@ -249,10 +247,10 @@ class PropelPDOTest extends BookstoreTestBase
     /**
      * @link http://trac.propelorm.org/ticket/699
      *
-     * @group mysql
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testNestedTransactionRollBackSwallow()
     {
         $con = $this->con;

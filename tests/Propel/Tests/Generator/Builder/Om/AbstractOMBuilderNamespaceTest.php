@@ -186,11 +186,11 @@ class AbstractOMBuilderNamespaceTest extends TestCase
     }
 
     /**
-     * @dataProvider namespaceDataProvider
-     * @doesNotPerformAssertions
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('namespaceDataProvider')]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testDeclareClassNamespaceIgnoresLeadingSlashInNamespace(string $tableNamespace, string $classNamespace, string $message): void
     {
         $table = new Table('Table1');

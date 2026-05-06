@@ -17,10 +17,9 @@ use Propel\Tests\Helpers\PlatformDatabaseBuildTimeBase;
  * Since the build property `addVendorInfo` is per default not set (= false), the `MysqlSchemaParser` **did**
  * not return the `Engine` of the table. Since we depend on that information in `MysqlPlatform`,
  * we really need that kind of information.
- *
- * @group mysql
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('mysql')]
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue617Test extends PlatformDatabaseBuildTimeBase
 {
     /**

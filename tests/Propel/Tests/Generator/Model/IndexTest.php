@@ -46,10 +46,9 @@ class IndexTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideTableSpecificAttributes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTableSpecificAttributes')]
     public function testCreateDefaultIndexName($tableName, $maxColumnNameLength, $indexName)
     {
         $database = $this->getDatabaseMock('bookstore');
@@ -79,10 +78,9 @@ class IndexTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideColumnDefinitions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideColumnDefinitions')]
     public function testAddIndexedColumns($columns): void
     {
         // Handle the 'mocks' case by creating Column mocks
@@ -152,10 +150,9 @@ class IndexTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideColumnAttributes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideColumnAttributes')]
     public function testNoColumnAtPositionCaseSensitivity($name, $case)
     {
         $index = new Index();

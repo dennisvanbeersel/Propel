@@ -18,9 +18,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for SubQueryTest.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SubQueryTest extends BookstoreTestBase
 {
     /**

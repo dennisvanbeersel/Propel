@@ -32,9 +32,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
 /**
  * Tests for Namespaces in generated classes class
  * Requires a build of the 'namespaced' fixture
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class NamespaceTest extends TestCaseFixturesDatabase
 {
 //    protected function setUp(): void

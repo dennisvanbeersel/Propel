@@ -16,9 +16,7 @@ use Propel\Tests\Runtime\TypeTests\DummyObjectClass;
 use Propel\Tests\Runtime\TypeTests\TypeObjectInterface;
 use ReflectionClass;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class TypeTest extends BookstoreTestBase
 {
     /**

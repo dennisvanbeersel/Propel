@@ -22,8 +22,8 @@ use Propel\Tests\TestCase;
  * Tests for I18nBehavior class query modifier
  *
  * @author François Zaninotto
- * @group teschd
  */
+#[\PHPUnit\Framework\Attributes\Group('teschd')]
 class I18nBehaviorQueryBuilderModifierTest extends TestCase
 {
     /**

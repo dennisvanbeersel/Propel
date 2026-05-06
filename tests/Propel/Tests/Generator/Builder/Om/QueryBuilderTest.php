@@ -46,9 +46,8 @@ use ReflectionMethod;
  * Test class for QueryBuilder.
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class QueryBuilderTest extends BookstoreTestBase
 {
     /**

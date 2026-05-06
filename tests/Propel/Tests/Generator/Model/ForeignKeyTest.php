@@ -532,10 +532,9 @@ class ForeignKeyTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideOnActionBehaviors
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideOnActionBehaviors')]
     public function testNormalizeForeignKey($behavior, $normalized)
     {
         $fk = new ForeignKey();
@@ -558,10 +557,9 @@ class ForeignKeyTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideOnActionBehaviorsWithDefault
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideOnActionBehaviorsWithDefault')]
     public function testNormalizeForeignKeyWithDefault($behavior, $default, $normalized)
     {
         $fk = new ForeignKey();

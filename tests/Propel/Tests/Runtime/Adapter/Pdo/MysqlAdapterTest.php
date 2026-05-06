@@ -47,12 +47,11 @@ class MysqlAdapterTest extends TestCaseFixtures
     }
 
     /**
-     * @dataProvider getConParams
      *
      * @param array $conparams
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getConParams')]
     public function testPrepareParamsThrowsException($conparams)
     {
         $db = new TestableMysqlAdapter();
@@ -62,10 +61,9 @@ class MysqlAdapterTest extends TestCaseFixtures
     }
 
     /**
-     * @dataProvider getConParams
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getConParams')]
     public function testPrepareParams($conparams)
     {
         $db = new TestableMysqlAdapter();
@@ -77,10 +75,9 @@ class MysqlAdapterTest extends TestCaseFixtures
     }
 
     /**
-     * @dataProvider getConParams
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getConParams')]
     public function testNoSetNameQueryExecuted($conparams)
     {
         $db = new TestableMysqlAdapter();
@@ -110,9 +107,8 @@ class MysqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group mysql
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testSimpleLock(): void
     {
         $c = new BookQuery();
@@ -131,9 +127,8 @@ class MysqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group mysql
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testComplexLock(): void
     {
         $c = new BookQuery();
@@ -150,9 +145,8 @@ class MysqlAdapterTest extends TestCaseFixtures
 
     /**
      * @return void
-     *
-     * @group mysql
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testSubQueryWithSharedLock()
     {
         $subquery = BookQuery::create()

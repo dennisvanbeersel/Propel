@@ -16,9 +16,8 @@ use Table829;
 
 /**
  * Regression test for https://github.com/propelorm/Propel2/issues/829
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue829Test extends TestCase
 {
     /**
@@ -45,10 +44,9 @@ class Issue829Test extends TestCase
      * that can be serialized but cannot be casted to a string (f.in. \DateTime)
      */
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testAddingToInstancePool()
     {
         $date = new DateTime();

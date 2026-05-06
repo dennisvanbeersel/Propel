@@ -27,19 +27,18 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  *
  * @see BookstoreDataPopulator
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class TableMapTest extends BookstoreTestBase
 {
     /**
-     * @doesNotPerformAssertions
-     * @group pgsql
      *
      * @link http://propel.phpdb.org/trac/ticket/425
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testMultipleFunctionInCriteriaOnPostgres()
     {
         try {
@@ -76,10 +75,9 @@ class TableMapTest extends BookstoreTestBase
     }
 
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testDoCountDuplicateColumnName()
     {
         $con = Propel::getServiceContainer()->getReadConnection(BookTableMap::DATABASE_NAME);

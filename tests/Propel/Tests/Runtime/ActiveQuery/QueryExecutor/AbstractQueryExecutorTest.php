@@ -17,9 +17,7 @@ use Propel\Runtime\ServiceContainer\ServiceContainerInterface;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AbstractQueryExecutorTest extends BookstoreTestBase
 {
     /**
@@ -35,15 +33,14 @@ class AbstractQueryExecutorTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider queryExceptionOutputFormatDataProvider
      *
      * @param bool $useDebug
      * @param string $sqlStatement
      * @param string $internalErrorMessage
      * @param string $expectedPublicMessage
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('queryExceptionOutputFormatDataProvider')]
     public function testQueryExceptionOutputFormat($useDebug, $sqlStatement, $internalErrorMessage, $expectedPublicMessage)
     {
         $query = BookQuery::create();

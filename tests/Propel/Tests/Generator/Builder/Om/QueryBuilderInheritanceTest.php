@@ -27,9 +27,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for MultiExtensionQueryBuilder.
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class QueryBuilderInheritanceTest extends BookstoreTestBase
 {
     public static function constructProvider()
@@ -46,10 +45,9 @@ class QueryBuilderInheritanceTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider constructProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('constructProvider')]
     public function testConstruct($class)
     {
         $class = 'Propel\\Tests\\Bookstore\\' . $class;
@@ -185,10 +183,10 @@ class QueryBuilderInheritanceTest extends BookstoreTestBase
     /**
      * This test prove failure with propel.emulateForeignKeyConstraints = true
      *
-     * @doesNotPerformAssertions
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testDeleteCascadeWithAbstractSingleTableInheritance()
     {
         $manager = new DistributionManager();

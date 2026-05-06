@@ -24,9 +24,8 @@ use ReflectionObject;
  * Tests for ValidateBehavior class
  *
  * @author Cristiano Cinotti
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ValidateBehaviorTest extends BookstoreTestBase
 {
     /**

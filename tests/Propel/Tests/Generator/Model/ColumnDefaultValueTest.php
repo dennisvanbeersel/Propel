@@ -28,10 +28,9 @@ class ColumnDefaultValueTest extends TestCase
     }
 
     /**
-     * @dataProvider equalsProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('equalsProvider')]
     public function testEquals($def1, $def2, $test)
     {
         if ($test) {

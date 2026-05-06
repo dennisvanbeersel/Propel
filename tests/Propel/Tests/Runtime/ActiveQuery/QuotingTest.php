@@ -8,6 +8,7 @@
 
 namespace Propel\Tests\Runtime\ActiveQuery;
 
+use PHPUnit\Framework\Attributes\Group as PHPUnitGroup;
 use Propel\Runtime\Propel;
 use Propel\Tests\Quoting\AuthorQuery;
 use Propel\Tests\Quoting\Group;
@@ -17,9 +18,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
 
 /**
  * Test class for identifierQuoting.
- *
- * @group database
  */
+#[PHPUnitGroup('database')]
 class QuotingTest extends TestCaseFixturesDatabase
 {
     protected function getLastQuery()

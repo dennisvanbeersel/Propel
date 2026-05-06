@@ -17,9 +17,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for ModelCriteria.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ModelCriteriaHooksTest extends BookstoreTestBase
 {
     /**

@@ -43,10 +43,9 @@ class TableTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideNamespaces
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideNamespaces')]
     public function testSetNamespace($namespace, $expected)
     {
         $table = new Table('');
@@ -197,10 +196,9 @@ class TableTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideSchemaNames
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSchemaNames')]
     public function testGetNameWithPlatform($supportsSchemas, $schemaName, $expectedName)
     {
         $database = $this->getDatabaseMock($schemaName, [
@@ -294,10 +292,9 @@ class TableTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideStringFormats
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideStringFormats')]
     public function testGetDefaultStringFormat($format)
     {
         $table = new Table('');
@@ -898,10 +895,9 @@ class TableTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseClass(string $className, string $expectedClassName, string $message)
     {
         $table = new Table('');
@@ -911,10 +907,9 @@ class TableTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseQueryClass(string $className, string $expectedClassName, string $message)
     {
         $table = new Table('');

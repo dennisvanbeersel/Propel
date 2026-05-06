@@ -19,9 +19,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Tests for ConcreteInheritanceParentBehavior class
  *
  * @author François Zaniontto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ConcreteInheritanceParentBehaviorTest extends BookstoreTestBase
 {
     /**

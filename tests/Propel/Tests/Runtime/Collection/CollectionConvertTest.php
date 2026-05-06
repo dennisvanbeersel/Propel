@@ -78,20 +78,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toXmlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toXmlDataProvider')]
     public function testToXML($expected)
     {
         $this->assertEquals($expected, $this->coll->toXML());
     }
 
     /**
-     * @dataProvider toXmlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toXmlDataProvider')]
     public function testFromXML($expected)
     {
         $coll = new ObjectCollection();
@@ -130,20 +128,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toYamlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toYamlDataProvider')]
     public function testToYAML($expected)
     {
         $this->assertEquals($expected, $this->coll->toYAML());
     }
 
     /**
-     * @dataProvider toYamlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toYamlDataProvider')]
     public function testFromYAML($expected)
     {
         $coll = new ObjectCollection();
@@ -167,20 +163,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toJsonDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toJsonDataProvider')]
     public function testToJSON($expected)
     {
         $this->assertEquals($expected, $this->coll->toJSON());
     }
 
     /**
-     * @dataProvider toJsonDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toJsonDataProvider')]
     public function testfromJSON($expected)
     {
         $coll = new ObjectCollection();
@@ -202,20 +196,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toCsvDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toCsvDataProvider')]
     public function testToCSV($expected)
     {
         $this->assertEquals($expected, $this->coll->toCSV());
     }
 
     /**
-     * @dataProvider toCsvDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toCsvDataProvider')]
     public function testfromCSV($expected)
     {
         $coll = new ObjectCollection();
@@ -230,10 +222,9 @@ EOF;
     }
 
     /**
-     * @dataProvider toYamlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toYamlDataProvider')]
     public function testToStringUsesDefaultStringFormat($expected)
     {
         $this->assertEquals($expected, (string)$this->coll, 'Collection::__toString() uses the YAML representation by default');

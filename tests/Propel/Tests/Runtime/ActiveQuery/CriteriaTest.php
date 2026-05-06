@@ -26,9 +26,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  *
  * @author Christopher Elkins <celkins@scardini.com>
  * @author Sam Joseph <sam@neurogrid.com>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class CriteriaTest extends BookstoreTestBase
 {
     /**
@@ -972,10 +971,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testHavingAlias()
     {
         $c = new Criteria();
@@ -1014,10 +1012,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testHavingAliasRaw()
     {
         $c = new Criteria();
@@ -1229,10 +1226,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider dataLimit
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataLimit')]
     public function testLimit($limit, $expected)
     {
         $c = new Criteria();
@@ -1302,10 +1298,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider dataOffset
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataOffset')]
     public function testOffset($offset, $expected)
     {
         $c = new Criteria();

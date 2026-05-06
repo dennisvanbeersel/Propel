@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for ModelCriteria select() method.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ModelCriteriaSelectTest extends BookstoreTestBase
 {
     /**

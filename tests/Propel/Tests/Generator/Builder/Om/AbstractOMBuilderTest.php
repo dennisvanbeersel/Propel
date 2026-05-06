@@ -69,10 +69,9 @@ EOF;
     }
 
     /**
-     * @dataProvider dataGetPackagePath
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataGetPackagePath')]
     public function testGetPackagePath($package, $expectedPath)
     {
         $builder = new OMBuilderMock();

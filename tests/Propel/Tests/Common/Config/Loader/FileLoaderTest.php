@@ -164,10 +164,9 @@ class FileLoaderTest extends TestCase
     }
 
     /**
-     * @dataProvider resolveParamsProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('resolveParamsProvider')]
     public function testResolveValues($conf, $expected, $message)
     {
         $this->assertEquals($expected, $this->loader->resolveParams($conf), $message);

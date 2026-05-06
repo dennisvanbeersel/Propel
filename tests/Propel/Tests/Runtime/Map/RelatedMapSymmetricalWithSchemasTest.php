@@ -15,9 +15,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
  * Test class for RelatedMap::getSymmetricalRelation with schemas.
  *
  * @author Ulf Hermann
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class RelatedMapSymmetricalWithSchemasTest extends TestCaseFixturesDatabase
 {
     protected $databaseMap;

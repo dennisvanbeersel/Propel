@@ -18,9 +18,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
 
 /**
  * Test class for DataFetcher.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class DataFetcherTest extends BookstoreEmptyTestBase
 {
     /**

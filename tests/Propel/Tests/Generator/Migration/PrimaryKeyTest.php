@@ -8,9 +8,7 @@
 
 namespace Propel\Tests\Generator\Migration;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PrimaryKeyTest extends MigrationTestCase
 {
     /**

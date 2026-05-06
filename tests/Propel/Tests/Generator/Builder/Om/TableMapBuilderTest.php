@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for TableMapBuilder.
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class TableMapBuilderTest extends BookstoreTestBase
 {
     /**
@@ -429,13 +428,12 @@ class TableMapBuilderTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider stringifyDataProvider
      *
      * @param bool|int|float|string|array|null $scalarData
      * @param string $message
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('stringifyDataProvider')]
     public function testStringify($scalarData, string $message): void
     {
         $builder = new class (new Table('any')) extends TableMapBuilder{

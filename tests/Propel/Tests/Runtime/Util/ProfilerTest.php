@@ -140,10 +140,9 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFormatMemory
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestFormatMemory')]
     public function testFormatMemory($input, $output)
     {
         $this->assertSame(Profiler::formatMemory($input), $output);
@@ -162,10 +161,9 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFormatMemoryPrecision
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestFormatMemoryPrecision')]
     public function testFormatMemoryPrecision($input, $output)
     {
         $this->assertSame(Profiler::formatMemory(12345.6789, $input), $output);
@@ -191,10 +189,9 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFormatDuration
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestFormatDuration')]
     public function testFormatDuration($input, $output)
     {
         $this->assertEquals(Profiler::formatDuration($input), $output);
@@ -213,10 +210,9 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestFormatDurationPrecision
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestFormatDurationPrecision')]
     public function testFormatDurationPrecision($input, $output)
     {
         $this->assertSame(Profiler::formatDuration(123.456789, $input), $output);
@@ -247,10 +243,9 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestToPrecision
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToPrecision')]
     public function testToPrecision($input, $output)
     {
         $this->assertSame(Profiler::toPrecision($input), $output);
@@ -270,20 +265,18 @@ class ProfilerTest extends BaseTestCase
     }
 
     /**
-     * @dataProvider providerForTestToPrecisionPrecision
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestToPrecisionPrecision')]
     public function testToPrecisionPrecision($input, $output)
     {
         $this->assertSame(Profiler::toPrecision(123.456789, $input), $output);
     }
 
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testGetProfilerWithoutStartValuesUsesEndValues()
     {
         $profiler = new Profiler();

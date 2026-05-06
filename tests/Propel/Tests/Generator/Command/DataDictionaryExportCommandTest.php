@@ -16,16 +16,13 @@ use Symfony\Component\Console\Application;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\StreamOutput;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class DataDictionaryExportCommandTest extends TestCaseFixturesDatabase
 {
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCommandExecutesWithoutError(): void
     {
         $app = new Application('Propel', Propel::VERSION);

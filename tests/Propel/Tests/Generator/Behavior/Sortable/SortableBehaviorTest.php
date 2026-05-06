@@ -16,9 +16,8 @@ use Propel\Tests\Bookstore\Behavior\Map\SortableTable12TableMap;
  *
  * @author Massimiliano Arione
  * @author William Durand <william.durand1@gmail.com>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SortableBehaviorTest extends TestCase
 {
     /**

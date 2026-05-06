@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for Exists.
  *
  * @author Moritz Ringler
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ExistsTest extends BookstoreTestBase
 {
     /**

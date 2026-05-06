@@ -20,9 +20,8 @@ use UnexpectedValueException;
  * Test class for Collection.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class CollectionTest extends BookstoreTestBase
 {
     /**

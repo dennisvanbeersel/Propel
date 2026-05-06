@@ -86,20 +86,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toXmlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toXmlDataProvider')]
     public function testToXML($expected)
     {
         $this->assertEquals($expected, $this->book->toXML());
     }
 
     /**
-     * @dataProvider toXmlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toXmlDataProvider')]
     public function testFromXML($expected)
     {
         $book = new Book();
@@ -146,20 +144,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toYamlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toYamlDataProvider')]
     public function testToYAML($expected)
     {
         $this->assertEquals($expected, $this->book->toYAML());
     }
 
     /**
-     * @dataProvider toYamlDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toYamlDataProvider')]
     public function testFromYAML($expected)
     {
         $book = new Book();
@@ -201,20 +197,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toJsonDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toJsonDataProvider')]
     public function testToJSON($expected, $type)
     {
         $this->assertEquals($expected, $this->book->toJSON(true, $type));
     }
 
     /**
-     * @dataProvider toJsonDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toJsonDataProvider')]
     public function testfromJSON($expected, $type)
     {
         $book = new Book();
@@ -240,20 +234,18 @@ EOF;
     }
 
     /**
-     * @dataProvider toCsvDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toCsvDataProvider')]
     public function testToCSV($expected)
     {
         $this->assertEquals($expected, $this->book->toCSV());
     }
 
     /**
-     * @dataProvider toCsvDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('toCsvDataProvider')]
     public function testfromCSV($expected)
     {
         $book = new Book();

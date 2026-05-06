@@ -37,9 +37,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  *
  * @author Francois Zaninotto
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class BookstoreTest extends BookstoreEmptyTestBase
 {
     /**

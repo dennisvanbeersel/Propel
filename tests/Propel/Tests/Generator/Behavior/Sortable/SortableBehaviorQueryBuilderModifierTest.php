@@ -19,9 +19,8 @@ use Propel\Tests\Bookstore\Behavior\SortableTable11Query;
  * Tests for SortableBehavior class query modifier
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SortableBehaviorQueryBuilderModifierTest extends TestCase
 {
     /**

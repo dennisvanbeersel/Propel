@@ -152,10 +152,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideBehaviors
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideBehaviors')]
     public function testAddArrayBehavior($name, $class)
     {
         $type = sprintf(
@@ -423,10 +422,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideSupportedFormats
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportedFormats')]
     public function testSetDefaultStringFormat($format)
     {
         $database = new Database();
@@ -470,10 +468,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseClass(string $className, string $expectedClassName, string $message)
     {
         $database = new Database();
@@ -483,10 +480,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseQueryClass(string $className, string $expectedClassName, string $message)
     {
         $database = new Database();
@@ -589,15 +585,14 @@ EOF;
     }
 
     /**
-     * @dataProvider combinedNamespaceDataProvider
      *
      * @param string|null $databaseNamespace
      * @param string|null $tableNamespace
      * @param string|null $expectedNamespace
      * @param string $message
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('combinedNamespaceDataProvider')]
     public function testCombineNamespace($databaseNamespace, $tableNamespace, $expectedNamespace, $message)
     {
         $database = new Database();

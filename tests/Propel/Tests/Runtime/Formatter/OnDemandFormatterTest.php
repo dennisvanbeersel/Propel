@@ -22,9 +22,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for OnDemandFormatter.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class OnDemandFormatterTest extends BookstoreEmptyTestBase
 {
     /**

@@ -41,10 +41,9 @@ class DefaultPlatformTest extends TestCase
     }
 
     /**
-     * @dataProvider provideValidBooleanValues
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideValidBooleanValues')]
     public function testGetBooleanString($value)
     {
         $p = $this->getPlatform();
@@ -68,10 +67,9 @@ class DefaultPlatformTest extends TestCase
     }
 
     /**
-     * @dataProvider provideInvalidBooleanValues
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideInvalidBooleanValues')]
     public function testGetNonBooleanString($value)
     {
         $p = $this->getPlatform();
@@ -165,10 +163,9 @@ class DefaultPlatformTest extends TestCase
     }
 
     /**
-     * @dataProvider getColumnDefaultValueDDLDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getColumnDefaultValueDDLDataProvider')]
     public function testGetColumnDefaultValueDDL($column, $default)
     {
         $this->assertEquals($default, $this->getPlatform()->getColumnDefaultValueDDL($column));
@@ -186,10 +183,9 @@ class DefaultPlatformTest extends TestCase
     }
 
     /**
-     * @dataProvider getColumnBindingDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getColumnBindingDataProvider')]
     public function testGetColumnBindingPHP($column, $default)
     {
         $this->assertStringContainsString($default, $this->getPlatform()->getColumnBindingPHP($column, 'ID', 'ACCESSOR'));

@@ -42,9 +42,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  *
  * @see BookstoreDataPopulator
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectWithFixturesTest extends BookstoreEmptyTestBase
 {
     /**
@@ -186,10 +185,10 @@ class GeneratedObjectWithFixturesTest extends BookstoreEmptyTestBase
      * This is a test for expected exceptions when saving UNIQUE.
      * See http://propel.phpdb.org/trac/ticket/2
      *
-     * @doesNotPerformAssertions
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testSaveUnique()
     {
         // The whole test is in a transaction, but this test needs real transactions

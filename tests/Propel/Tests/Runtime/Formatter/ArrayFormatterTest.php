@@ -21,9 +21,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for ArrayFormatter.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ArrayFormatterTest extends BookstoreEmptyTestBase
 {
     /**

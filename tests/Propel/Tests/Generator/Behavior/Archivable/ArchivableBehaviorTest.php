@@ -213,10 +213,9 @@ EOF;
     }
 
     /**
-     * @dataProvider invalidFkTestDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('invalidFkTestDataProvider')]
     public function testMissingFkParametersThrowsException(string $description, string $parameters)
     {
         //$this->markTestSkipped();
@@ -296,10 +295,9 @@ EOF;
     }
 
     /**
-     * @dataProvider addFkTestDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('addFkTestDataProvider')]
     public function testAddFkParameter(
         string $description,
         string $parameters,
@@ -479,10 +477,9 @@ SQL;
     }
 
     /**
-     * @dataProvider tablePrefixDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tablePrefixDataProvider')]
     public function testGeneratedSqlWithTablePrefix($schema, $expectSQL, $expectClasses)
     {
         $builder = new QuickBuilder();
@@ -495,10 +492,9 @@ SQL;
     }
 
     /**
-     * @dataProvider tablePrefixDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('tablePrefixDataProvider')]
     public function testGeneratedClassesWithTablePrefix($schema, $expectSQL, $expectClasses)
     {
         $builder = new QuickBuilder();

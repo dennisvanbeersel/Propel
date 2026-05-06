@@ -21,9 +21,8 @@ use RelationpkUserQuery;
 /**
  * Tests for a M2M relation with three pks where first two are FKs and third not.
  * Special: Second FK has two local refs as PK.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeBase
 {
     protected $databaseName = 'migration';

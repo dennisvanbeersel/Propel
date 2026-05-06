@@ -130,9 +130,7 @@ EOF;
         ];
     }
     
-    /**
-     * @dataProvider persistenceDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('persistenceDataProvider')]
     public function testPersistence($typeDescription, $columnName, $inputDateValue, $formattedDate, $format)
     {
         $r = new ComplexColumnTypeEntity5();

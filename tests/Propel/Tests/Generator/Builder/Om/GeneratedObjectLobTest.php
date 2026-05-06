@@ -34,9 +34,8 @@ if (!defined('TESTS_BASE_DIR')) {
  *
  * @see BookstoreDataPopulator
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectLobTest extends BookstoreEmptyTestBase
 {
     /**

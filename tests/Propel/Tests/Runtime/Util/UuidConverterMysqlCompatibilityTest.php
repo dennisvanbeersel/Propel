@@ -14,10 +14,8 @@ use Propel\Runtime\Util\UuidConverter;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 use Propel\Tests\Helpers\CheckMysql8Trait;
 
-/**
- * @group mysql
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('mysql')]
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class UuidConverterMysqlCompatibilityTest extends BookstoreTestBase
 {
     use CheckMysql8Trait;
@@ -44,9 +42,7 @@ class UuidConverterMysqlCompatibilityTest extends BookstoreTestBase
         ];
     }
 
-    /**
-     * @dataProvider operationsDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('operationsDataProvider')]
     public function testBinToUuidBehavesLikeInMysql($description, $sqlStatement, $callback, $inputBin)
     {
         $value = ($inputBin)

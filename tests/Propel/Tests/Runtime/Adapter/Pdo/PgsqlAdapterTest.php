@@ -44,9 +44,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testSimpleLock(): void
     {
         $c = new BookQuery();
@@ -65,9 +64,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testComplexLock(): void
     {
         $c = new BookQuery();
@@ -84,9 +82,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
 
     /**
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testSubQueryWithSharedLock()
     {
         $subCriteria = new BookQuery();

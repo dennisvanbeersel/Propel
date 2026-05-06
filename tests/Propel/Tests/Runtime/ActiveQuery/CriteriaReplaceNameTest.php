@@ -90,10 +90,9 @@ class CriteriaReplaceNameTest extends TestCase
     }
 
     /**
-     * @dataProvider NamespacedBookReplaceNamesDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('NamespacedBookReplaceNamesDataProvider')]
     public function testReplaceNameFromNamespacedBook(string $origClause, ?string $columnPhpName, string $modifiedClause)
     {
         include self::PROJECT_ROOT . '/tests/Fixtures/namespaced/build/conf/bookstore_namespaced-conf.php';
@@ -102,10 +101,9 @@ class CriteriaReplaceNameTest extends TestCase
     }
 
     /**
-     * @dataProvider BookReplaceNamesDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('BookReplaceNamesDataProvider')]
     public function testReplaceNameFromBook(string $origClause, ?string $columnPhpName, string $modifiedClause)
     {
         include self::PROJECT_ROOT . '/tests/Fixtures/bookstore/build/conf/bookstore-conf.php';
@@ -114,10 +112,9 @@ class CriteriaReplaceNameTest extends TestCase
     }
 
     /**
-     * @dataProvider BookstoreContestReplaceNamesDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('BookstoreContestReplaceNamesDataProvider')]
     public function testReplaceNameFromBookstoreContest(string $origClause, ?string $columnPhpName, string $modifiedClause)
     {
         include self::PROJECT_ROOT . '/tests/Fixtures/bookstore/build/conf/bookstore-conf.php';
@@ -157,10 +154,9 @@ class CriteriaReplaceNameTest extends TestCase
     }
 
     /**
-     * @dataProvider ReplaceMultipleNamesDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('ReplaceMultipleNamesDataProvider')]
     public function testReplaceMultipleNames($origClause, $expectedColumns, $modifiedClause)
     {
         $c = new ModelCriteria('bookstore', 'Propel\Tests\Bookstore\Book');

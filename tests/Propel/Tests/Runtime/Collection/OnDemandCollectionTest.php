@@ -21,9 +21,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for OnDemandCollection.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class OnDemandCollectionTest extends BookstoreEmptyTestBase
 {
     /**

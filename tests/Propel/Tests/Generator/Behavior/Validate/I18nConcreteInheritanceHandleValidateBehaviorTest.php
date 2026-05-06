@@ -21,9 +21,8 @@ use Symfony\Component\Validator\Mapping\Loader\StaticMethodLoader;
  * and Validate behavior.
  *
  * @author Cristiano Cinotti
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class I18nConcreteInheritanceHandleValidateBehaviorTest extends BookstoreTestBase
 {
     protected $metadataFactory;

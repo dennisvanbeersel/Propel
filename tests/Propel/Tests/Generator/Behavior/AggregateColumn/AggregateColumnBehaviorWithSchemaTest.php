@@ -24,9 +24,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
  * Tests for AggregateColumnBehavior class
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AggregateColumnBehaviorWithSchemaTest extends TestCaseFixturesDatabase
 {
     /**

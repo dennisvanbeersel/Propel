@@ -203,10 +203,9 @@ class StandardServiceContainerTest extends BaseTestCase
     }
 
     /**
-     * @doesNotPerformAssertions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DoesNotPerformAssertions]
     public function testCheckValidVersion(): void
     {
         try {
@@ -676,9 +675,7 @@ class StandardServiceContainerTest extends BaseTestCase
     }
     
     
-    /**
-     * @dataProvider debugModeDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('debugModeDataProvider')]
     public function testUseDebugMode(bool $useDebug, ?bool $useProfiler, bool $expectedConnectionMode, bool $expectedProfilerMode)
     {
         $this->sc->useDebugMode($useDebug, $useProfiler);
