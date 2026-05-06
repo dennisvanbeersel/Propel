@@ -1104,7 +1104,7 @@ ALTER TABLE %s ADD %s %s;
             return null;
         }
 
-        return (int)substr($serverVersion, 0, $dotPos - 1);
+        return (int)substr($serverVersion, 0, $dotPos);
     }
 
     /**

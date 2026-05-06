@@ -1014,4 +1014,36 @@ CREATE TABLE `foo`
         $uuidSqlType = $platform->getDomainForType(PropelTypes::UUID)->getSqlType();
         $this->assertEquals(PropelTypes::UUID, $uuidSqlType);
     }
+
+    /**
+     * Regression: getMajorServerVersionNumber had an off-by-one (substr length
+     * was $dotPos - 1) so for "8.0.30" it returned (int) "" = 0, meaning the
+     * MySQL-8 NOACTION default-FK-action branch was never taken.
+     *
+     * @return void
+     */
+    public function testGetMajorServerVersionNumberPicksMySql8(): void
+    {
+        $platform = new class () extends MysqlPlatform {
+            public string $stub = '';
+
+            protected function getServerVersion(): ?string
+            {
+                return $this->stub;
+            }
+
+            public function probe(string $stub): ?int
+            {
+                $this->stub = $stub;
+
+                return $this->getMajorServerVersionNumber();
+            }
+        };
+
+        $this->assertSame(8, $platform->probe('8.0.30'));
+        $this->assertSame(5, $platform->probe('5.7.31'));
+        $this->assertSame(10, $platform->probe('10.5.18-MariaDB'));
+        $this->assertSame(11, $platform->probe('11.4.0-MariaDB'));
+        $this->assertNull($platform->probe(''));
+    }
 }
