@@ -108,7 +108,13 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
             throw new InvalidArgumentException('Unable to fetch next sequence ID without sequence name.');
         }
 
-        $dataFetcher = $con->query(sprintf('SELECT nextval(%s)', $con->quote($name)));
+        // Identifier-quote the sequence name (preserves case + handles schema
+        // qualification: 'public.MySeq' → '"public"."MySeq"'), then string-quote
+        // the whole thing for nextval()'s implicit text→regclass cast. The
+        // previous form (\$con->quote(\$name)) lower-cased lookups via PG's
+        // unquoted-identifier folding rule, breaking case-sensitive sequence
+        // names. (Round 1 BC review MUST-FIX, umbrella spec §6.2.)
+        $dataFetcher = $con->query(sprintf('SELECT nextval(%s)', $con->quote($this->quoteIdentifierTable($name))));
 
         if ($dataFetcher === false) {
             throw new RuntimeException('PdoConnection::query() did not return a result set as a statement object.');
