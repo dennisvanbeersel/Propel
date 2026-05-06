@@ -18,7 +18,6 @@ use Propel\Generator\Model\Column;
 use Propel\Generator\Model\IdMethod;
 use Propel\Generator\Model\PropelTypes;
 use Propel\Generator\Model\Table;
-use Propel\Generator\Platform\MysqlPlatform;
 use Propel\Generator\Platform\PlatformInterface;
 use Propel\Runtime\Exception\PropelException;
 
@@ -275,10 +274,8 @@ class ObjectBuilder extends AbstractObjectBuilder
         if ($column->isTemporalType()) {
             $fmt = $this->getTemporalFormatter($column);
             try {
-                if (
-                    !($this->getPlatform() instanceof MysqlPlatform &&
-                    ($val === '0000-00-00 00:00:00' || $val === '0000-00-00'))
-                ) {
+                $invalidDate = $this->getPlatform()?->getInvalidDateString($column->getType());
+                if ($invalidDate === null || $val !== $invalidDate) {
                     // while technically this is not a default value of NULL,
                     // this seems to be closest in meaning.
                     $defDt = new DateTime($val);
@@ -1374,18 +1371,8 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             }";
                 } elseif ($col->isTemporalType()) {
                     $dateTimeClass = $this->getDateTimeClass($col);
-                    $handleMysqlDate = false;
-                    if ($this->getPlatform() instanceof MysqlPlatform) {
-                        if (in_array($col->getType(), [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
-                            $handleMysqlDate = true;
-                            $mysqlInvalidDateString = '0000-00-00 00:00:00';
-                        } elseif ($col->getType() === PropelTypes::DATE) {
-                            $handleMysqlDate = true;
-                            $mysqlInvalidDateString = '0000-00-00';
-                        }
-                        // 00:00:00 is a valid time, so no need to check for that.
-                    }
-                    if ($handleMysqlDate) {
+                    $mysqlInvalidDateString = $this->getPlatform()?->getInvalidDateString($col->getType());
+                    if ($mysqlInvalidDateString !== null) {
                         $script .= "
             if (\$col === '$mysqlInvalidDateString') {
                 \$col = null;

@@ -12,7 +12,6 @@ namespace Propel\Generator\Builder\Om;
 
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\PropelTypes;
-use Propel\Generator\Platform\MysqlPlatform;
 
 /**
  * Trait containing column accessor generation methods for ObjectBuilder.
@@ -52,18 +51,8 @@ trait ColumnAccessorBuilderTrait
 
         $dateTimeClass = $this->getDateTimeClass($column);
 
-        $handleMysqlDate = false;
-        $mysqlInvalidDateString = '';
-        if ($this->getPlatform() instanceof MysqlPlatform) {
-            if (in_array($column->getType(), [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
-                $handleMysqlDate = true;
-                $mysqlInvalidDateString = '0000-00-00 00:00:00';
-            } elseif ($column->getType() === PropelTypes::DATE) {
-                $handleMysqlDate = true;
-                $mysqlInvalidDateString = '0000-00-00';
-            }
-            // 00:00:00 is a valid time, so no need to check for that.
-        }
+        $mysqlInvalidDateString = $this->getPlatform()?->getInvalidDateString($column->getType()) ?? '';
+        $handleMysqlDate = $mysqlInvalidDateString !== '';
 
         $orNull = $column->isNotNull() ? '' : '|null';
         $descriptionReturnValueNull = $column->isNotNull() ? '' : ', NULL if column is NULL';

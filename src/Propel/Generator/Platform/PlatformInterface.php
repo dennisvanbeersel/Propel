@@ -357,4 +357,19 @@ interface PlatformInterface
      * @return string Quoted identifier.
      */
     public function quoteIdentifier(string $text): string;
+
+    /**
+     * Returns the platform's "invalid date" sentinel string for the given temporal
+     * column type, or null if the platform does not have one.
+     *
+     * Used by ObjectBuilder/ColumnAccessorBuilderTrait to emit MySQL-aware
+     * temporal accessors that treat e.g. `0000-00-00 00:00:00` as a hydration
+     * sentinel rather than a real value.
+     *
+     * @param string $columnType A {@see \Propel\Generator\Model\PropelTypes} constant
+     *                           (DATE / DATETIME / TIMESTAMP / TIME).
+     *
+     * @return string|null
+     */
+    public function getInvalidDateString(string $columnType): ?string;
 }

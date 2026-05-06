@@ -1625,4 +1625,16 @@ if (is_resource($columnValueAccessor)) {
             }
         }
     }
+
+    /**
+     * Most platforms have no concept of an "invalid date" sentinel — only
+     * MySQL ships zero-date placeholders by default.
+     *
+     * @inheritDoc
+     */
+    #[\Override]
+    public function getInvalidDateString(string $columnType): ?string
+    {
+        return null;
+    }
 }

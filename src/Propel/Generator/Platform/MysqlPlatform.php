@@ -1116,4 +1116,23 @@ ALTER TABLE %s ADD %s %s;
 
         return (stripos($serverVersion, 'mariadb') !== false);
     }
+
+    /**
+     * MySQL exposes zero-date placeholders for DATE / DATETIME / TIMESTAMP
+     * columns; TIME has no equivalent (00:00:00 is a valid value).
+     *
+     * @inheritDoc
+     */
+    #[\Override]
+    public function getInvalidDateString(string $columnType): ?string
+    {
+        if (in_array($columnType, [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
+            return '0000-00-00 00:00:00';
+        }
+        if ($columnType === PropelTypes::DATE) {
+            return '0000-00-00';
+        }
+
+        return null;
+    }
 }
