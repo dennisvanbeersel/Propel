@@ -74,6 +74,10 @@ Propel\Runtime\Util\Profiler
 Propel\Runtime\Util\PropelConditionalProxy
 Propel\Runtime\Util\UuidConverter
 
+# Phase C (umbrella §6.4) — Schema-model SPI for downstream consumers (custom platforms,
+# migration tooling, third-party generators) that read/write the schema model.
+Propel\Generator\Model\CheckConstraint
+
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
 Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
