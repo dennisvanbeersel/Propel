@@ -117,6 +117,19 @@ jobs:
         run: composer install --no-progress --prefer-dist
       - run: composer deptrac
 
+  xsd-additivity:
+    name: "XSD additivity (every fixture validates)"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, dom
+          coverage: none
+      - name: XSD additivity sweep
+        run: php tools/xsd-additivity-check.php
+
   golden-diff:
     name: "Generated bookstore matches golden fixture"
     runs-on: ubuntu-24.04
