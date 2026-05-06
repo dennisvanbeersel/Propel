@@ -477,12 +477,15 @@ declare(strict_types=1);
     }
 
     /**
+     * Declare a list of classes (use-statement bookkeeping).
+     *
+     * @param string ...$classes Fully qualified class names to declare.
+     *
      * @return void
      */
-    public function declareClasses(): void
+    public function declareClasses(string ...$classes): void
     {
-        $args = func_get_args();
-        foreach ($args as $class) {
+        foreach ($classes as $class) {
             $this->declareClass($class);
         }
     }
