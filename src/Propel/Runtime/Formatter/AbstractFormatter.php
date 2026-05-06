@@ -16,6 +16,7 @@ use Propel\Runtime\DataFetcher\DataFetcherInterface;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Propel;
+use ReflectionClass;
 
 /**
  * Abstract class for query formatter
@@ -24,6 +25,31 @@ use Propel\Runtime\Propel;
  */
 abstract class AbstractFormatter
 {
+    /**
+     * Per-class ReflectionClass cache. Hydration of single-table-inheritance
+     * (STI) results previously instantiated a new ReflectionClass per row in
+     * the inner hydration loop — `O(rows × with-relations)` allocations on
+     * the hot path. Caching shrinks that to one allocation per distinct
+     * concrete class. Static so the cache survives between formatter
+     * instances within a single request lifecycle.
+     *
+     * @var array<class-string, \ReflectionClass<object>>
+     */
+    private static array $reflectionCache = [];
+
+    /**
+     * @template T of object
+     *
+     * @param class-string<T> $class
+     *
+     * @return \ReflectionClass<T>
+     */
+    protected static function getReflectionClass(string $class): ReflectionClass
+    {
+        return self::$reflectionCache[$class] ??= new ReflectionClass($class);
+    }
+
+
     /**
      * @var string|null
      */

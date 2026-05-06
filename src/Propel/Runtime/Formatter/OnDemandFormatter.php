@@ -15,7 +15,6 @@ use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\OnDemandCollection;
 use Propel\Runtime\DataFetcher\DataFetcherInterface;
 use Propel\Runtime\Exception\LogicException;
-use ReflectionClass;
 
 /**
  * Object formatter for Propel query
@@ -125,7 +124,7 @@ class OnDemandFormatter extends ObjectFormatter
             if ($modelWith->isSingleTableInheritance()) {
                 /** @var class-string<object>|object $class */
                 $class = $modelWith->getTableMap()::getOMClass($row, $col, false);
-                $reflectionClass = new ReflectionClass($class);
+                $reflectionClass = self::getReflectionClass($class);
                 $class = $reflectionClass->getName();
                 if ($reflectionClass->isAbstract()) {
                     $tableMapClass = "Map\\{$class}TableMap";
