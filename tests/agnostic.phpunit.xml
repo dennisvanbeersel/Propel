@@ -5,6 +5,7 @@
     colors="true"
     bootstrap="bootstrap.php"
     cacheDirectory=".phpunit.cache"
+    executionOrder="default"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
     failOnDeprecation="true"

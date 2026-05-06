@@ -49,6 +49,9 @@ class StandardServiceContainerTest extends BaseTestCase
     protected function tearDown(): void
     {
         $this->sc = null;
+        // Reset static state mutated by useDebugMode() to prevent test-order pollution.
+        ConnectionFactory::$useProfilerConnection = false;
+        ConnectionWrapper::$useDebugMode = false;
     }
 
     /**
