@@ -448,6 +448,7 @@ class PropelConfiguration implements ConfigurationInterface
                                         ->scalarNode('queryinheritancestub')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\ExtensionQueryInheritanceBuilder')->end()
                                         ->scalarNode('tablemap')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\TableMapBuilder')->end()
                                         ->scalarNode('interface')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\InterfaceBuilder')->end()
+                                        ->scalarNode('enum')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\EnumBuilder')->end()
                                         ->scalarNode('datasql')->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()

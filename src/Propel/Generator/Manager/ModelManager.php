@@ -76,6 +76,21 @@ class ModelManager extends AbstractManager
                         }
 
                         // -----------------------------------------------------------------------------------------
+                        // Create backed enum classes for ENUM columns (PHP 8.1+)
+                        // -----------------------------------------------------------------------------------------
+
+                        // Always overwrite — generated enum class is a 1:1 reflection of the schema valueSet.
+                        foreach ($table->getColumns() as $column) {
+                            if (!$column->isEnumType() || $column->getValueSet() === []) {
+                                continue;
+                            }
+                            /** @var \Propel\Generator\Builder\Om\EnumBuilder $enumBuilder */
+                            $enumBuilder = $generatorConfig->getConfiguredBuilder($table, 'enum');
+                            $enumBuilder->setColumn($column);
+                            $nbWrittenFiles += $this->doBuild($enumBuilder);
+                        }
+
+                        // -----------------------------------------------------------------------------------------
                         // Create [empty] stub Object classes if they don't exist
                         // -----------------------------------------------------------------------------------------
 
