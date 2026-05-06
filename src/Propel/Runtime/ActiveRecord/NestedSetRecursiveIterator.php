@@ -59,24 +59,18 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @return mixed
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->curNode;
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @return string
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
     public function key(): string
     {
         $method = method_exists($this->curNode, 'getPath') ? 'getPath' : 'getAncestors';

@@ -36,13 +36,10 @@ class ArrayDataFetcher extends AbstractDataFetcher
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @inheritDoc
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->dataObject === null ? null : current($this->dataObject);
     }
@@ -60,13 +57,10 @@ class ArrayDataFetcher extends AbstractDataFetcher
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @inheritDoc
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         return $this->dataObject === null ? null : key($this->dataObject);
     }

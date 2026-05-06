@@ -39,15 +39,12 @@ interface DataFetcherInterface extends Iterator, Countable
     /**
      * Return the current element
      *
-     * @psalm-suppress ReservedWord
-     *
      * @link http://php.net/manual/en/iterator.current.php
      *
      * @return mixed Can return any type.
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function current();
+    public function current(): mixed;
 
     /**
      * Move forward to next element
@@ -62,15 +59,12 @@ interface DataFetcherInterface extends Iterator, Countable
     /**
      * Return the key of the current element
      *
-     * @psalm-suppress ReservedWord
-     *
      * @link http://php.net/manual/en/iterator.key.php
      *
      * @return mixed scalar on success, or null on failure.
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function key();
+    public function key(): mixed;
 
     /**
      * Checks if current position is valid

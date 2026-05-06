@@ -79,14 +79,11 @@ class OnDemandIterator implements IteratorInterface
      * Gets the current Model object in the collection
      * This is where the hydration takes place.
      *
-     * @psalm-suppress ReservedWord
-     *
      * @see ObjectFormatter::getAllObjectsFromRow()
      *
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
     public function current(): ActiveRecordInterface
     {
         if (!is_array($this->currentRow)) {
@@ -99,12 +96,9 @@ class OnDemandIterator implements IteratorInterface
     /**
      * Gets the current key in the iterator
      *
-     * @psalm-suppress ReservedWord
-     *
      * @return int
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
     public function key(): int
     {
         return $this->currentKey;

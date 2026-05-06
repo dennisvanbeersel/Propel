@@ -125,25 +125,19 @@ class PDODataFetcher extends AbstractDataFetcher
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @inheritDoc
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function current()
+    public function current(): mixed
     {
         return $this->current;
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @inheritDoc
      */
     #[\Override]
-    #[\ReturnTypeWillChange]
-    public function key()
+    public function key(): mixed
     {
         return $this->index;
     }
