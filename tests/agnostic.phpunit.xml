@@ -23,6 +23,9 @@
         <testsuite name="propel2">
             <directory>Propel/Tests/</directory>
         </testsuite>
+        <testsuite name="property">
+            <directory>Propel/Tests/PropertyTests/</directory>
+        </testsuite>
     </testsuites>
 
     <php>

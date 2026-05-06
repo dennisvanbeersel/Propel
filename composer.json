@@ -41,7 +41,8 @@
         "phpstan/extension-installer": "^1.4",
         "symfony/phpunit-bridge": "^7.2",
         "infection/infection": "^0.29",
-        "deptrac/deptrac": "^2.0"
+        "deptrac/deptrac": "^2.0",
+        "innmind/black-box": "^6.0"
     },
     "suggest": {
         "monolog/monolog": "The recommended logging library to use with Propel."
