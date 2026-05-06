@@ -82,6 +82,7 @@ class VersionableBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $this->addVersionColumn();

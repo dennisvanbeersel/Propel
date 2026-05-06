@@ -180,6 +180,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getStubObjectBuilder()->getUnprefixedClassName();
@@ -332,6 +333,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -390,6 +392,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $this->declareClassFromBuilder($this->getStubObjectBuilder());
@@ -509,6 +512,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

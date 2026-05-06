@@ -41,6 +41,7 @@ class ConstraintNameGenerator implements NameGeneratorInterface
      *
      * @return string
      */
+    #[\Override]
     public function generateName(array $inputs): string
     {
         /** @var \Propel\Generator\Model\Database $db */

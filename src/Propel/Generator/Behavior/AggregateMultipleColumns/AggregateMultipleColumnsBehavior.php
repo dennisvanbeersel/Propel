@@ -146,6 +146,7 @@ class AggregateMultipleColumnsBehavior extends Behavior
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $this->validateColumnParameter();

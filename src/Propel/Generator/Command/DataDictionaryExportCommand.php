@@ -66,6 +66,7 @@ class DataDictionaryExportCommand extends AbstractCommand
      *
      * @return int
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

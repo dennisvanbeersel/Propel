@@ -25,6 +25,7 @@ class ExtensionObjectBuilder extends AbstractObjectBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getTable()->getPhpName();
@@ -37,6 +38,7 @@ class ExtensionObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -82,6 +84,7 @@ class ExtensionObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
     }
@@ -93,6 +96,7 @@ class ExtensionObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

@@ -53,6 +53,7 @@ class ConfigConvertCommand extends AbstractCommand
      *
      * @throws \RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configManager = new ConfigurationManager($input->getOption('config-dir'));

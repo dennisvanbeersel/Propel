@@ -40,6 +40,7 @@ class ConnectionManagerSingle implements ConnectionManagerInterface
      *
      * @return void
      */
+    #[\Override]
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -48,6 +49,7 @@ class ConnectionManagerSingle implements ConnectionManagerInterface
     /**
      * @return string The datasource name associated to this connection
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -90,6 +92,7 @@ class ConnectionManagerSingle implements ConnectionManagerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface
      */
+    #[\Override]
     public function getWriteConnection(?AdapterInterface $adapter = null): ConnectionInterface
     {
         if ($this->connection === null) {
@@ -109,6 +112,7 @@ class ConnectionManagerSingle implements ConnectionManagerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface
      */
+    #[\Override]
     public function getReadConnection(?AdapterInterface $adapter = null): ConnectionInterface
     {
         return $this->getWriteConnection($adapter);
@@ -117,6 +121,7 @@ class ConnectionManagerSingle implements ConnectionManagerInterface
     /**
      * @return void
      */
+    #[\Override]
     public function closeConnections(): void
     {
         $this->connection = null;

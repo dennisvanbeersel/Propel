@@ -113,6 +113,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return bool
      */
+    #[\Override]
     public function bindParam($parameter, &$variable, int $dataType = PDO::PARAM_STR, ?int $length = null, $driverOptions = null): bool
     {
         $return = $this->statement->bindParam($parameter, $variable, $dataType, (int)$length, $driverOptions);
@@ -137,6 +138,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return bool
      */
+    #[\Override]
     public function bindValue($parameter, $value, int $dataType = PDO::PARAM_STR): bool
     {
         $return = $this->statement->bindValue($parameter, $value, $dataType);
@@ -165,6 +167,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return bool Returns TRUE on success or FALSE on failure.
      */
+    #[\Override]
     public function closeCursor(): bool
     {
         return $this->statement->closeCursor();
@@ -187,6 +190,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      * by the PDOStatement object. If there is no result set,
      * this method should return 0.
      */
+    #[\Override]
     public function columnCount(): int
     {
         return $this->statement->columnCount();
@@ -202,6 +206,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return bool
      */
+    #[\Override]
     public function execute(?array $inputParameters = null): bool
     {
         if ($this->connection->isInDebugMode()) {
@@ -242,6 +247,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return mixed
      */
+    #[\Override]
     public function fetch(int $fetchStyle = PDO::FETCH_BOTH, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0)
     {
         return $this->statement->fetch($fetchStyle);
@@ -256,6 +262,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return array
      */
+    #[\Override]
     public function fetchAll(?int $fetchStyle = PDO::FETCH_BOTH, $fetchArgument = null, array $ctorArgs = []): array
     {
         return $this->statement->fetchAll($fetchStyle);
@@ -270,6 +277,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return string|null A single column in the next row of a result set.
      */
+    #[\Override]
     public function fetchColumn(int $columnIndex = 0): ?string
     {
         $output = $this->statement->fetchColumn($columnIndex);
@@ -290,6 +298,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return int The number of rows.
      */
+    #[\Override]
     public function rowCount(): int
     {
         return $this->statement->rowCount();
@@ -300,6 +309,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      *
      * @return \Traversable
      */
+    #[\Override]
     public function getIterator(): Traversable
     {
         return $this->statement;
@@ -342,6 +352,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function bindColumn($column, &$param, $type = null, $maxlen = null, $driverdata = null): bool
     {
         return $this->statement->bindColumn($column, $param, $type, $maxlen, $driverdata);
@@ -350,6 +361,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function fetchObject($className, array $ctorArgs = [])
     {
         return $this->statement->fetchObject($className, $ctorArgs);
@@ -358,6 +370,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function errorCode(): string
     {
         return $this->statement->errorCode();
@@ -366,6 +379,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function errorInfo(): array
     {
         return $this->statement->errorInfo();
@@ -374,6 +388,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setAttribute($attribute, $value): bool
     {
         return $this->statement->setAttribute($attribute, $value);
@@ -382,6 +397,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getAttribute($attribute)
     {
         return $this->statement->getAttribute($attribute);
@@ -390,6 +406,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getColumnMeta($column)
     {
         return $this->statement->getColumnMeta($column);
@@ -398,6 +415,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setFetchMode($mode, $classNameObject = null, array $ctorarfg = []): bool
     {
         switch (func_num_args()) {
@@ -416,6 +434,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function nextRowset(): bool
     {
         return $this->statement->nextRowset();
@@ -424,6 +443,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function debugDumpParams(): void
     {
         $this->statement->debugDumpParams();

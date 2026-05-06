@@ -75,6 +75,7 @@ class SqliteSchemaParser extends AbstractSchemaParser
      *
      * @return array<string>
      */
+    #[\Override]
     protected function getTypeMapping(): array
     {
         return self::$sqliteTypeMap;
@@ -86,6 +87,7 @@ class SqliteSchemaParser extends AbstractSchemaParser
      *
      * @return int
      */
+    #[\Override]
     public function parse(Database $database, array $additionalTables = []): int
     {
         if ($this->getGeneratorConfig()) {

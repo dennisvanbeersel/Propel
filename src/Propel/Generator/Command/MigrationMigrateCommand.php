@@ -59,6 +59,7 @@ class MigrationMigrateCommand extends AbstractCommand
      *
      * @throws \Propel\Runtime\Exception\RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

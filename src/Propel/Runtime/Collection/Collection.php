@@ -106,6 +106,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      *
      * @return bool
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
@@ -130,6 +131,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      *
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -144,6 +146,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      *
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
@@ -192,6 +195,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     /**
      * @return \Propel\Runtime\Collection\CollectionIterator|\Propel\Runtime\Collection\IteratorInterface
      */
+    #[\Override]
     public function getIterator(): Traversable
     {
         return new CollectionIterator($this);
@@ -202,6 +206,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      *
      * @return int
      */
+    #[\Override]
     public function count(): int
     {
         return count($this->data);

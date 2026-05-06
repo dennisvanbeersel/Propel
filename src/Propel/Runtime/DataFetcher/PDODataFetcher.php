@@ -76,6 +76,7 @@ class PDODataFetcher extends AbstractDataFetcher
      *
      * @return array|bool|null
      */
+    #[\Override]
     public function fetch(?int $style = null)
     {
         if ($style === null) {
@@ -112,6 +113,7 @@ class PDODataFetcher extends AbstractDataFetcher
     /**
      * @return void
      */
+    #[\Override]
     public function next(): void
     {
         if ($this->dataObject !== null) {
@@ -127,6 +129,7 @@ class PDODataFetcher extends AbstractDataFetcher
      *
      * @inheritDoc
      */
+    #[\Override]
     #[\ReturnTypeWillChange]
     public function current()
     {
@@ -138,6 +141,7 @@ class PDODataFetcher extends AbstractDataFetcher
      *
      * @inheritDoc
      */
+    #[\Override]
     #[\ReturnTypeWillChange]
     public function key()
     {
@@ -147,6 +151,7 @@ class PDODataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function valid(): bool
     {
         return $this->current !== null && $this->current !== false;
@@ -159,6 +164,7 @@ class PDODataFetcher extends AbstractDataFetcher
      *
      * @return void
      */
+    #[\Override]
     public function rewind(): void
     {
         if ($this->dataObject) {
@@ -169,6 +175,7 @@ class PDODataFetcher extends AbstractDataFetcher
     /**
      * @return void
      */
+    #[\Override]
     public function close(): void
     {
         /** @var \Propel\Runtime\Connection\StatementInterface $dataObject */
@@ -182,6 +189,7 @@ class PDODataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function count(): int
     {
         if ($this->dataObject && $this->dataObject->getConnection()->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite') {
@@ -207,6 +215,7 @@ class PDODataFetcher extends AbstractDataFetcher
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getIndexType(): string
     {
         return TableMap::TYPE_NUM;

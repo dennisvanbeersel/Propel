@@ -204,6 +204,7 @@ class Column extends MappingModel
      *
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         try {

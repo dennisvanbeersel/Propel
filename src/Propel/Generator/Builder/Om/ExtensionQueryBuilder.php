@@ -25,6 +25,7 @@ class ExtensionQueryBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getTable()->getPhpName() . 'Query';
@@ -37,6 +38,7 @@ class ExtensionQueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -84,6 +86,7 @@ class $className extends $baseClassName
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
     }
@@ -95,6 +98,7 @@ class $className extends $baseClassName
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

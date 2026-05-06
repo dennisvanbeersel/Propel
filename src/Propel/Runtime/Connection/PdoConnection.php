@@ -47,6 +47,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return void
      */
+    #[\Override]
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -55,6 +56,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @return string|null The datasource name associated to this connection
      */
+    #[\Override]
     public function getName(): ?string
     {
         return $this->name;
@@ -95,6 +97,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return bool
      */
+    #[\Override]
     public function setAttribute($attribute, $value): bool
     {
         if (is_string($attribute) && strpos($attribute, '::') === false) {
@@ -111,6 +114,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getDataFetcher($data): DataFetcherInterface
     {
         return new PDODataFetcher($data);
@@ -119,6 +123,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getSingleDataFetcher($data): DataFetcherInterface
     {
         return $this->getDataFetcher($data);
@@ -129,6 +134,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return \PDOStatement|false
      */
+    #[\Override]
     public function query(string $statement)
     {
         return $this->pdo->query($statement);
@@ -139,6 +145,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return int
      */
+    #[\Override]
     public function exec($statement): int
     {
         return (int)$this->pdo->exec($statement);
@@ -147,6 +154,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function inTransaction(): bool
     {
         return $this->pdo->inTransaction();
@@ -155,6 +163,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getAttribute(int $attribute)
     {
         return $this->pdo->getAttribute($attribute);
@@ -165,6 +174,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return string|false
      */
+    #[\Override]
     public function lastInsertId(?string $name = null)
     {
         return $this->pdo->lastInsertId($name);
@@ -178,6 +188,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return \PDOStatement|false
      */
+    #[\Override]
     public function prepare(string $statement, array $driverOptions = [])
     {
         return $this->pdo->prepare($statement, $driverOptions);
@@ -191,6 +202,7 @@ class PdoConnection implements ConnectionInterface
      *
      * @return string
      */
+    #[\Override]
     public function quote(string $string, int $parameterType = PDO::PARAM_STR): string
     {
         return $this->pdo->quote($string, $parameterType);
@@ -199,6 +211,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @return bool
      */
+    #[\Override]
     public function beginTransaction(): bool
     {
         return $this->pdo->beginTransaction();
@@ -207,6 +220,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @return bool
      */
+    #[\Override]
     public function commit(): bool
     {
         return $this->pdo->commit();
@@ -215,6 +229,7 @@ class PdoConnection implements ConnectionInterface
     /**
      * @return bool
      */
+    #[\Override]
     public function rollBack(): bool
     {
         return $this->pdo->rollBack();

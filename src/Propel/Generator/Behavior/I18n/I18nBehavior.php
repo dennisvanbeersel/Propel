@@ -212,6 +212,7 @@ class I18nBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $this->addI18nTable();

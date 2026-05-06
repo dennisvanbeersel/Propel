@@ -30,6 +30,7 @@ class SimpleArrayFormatter extends AbstractFormatter
      *
      * @return \Propel\Runtime\Collection\Collection|array
      */
+    #[\Override]
     public function format(?DataFetcherInterface $dataFetcher = null)
     {
         $this->checkInit();
@@ -60,6 +61,7 @@ class SimpleArrayFormatter extends AbstractFormatter
     /**
      * @return string|null
      */
+    #[\Override]
     public function getCollectionClassName(): ?string
     {
         return '\Propel\Runtime\Collection\ArrayCollection';
@@ -72,6 +74,7 @@ class SimpleArrayFormatter extends AbstractFormatter
      *
      * @return array|string|null
      */
+    #[\Override]
     public function formatOne(?DataFetcherInterface $dataFetcher = null)
     {
         $this->checkInit();
@@ -114,6 +117,7 @@ class SimpleArrayFormatter extends AbstractFormatter
     /**
      * @return bool
      */
+    #[\Override]
     public function isObjectFormatter(): bool
     {
         return false;

@@ -57,6 +57,7 @@ class MigrationDiffCommand extends AbstractCommand
      *
      * @throws \Propel\Generator\Exception\RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

@@ -64,6 +64,7 @@ class TableMapBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getTable()->getPhpName() . 'TableMap';
@@ -76,6 +77,7 @@ class TableMapBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -118,6 +120,7 @@ class " . $this->getUnqualifiedClassName() . " extends TableMap
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $table = $this->getTable();
@@ -498,6 +501,7 @@ class " . $this->getUnqualifiedClassName() . " extends TableMap
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

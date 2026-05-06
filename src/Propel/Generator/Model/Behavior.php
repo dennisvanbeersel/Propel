@@ -433,6 +433,7 @@ class Behavior extends MappingModel
      *
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         $this->setName($this->getAttribute('name'));

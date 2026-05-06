@@ -75,6 +75,7 @@ class CsvParser extends AbstractParser
      *
      * @return string Converted data, as a CSV string
      */
+    #[\Override]
     public function fromArray(array $array, ?string $rootKey = null, bool $isList = false, bool $includeHeading = true): string
     {
         $rows = [];
@@ -234,6 +235,7 @@ class CsvParser extends AbstractParser
      *
      * @return array Converted data
      */
+    #[\Override]
     public function toArray(string $data, ?string $rootKey = null, bool $isList = false, bool $includeHeading = true): array
     {
         $rows = explode($this->lineTerminator, $data);

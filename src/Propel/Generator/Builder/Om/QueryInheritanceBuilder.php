@@ -34,6 +34,7 @@ class QueryInheritanceBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getNewStubQueryInheritanceBuilder($this->getChild())->getUnprefixedClassName();
@@ -127,6 +128,7 @@ class QueryInheritanceBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -173,6 +175,7 @@ class " . $this->getUnqualifiedClassName() . ' extends ' . $baseClassName . "
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $this->declareClassFromBuilder($this->getTableMapBuilder());
@@ -339,6 +342,7 @@ class " . $this->getUnqualifiedClassName() . ' extends ' . $baseClassName . "
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

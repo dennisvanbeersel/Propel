@@ -39,6 +39,7 @@ class SqlInsertCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $manager = new SqlManager();

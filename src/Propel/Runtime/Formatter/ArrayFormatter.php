@@ -29,6 +29,7 @@ class ArrayFormatter extends AbstractFormatterWithHydration
      *
      * @return \Propel\Runtime\Collection\Collection|array
      */
+    #[\Override]
     public function format(?DataFetcherInterface $dataFetcher = null)
     {
         $this->checkInit();
@@ -80,6 +81,7 @@ class ArrayFormatter extends AbstractFormatterWithHydration
      *
      * @return array|null
      */
+    #[\Override]
     public function formatOne(?DataFetcherInterface $dataFetcher = null): ?array
     {
         $this->checkInit();
@@ -124,6 +126,7 @@ class ArrayFormatter extends AbstractFormatterWithHydration
     /**
      * @return bool
      */
+    #[\Override]
     public function isObjectFormatter(): bool
     {
         return false;

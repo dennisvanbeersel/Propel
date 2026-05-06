@@ -117,6 +117,7 @@ class SqlitePlatform extends DefaultPlatform
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void
     {
         parent::setGeneratorConfig($generatorConfig);

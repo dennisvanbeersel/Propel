@@ -61,6 +61,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getStubQueryBuilder()->getUnprefixedClassName();
@@ -93,6 +94,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -165,6 +167,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $table = $this->getTable();
@@ -326,6 +329,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "

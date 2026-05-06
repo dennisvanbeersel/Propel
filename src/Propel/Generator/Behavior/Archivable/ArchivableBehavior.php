@@ -85,6 +85,7 @@ class ArchivableBehavior extends Behavior
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         if ($this->getParameter('archive_class') && $this->getParameter('archive_table')) {

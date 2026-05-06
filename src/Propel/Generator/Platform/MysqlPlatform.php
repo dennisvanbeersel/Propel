@@ -72,6 +72,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void
     {
         parent::setGeneratorConfig($generatorConfig);

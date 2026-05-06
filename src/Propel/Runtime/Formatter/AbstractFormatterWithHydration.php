@@ -39,6 +39,7 @@ abstract class AbstractFormatterWithHydration extends AbstractFormatter
     /**
      * @return string|null
      */
+    #[\Override]
     public function getCollectionClassName(): ?string
     {
         return ArrayCollection::class;

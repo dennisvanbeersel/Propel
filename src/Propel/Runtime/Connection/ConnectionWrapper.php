@@ -134,6 +134,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return void
      */
+    #[\Override]
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -142,6 +143,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @return string|null The datasource name associated to this connection
      */
+    #[\Override]
     public function getName(): ?string
     {
         return $this->name;
@@ -204,6 +206,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function beginTransaction(): bool
     {
         $return = true;
@@ -227,6 +230,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function commit(): bool
     {
         $return = true;
@@ -256,6 +260,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool Whether operation was successful.
      */
+    #[\Override]
     public function rollBack(): bool
     {
         $return = true;
@@ -309,6 +314,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool TRUE if a transaction is currently active, and FALSE if not.
      */
+    #[\Override]
     public function inTransaction(): bool
     {
         return $this->connection->inTransaction();
@@ -323,6 +329,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      * @return mixed A successful call returns the value of the requested attribute.
      *               An unsuccessful call returns null.
      */
+    #[\Override]
     public function getAttribute(int $attribute)
     {
         switch ($attribute) {
@@ -343,6 +350,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function setAttribute($attribute, $value): bool
     {
         if (is_string($attribute)) {
@@ -386,6 +394,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return \Propel\Runtime\Connection\StatementInterface|false
      */
+    #[\Override]
     public function prepare(string $statement, array $driverOptions = [])
     {
         // Cache key must include $driverOptions: two prepares of the same SQL
@@ -415,6 +424,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function exec($statement): int
     {
         if ($this->isInDebugMode()) {
@@ -441,6 +451,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return \Propel\Runtime\DataFetcher\DataFetcherInterface
      */
+    #[\Override]
     public function query(string $statement, ...$args): DataFetcherInterface
     {
         $statementWrapper = $this->createStatementWrapper($statement);
@@ -503,6 +514,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *                SQL statement. Returns FALSE if the driver does not support
      *                quoting in this way.
      */
+    #[\Override]
     public function quote(string $string, int $parameterType = 2): string
     {
         return $this->connection->quote($string, $parameterType);
@@ -511,6 +523,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getSingleDataFetcher($data): DataFetcherInterface
     {
         return $this->connection->getSingleDataFetcher($data);
@@ -519,6 +532,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getDataFetcher($data): DataFetcherInterface
     {
         return $this->connection->getDataFetcher($data);
@@ -553,6 +567,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *                a string representing the last value retrieved from the specified
      *                sequence object.
      */
+    #[\Override]
     public function lastInsertId(?string $name = null)
     {
         return $this->connection->lastInsertId($name);
@@ -666,6 +681,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return void
      */
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;
