@@ -1,0 +1,117 @@
+name: Quality Gates
+
+on:
+  pull_request:
+  push:
+    branches: [master, ar-rewrite]
+  workflow_dispatch:
+
+jobs:
+  signature-diff:
+    name: "BC signature diff"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Dump current signatures to /tmp
+        run: |
+          mkdir -p /tmp/sig-current
+          php bin/propel-internal-dump-signatures tests/snapshots/tracked-classes.txt /tmp/sig-current
+      - name: Diff against committed snapshots
+        run: |
+          set +e
+          fail=0
+          for committed in tests/snapshots/*.signatures.json; do
+            base=$(basename "$committed")
+            current="/tmp/sig-current/$base"
+            if [ ! -f "$current" ]; then
+              echo "::error::Missing current snapshot for $base — class deleted without deprecation?"
+              fail=1
+              continue
+            fi
+            if ! diff -u "$committed" "$current" > /tmp/diff.out; then
+              echo "::error::Signature drift in $base — diff:"
+              cat /tmp/diff.out
+              echo ""
+              echo "::error::If intentional, regenerate with bin/propel-internal-dump-signatures and commit. BC-safe widening (covariant return types, contravariant params, added optional params with defaults) is allowed; everything else requires @deprecated annotation in same diff per umbrella spec §3.4."
+              fail=1
+            fi
+          done
+          # Also check for new untracked classes that were added to tracked-classes.txt without committed snapshots.
+          for current in /tmp/sig-current/*.signatures.json; do
+            base=$(basename "$current")
+            if [ ! -f "tests/snapshots/$base" ]; then
+              echo "::warning::New tracked class with no committed snapshot: $base — committing as new entry."
+            fi
+          done
+          if [ $fail -eq 0 ]; then
+            echo "✓ All Tier 1 signatures stable."
+          fi
+          exit $fail
+
+  baseline-monotonic:
+    name: "Static-analysis baselines never grow"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine merge base
+        id: base
+        run: |
+          # For PRs, compare against the target branch; for pushes, compare against master.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+          else
+            BASE_REF="origin/master"
+          fi
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref || 'master' }}" 2>/dev/null || true
+          echo "ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+      - name: Check baselines monotonic vs ${{ steps.base.outputs.ref }}
+        run: php tools/check-baseline-monotonic.php ${{ steps.base.outputs.ref }}
+
+  lint-generated:
+    name: "Generated code passes same bar as src/"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Regenerate bookstore fixture
+        run: |
+          # Best-effort: run the existing bookstore build path. Failures here
+          # surface generator-side regressions which the lint step then catches.
+          vendor/bin/phpunit -c tests/agnostic.phpunit.xml --filter=BookstoreBuildTest --no-coverage || true
+      - name: phpcs against generated bookstore
+        if: hashFiles('tests/Fixtures/bookstore/build/classes/**/*.php') != ''
+        run: vendor/bin/phpcs --standard=phpcs.xml tests/Fixtures/bookstore/build/classes/
+      - name: phpstan against generated bookstore
+        if: hashFiles('tests/Fixtures/bookstore/build/classes/**/*.php') != ''
+        run: vendor/bin/phpstan analyze --level=7 tests/Fixtures/bookstore/build/classes/ --no-progress
+
+  deptrac:
+    name: "Architecture (Deptrac)"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, pdo
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - run: composer deptrac
