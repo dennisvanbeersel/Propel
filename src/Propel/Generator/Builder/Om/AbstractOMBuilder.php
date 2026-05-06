@@ -223,6 +223,11 @@ declare(strict_types=1);
     /**
      * Returns filesystem path for current package.
      *
+     * Packages are configured as slash-delimited paths (e.g.
+     * `propel.generator.Propel.Tests.Bookstore.Base`) — only the legacy
+     * `.map` / `.om` suffix is rewritten to a directory boundary because
+     * downstream code expects them as subdirectories.
+     *
      * @return string
      */
     public function getPackagePath(): string
@@ -236,13 +241,7 @@ declare(strict_types=1);
             return $pkg;
         }
 
-        $path = $pkg;
-
-        $path = str_replace('...', '$$/', $path);
-        $path = strtr(ltrim($path, '.'), '.', '/');
-        $path = str_replace('$$/', '../', $path);
-
-        return $path;
+        return strtr(ltrim($pkg, '.'), '.', '/');
     }
 
     /**

@@ -290,8 +290,6 @@
   </file>
   <file src="src/Propel/Generator/Builder/Om/ClassTools.php">
     <PossiblyUnusedMethod>
-      <code><![CDATA[getBaseClass]]></code>
-      <code><![CDATA[getInterface]]></code>
       <code><![CDATA[getPhpReservedWords]]></code>
     </PossiblyUnusedMethod>
   </file>
