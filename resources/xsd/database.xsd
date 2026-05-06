@@ -325,9 +325,46 @@
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <xs:complexType name="checkConstraint">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Phase C: SQL CHECK constraint. May be declared at table scope (multi-column expressions) or column scope (sugar; the expression typically references the parent column).
+                Enforced semantics: MySQL 8.0.16+ / MariaDB 10.5+ honor 'enforced=false' as NOT ENFORCED. PostgreSQL maps 'enforced=false' to NOT VALID with a deprecation note (semantics differ slightly). SQLite is frozen and rejects CHECK declarations entirely.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Optional constraint name. If omitted, an auto-name is generated as 'ck_' + table_name + '_' + hash(expression)[:8].
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="expression" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    The SQL expression for the CHECK constraint. Emitted verbatim to the database.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enforced" type="xs:boolean" use="optional" default="true">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Whether the CHECK constraint is enforced. Default true. Setting to false maps to NOT ENFORCED (MySQL/MariaDB) or NOT VALID (PostgreSQL).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="column">
         <xs:choice maxOccurs="unbounded">
             <xs:element name="inheritance" type="inheritance" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="check" type="checkConstraint" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Phase C: column-scoped CHECK constraint (sugar). The constraint is stored on the parent Table; the expression typically references this column. See checkConstraint complexType.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element ref="vendor" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="name" type="column_name" use="required">
@@ -632,6 +669,14 @@
                 <xs:annotation>
                     <xs:documentation xml:lang="en">
                         A unique index on one or several columns of the current table
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="check" type="checkConstraint" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Phase C: SQL CHECK constraint at table scope. Allows multi-column expressions. See checkConstraint complexType.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

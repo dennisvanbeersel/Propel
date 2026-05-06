@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Phase C fixture (Task C.1.4): exercises CHECK constraints at table and column scope.
+-->
+<database name="phase_c_checks" defaultIdMethod="native">
+    <table name="orders">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="quantity" type="INTEGER">
+            <check expression="quantity &gt; 0"/>
+        </column>
+        <column name="discount_pct" type="DECIMAL" size="5" scale="2"/>
+        <check name="ck_orders_discount_range" expression="discount_pct BETWEEN 0 AND 100"/>
+        <check name="ck_orders_quantity_or_discount" expression="quantity &gt; 0 OR discount_pct = 0" enforced="false"/>
+    </table>
+</database>
