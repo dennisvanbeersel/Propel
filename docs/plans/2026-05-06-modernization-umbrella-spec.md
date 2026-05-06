@@ -1,8 +1,10 @@
-# Propel2 Modernization — Umbrella Spec
+# Propel2 Modernization — Umbrella Spec (v2)
 
-**Date:** 2026-05-06
+**Date:** 2026-05-06 (v2 revised after critical-review pass)
 **Branch:** `ar-rewrite`
-**Status:** Approved scope. Phase plans drafted just-in-time.
+**Status:** Strategic spec. Phase plans drafted just-in-time.
+**Composer package name:** `maturix/propel` (used in `trigger_deprecation()` calls — NOT `propel/propel`)
+**Branch alias today:** `3.0-dev` per `composer.json:65` — this rewrite ships as **3.0.0**.
 
 > **For Claude:** This is the strategic umbrella. Each phase below has (or will have) its own `docs/plans/YYYY-MM-DD-<phase-letter>-<topic>.md` with task-level steps. When executing a phase, use `superpowers:writing-plans` first to draft that phase's plan, then `superpowers:executing-plans` to run it.
 
@@ -10,258 +12,607 @@
 
 ## 1. Vision & Scope
 
-A refresh of Propel2 onto modern PHP and a focused 2-database (MySQL 8 / MariaDB 10.5+, PostgreSQL 14+) reality, with aggressive removal of dead code, broken behaviors, and Java-era abstractions — while keeping consumer projects (using pre-rewrite Propel) on a deprecation runway, never a wall.
+A refresh of Propel2 onto modern PHP and a focused two-database (MySQL 8 / MariaDB 10.5+, PostgreSQL 14+) reality, with aggressive removal of dead code, broken behaviors, and Java-era abstractions — while keeping pre-rewrite consumer projects on a deprecation runway, never a wall, and shipping enterprise-grade observability, testing, and quality machinery the project lacks today.
 
-### In scope
+### 1.1 Version map
+
+| Propel version | PHP floor | Status | Purpose |
+|---|---|---|---|
+| **2.x** | 8.3 | LTS branch (security only) | Existing consumers stay here through 4.0 release |
+| **3.0** | 8.3 | This rewrite (Phases A–F + I) | All deprecations introduced; nothing removed yet |
+| **3.x minors** | 8.3 | Iterate Phase F/G/H | Continue runway |
+| **4.0** | **8.4** | Phase G + removals of all 3.x deprecations | Lazy objects, asymmetric visibility, property hooks become defaults |
+
+This is non-negotiable for the spec to be coherent. Without a version map, "remove in next major" is unactionable.
+
+### 1.2 In scope
 
 | Dimension | Decision |
 |-----------|----------|
-| PHP | 8.3 baseline today (already locked in `composer.json`). Phase G **bumps minimum to 8.4** to adopt lazy objects / asymmetric visibility / property hooks unconditionally. Major version bump alongside that change. |
-| MySQL/MariaDB | MySQL 8.0+, MariaDB 10.5+ — no version-compat code below this floor. (MariaDB 10.5+ includes recursive CTEs, JSON, generated cols, INVISIBLE columns, IF NOT EXISTS — all features Phase C relies on.) |
-| PostgreSQL | PG 14+ — full IDENTITY, JSONB, generated columns, CTEs assumed |
-| SQLite | Keep but freeze. No new DDL features beyond what's there. Used by tests + small projects. |
-| MSSQL / Oracle | Already absent; do not resurrect. Config referencing them must hard-error with a migration-guide pointer. |
+| PHP | 8.3 baseline through Propel 3.x; 8.4 minimum at Propel 4.0 |
+| MySQL/MariaDB | MySQL 8.0+, MariaDB 10.5+ (both have recursive CTEs, JSON, generated cols, INVISIBLE columns, `IF NOT EXISTS`) |
+| PostgreSQL | PG 14+ — full IDENTITY, JSONB, generated columns, partial indexes assumed |
+| SQLite | Keep but freeze. No new DDL features. Used by tests + small projects. SQLite restored to CI matrix in Phase A. |
+| MSSQL / Oracle | Already absent; do not resurrect. Existing config referencing them already fails Symfony Config validation; replace generic message with migration-guide pointer. |
 | Symfony | 7.2+ |
-| Generated AR public surface | Frozen to BC contract (Tier 1). Free reign on generator internals (Tier 3). |
+| Generated AR public surface | Tier 1 frozen (see §3); free reign on builder internals (Tier 3). |
 
-### Out of scope (call out loudly so we don't drift)
+### 1.3 Out of scope (explicit, so we don't drift)
 
 - **Not writing a new ORM.** Active Record API stays. `find()`, `filterByX()`, `save()`, `delete()` semantics unchanged.
 - **Not switching schema format.** XML stays primary. YAML/PHP schema parsers explicitly out.
-- **Not building a new query DSL alongside Criteria.** No "fluent v2".
-- **Not promising byte-stable generated code.** Generated code WILL change shape (type declarations, return types, lazy patterns). We promise method-name + signature compatibility on the BC tier, not byte equality.
-- **Not maintaining MyISAM, ancient MySQL <5.7, PG ≤13, PHP <8.3** in any form.
+- **Not building a new query DSL alongside Criteria.** `Criteria` gets enums + a typed Criterion-class generator (Phase F stretch); not a "fluent v2" sibling API.
+- **Not promising byte-stable generated code** unless explicitly noted (Phase D refactors). Default contract is method-name + signature compatibility (§3).
+- **Not maintaining MyISAM, MySQL ≤5.7, PG ≤13, PHP <8.3** in any form.
+- **Multi-tenancy / sharding** — application-layer concern. Out of scope for 3.0–4.0. May ship as a separate addon package (`propel/multitenancy`) post-4.0; requires its own spec.
+- **Contributor experience / governance / docs-site rebuild / RFC process** — non-code workstream. Out of this spec; needs its own plan.
+- **JSON shape DSL with code-generated value objects** — stretch goal; default Phase C support is JSON/JSONB column type with operator helpers, not a shape system.
 
-### Core principles
+### 1.4 Core principles
 
 1. **Remove dead, modernize live.** Anything broken on supported PHP/Symfony today is a kill candidate.
-2. **Deprecation runway over instant breaks.** Tier 1/2 changes get `trigger_deprecation()` + `@deprecated` for one minor before removal in next major.
-3. **YAGNI applied to abstractions, not features.** Multi-platform abstractions designed for Oracle/MSSQL collapse to direct strategies for the two databases we keep.
-4. **Generator output IS the public API.** Treat generated method signatures as binding. CI signature-diff gates Tier 1 stability.
-5. **Performance via type pinning, not micro-opt.** Typed properties + readonly DTOs + lazy objects > clever string tricks.
+2. **Deprecation runway over instant breaks.** Tier 1/2 changes get `trigger_deprecation('maturix/propel', '3.X', ...)` for the entire 3.x line before removal in 4.0.
+3. **Target architecture before refactor.** No "split X" / "collapse Y" task lands without a documented post-state architecture (§2).
+4. **YAGNI on abstractions, ambition on capabilities.** Multi-platform abstractions designed for Oracle/MSSQL collapse to direct strategies for the two databases we keep — but capability gaps vs. Doctrine/Cycle (observability, worker-mode, typed DSL) get closed.
+5. **Generator output IS the public API.** Treat generated method signatures as binding. CI signature-diff gate enforces this (§4).
+6. **Quality is machine-checked monotonic gates, not aspirational prose.** Baselines only ever shrink; coverage floors enforced; mutation tests run; architecture tests via Deptrac (§4).
+7. **Performance via type pinning, not micro-opt.** Numerical targets in §5.
 
 ---
 
-## 2. BC Tiers & Deprecation Discipline
+## 2. Target Architecture
 
-### Tier 1 — Frozen public API
+This section defines the post-modernization shape of the three load-bearing subsystems. Without it, "collapse" / "split" tasks are a wishlist.
 
-No removals, no signature narrowing, ever. Enums and modern alternatives may be added **alongside**, never replacing.
+### 2.1 Connection layer (post-Phase E)
 
-**Generated ActiveRecord per-instance API:** `save()`, `delete()`, `reload()`, `hydrate()`, `isNew()`/`setNew()`, `isModified()`/`setModified()`, `isDeleted()`/`setDeleted()`, `toArray()`, `fromArray()`, `importFrom()`, `exportTo()`, `getPrimaryKey()`/`setPrimaryKey()`, `getByName()`/`setByName()`, `getByPosition()`/`setByPosition()`, all per-column `getX()`/`setX()`, all per-relation `getXs()`/`addX()`.
+Today: `PdoConnection` → `ConnectionWrapper` (722 LOC, 5 responsibilities) → `ProfilerConnectionWrapper`, with parallel `StatementWrapper` chain.
 
-**Generated query class API:** `find()`, `findOne()`, `findPk()`, `findPks()`, `findBy()`, `findOneBy()`, `findByArray()`, `findOneByArray()`, `findOneOrCreate()`, `requirePk()`, `requireOne()`, `requireOneBy()`, `filterByX()`/`filterByRelation()`, `count()`, `exists()`, `paginate()`, `delete()`, `deleteAll()`, `update()`, `doSelect()`, `where()`, `orderBy()`, `groupBy()`, `limit()`, `offset()`, `select()`, `distinct()`, `join()`, `joinWith()`, `with()`, `useQuery()`, `endUse()`, `condition()`, `having()`, `whereExists()`, `whereNotExists()`.
+**Target:**
 
-**`Criteria` constants (string values immutable):** all 31 — `EQUAL`, `NOT_EQUAL`, `GREATER_THAN`, `LESS_THAN`, `GREATER_EQUAL`, `LESS_EQUAL`, `LIKE`, `NOT_LIKE`, `ILIKE`, `IN`, `NOT_IN`, `ISNULL`, `ISNOTNULL`, `LEFT_JOIN`, `RIGHT_JOIN`, `INNER_JOIN`, `JOIN`, `ASC`, `DESC`, `LOGICAL_OR`, `LOGICAL_AND`, `DISTINCT`, `CUSTOM`, `RAW`, `BINARY_AND`/`OR`, `CONTAINS_ALL`/`SOME`/`NONE`.
+```
+ConnectionInterface (Tier 1)
+    ↑ implemented by
+PdoConnection (final, ~200 LOC) — bare PDO bridge, no logic
+    ↑ wrapped by chain of (each opt-in, each implements ConnectionDecoratorInterface SPI)
+    ├── TransactionalConnection — nested-tx accounting
+    ├── LoggingConnection — PSR-3 + telemetry hooks (consumes TelemetryInterface from §I)
+    ├── CachingConnection — bounded-LRU prepared-statement cache
+    ├── ProfilingConnection — query duration histograms
+    └── ReplicaRoutingConnection — primary/replica routing intelligence (Phase E.2)
+```
 
-**`TableMap::TYPE_*` constants:** `TYPE_PHPNAME`, `TYPE_CAMELNAME`, `TYPE_COLNAME`, `TYPE_FIELDNAME`, `TYPE_NUM`.
+**SPI (internal contract — new third axis, not Tier 1, not Tier 3 free):**
 
-**`Propel::` static facade** (`Propel.php`) — all 18 static methods. `StandardServiceContainer` internals are free to rewrite.
+```php
+interface ConnectionDecoratorInterface extends ConnectionInterface {
+    public function getInner(): ConnectionInterface;
+}
+```
 
-**`ConnectionInterface`** — mirrors PDO; keep parameter looseness.
+Decorators compose via `ConnectionFactory` registered with the `ServiceContainerInterface`. Decorator order is deterministic (configuration-driven). Third-party profilers (today's `ProfilerConnectionWrapper`) migrate to implement this SPI; deprecation runway covers the swap.
 
-**`ActiveRecordInterface`** — single method, sacred. Adding methods is a BC break for manual implementers.
+### 2.2 Criteria / ActiveQuery (post-Phase F)
 
-### Tier 2 — Deprecation runway required
+Today: `Criteria` 2524 LOC, mixing 9 responsibilities (constants, hashtable API, criterion building, join planning, name-replacement SQL parser, WHERE/HAVING trees, comparison operators, raw-SQL escape hatches, configuration storage).
 
-One minor release of `trigger_deprecation()` before removal in next major.
+**Target:**
+
+```
+ActiveQuery/
+├── Criteria.php                       — public Tier 1 facade, ~600 LOC
+├── Compiler/
+│   ├── NameResolver.php               — replaces hand-rolled replaceNames; tokenizer-based
+│   └── PreparedStatementKey.php       — shared with Phase E's CachingConnection
+├── Plan/
+│   ├── JoinPlan.php                   — split out of Criteria
+│   ├── WhereTree.php                  — split out of Criteria
+│   └── OrderClause.php
+├── Operator/                           — enums alongside string consts
+│   ├── Comparison.php                 — enum: Equal, NotEqual, GreaterThan, ...
+│   ├── JoinType.php
+│   ├── SortOrder.php
+│   └── LogicalOperator.php
+└── Criterion/                          — Tier 2 extension surface (today: 19 classes)
+    ├── ...                            — existing, modernized
+```
+
+**Phase E↔F coupling acknowledged:** `PreparedStatementKey` lives in `Compiler/`; `CachingConnection` (Phase E) consumes it. Both phases must coordinate on cache-key shape; Phase F drafts the SPI signature; Phase E adopts it.
+
+### 2.3 Builder (post-Phase B + D)
+
+Today: ~14k LOC of string concatenation across `ObjectBuilder` (3,664), `QueryBuilder` (2,255), `TableMapBuilder` (1,601), 4 builder traits (~3,766), and behavior modifiers (Sortable 2,011 LOC, NestedSet 3,036 LOC across 3 files).
+
+**Target architecture decision (forces honesty about Phase B scope):**
+
+The companion plan `2026-02-03-builder-om-modernization.md` is **bug fixes + generated-code modernization inside the existing string-concat architecture**. It does NOT change the builder architecture. Renaming acknowledged:
+
+- **Phase B (existing plan):** generated-code modernization. 37 tasks. Stays as-is.
+- **Phase B' (NEW):** Builder architecture refactor — introduce a thin template layer using PHP heredoc + a shared `CodeEmitter` helper (NOT a third-party templating engine; YAGNI). Behavior modifiers (Phase D's targets) consume the same emitter. Sortable + NestedSet refactor lands as the validation of B'.
+
+**Behavior facade (closes BC hole flagged in review):**
+
+Behaviors (Tier 2) consume `ObjectBuilder` (Tier 3 free-reign), creating silent breaks at codegen. Fix: introduce `Generator/Builder/Om/ObjectBuilderApi` interface — narrow facade exposing only the methods Behaviors actually call (`declareClass`, `getStubObjectBuilder`, `addClassOpen`, `addClassClose`, etc.). Behavior `objectMethods()` etc. take the interface, not the concrete class. Tier 2 freezes the interface; Tier 3 keeps freedom on `ObjectBuilder` internals.
+
+### 2.4 Service container / DI strategy
+
+**Decision:** `Propel::` static facade is a **permanent Tier 1 commitment**. Internals delegate to a PSR-11 `ContainerInterface`-compatible `StandardServiceContainer` (Tier 3). New code in 3.0+ accesses services via injected `ServiceContainerInterface` (Tier 2); legacy `Propel::` calls remain forever as the convenience entrypoint.
+
+This avoids the "is the static facade going away?" ambiguity and lets phases I/J introduce DI-friendly hooks without churning the consumer-facing facade.
+
+### 2.5 Observability contract (Phase I)
+
+```php
+interface TelemetryInterface {
+    public function startQuerySpan(string $sql, array $params): SpanInterface;
+    public function recordPreparedCacheHit(bool $hit): void;
+    public function recordTransactionDepth(int $depth): void;
+    public function recordHydrationDuration(string $class, float $microseconds): void;
+}
+
+final class NoOpTelemetry implements TelemetryInterface { /* default */ }
+```
+
+Adapter packages (`propel/telemetry-otel`, `propel/telemetry-prometheus`) ship separately; default Propel ships only the no-op.
+
+---
+
+## 3. BC Tiers, Deprecation Discipline, and the SPI Axis
+
+Three axes, not two:
+
+- **Public API (Tier 1, Tier 2):** what consumer code calls.
+- **Internal SPI:** contracts internal Tier 3 components speak to each other (e.g., `ConnectionDecoratorInterface`, `ObjectBuilderApi`, `PreparedStatementKey`). Frozen at the SPI signature; implementations free.
+- **Implementation (Tier 3):** free reign within SPI signatures.
+
+### 3.1 Tier 1 — Frozen public API
+
+No removals, no signature narrowing. Enums and modern alternatives may be added **alongside**, never replacing. This list is enumerative, not exhaustive — but the signature-diff gate (§4) catches anything not listed.
+
+**Generated ActiveRecord per-instance API** (emitted by `ObjectBuilder`):
+- Lifecycle: `save()`, `delete()`, `reload()`, `hydrate()`, `isNew()`/`setNew()`, `isModified()`/`setModified()`, `isDeleted()`/`setDeleted()`, `isPrimaryKeyNull()`.
+- Accessors: per-column `getX()`/`setX()`, per-relation `getXs()`/`addX()`, `getPrimaryKey()`/`setPrimaryKey()`, `getByName()`/`setByName()`, `getByPosition()`/`setByPosition()`.
+- Serialization: `toArray()`, `fromArray()`, `importFrom()`, `exportTo()`, `__serialize()`/`__unserialize()`.
+
+**Generated query-class API** (emitted by `QueryBuilder` — the BIGGEST consumer surface):
+- Factory: `XxxQuery::create()` per query class.
+- Per-column: `filterByX()`, `findByX()`, `findOneByX()`, `requireOneByX()`, magic `findByXAndY()` / `filterByXAndY()` via `__call`.
+- Per-relation: `useXxxQuery()`, `endUse()`, `joinXxx()`, `leftJoinXxx()`, `rightJoinXxx()`, `innerJoinXxx()`, `joinWithXxx()`, magic `joinWithRelationName` via `__call`.
+- Per-PK: `findPk()`, `findPks()`, `filterByPrimaryKey()`, `filterByPrimaryKeys()`.
+- Aggregate: `find()`, `findOne()`, `count()`, `exists()`, `paginate()`, `delete()`, `deleteAll()`, `update()`.
+
+**`ModelCriteria` inherited methods:** `where()`, `orderBy()`, `groupBy()`, `limit()`, `offset()`, `select()`, `distinct()`, `join()`, `joinWith()`, `with()`, `useQuery()`, `endUse()`, `condition()`, `having()`, `whereExists()`, `whereNotExists()`, `findBy()`, `findOneBy()`, `findByArray()`, `findOneByArray()`, `findOneOrCreate()`, `requirePk()`, `requireOne()`, `requireOneBy()`.
+
+**`Criteria` constants — string values immutable:** all current public consts in `Criteria.php`. Phase A task: enumerate them in `tests/snapshots/criteria-constants.txt` and gate with signature-diff. Constants identified during review: `EQUAL`, `NOT_EQUAL`, `ALT_NOT_EQUAL`, `GREATER_THAN`, `LESS_THAN`, `GREATER_EQUAL`, `LESS_EQUAL`, `LIKE`, `NOT_LIKE`, `ILIKE`, `NOT_ILIKE`, `IN`, `NOT_IN`, `ISNULL`, `ISNOTNULL`, `LEFT_JOIN`, `RIGHT_JOIN`, `INNER_JOIN`, `JOIN`, `ASC`, `DESC`, `LOGICAL_OR`, `LOGICAL_AND`, `DISTINCT`, `CUSTOM`, `RAW`, `CUSTOM_EQUAL`, `BINARY_AND`, `BINARY_OR`, `BINARY_ALL`, `BINARY_NONE`, `CONTAINS_ALL`, `CONTAINS_SOME`, `CONTAINS_NONE`, `ALL`, `CURRENT_DATE`, `CURRENT_TIME`, `CURRENT_TIMESTAMP`. (~38 actual; replaces the previous bogus "31" claim.)
+
+**`TableMap::TYPE_*` constants:** `TYPE_PHPNAME`, `TYPE_CAMELNAME`, `TYPE_COLNAME`, `TYPE_FIELDNAME`, `TYPE_NUM`. Plus the static API: `getFieldnamesForClass()`, `translateFieldnameForClass()` (called from generated code).
+
+**`Propel::` static facade** — 18 static methods enumerated in Phase A snapshot. Includes: `init()`, `getServiceContainer()`, `setServiceContainer()`, `getConnection()`, `getReadConnection()`, `getWriteConnection()`, `getAdapter()`, `getDatabaseMap()`, `enableInstancePooling()`, `disableInstancePooling()`, `isInstancePoolingEnabled()`, `getDefaultLogger()`, `getLogger()`, `setLogger()`, `getConfiguration()`, `setConfiguration()`, `log()`. Internals delegate to `StandardServiceContainer` (Tier 3, free).
+
+**`ActiveRecordInterface`:** declared method `isPrimaryKeyNull()`; declared `@method toArray()` PHPDoc contract. No additions in 3.x without a deprecation cycle. (The "single method, sacred" prior wording was inaccurate.)
+
+**`ConnectionInterface`** (mirrors PDO) — keep parameter looseness. No tightening in 3.x.
+
+### 3.2 Tier 2 — Deprecation runway required
+
+One full minor in 3.x with `trigger_deprecation('maturix/propel', '3.X', '...')` before removal in 4.0.
 
 - `AdapterInterface`, `SqlAdapterInterface` (custom adapters in user codebases).
-- `Behavior` abstract class hook signatures: `objectFilter`, `objectAttributes`, `objectMethods`, `queryMethods`, `staticMethods`, `tableMapFilter`, `preSave`/`postSave`/`preUpdate`/`postUpdate`/`preDelete`/`postDelete`. Third-party Behaviors on Packagist subclass these.
-- `AbstractFormatter::format()`/`formatOne()`. `Collection`, `ObjectCollection`, `ArrayCollection`, `OnDemandCollection` extension points.
+- **`Behavior` abstract class hooks taking `ObjectBuilderApi` (NEW interface, §2.3) instead of concrete `ObjectBuilder`** — closes the silent-break-at-codegen hole. `objectFilter`, `objectAttributes`, `objectMethods`, `queryMethods`, `staticMethods`, `tableMapFilter`, `preSave`/`postSave`/`preUpdate`/`postUpdate`/`preDelete`/`postDelete`. Third-party Behaviors update once during 3.x runway.
+- **All 19 `Criterion` classes** in `Runtime/ActiveQuery/Criterion/`: `BasicCriterion`, `RawCriterion`, `CustomCriterion`, `LikeCriterion`, `InCriterion`, `ExistsCriterion`, `BinaryCriterion`, `CriterionFactory`, `AbstractCriterion`, etc. (User-extension surface flagged by review.)
+- **`PropelException` hierarchy** (`Runtime/Exception/`) and 8 typed exception subclasses — caught by user code.
+- **Util classes:** `PropelDateTime`, `PropelModelPager` (returned by `paginate()` which is Tier 1), `Profiler`, `UuidConverter`.
+- `AbstractFormatter::format()`/`formatOne()`. `Collection`, `ObjectCollection`, `ArrayCollection`, `OnDemandCollection`.
 - `ConnectionManagerInterface`, `ConnectionManagerSingle`, `ConnectionManagerPrimaryReplica`.
 - `StatementWrapper`, `ConnectionWrapper` (wrapped by profiling extensions).
-- `ServiceContainerInterface` (DI bridge implementations).
+- `ServiceContainerInterface`.
 - `Map\TableMap` public methods called from generated `*TableMap::initialize()`.
 
-### Tier 3 — Internal, free reign
+### 3.3 Tier 3 — Internal, free reign within SPI
 
-- All of `src/Propel/Generator/Builder/Om/`
-- `src/Propel/Generator/Platform/`, `Generator/Reverse/`, `Generator/Manager/`, `Generator/Command/`
-- Runtime `ActiveQuery/SqlBuilder/` and `ActiveQuery/QueryExecutor/`
-- `Common/Config/Loader/*`, `Common/Config/XmlToArrayConverter`
-- `DebugPDO`, `PropelPDO` (BC shells — already empty subclasses; deprecate, then remove)
+- All of `src/Propel/Generator/Builder/Om/` (codegen-time only) — but `ObjectBuilderApi` interface is Tier 2.
+- `src/Propel/Generator/Platform/`, `Generator/Reverse/`, `Generator/Manager/`, `Generator/Command/`.
+- Runtime `ActiveQuery/SqlBuilder/` and `ActiveQuery/QueryExecutor/` — consume `ConnectionDecoratorInterface` SPI (Tier 2 axis).
+- `Common/Config/Loader/*`, `Common/Config/XmlToArrayConverter`.
+- `DebugPDO`, `PropelPDO` — alias-then-remove (see §3.5).
+- `Generator/Util/QuickBuilder` — used by user tests; Tier 3 with documented stability commitment to its public methods.
 
-### Deprecation tooling
+### 3.4 Deprecation tooling — concrete
 
-1. Adopt **Symfony's `trigger_deprecation('propel/propel', 'X.Y', '...')`** convention. Already a transitive dependency.
-2. Use **PHP 8 `#[\Deprecated]` attribute** for class/method-level (PhpStorm + PHPStan parse this).
-3. Today only **6 `@deprecated` markers** exist tree-wide. Phase A establishes the new deprecations introduced by this rewrite.
-4. **CI signature-diff gate:** regenerate the bookstore fixture, dump method signatures of generated `Base\Book.php` / `Base\BookQuery.php`, compare against a committed snapshot. Any signature change must include a `@deprecated` annotation OR justify why it's net-new.
+1. **`composer require symfony/deprecation-contracts`** as a direct dep (Phase A foundational task). `trigger_deprecation('maturix/propel', '3.X', ...)` as the calling convention.
+2. **`composer require --dev symfony/phpunit-bridge`** + set `SYMFONY_DEPRECATIONS_HELPER=max[self]=0` in CI. Tests fail if any code change triggers a self-emitted deprecation that wasn't there before. Existing 6 deprecations form the baseline.
+3. **`#[\Deprecated]` PHP attribute** is **PHP 8.4 only**. NOT used in 3.x. At 4.0 (Phase G PHP-8.4 bump), PHPDoc `@deprecated` migrates to the attribute via Rector rule shipped in this repo.
+4. **CI signature-diff gate — concretely defined (Phase A foundational task):**
+   - **Snapshot location:** `tests/snapshots/{Base_Book.php,Base_BookQuery.php,Base_BookTableMap.php,...}.signatures.json`.
+   - **Format:** JSON. Per class: array of `{name, visibility, isStatic, parameters: [{name, type, default, byRef, variadic}], returnType, phpDocReturn}`. Order: alphabetical by `(visibility, name)` for determinism.
+   - **Generation:** `bin/propel internal:dump-signatures` walks `ReflectionClass` of regenerated bookstore fixture, emits the JSON. Reproducibility achieved by fixed traversal order + locale-independent output.
+   - **What it diffs:** methods (signature + return type + visibility + nullability) + class-level public properties + class constants. Does NOT diff method bodies, PHPDoc text, comment blocks.
+   - **BC-safe widening allowlist:** return-type narrowing (LSP-safe) is allowed; parameter-type widening is allowed; adding parameters with defaults is allowed; everything else fails CI unless paired with a `@deprecated` annotation in the same diff.
+   - **Update process:** signature changes land in the same commit as the snapshot regeneration. PR template requires reviewer to confirm reviewed.
+5. **Migration guide:** `docs/MIGRATION-FROM-PRE-AI.md` — Phase A foundational deliverable (today doesn't exist; spec previously referenced it).
+6. **Rector ruleset:** `propel/rector-rules` package — ships at 4.0 with mechanical fixes for every Tier 1/2 deprecation introduced in 3.x. Examples: `Criteria::EQUAL` → `Comparison::Equal`, `slaves` → `replicas` config keys, `IDMethod::*` constants → enum, `DebugPDO` → `ConnectionWrapper`.
 
-### Schema XSD: additive-only promise
+### 3.5 `: static` vs `: self` decision (closes review M7)
 
-- Never remove an enumeration value (column types, ON DELETE actions, `idMethod` values).
-- Old XSD URL must remain valid (most schemas in the wild reference a public XSD URL).
-- New types added only as additions to `custom_datatypes.xsd`.
+Generated setters today have no return type; companion plan adds `: static`. **`: static` IS an LSP break** for user subclasses overriding `setTitle($v)` without `: static`. Decision:
 
-### Configuration: alias-don't-rename promise
+- **Use `: self` (not `: static`)** in generated setters. Existing user-subclass `setTitle($v)` overrides remain valid (they implicitly return `static`-compatible). This costs us return-type covariance in subclasses but is BC-safe.
+- Document the reason in `2026-02-03-builder-om-modernization.md` (companion plan task 2.6 needs amending).
 
-- Keep `slave`/`slaves` keys parseable (forward to `replica` with deprecation notice).
-- Keep `master` keys parseable (forward to `primary` with deprecation notice).
+### 3.6 `DebugPDO` / `PropelPDO` — alias, don't delete (closes review M4)
+
+Phase A v1 said "delete". Real-world deployments have `connection.classname = '\Propel\Runtime\Connection\DebugPDO'` in their `propel.yaml`. Deletion fatals boot. Revised:
+
+- **Phase A:** keep both classes as `class_alias` thin wrappers that emit `trigger_deprecation`. Existing config keeps booting.
+- **4.0:** delete the aliases. Rector rule (above) rewrites consumer config + classnames.
+
+### 3.7 Schema XSD additive promise — concrete wording
+
+"Schema instances valid against today's XSD remain valid against the new XSD. New attributes/elements may be added as `minOccurs=0` / optional. New enumeration values may be added to existing types. Enumeration values are never removed; column types added only as additions." Phase C will add: `<column generated="virtual|stored" expression="...">`, `<column invisible="true">`, `<check>` element on `<table>`/`<column>`, new column types (`json`, `jsonb`, `inet`, `cidr`, `tsvector`).
+
+XSD hosting: `resources/xsd/database.xsd` shipped in repo + published to `propelorm.org/xsd/database.xsd` via release pipeline. URL stability part of the BC contract.
+
+### 3.8 Configuration alias-don't-rename
+
+- Keep `slave`/`slaves` keys parseable; deprecate via `trigger_deprecation` forwarding to `replica`/`replicas`.
+- Keep `master` keys parseable; deprecate forwarding to `primary`.
 - Keep both `connection` (singular) and `connections` (plural).
 - `paths.phpDir`, `paths.sqlDir`, `paths.migrationDir` defaults locked.
-- Adapter enum stays `mysql|pgsql|sqlite`. Historical entries (`oracle`, `mssql`, `sqlsrv`) → hard error with migration-guide pointer.
+- Adapter enum stays `mysql|pgsql|sqlite`. `oracle`/`mssql`/`sqlsrv` still produce Symfony Config validation error, but with custom message pointing at `docs/MIGRATION-FROM-PRE-AI.md`.
+- `connection.classname` defaulting to `DebugPDO` keeps working via the alias (§3.6).
 
 ---
 
-## 3. Phases
+## 4. Quality Gates (foundational, machine-checked)
 
-Each phase has its own implementation plan drafted just-in-time. Phase B already has one committed (`2026-02-03-builder-om-modernization.md`).
+This section is the rigor backbone. Every gate is in CI, every threshold is numerical, every threshold is monotonic (only allowed to improve).
 
-| # | Phase | Risk | Effort | Sequencing rationale |
-|---|-------|------|--------|----------------------|
-| **A** | **Quick wins: dead code + critical bugs** | Low | S | Pure cleanup. Includes `MysqlPlatform::getMajorServerVersionNumber` off-by-one fix (real bug). Run first to isolate the codebase before structural work. |
-| **B** | **Builder/Om generated code modernization** | Medium | L | 37 tasks already planned in `2026-02-03-builder-om-modernization.md`. Strict types in generated output, typed properties, return types, backed enums for ENUM columns, JSON_THROW_ON_ERROR everywhere. |
-| **C** | **Schema model & DDL modernization (Generator/Platform/Reverse)** | Medium | L | Adds JSON/JSONB native, generated columns, CHECK constraints, INVISIBLE columns, PG IDENTITY. Reverse parsers move to `INFORMATION_SCHEMA`. Diff comparator extended for collation/comments/CHECK/partial-where. After B because schema-model changes ride on B's generator output. |
-| **D** | **Behaviors cleanup** | Medium | M | Kill Validate + QueryCache (broken). Deprecate NestedSet (CTEs replace it). Refactor Sortable (965 LOC) and NestedSet (2900 LOC) string-concat generators into template files. Independent — can parallelize with C. |
-| **E** | **Runtime: Connection layer collapse + adapter cleanup** | High | L | Merge `PdoConnection` + `ConnectionWrapper` into `final` class with decorator-based logging/profiling/caching. Removes 2 stack frames per query. Replace `debug_backtrace()` in log path. Add LRU bound to `cachedPreparedStatements`. Touches Tier 2 contracts → deprecation runway required. |
-| **F** | **Runtime: ActiveQuery/Criteria modernization + enums alongside** | High | L | Add `Comparison`, `JoinType`, `SortOrder`, `LogicalOperator` enums alongside `Criteria::*` constants. Split `Criteria` 2524 LOC. Deprecate Java-Hashtable methods (`put`/`putAll`/`get`/`keys`/`size`/`equals`). Rewrite hand-rolled `replaceNames` SQL parser. Most BC-fragile phase. |
-| **G** | **PHP 8.4 forward-looking (PHP minimum bumps to 8.4 here; major version bump)** | Medium-High | L | Lazy objects for relation collections (replaces `coll*Partial` boilerplate). Asymmetric visibility for typed entity properties. Property hooks for dirty-tracking on generated setters. Streaming `Generator`-based formatter. `WeakMap`-based instance pool. Requires B and E in place. Lazy adoption gated behind config flag for one minor before flipping default. |
-| **H** | **CLI/Manager polish + migration table redesign** | Low | M | `#[AsCommand]` attributes everywhere. `SymfonyStyle` for output. MigrationManager: add `migration_name`, `batch`, `checksum` columns. Stop silently creating migration table on read failure. Independent. |
+### 4.1 Static-analysis baseline drawdown
 
-### Sequencing rules
+| Tool | Today | Phase A target | Phase G target |
+|---|---|---|---|
+| `phpstan-baseline.neon` | 548 lines, 91 ignored blocks | ≤438 (-20%) | 0 |
+| `psalm-baseline.xml` | 2598 lines, 207 baselined files | ≤2078 (-20%) | 0 |
+| `phpstan.neon` blanket regex `ignoreErrors` | 4 entries | 0 | 0 |
+| `psalm.xml` global `<issueHandlers>` suppressions | 9 types | 6 (`ImplementedReturnTypeMismatch` removed first) | 0 |
 
-- **A always first.** Removes dead code that other phases would otherwise have to special-case.
-- **B → C** strictly sequential. C's schema-model changes ride on B's modernized generator output.
-- **D, H independent.** Slot in opportunistically.
-- **E before F.** E collapses internals; F touches the public Criteria API. Spreading the BC pain.
-- **G last.** Lazy-objects + streaming formatters retrofit cleanly only after B and E land.
+**CI gate:** `tools/check-baseline-monotonic.php` runs on every PR, fails if any file's line count increased vs `master`.
+
+### 4.2 PHPUnit rigor restoration (Phase A exit)
+
+All three of `tests/{agnostic,mysql,pgsql}.phpunit.xml` flip to:
+```xml
+failOnDeprecation="true"
+failOnPhpunitDeprecation="true"
+failOnWarning="true"
+failOnRisky="true"
+failOnIncomplete="true"
+failOnNotice="true"
+failOnEmptyTestSuite="true"
+```
+The `4e964c16b` commit that turned these off lands as Phase A exit reversal.
+
+### 4.3 Coverage
+
+CI restores `coverage: pcov` (was `coverage: none` per `ef02d9483`). Floor in `composer.json` script:
+
+| Path | Phase A floor | Phase G floor |
+|---|---|---|
+| `src/Propel/Runtime/` | 70% | 85% |
+| `src/Propel/Generator/` | 60% | 75% |
+| Generated bookstore output | 70% line | 85% line |
+
+Coverage delta tracked per phase. Codecov restored or self-hosted summary committed per release.
+
+### 4.4 Mutation testing (Infection)
+
+`composer require --dev infection/infection`. Configuration `infection.json5` targets `Runtime/{Connection,ActiveQuery,ActiveRecord,Map,Adapter}`. **MSI (Mutation Score Indicator) ≥ 75** required for Phase E and F exit on touched files.
+
+### 4.5 Architecture tests (Deptrac)
+
+`composer require --dev qossmic/deptrac`. `deptrac.yaml` encodes:
+
+- `Generator/*` MUST NOT import `Runtime/*` (codegen does not depend on runtime).
+- `Common/*` MUST NOT import `Generator/*` or `Runtime/*` (sink layer).
+- `Runtime/Internal/*` (new namespace introduced in Phase E for non-SPI internals) MUST NOT be imported by anything outside `Runtime/`.
+- Tier 2 contracts: `Behavior` MUST consume only `ObjectBuilderApi`, never `ObjectBuilder` concrete.
+
+Phase A: capture today's structure as Deptrac baseline. Subsequent phases enforce no regressions.
+
+### 4.6 Generated-code lint parity
+
+CI job `lint-generated`: regenerate bookstore fixture, run **the same** `composer cs-check && composer stan && composer psalm` against `tests/Fixtures/bookstore/build/classes/`. Generated code must pass the same bar as hand-written code. Gate added Phase A.
+
+### 4.7 Golden-file regression for generator
+
+`tests/Fixtures/bookstore/build/golden/` committed; Phase A introduces `tools/regen-golden.php` and a CI check that diffs new generation against golden. Required artifact: every builder change includes the regenerated golden tree in the same commit; reviewers approve diff line-by-line.
+
+### 4.8 phpcs configuration freshness
+
+`phpcs.xml` `phpVersion=7.4` → `8.3`. Phase A.
+
+### 4.9 Per-phase Definition of Done
+
+Every phase's exit checklist:
+
+- [ ] All test matrix cells green: PHP {8.3, 8.4} × DB {agnostic, mysql, pgsql, sqlite} × Symfony {7.2, 7.latest} = 16 cells.
+- [ ] Baselines decreased by phase target (§4.1).
+- [ ] Coverage delta ≥ 0%; coverage floor met.
+- [ ] Mutation score ≥ threshold on touched files.
+- [ ] Deptrac green; no new layer violations.
+- [ ] Performance benchmarks within ±5% of pre-phase numbers (or improved per §5).
+- [ ] `CHANGELOG.md` updated (Keep-a-Changelog format).
+- [ ] Deprecation message audit clean (no new self-triggered deprecations).
+- [ ] Generated-code lint parity green.
+- [ ] Golden-file diff reviewed.
+- [ ] Phase plan updated with retrospective notes.
+
+A phase isn't "done" until all 11 boxes are checked.
+
+### 4.10 Performance targets (numerical)
+
+Set in Phase A; tracked in `tests/Benchmark/`.
+
+| Metric | Today (baseline TBD in Phase A) | 4.0 target |
+|---|---|---|
+| Hydrate 100k-row `Book` collection | TBD ms | ≥30% faster |
+| Memory peak for 100k-row hydrate | TBD MB | ≤TBD MB (no regression) |
+| Query overhead per call (vs raw PDO) | TBD µs | ≤2× raw PDO |
+| Prepared-statement cache hit rate (typical workload) | TBD% | ≥90% |
+| Doctrine 3 hydration parity (same workload) | n/a | within ±10% |
+
+Baselines captured in Phase A. Phase E + F + G must each show a measurable improvement; Phase B/C/D must not regress.
+
+### 4.11 Property-based testing infrastructure
+
+`composer require --dev giorgiosironi/eris`. Standing tool used in:
+- Phase C: SchemaParser XML round-trip; Migration apply/inverse identity.
+- Phase F: `replaceNames` rewrite (token-equivalence); Criterion compose/decompose; `Comparison::X->value === Criteria::X` contract test.
+
+### 4.12 Failure-injection / chaos (Phase E)
+
+PDO connection drop mid-transaction, statement-cache eviction during prepared call, deadlock retry boundedness. Tests live under `tests/ChaosTests/`. Gate: Phase E exit.
 
 ---
 
-## 4. Concrete kill / deprecate / keep / add lists
+## 5. Phases
 
-### Kill immediately (Phase A)
+Each has its own implementation plan drafted just-in-time. Phase B has one committed (`2026-02-03-builder-om-modernization.md`).
 
-| File / class / type | Reason |
-|---|---|
-| `src/Propel/Runtime/Connection/PropelPDO.php` | 5-line empty BC subclass |
-| `src/Propel/Runtime/Connection/DebugPDO.php` | 8-line empty BC subclass |
-| `src/Propel/Runtime/Connection/ConnectionManagerMasterSlave.php` | Already `@deprecated`; delegates to PrimaryReplica |
-| `src/Propel/Runtime/Validator/Constraints/*` | Re-allows `DateTimeInterface`; Symfony 6+ already supports it natively |
-| `src/Propel/Generator/Behavior/Validate/` | Imports Symfony 3.0-removed `DefaultTranslator`, `StaticMethodLoader`; generates dead code today |
-| `src/Propel/Generator/Behavior/QueryCache/` | Uses `apc_*` (removed PHP 5.5, 2013); cannot run on supported PHP |
-| `Propel::initConfiguration()` (`Propel.php:117`) | Already `@deprecated` |
-| `BU_DATE`, `BU_TIMESTAMP`, `BOOLEAN_EMU` types in `PropelTypes.php` | Pre-1970 timestamp / pre-PG-bool workarounds; useless on 64-bit PHP 8.3 |
-| `PropelTypes::OBJECT`, `PropelTypes::PHP_ARRAY` | Stores serialized PHP / CSV in TEXT — anti-patterns from ~2005 |
-| `MysqlPlatform::getColumnBindingPHP` PECL #9919 hack (`:1036`) | Bug fixed in PHP 5.x |
-| MyISAM plumbing: `tableEngineKeyword`, `defaultTableEngine`, MyISAM-only options in `MysqlPlatform::getTableOptions` (`:367-393`) | InnoDB is the only modern choice |
-| `MysqlPlatform::getBeginDDL` "MySQL >= 4.1.x" comment + logic (`:236`) | Two decades obsolete |
-| `SqlitePlatform::initialize` `version_compare($v, '3.6.19')` | SQLite 3.6.19 released 2009 |
-| `SqliteAdapter::__construct` `mb_regex_encoding` per-call hack (`:51`) | Move to one-time init |
-| HHVM strict-issue comments in `PdoConnection` (`:174,187`) | HHVM dead ~5 years |
-| `IdMethod.php` vs `IdMethodType.php` duplicate constants | Both reference Oracle in docblocks |
-| `tests/Fixtures/etc/xsl/` + XSLT pipeline in `AbstractManager::loadDataModels:321` | Unused |
-| `tests/Fixtures/bookstore/build/classes/Propel/Tests/Bookstore/Behavior/ValidateTriggerBook.php` | Generated artifact for the killed Validate behavior |
-| Use of `Serializable` interface on `Collection.php:48` | Soft-deprecated since PHP 8.1; `__serialize`/`__unserialize` already implemented |
-| `spl_object_hash` calls in `ObjectCollection.php` (`:419,442,455,494,519,522,527,541,557`) | Replace with `spl_object_id` (cheaper) |
+| # | Phase | PHP | Risk | Effort | Sequencing rationale |
+|---|-------|-----|------|--------|----------------------|
+| **A** | **Foundations: dead code + critical bugs + ALL quality gates** | 8.3 | Medium | M | Pure cleanup + foundational tooling. Includes: kill broken behaviors, fix `MysqlPlatform::getMajorServerVersionNumber` off-by-one (`:1107`), fix `PgsqlAdapter::getId` sequence quoting (`:111`), install symfony/deprecation-contracts + phpunit-bridge + Infection + Deptrac + phpcs 8.3, restore CI coverage, draw down baselines 20%, restore PHPUnit fail-flags, define signature-diff gate JSON format, write `MIGRATION-FROM-PRE-AI.md`, capture all perf baselines, alias `DebugPDO`/`PropelPDO`, add SQLite back to CI matrix. Larger than v1 indicated. Risk bumped to Medium. |
+| **B** | **Generated-code modernization (existing 37-task plan)** | 8.3 | Medium | L | `2026-02-03-builder-om-modernization.md`. **Amend task 2.6**: `: self` instead of `: static` (§3.5). Add: every task regenerates golden; lint parity passes. |
+| **B'** | **Builder architecture refactor (template-emitter)** | 8.3 | Medium | M | New phase forced by review. Introduce `CodeEmitter` helper + thin templates for `ObjectBuilder` / `QueryBuilder`. Validates by Phase D's behavior-modifier refactor consuming the same emitter. **Sequenced after B** so the existing plan's bug fixes land before architectural churn. |
+| **C** | **Schema model & DDL features (Generator/Platform/Reverse)** | 8.3 | Medium | L | JSON/JSONB native, generated columns, CHECK constraints, INVISIBLE, PG IDENTITY. Reverse parsers move to `INFORMATION_SCHEMA`. Diff comparator extended. Schema XSD adds new optional attributes (§3.7). |
+| **D** | **Behaviors cleanup** | 8.3 | Medium | M | Kill Validate + QueryCache (broken). Deprecate NestedSet (CTEs replace it). Refactor Sortable (2,011 LOC) and NestedSet (3,036 LOC) string-concat generators into `CodeEmitter` templates from B'. Independent — can parallelize with C. |
+| **E** | **Runtime: Connection collapse + decorators + replica routing** | 8.3 | High | L | Implements the architecture in §2.1. `PdoConnection` shrinks to ~200 LOC; decorator chain (TransactionalConnection, LoggingConnection, CachingConnection, ProfilingConnection, ReplicaRoutingConnection). Replace `debug_backtrace()` in log path. Bounded-LRU prepared-statement cache. Replica routing intelligence: `forcePrimary()`/`allowReplica()` query hints, session-consistency window, replica-lag awareness, primary-fallback. Tier 2 deprecations cover ConnectionWrapper migration. |
+| **F** | **Runtime: ActiveQuery/Criteria split + enums alongside + typed Criterion DSL** | 8.3 | High | L | Implements §2.2. `Comparison`/`JoinType`/`SortOrder`/`LogicalOperator` enums alongside `Criteria::*` constants. Split `Criteria` into `Compiler/`, `Plan/`. Deprecate Java-Hashtable methods (`put`/`putAll`/`get`/`keys`/`size`/`equals`). Rewrite `replaceNames` SQL parser (token-based). **Stretch:** generate per-column typed Criterion classes (`BookCriterion::title()->equals(...)`) — opt-in via `<table generate-typed-criterion="true">`; default off in 3.x. Coordinate with E on `PreparedStatementKey` SPI (§2.2). |
+| **G** | **PHP 8.4 bump + lazy objects + asymmetric visibility + property hooks (4.0)** | 8.4 | Medium-High | L | Lazy objects for relation collections (replaces `coll*Partial` boilerplate). Asymmetric visibility for typed entity properties — note: this DOES change AR semantics (read-anywhere, write via setter); explicit BC break documented in `UPGRADE-4.0.md`. Property hooks for dirty-tracking. Streaming `Generator`-based formatter. `WeakMap`-based instance pool. Lazy-object adoption gated behind `<table use-lazy-objects="true">` for one minor before 4.1 default flip. Numerical rollback criterion: lazy hydration must be ≤+5% latency vs eager on a 100k-row `with()` query, else flag stays opt-in another minor. Decision authority: maintainer + benchmark CI report. |
+| **H** | **CLI/Manager polish + migration tooling overhaul** | 8.3 | Medium | M | `#[AsCommand]` everywhere. `SymfonyStyle` for output. MigrationManager: `migration_name`, `batch`, `checksum` columns; dry-run with SQL preview; squashing; baselines; drift detection (runtime checksum compare); separate data vs structural migrations. Fix silent-table-create-on-error (`MigrationManager.php:166-194`). Bigger than v1 framing — risk bumped to Medium. |
+| **I** | **Observability (TelemetryInterface + adapters)** | 8.3 | Low | M | New phase forced by review. Defines `TelemetryInterface` (§2.5). Default `NoOpTelemetry` ships in core. `propel/telemetry-otel` and `propel/telemetry-prometheus` adapter packages. Hook points: query span lifecycle, prepared-cache hit/miss, transaction depth, hydration duration. Phase E's `LoggingConnection` consumes the interface. |
+| **J** | **Worker-mode / long-running-process safety (RoadRunner/FrankenPHP/Swoole)** | 8.4 | Medium | M | New phase forced by review. Request-scoped instance-pool reset hook, fiber-safe transaction context binding, connection lifecycle hooks (`onWorkerStart`, `onRequestStart`, `onRequestEnd`), assert-no-leaked-state in test mode. Sequenced post-G because PHP 8.4 Fibers + lazy objects are the cleanest substrate. |
 
-### Critical bugs to fix in Phase A
+### 5.1 Sequencing rules
+
+- **A always first.** Tooling foundation; nothing else has machine-checked quality without it.
+- **B → B' → C → D.** B's bug fixes settle the existing builder; B' refactors architecture; C extends schema model; D's behavior refactor validates B'.
+- **D, H independent.** Slot opportunistically.
+- **E ↔ F coupled** via `PreparedStatementKey` SPI (§2.2). E first (collapses internals), F second (touches Criteria public API). F may overlap E's tail.
+- **I parallel with E.** Telemetry interface defined alongside connection collapse so `LoggingConnection` is born telemetry-aware.
+- **G last in 3.x cycle; ships as 4.0.** Lazy objects + asymmetric visibility need B/B'/E in place.
+- **J post-G.** Worker-mode features rely on 8.4 substrate.
+
+---
+
+## 6. Concrete kill / deprecate / keep / add lists
+
+(Numbers re-verified post-review; corrections noted.)
+
+### 6.1 Kill in Phase A (with deprecation runway where consumer-visible)
+
+| Item | Action | Notes |
+|---|---|---|
+| `src/Propel/Runtime/Validator/Constraints/*` | Kill | Symfony 6+ supports `DateTimeInterface` natively |
+| `src/Propel/Generator/Behavior/Validate/` | Kill | Imports Symfony 3.0-removed classes; generates dead code |
+| `src/Propel/Generator/Behavior/QueryCache/` | Kill | Uses `apc_*` (removed PHP 5.5) |
+| `src/Propel/Runtime/Connection/ConnectionManagerMasterSlave.php` | Deprecate (already `@deprecated`); kill in 4.0 | Existing deprecation |
+| `src/Propel/Runtime/Connection/PropelPDO.php` | **Alias-then-kill at 4.0** (was: kill in A) | M4 in review: deletion fatals boot |
+| `src/Propel/Runtime/Connection/DebugPDO.php` | **Alias-then-kill at 4.0** (was: kill in A) | Same |
+| `Propel::initConfiguration()` | Already `@deprecated`; emit `trigger_deprecation`; kill 4.0 | |
+| `BU_DATE`, `BU_TIMESTAMP`, `BOOLEAN_EMU` types in `PropelTypes.php` | Deprecate; kill 4.0 | Schema XSD additive: keep parsing forever per §3.7 (just emit deprecation when used) |
+| `PropelTypes::OBJECT`, `PropelTypes::PHP_ARRAY` | Deprecate; kill 4.0 | Same |
+| MyISAM plumbing in `MysqlPlatform`: `tableEngineKeyword`, `defaultTableEngine`, MyISAM-only `getTableOptions` | Kill | InnoDB only |
+| `MysqlPlatform::getColumnBindingPHP` PECL #9919 hack (`:1036`) | Kill | Bug fixed in PHP 5.x |
+| `MysqlPlatform::getBeginDDL` "MySQL >= 4.1.x" comment + logic (`:236`) | Kill | |
+| `SqlitePlatform::initialize` `version_compare($v, '3.6.19')` | Kill | SQLite 3.6.19 from 2009 |
+| `SqliteAdapter::__construct` `mb_regex_encoding` per-call hack (`:51`) | Move to one-time init | |
+| HHVM strict-issue comments in `PdoConnection` (`:174,187`) | Kill | HHVM dead |
+| `IdMethod.php` vs `IdMethodType.php` duplicates | Consolidate | Both reference Oracle |
+| `tests/Fixtures/etc/xsl/` + XSLT in `AbstractManager::loadDataModels:321` | Kill | |
+| `tests/Fixtures/bookstore/build/.../ValidateTriggerBook.php` | Kill | Validate-behavior artifact |
+| `Serializable` interface use on `Collection.php:48` | Kill | Soft-deprecated PHP 8.1 |
+| `spl_object_hash` calls in `ObjectCollection.php` (verified per Phase A audit) | Replace with `spl_object_id` | Note: cross-process hash stability lost (uncommon use) |
+| `Criteria::put`/`putAll`/`get`/`keys`/`containsKey`/`keyContainsValue`/`size`/`equals` | Deprecate; kill 4.0 | Java-Hashtable rump |
+
+### 6.2 Critical bugs to fix in Phase A
 
 | Bug | Location |
 |---|---|
-| `MysqlPlatform::getMajorServerVersionNumber` off-by-one — never picks MySQL-8 NOACTION default | `MysqlPlatform.php:1107` |
-| `PgsqlAdapter::getId` quotes sequence as string-literal not identifier | `PgsqlAdapter.php:111` |
+| `MysqlPlatform::getMajorServerVersionNumber` off-by-one — never picks MySQL-8 NOACTION | `MysqlPlatform.php:1107` |
+| `PgsqlAdapter::getId` quotes sequence as string-literal, not identifier | `PgsqlAdapter.php:111` |
 | `Collection::offsetGet` returns `null` by reference (PHP 8 warns) | `Collection.php:117` |
-| `cachedPreparedStatements` ignores `$driverOptions` in cache key (silent statement reuse) | `ConnectionWrapper.php:389-406` |
-| Reflection-per-row in formatter STI hydration | `AbstractFormatterWithHydration.php:85`, `OnDemandFormatter.php:128` |
+| `cachedPreparedStatements` ignores `$driverOptions` in cache key | `ConnectionWrapper.php:389-406` |
+| `ReflectionClass` per-row in formatter STI hydration | `AbstractFormatterWithHydration.php:85`, `OnDemandFormatter.php:128` |
 | `PropelDateTime::__wakeup` calls parent ctor that throws on bad TZ | `PropelDateTime.php:221` |
 | `MigrationManager::getAllDatabaseVersions` silently creates table on `PDOException` | `MigrationManager.php:166-194` |
 
-### Deprecate (Phase A; remove in next major)
+### 6.3 Behavior keep-list
 
-| Item | Replacement / reason |
-|---|---|
-| `NestedSetBehavior` (entire 2900 LOC) | Recursive CTEs (`WITH RECURSIVE`) — supported in MySQL 8, MariaDB 10.2.2+, PG 8.4+ |
-| `connection.options.MYSQL_ATTR_*` hardcoded list | Free-form `options` array |
-| Master/slave config keys (`slaves`, `master`) | Primary/replica (already supported alongside) |
-| `IDMethod::*` constants | Enum (`IdMethodEnum`) |
-| `Criteria::addMultipleJoin` (already `@deprecated`) | Proper `addJoin` + condition |
-| `Criteria::put`/`putAll`/`get`/`keys`/`containsKey`/`keyContainsValue`/`size`/`equals` | Java-Hashtable rump |
+| Behavior | LOC (verified) | Status |
+|---|---|---|
+| Timestampable | TBD verified in Phase A audit | Core. Switch default to native `ON UPDATE CURRENT_TIMESTAMP`. |
+| Sluggable | TBD | Core. |
+| Sortable | **2,011 LOC across `SortableBehavior.php` (239) + Modifier (965) + others** | Core. Refactored to `CodeEmitter` templates in Phase D. |
+| I18n | TBD | Core. |
+| AutoAddPk | 62 | Core. |
+| Versionable | ~1,500 | Optional. |
+| Archivable | TBD | Optional. |
+| AggregateColumn / AggregateMultipleColumns | TBD | Optional. Future bridge to native generated columns. |
+| ConcreteInheritance | ~530 | Optional. |
+| Delegate | TBD | Optional. |
+| **NestedSet** | **3,036 LOC across 3 files (1,783 + 1,117 + 136)** | **Deprecate.** Recursive CTE pattern documented as replacement. Kill in 4.0. |
+| **Validate** | n/a | **Kill in A.** |
+| **QueryCache** | n/a | **Kill in A.** |
 
-### Keep (no removal, modernize internally)
-
-| Behavior | Status |
-|---|---|
-| Timestampable | Core. Switch to native `ON UPDATE CURRENT_TIMESTAMP` default. |
-| Sluggable | Core. |
-| Sortable | Core. **Refactor 965-LOC string-concat builder to template files (Phase D).** |
-| I18n | Core. |
-| AutoAddPk | Core (62 LOC, fine). |
-| Versionable | Optional. |
-| Archivable | Optional. |
-| AggregateColumn / AggregateMultipleColumns | Optional. Future: bridge to native generated columns where supported. |
-| ConcreteInheritance | Optional. |
-| Delegate | Optional. |
-
-### Add (new capability)
+### 6.4 Capability additions
 
 | Capability | Phase |
 |---|---|
-| Native `JSON` / `JSONB` column type with PG-side operator helpers | C |
-| Generated columns (MySQL 5.7+, PG 12+): `<column generated="virtual\|stored" expression="...">` | C |
+| Native `JSON` / `JSONB` column type with PG operator helpers | C |
+| Generated columns: `<column generated="virtual\|stored" expression="...">` | C |
 | CHECK constraints in schema model + DDL | C |
 | `INVISIBLE` columns (MySQL 8, MariaDB 10.3+) | C |
-| PG `IDENTITY` columns instead of `serial`/`bigserial` | C |
+| PG `IDENTITY` columns (replaces deprecated `serial`/`bigserial`) | C |
 | Migration table fields: `migration_name`, `batch`, `checksum` | H |
-| Backed enum classes for ENUM columns | B (existing plan, Phase 3) |
+| Migration tooling: dry-run, squash, baseline, drift detection | H |
+| Backed enum classes for ENUM columns | B |
 | `KeyType` enum alongside `TableMap::TYPE_*` | F |
-| `Comparison`, `JoinType`, `SortOrder`, `LogicalOperator` enums alongside `Criteria::*` | F |
+| `Comparison` / `JoinType` / `SortOrder` / `LogicalOperator` enums alongside `Criteria::*` | F |
+| Per-column typed Criterion classes (opt-in) | F (stretch) |
+| `TelemetryInterface` + no-op default | I |
+| `propel/telemetry-otel`, `propel/telemetry-prometheus` adapter packages | I |
+| Replica routing: `forcePrimary()`, `allowReplica()`, session consistency, lag awareness | E |
+| Worker-mode hooks: `onWorkerStart`, `onRequestStart`/`End`, fiber-safe tx | J |
 | Streaming `Generator`-based formatter | G |
-| `WeakMap`-based instance pool variant | G |
-| PHP 8.4 lazy-object relation collections | G |
+| `WeakMap` instance pool variant | G |
+| PHP 8.4 lazy-object relation collections (opt-in 4.0; default 4.1) | G |
 | `#[\Override]` mechanical sweep (~92 sites) | A |
-| `declare(strict_types=1)` in generated base classes | B (existing plan) |
-| Typed properties in generated entity attributes | B (existing plan) |
-| `trigger_deprecation()` infrastructure | A (foundational) |
-| CI signature-diff gate against bookstore fixture | A (foundational) |
+| `declare(strict_types=1)` in generated base classes | B |
+| Typed properties in generated entity attributes | B |
+| `trigger_deprecation()` infrastructure | A |
+| `symfony/phpunit-bridge` deprecation telemetry in CI | A |
+| CI signature-diff gate (concrete spec in §3.4) | A |
+| Coverage restoration (PCOV) | A |
+| Infection mutation testing | A |
+| Deptrac architecture testing | A |
+| Golden-file generator regression | A |
+| Generated-code lint parity | A |
+| `propel/rector-rules` package (4.0 mechanical upgrade) | G/release |
+| `docs/MIGRATION-FROM-PRE-AI.md` | A |
+| `UPGRADE-3.0.md` + `UPGRADE-4.0.md` checklists | A (3.0 doc), G (4.0 doc) |
+| `Propel\Testing\Factory` + `RefreshDatabaseTrait` (test primitives) | G |
+| PHPStan extension: typed `findOneByX()` returns, `ObjectCollection<T>` generics | B' |
 
 ---
 
-## 5. Risk Register & Validation Strategy
+## 7. Risk Register & Validation Strategy
 
-### Top risks
+### 7.1 Top risks (post-review)
 
-1. **Generated method signature drift breaks consumer projects silently.** Mitigation: CI signature-diff gate (Phase A).
-2. **`Criteria::CUSTOM` raw-SQL injection vector.** Mitigation: Document threat model; introduce parameterized alternative in F; deprecate raw `CUSTOM` after.
-3. **`PgsqlAdapter::getId` sequence-name string-quoting bug.** Fix in Phase A as a security-coded commit (BC-positive, no runway needed).
-4. **Unbounded `cachedPreparedStatements` is DoS vector for long-running workers.** Mitigation: Phase E adds bounded LRU.
-5. **`Validate` and `QueryCache` deletions break user-authored schemas.** Mitigation: schema parser throws clear "removed in this version, see migration guide" exception (Phase A).
-6. **PHP 8.4 lazy objects are untested at scale in ORMs.** Mitigation: opt-in via generator config flag for one minor before flipping default; benchmark hydration of 100k-row collection.
-7. **Behavior third-party Packagist packages break if hook interfaces tighten.** Mitigation: Tier 2 deprecation runway; add `#[\Override]` to Behavior subclasses in Propel core to prove the contract is stable; deprecate any hook before changing it.
+1. **Generated method signature drift** — concrete signature-diff gate (§3.4) is the load-bearing mitigation. Must ship in Phase A or §3.4 promise is theatre.
+2. **`Criteria::CUSTOM` raw-SQL injection** — Phase A audits, F replaces with parameterized alternative.
+3. **`PgsqlAdapter::getId` mis-quoting** — Phase A fix.
+4. **Unbounded prepared-statement cache** — Phase E LRU.
+5. **`Validate`/`QueryCache` deletions** — XML schema parser throws clear "removed in 3.0, see migration guide" exception (Phase A).
+6. **PHP 8.4 lazy objects untested at scale in ORMs** — opt-in via `<table use-lazy-objects>`; numerical rollback criterion (≤+5% latency on 100k-row `with()`) gates default flip in 4.1.
+7. **Behavior third-party Packagist packages break** — `ObjectBuilderApi` interface (§2.3) closes the silent-break-at-codegen hole; runway plus Rector rules ease migration.
+8. **Generated `: static` LSP break** — closed by §3.5 (use `: self`).
+9. **`DebugPDO`/`PropelPDO` deletion fatals existing deployments** — closed by §3.6 (alias-then-kill).
+10. **Baseline backsliding** — monotonic CI gate (§4.1).
+11. **Worker-mode state leaks** — Phase J + assert-no-leaked-state test mode.
 
-### Validation per phase
+### 7.2 Per-phase validation (additive to §4.9 Definition of Done)
 
-- **Phase A:** `composer test:agnostic` + `test:mysql` + `test:pgsql` green. PHPStan level 7. Psalm. New tests asserting Validate/QueryCache schema usage now throws clear errors.
-- **Phase B:** Existing plan's per-task verification. CI signature-diff gate green per task (snapshot deliberately updated).
-- **Phase C:** New tests: JSON/JSONB roundtrip on PG and MySQL 8. Generated-column integration test. Migration diff produces correct DDL on both DBs for new CHECK constraints.
-- **Phase D:** Existing behavior tests pass. New test: schemas referencing killed behaviors throw. Refactored Sortable/NestedSet generators produce byte-identical output (pre/post refactor) on the bookstore fixture.
-- **Phase E:** Connection wrapper benchmark before/after — query-count overhead per 10k operations. Existing transaction tests pass. New test: `cachedPreparedStatements` LRU eviction.
-- **Phase F:** Criteria enum + string constants both work for one minor. Deprecation messages emitted but tests still green. `replaceNames` rewrite covered by property-based test against existing implementation.
-- **Phase G:** Hydration benchmark on 100k rows. Memory profile of `with()` query. Lazy-object opt-in/opt-out matrix tested.
-- **Phase H:** Migration roundtrip test: create migration → run → roll back → verify table state with new schema.
+- **Phase A:** all quality gates installed and reporting numbers; baselines drawn down 20%; `MIGRATION-FROM-PRE-AI.md` published; signature-diff gate working on bookstore fixture; perf baselines captured.
+- **Phase B:** existing plan + golden-file diff + lint parity green per task.
+- **Phase B':** Sortable/NestedSet refactors produce byte-identical output via `CodeEmitter` (validates the refactor).
+- **Phase C:** Containerized MySQL 8 + MariaDB 10.5 + PG 14 + PG 16 reverse fixtures (testcontainers-php). PBT round-trip: DDL → reverse → forward → equal-DDL up to normalization. Corner-case tests: INVISIBLE, generated, partial-index, collation.
+- **Phase D:** Behavior tests pass; killed-behavior schemas throw clear errors; refactored generators byte-identical (gate from B').
+- **Phase E:** Decorator interface contract test. PBT for LRU eviction. Failure-injection: PDO drop mid-tx, cache-evict-during-prepare, deadlock retry. Connection benchmark in CI (≤±5% query overhead vs pre-collapse). Replica routing tested with two-DB harness.
+- **Phase F:** `Comparison::Equal->value === Criteria::EQUAL` contract test. `replaceNames` rewrite: token-equivalence PBT against legacy implementation; randomized SQL fragment fuzzer.
+- **Phase G:** Hydration benchmark on 100k rows (≥30% faster vs 3.0 baseline). Memory profile of `with()` query. Lazy-object opt-in/opt-out matrix tested. Mutation score ≥75 on `Runtime/`.
+- **Phase H:** Migration roundtrip test; checksum drift test; dry-run preview test; squash test.
+- **Phase I:** Telemetry interface contract test; OTEL adapter integration test (in adapter-package CI, not core).
+- **Phase J:** Long-running-process leak detection: 10k-request worker run, instance-pool size bounded, no unclosed transactions.
 
-### External validation
+### 7.3 External validation
 
-- Run modernized Propel against a real consumer project (smoke test) before each phase merge.
-- Maintain a `tests/integration/consumer-smoke/` mini-project with hand-written queries hitting Tier 1 surface.
-- Document version compatibility matrix in README: which Propel version supports which PHP / MySQL / PG / MariaDB versions.
+- **Consumer smoke test:** `tests/integration/consumer-smoke/` mini-project — Phase A deliverable — exercises Tier 1 surface (find/filterBy/save/delete/with/paginate). Run on every PR.
+- **Ecosystem coverage:** advisory CI job runs the test suites of 2–3 Packagist projects depending on `maturix/propel` against each phase merge (e.g., `propel/propel-bundle`, real Symfony app). Failures surface as advisory warnings — do not block merge but require maintainer note.
+- **Version compatibility matrix in README.md**: which Propel version supports which PHP / MySQL / MariaDB / PG / Symfony combinations. Updated per phase.
 
 ---
 
-## 6. Cross-references
+## 8. Release Engineering & Versioning
 
-- **Companion plan (Phase B):** `docs/plans/2026-02-03-builder-om-modernization.md` — 37 tasks, builder/Om generated code modernization.
-- **Source of agent analysis (this spec was synthesized from 4 critical-review agents on 2026-05-06):** see commit history; agent reports were ephemeral.
+### 8.1 Version map (canonical)
+
+See §1.1 above. Restated:
+- **2.x** = LTS, security only
+- **3.0** = this rewrite end-state at completion of Phases A–F + I
+- **3.x** = Phases F (stretch parts) + G ramp + H + J groundwork
+- **4.0** = PHP 8.4 minimum + Phase G removal of all 3.x deprecations
+- **4.1** = lazy-object default flip per §G rollback criterion
+
+### 8.2 SemVer policy
+
+- 3.x: NO removals; no signature-narrowing; only additions + deprecations.
+- 4.0: removals of all `@deprecated`-since-3.x items; PHP 8.4 floor.
+- 4.x: same SemVer guarantee as 3.x relative to 4.0.
+
+### 8.3 Documentation
+
+- `CHANGELOG.md` — Keep-a-Changelog format. PR template requires entry.
+- `UPGRADE-3.0.md` — Phase A deliverable. Tier-by-tier migration guide.
+- `UPGRADE-4.0.md` — Phase G deliverable. Lists all 3.x deprecations + their Rector rules.
+- `MIGRATION-FROM-PRE-AI.md` — Phase A deliverable. For users of pre-rewrite Propel landing on 3.0.
+- `BACKWARD_COMPATIBILITY.md` — Phase A deliverable. Pins the §3 tier definitions outside this spec.
+- README.md compatibility matrix — updated per phase.
+
+### 8.4 Deprecation telemetry
+
+- `symfony/phpunit-bridge` installed; `SYMFONY_DEPRECATIONS_HELPER=max[self]=0` in CI.
+- Allowlist file `tests/deprecations.allowlist` for known deprecations; only manual additions allowed via PR.
+- Phase A: capture today's 6 `@deprecated` markers as the allowlist baseline.
+
+### 8.5 Rector ruleset (`propel/rector-rules`)
+
+Mechanical upgrades for 4.0:
+- `Criteria::EQUAL` → `Comparison::Equal` (and analogues)
+- `slaves` → `replicas` config keys; `master` → `primary`
+- `IDMethod::*` → enum cases
+- `DebugPDO`/`PropelPDO` → `ConnectionWrapper`
+- `BU_DATE`/`BU_TIMESTAMP`/`BOOLEAN_EMU` schema types → modern equivalents
+- `<behavior name="validate">` / `<behavior name="query_cache">` → schema parser error guidance
+
+Ships as a separate Composer package; tagged in lockstep with 4.0 release.
 
 ---
 
-## 7. Open questions deferred to phase planning
+## 9. Cross-references
 
-- **Phase E:** Exact decorator interface for the collapsed Connection. Decide when drafting Phase E plan.
-- **Phase F:** Whether `Criteria` itself becomes `final` post-deprecation cycle, or stays open for subclass extension.
-- **Phase G:** Whether streaming formatter becomes the default for `find()` (BC change) or stays opt-in via `findStream()` (additive).
-- **Phase H:** Migration `checksum` algorithm (sha256 of file? of normalized AST?). Decide when drafting Phase H plan.
+- **Companion plan (Phase B):** `docs/plans/2026-02-03-builder-om-modernization.md` — 37 tasks. **Must amend task 2.6** (`: self` not `: static`).
+- **Source of agent analyses:** four critical-review agents on 2026-05-06 (initial pass) + four critical-review agents on 2026-05-06 (review-of-review pass synthesizing v1→v2). Reports ephemeral; findings folded into this spec.
 
-These are intentionally deferred — locking them now would force decisions before the surrounding code shape is known.
+---
+
+## 10. Open questions deliberately deferred
+
+- **Phase E:** exact `ConnectionDecoratorInterface` contract (added → resolved in §2.1).
+- **Phase F:** whether `Criteria` becomes `final` post-deprecation cycle. **Decision deferred to F plan; constraint: cannot break Tier 2 Behavior subclasses.**
+- **Phase G:** streaming formatter as default vs. additive `findStream()`. **Decision: ADDITIVE in 3.x via `findStream()`/`findOnDemand()`. Default flip considered for 4.x post-data.** Closes review N3.
+- **Phase H:** migration `checksum` algorithm. **Default proposed: SHA-256 over normalized SQL output of the up migration. Confirmed at H plan time.**
+
+---
+
+## 11. Critical changes from v1 (for reviewers)
+
+1. **§1.1 Version map** added. 2.x LTS, 3.0 rewrite, 4.0 PHP-8.4 + removals.
+2. **§2 Target Architecture** added. Connection chain post-E, Criteria split post-F, Builder template strategy, DI/facade decision, TelemetryInterface.
+3. **§3 BC tiers** corrected: enumerated generated-code surface (`useXxxQuery`, `XxxQuery::create`, magic dispatch); fixed Criteria constant count (~38, not 31); fixed `ActiveRecordInterface` "single method, sacred" wording; introduced `ObjectBuilderApi` Tier 2 facade; flipped `: static` to `: self`; alias-then-kill `DebugPDO`/`PropelPDO`; concretized signature-diff gate (snapshot format, allowlist, update process); fixed `trigger_deprecation` package name to `maturix/propel`; deferred `#[\Deprecated]` to 4.0/PHP-8.4; pinned XSD hosting; added Tier 2 entries for `Criterion`/`PropelException`/`Util` classes.
+4. **§4 Quality Gates** added (entire section). Baseline drawdown contract, PHPUnit fail-flag restoration, coverage floors, mutation testing, Deptrac, generated-code lint parity, golden-file regression, Definition of Done, numerical perf targets, PBT infrastructure, chaos tests.
+5. **§5 Phases** revised: added B' (builder architecture refactor), I (observability), J (worker mode); expanded E (replica routing), F (typed Criterion DSL stretch), H (migration tooling). Risk levels recalibrated (A bumped to Medium; H bumped to Medium).
+6. **§6 Lists** corrected: Sortable 2,011 LOC (not 965); NestedSet 3,036 LOC (not 2,900); `DebugPDO`/`PropelPDO` moved from kill-in-A to alias-deprecate-kill-4.0.
+7. **§8 Release Engineering** added. SemVer policy, CHANGELOG, UPGRADE docs, deprecation telemetry, Rector ruleset.
+8. **§1.3 Out of scope** expanded: explicit scope-outs for multi-tenancy, governance, JSON shape DSL.
