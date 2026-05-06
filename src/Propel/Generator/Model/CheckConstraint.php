@@ -58,6 +58,8 @@ class CheckConstraint extends MappingModel
 
     /**
      * @inheritDoc
+     *
+     * @throws \Propel\Generator\Exception\EngineException when expression is empty
      */
     #[\Override]
     protected function setupObject(): void
