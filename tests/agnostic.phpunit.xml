@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    PHPUnit deprecation/warning settings are disabled temporarily.
-    TODO: Address PHPUnit 12 deprecations before PHPUnit 12 release:
-    - Replace returnValue() with willReturn()
-    - Replace getMockForTrait() with alternative approaches
-    - Fix dynamic property deprecations in generated code
-    Re-enable these settings once deprecations are addressed.
--->
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
@@ -15,13 +7,18 @@
     cacheDirectory=".phpunit.cache"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
-    failOnDeprecation="false"
-    failOnPhpunitDeprecation="false"
-    failOnWarning="false"
+    failOnDeprecation="true"
+    failOnPhpunitDeprecation="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    failOnIncomplete="true"
+    failOnNotice="true"
+    failOnEmptyTestSuite="true"
 >
     <testsuites>
         <testsuite name="propel2">
             <directory>Propel/Tests/</directory>
+            <exclude>Propel/Tests/PropertyTests/</exclude>
         </testsuite>
         <testsuite name="property">
             <directory>Propel/Tests/PropertyTests/</directory>
