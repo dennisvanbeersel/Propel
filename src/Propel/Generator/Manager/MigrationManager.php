@@ -528,7 +528,7 @@ class MigrationManager extends AbstractManager
     /**
      * @param int $timestamp
      *
-     * @return object
+     * @return \Propel\Generator\Migration\MigrationInterface
      */
     public function getMigrationObject(int $timestamp): object
     {
@@ -540,7 +540,10 @@ class MigrationManager extends AbstractManager
         );
         require_once $filename;
 
-        return new $className();
+        /** @var \Propel\Generator\Migration\MigrationInterface $migration */
+        $migration = new $className();
+
+        return $migration;
     }
 
     /**

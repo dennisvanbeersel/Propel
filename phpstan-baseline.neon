@@ -70,64 +70,10 @@ parameters:
 			path: src/Propel/Generator/Builder/Om/ObjectBuilder.php
 
 		-
-			message: '#^Call to an undefined method object\:\:getDownSQL\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/Executor/RollbackExecutor.php
-
-		-
-			message: '#^Call to an undefined method object\:\:postDown\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/Executor/RollbackExecutor.php
-
-		-
-			message: '#^Call to an undefined method object\:\:preDown\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/Executor/RollbackExecutor.php
-
-		-
-			message: '#^Call to an undefined method object\:\:getUpSQL\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationMigrateCommand.php
-
-		-
-			message: '#^Call to an undefined method object\:\:postUp\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationMigrateCommand.php
-
-		-
-			message: '#^Call to an undefined method object\:\:preUp\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationMigrateCommand.php
-
-		-
 			message: '#^Variable \$countValidTimestamps might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: src/Propel/Generator/Command/MigrationStatusCommand.php
-
-		-
-			message: '#^Call to an undefined method object\:\:getUpSQL\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationUpCommand.php
-
-		-
-			message: '#^Call to an undefined method object\:\:postUp\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationUpCommand.php
-
-		-
-			message: '#^Call to an undefined method object\:\:preUp\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Generator/Command/MigrationUpCommand.php
 
 		-
 			message: '#^Cannot access offset ''basename'' on array\|bool\|float\|int\|string\.$#'
