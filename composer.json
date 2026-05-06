@@ -39,7 +39,8 @@
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan-deprecation-rules": "^2.0",
         "phpstan/extension-installer": "^1.4",
-        "symfony/phpunit-bridge": "^7.2"
+        "symfony/phpunit-bridge": "^7.2",
+        "infection/infection": "^0.29"
     },
     "suggest": {
         "monolog/monolog": "The recommended logging library to use with Propel."
@@ -65,7 +66,8 @@
         "test": "phpunit --colors=always",
         "test:agnostic": "@test -c tests/agnostic.phpunit.xml",
         "test:mysql": "@test -c tests/mysql.phpunit.xml",
-        "test:pgsql": "@test -c tests/pgsql.phpunit.xml"
+        "test:pgsql": "@test -c tests/pgsql.phpunit.xml",
+        "infection": "vendor/bin/infection --threads=4"
     },
     "extra": {
         "branch-alias": {
@@ -76,7 +78,8 @@
         "process-timeout": 0,
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "infection/extension-installer": true
         }
     }
 }
