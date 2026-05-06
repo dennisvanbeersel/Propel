@@ -22,5 +22,5 @@
         "customPath": "vendor/bin/phpunit"
     },
     "testFramework": "phpunit",
-    "testFrameworkOptions": "-c tests/agnostic.phpunit.xml --no-coverage"
+    "testFrameworkOptions": "--no-coverage"
 }
