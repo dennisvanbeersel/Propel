@@ -166,6 +166,7 @@ class ArrayCollection extends Collection
      *
      * @return array
      */
+    #[\Override]
     public function getArrayCopy(?string $keyColumn = null, bool $usePrefix = false): array
     {
         if ($keyColumn === null && $usePrefix === false) {

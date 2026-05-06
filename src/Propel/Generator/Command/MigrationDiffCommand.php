@@ -30,6 +30,7 @@ class MigrationDiffCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();

@@ -53,6 +53,7 @@ class ObjectCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function exchangeArray(array $input): void
     {
         $this->data = $input;
@@ -64,6 +65,7 @@ class ObjectCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function setData(array $data): void
     {
         parent::setData($data);
@@ -241,6 +243,7 @@ class ObjectCollection extends Collection
      *
      * @return array<int|string, mixed>
      */
+    #[\Override]
     public function getArrayCopy(?string $keyColumn = null, bool $usePrefix = false): array
     {
         if ($keyColumn === null && $usePrefix === false) {
@@ -416,6 +419,7 @@ class ObjectCollection extends Collection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function search($element)
     {
         $splHash = spl_object_id($element);
@@ -450,6 +454,7 @@ class ObjectCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         if (isset($this->data[$offset])) {
@@ -479,6 +484,7 @@ class ObjectCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function append($value): void
     {
         if (!is_object($value)) {
@@ -502,6 +508,7 @@ class ObjectCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if (!is_object($value)) {
@@ -534,6 +541,7 @@ class ObjectCollection extends Collection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function contains($element): bool
     {
         if (!is_object($element)) {

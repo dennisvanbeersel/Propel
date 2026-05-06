@@ -43,6 +43,7 @@ class InitCommand extends AbstractCommand
     /**
      * @return void
      */
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();

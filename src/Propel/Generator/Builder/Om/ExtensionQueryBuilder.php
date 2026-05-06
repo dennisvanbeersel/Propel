@@ -111,6 +111,7 @@ class $className extends $baseClassName
      *
      * @return bool
      */
+    #[\Override]
     public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool
     {
          return parent::hasBehaviorModifier($hookName, 'QueryBuilderModifier');

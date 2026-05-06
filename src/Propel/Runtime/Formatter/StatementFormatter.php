@@ -61,6 +61,7 @@ class StatementFormatter extends AbstractFormatter
      *
      * @return \Propel\Runtime\ActiveRecord\ActiveRecordInterface|array
      */
+    #[\Override]
     public function formatRecord(?ActiveRecordInterface $record = null)
     {
         throw new PropelException('The Statement formatter cannot transform a record into a statement');

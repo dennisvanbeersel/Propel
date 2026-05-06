@@ -40,6 +40,7 @@ class DatabaseReverseCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();

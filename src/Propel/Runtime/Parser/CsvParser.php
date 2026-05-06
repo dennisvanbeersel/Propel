@@ -103,6 +103,7 @@ class CsvParser extends AbstractParser
      *
      * @return string
      */
+    #[\Override]
     public function listFromArray(array $array, ?string $rootKey = null): string
     {
         return $this->fromArray($array, $rootKey, true);
@@ -272,6 +273,7 @@ class CsvParser extends AbstractParser
      *
      * @return array
      */
+    #[\Override]
     public function listToArray(string $data, ?string $rootKey = null): array
     {
         return $this->toArray($data, $rootKey, true);

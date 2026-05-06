@@ -50,6 +50,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function compareRegex($left, $right): string
     {
         return sprintf('%s ~* %s', $left, $right);
@@ -86,6 +87,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return int
      */
+    #[\Override]
     protected function getIdMethod(): int
     {
         return AdapterInterface::ID_METHOD_SEQUENCE;
@@ -102,6 +104,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return int
      */
+    #[\Override]
     public function getId(ConnectionInterface $con, ?string $name = null): int
     {
         if ($name === null) {
@@ -128,6 +131,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function getTimestampFormatter(): string
     {
         return 'Y-m-d H:i:s.u O';
@@ -138,6 +142,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function getTimeFormatter(): string
     {
         return 'H:i:s.u O';
@@ -168,6 +173,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function getGroupBy(Criteria $criteria): string
     {
         $groupBy = $criteria->getGroupByColumns();
@@ -217,6 +223,7 @@ class PgsqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function quoteIdentifierTable(string $table): string
     {
         // e.g. 'database.table alias' should be escaped as '"database"."table" "alias"'

@@ -717,6 +717,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return $this The current object, for fluid interface
      */
+    #[\Override]
     public function addJoinObject(Join $join, ?string $name = null)
     {
         if (!in_array($join, $this->joins)) { // compare equality, NOT identity
@@ -1036,6 +1037,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return $this The primary criteria object
      */
+    #[\Override]
     public function mergeWith(Criteria $criteria, ?string $operator = null)
     {
         if (
@@ -1066,6 +1068,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return $this
      */
+    #[\Override]
     public function clear()
     {
         parent::clear();
@@ -1116,6 +1119,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return $this The current object, for fluid interface
      */
+    #[\Override]
     public function addSelectQuery(Criteria $subQueryCriteria, ?string $alias = null, bool $addAliasAndSelectColumns = true)
     {
         if (!$subQueryCriteria->hasSelectClause()) {
@@ -1749,6 +1753,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return \Propel\Runtime\DataFetcher\DataFetcherInterface
      */
+    #[\Override]
     public function doCount(?ConnectionInterface $con = null): DataFetcherInterface
     {
         $this->configureSelectColumns();
@@ -2028,6 +2033,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return int Number of updated rows
      */
+    #[\Override]
     public function doUpdate($updateValues, ConnectionInterface $con, bool $forceIndividualSaves = false): int
     {
         if ($forceIndividualSaves) {
@@ -2192,6 +2198,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return string the column name replacement
      */
+    #[\Override]
     protected function doReplaceNameInExpression(array $matches): string
     {
         $key = $matches[0];
@@ -2317,6 +2324,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return \Propel\Runtime\DataFetcher\DataFetcherInterface A dataFetcher using the connection, ready to be fetched
      */
+    #[\Override]
     public function doSelect(?ConnectionInterface $con = null): DataFetcherInterface
     {
         $this->configureSelectColumns();
@@ -2335,6 +2343,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return string
      */
+    #[\Override]
     public function createSelectSql(array &$params): string
     {
         $this->configureSelectColumns();
@@ -2595,6 +2604,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return void
      */
+    #[\Override]
     public function __clone()
     {
         parent::__clone();
@@ -2615,6 +2625,7 @@ class ModelCriteria extends BaseModelCriteria
      *
      * @return $this
      */
+    #[\Override]
     public function addSelectColumn(string $name)
     {
         $this->isSelfSelected = true;

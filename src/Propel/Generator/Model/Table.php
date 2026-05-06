@@ -201,6 +201,7 @@ class Table extends ScopedMappingModel implements IdMethod
     /**
      * @return void
      */
+    #[\Override]
     public function setupObject(): void
     {
         parent::setupObject();
@@ -1895,6 +1896,7 @@ class Table extends ScopedMappingModel implements IdMethod
      *
      * @return \Propel\Generator\Model\VendorInfo
      */
+    #[\Override]
     public function getVendorInfoForType(string $type): VendorInfo
     {
         $tableVendorInfo = parent::getVendorInfoForType($type);

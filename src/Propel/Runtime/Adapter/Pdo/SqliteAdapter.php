@@ -31,6 +31,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function setCharset(ConnectionInterface $con, string $charset): void
     {
     }
@@ -41,6 +42,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function initConnection(ConnectionInterface $con, array $settings): void
     {
         $con->query('PRAGMA foreign_keys = ON');
@@ -100,6 +102,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function quoteIdentifier(string $text): string
     {
         return "[$text]";

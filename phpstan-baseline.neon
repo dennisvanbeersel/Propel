@@ -25,8 +25,86 @@ parameters:
 			path: src/Propel/Generator/Behavior/Archivable/ArchivableBehaviorObjectBuilderModifier.php
 
 		-
+			message: '#^Call to method mergeParameters\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceBehavior.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$validateBehavior contains unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceBehavior.php
+
+		-
+			message: '#^PHPDoc tag @var with type Propel\\Generator\\Behavior\\Validate\\ValidateBehavior is not subtype of native type Propel\\Generator\\Model\\Behavior\|null\.$#'
+			identifier: varTag.nativeType
+			count: 1
+			path: src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceBehavior.php
+
+		-
+			message: '#^Call to method addRuleOnPk\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Call to method getParametersFromColumnName\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Call to method removeParametersFromColumnName\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Call to method setName\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Call to method setParameters\(\) on an unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Instantiated class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
 			message: '#^Method Propel\\Generator\\Behavior\\I18n\\I18nBehavior\:\:getI18nColumnNamesFromConfig\(\) should return list\<string\> but returns array\<int\<0, max\>, string\>\.$#'
 			identifier: return.type
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$validate contains unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^PHPDoc tag @var for variable \$validateBehavior contains unknown class Propel\\Generator\\Behavior\\Validate\\ValidateBehavior\.$#'
+			identifier: class.notFound
+			count: 1
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^PHPDoc tag @var with type Propel\\Generator\\Behavior\\Validate\\ValidateBehavior is not subtype of native type Propel\\Generator\\Model\\Behavior\|null\.$#'
+			identifier: varTag.nativeType
+			count: 2
+			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
+
+		-
+			message: '#^Parameter \#1 \$bdata of method Propel\\Generator\\Model\\Table\:\:addBehavior\(\) expects array\|Propel\\Generator\\Model\\Behavior, Propel\\Generator\\Behavior\\Validate\\ValidateBehavior given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Propel/Generator/Behavior/I18n/I18nBehavior.php
 
@@ -41,12 +119,6 @@ parameters:
 			identifier: variable.undefined
 			count: 1
 			path: src/Propel/Generator/Behavior/Versionable/VersionableBehaviorObjectBuilderModifier.php
-
-		-
-			message: '#^Parameter \#1 \$v of method Propel\\Generator\\Builder\\DataModelBuilder\:\:setGeneratorConfig\(\) expects Propel\\Generator\\Config\\GeneratorConfigInterface, \$this\(Propel\\Generator\\Builder\\DataModelBuilder\) given\.$#'
-			identifier: argument.type
-			count: 1
-			path: src/Propel/Generator/Builder/DataModelBuilder.php
 
 		-
 			message: '#^Call to an undefined method Propel\\Generator\\Builder\\Om\\AbstractObjectBuilder\:\:addAddArrayElement\(\)\.$#'
@@ -181,22 +253,22 @@ parameters:
 			path: src/Propel/Generator/Builder/Om/ObjectBuilder.php
 
 		-
-			message: '#^Variable \$mysqlInvalidDateString might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: src/Propel/Generator/Builder/Om/ObjectBuilder.php
-
-		-
-			message: '#^Variable \$migration might not be defined\.$#'
-			identifier: variable.undefined
-			count: 1
-			path: src/Propel/Generator/Command/MigrationMigrateCommand.php
-
-		-
 			message: '#^Variable \$countValidTimestamps might not be defined\.$#'
 			identifier: variable.undefined
 			count: 1
 			path: src/Propel/Generator/Command/MigrationStatusCommand.php
+
+		-
+			message: '#^Cannot access offset ''basename'' on array\|bool\|float\|int\|string\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Propel/Generator/Command/SqlBuildCommand.php
+
+		-
+			message: '#^Cannot access offset ''mysql'' on array\|bool\|float\|int\|string\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: src/Propel/Generator/Command/SqlBuildCommand.php
 
 		-
 			message: '#^Variable \$defaultDatasource might not be defined\.$#'
@@ -207,7 +279,7 @@ parameters:
 		-
 			message: '#^Call to an undefined method Propel\\Generator\\Config\\GeneratorConfigInterface\:\:get\(\)\.$#'
 			identifier: method.notFound
-			count: 2
+			count: 1
 			path: src/Propel/Generator/Manager/AbstractManager.php
 
 		-
@@ -235,6 +307,12 @@ parameters:
 			path: src/Propel/Generator/Platform/MysqlPlatform.php
 
 		-
+			message: '#^Offset ''AutoIncrement''\|''AvgRowLength''\|''Charset''\|''Checksum''\|''Collate''\|''Connection''\|''DataDirectory''\|''IndexDirectory''\|''KeyBlockSize''\|''MaxRows''\|''MinRows'' on array\{\} in isset\(\) does not exist\.$#'
+			identifier: isset.offset
+			count: 1
+			path: src/Propel/Generator/Platform/MysqlPlatform.php
+
+		-
 			message: '#^Call to an undefined method Propel\\Generator\\Model\\ForeignKey\:\:equals\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -247,16 +325,16 @@ parameters:
 			path: src/Propel/Generator/Reverse/MysqlSchemaParser.php
 
 		-
-			message: '#^Call to function is_array\(\) with non\-empty\-list\{0\?\: string, 1\?\: ''CASCADE''\|''NO ACTION''\|''RESTRICT''\|''SET NULL''\} will always evaluate to true\.$#'
+			message: '#^Call to function is_array\(\) with array\{non\-falsy\-string, ''CASCADE''\|''NO ACTION''\|''RESTRICT''\|''SET NULL''\} will always evaluate to true\.$#'
 			identifier: function.alreadyNarrowedType
 			count: 1
 			path: src/Propel/Generator/Reverse/MysqlSchemaParser.php
 
 		-
-			message: '#^Variable \$strDefault might not be defined\.$#'
-			identifier: variable.undefined
+			message: '#^Offset 1 on array\{non\-falsy\-string, ''CASCADE''\|''NO ACTION''\|''RESTRICT''\|''SET NULL''\} in isset\(\) always exists and is not nullable\.$#'
+			identifier: isset.offset
 			count: 1
-			path: src/Propel/Generator/Reverse/PgsqlSchemaParser.php
+			path: src/Propel/Generator/Reverse/MysqlSchemaParser.php
 
 		-
 			message: '#^Call to an undefined method Propel\\Generator\\Config\\GeneratorConfigInterface\:\:get\(\)\.$#'
@@ -511,6 +589,18 @@ parameters:
 			path: src/Propel/Runtime/DataFetcher/PDODataFetcher.php
 
 		-
+			message: '#^Method Propel\\Runtime\\Formatter\\AbstractFormatter\:\:getReflectionClass\(\) should return ReflectionClass\<T of object\> but returns ReflectionClass\<object\>\.$#'
+			identifier: return.type
+			count: 1
+			path: src/Propel/Runtime/Formatter/AbstractFormatter.php
+
+		-
+			message: '#^Parameter \#1 \$class of static method Propel\\Runtime\\Formatter\\AbstractFormatter\:\:getReflectionClass\(\) expects class\-string\<object\>, class\-string\<object\>\|object given\.$#'
+			identifier: argument.type
+			count: 1
+			path: src/Propel/Runtime/Formatter/AbstractFormatterWithHydration.php
+
+		-
 			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:getPrimaryKey\(\)\.$#'
 			identifier: method.notFound
 			count: 1
@@ -525,6 +615,12 @@ parameters:
 		-
 			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:setVirtualColumn\(\)\.$#'
 			identifier: method.notFound
+			count: 1
+			path: src/Propel/Runtime/Formatter/OnDemandFormatter.php
+
+		-
+			message: '#^Parameter \#1 \$class of static method Propel\\Runtime\\Formatter\\AbstractFormatter\:\:getReflectionClass\(\) expects class\-string\<object\>, class\-string\<object\>\|object given\.$#'
+			identifier: argument.type
 			count: 1
 			path: src/Propel/Runtime/Formatter/OnDemandFormatter.php
 

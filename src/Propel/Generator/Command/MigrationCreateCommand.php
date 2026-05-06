@@ -24,6 +24,7 @@ class MigrationCreateCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();

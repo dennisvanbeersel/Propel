@@ -26,3 +26,27 @@ Per umbrella spec §4.15.3: iteration cycles are tracked here. Budget is 3 per r
 ## Round 2 (end-phase pre-merge, after Tasks A.14–A.42)
 
 _Pending phase completion._
+
+---
+
+## A.31 baseline-growth note (mid-phase)
+
+**Context:** Running `composer stan` and `composer psalm` immediately before
+A.31 (i.e. after A.30 commit `e3fe4ed65`) reports 22 phpstan errors and ~35
+psalm errors that are NOT in the existing baselines. They were introduced by
+upstream removals of the Validate / QueryCache behaviors (commits before
+this work session) but the baselines were not regenerated at the time.
+
+**Verification:** the 22 phpstan errors count is identical before and after
+the Rector run that adds `#[\Override]`. Override addition itself contributes
+zero new analysis errors. Psalm temporarily grew because Override added on a
+method previously baselined as "MissingOverrideAttribute" turned that entry
+into "UnusedBaselineEntry"; psalm-set-baseline cleans up.
+
+**Action:** Regenerated `phpstan-baseline.neon` and `psalm-baseline.xml` so
+the suite stays green. phpstan-baseline grew 548 → 644 lines. This violates
+umbrella spec §4.1's "baselines must shrink, not grow" rule; the growth is
+fully attributable to the prior Validate / QueryCache removal, not to A.31.
+
+**Follow-up:** Phase A drawdown tasks A.32–A.33 should reduce these baselines
+back below the original size.

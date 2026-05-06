@@ -41,6 +41,7 @@ class DataDictionaryExportCommand extends AbstractCommand
      *
      * @return void
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();

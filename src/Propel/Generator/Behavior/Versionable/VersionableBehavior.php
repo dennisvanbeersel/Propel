@@ -62,6 +62,7 @@ class VersionableBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyDatabase(): void
     {
         foreach ($this->getDatabase()->getTables() as $table) {
@@ -318,6 +319,7 @@ class VersionableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Versionable\VersionableBehaviorObjectBuilderModifier
      */
+    #[\Override]
     public function getObjectBuilderModifier()
     {
         if ($this->objectBuilderModifier === null) {
@@ -330,6 +332,7 @@ class VersionableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Versionable\VersionableBehaviorQueryBuilderModifier
      */
+    #[\Override]
     public function getQueryBuilderModifier()
     {
         if ($this->queryBuilderModifier === null) {

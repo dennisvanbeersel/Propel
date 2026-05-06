@@ -192,6 +192,7 @@ abstract class AbstractObjectBuilder extends AbstractOMBuilder
      *
      * @return bool
      */
+    #[\Override]
     public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool
     {
          return parent::hasBehaviorModifier($hookName, 'ObjectBuilderModifier');

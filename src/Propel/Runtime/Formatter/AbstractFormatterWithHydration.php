@@ -30,6 +30,7 @@ abstract class AbstractFormatterWithHydration extends AbstractFormatter
      *
      * @return array The original record turned into an array
      */
+    #[\Override]
     public function formatRecord(?ActiveRecordInterface $record = null): array
     {
         return $record ? $record->toArray() : [];

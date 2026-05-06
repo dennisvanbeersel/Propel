@@ -48,6 +48,7 @@ class XmlParser extends AbstractParser
      *
      * @return string
      */
+    #[\Override]
     public function listFromArray(array $array, ?string $rootKey = 'data', ?string $charset = null): string
     {
         $rootNode = $this->getRootNode($rootKey);

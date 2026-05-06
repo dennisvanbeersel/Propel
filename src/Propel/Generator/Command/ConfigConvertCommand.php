@@ -35,6 +35,7 @@ class ConfigConvertCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         $this

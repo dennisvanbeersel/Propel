@@ -34,6 +34,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return parent::getPackage() . '.Base';
@@ -44,6 +45,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();
@@ -1948,6 +1950,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return bool
      */
+    #[\Override]
     public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool
     {
         return parent::hasBehaviorModifier($hookName, 'QueryBuilderModifier');

@@ -67,6 +67,7 @@ class ArrayFormatter extends AbstractFormatterWithHydration
     /**
      * @return string|null
      */
+    #[\Override]
     public function getCollectionClassName(): ?string
     {
         return '\Propel\Runtime\Collection\ArrayCollection';
@@ -114,6 +115,7 @@ class ArrayFormatter extends AbstractFormatterWithHydration
      *
      * @return array The original record turned into an array
      */
+    #[\Override]
     public function formatRecord(?ActiveRecordInterface $record = null): array
     {
         return $record ? $record->toArray() : [];

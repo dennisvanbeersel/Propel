@@ -44,6 +44,7 @@ class QueryInheritanceBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return ($this->getChild()->getPackage() ?: parent::getPackage()) . '.Base';
@@ -54,6 +55,7 @@ class QueryInheritanceBuilder extends AbstractOMBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();

@@ -100,6 +100,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function quoteIdentifier(string $text): string
     {
         return '`' . $text . '`';
@@ -112,6 +113,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function quoteIdentifierTable(string $table): string
     {
         // e.g. 'database.table alias' should be escaped as '`database`.`table` `alias`'
@@ -160,6 +162,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return bool
      */
+    #[\Override]
     public function bindValue(StatementInterface $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool
     {
         $pdoType = $cMap->getPdoType();
@@ -193,6 +196,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return array the modified parameters
      */
+    #[\Override]
     protected function prepareParams(array $params): array
     {
         if (isset($params['settings']['charset'])) {

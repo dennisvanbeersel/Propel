@@ -42,6 +42,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return parent::getPackage() . '.Base';
@@ -54,6 +55,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();
@@ -100,6 +102,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function validateModel(): void
     {
         parent::validateModel();

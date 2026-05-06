@@ -43,6 +43,7 @@ class ExtensionQueryInheritanceBuilder extends AbstractOMBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getPackage(): ?string
     {
         return ($this->getChild()->getPackage() ?: parent::getPackage());

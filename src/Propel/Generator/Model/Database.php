@@ -127,6 +127,7 @@ class Database extends ScopedMappingModel
     /**
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         parent::setupObject();
@@ -646,6 +647,7 @@ class Database extends ScopedMappingModel
      *
      * @return void
      */
+    #[\Override]
     public function setSchema(?string $schema): void
     {
         $oldSchema = $this->schema;

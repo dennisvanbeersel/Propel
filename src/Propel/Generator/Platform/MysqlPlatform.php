@@ -46,6 +46,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     protected function initializeTypeMap(): void
     {
         parent::initializeTypeMap();
@@ -160,6 +161,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return string
      */
+    #[\Override]
     public function getAutoIncrement(): string
     {
         return 'AUTO_INCREMENT';
@@ -168,6 +170,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return int
      */
+    #[\Override]
     public function getMaxColumnNameLength(): int
     {
         return 64;
@@ -176,6 +179,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsNativeDeleteTrigger(): bool
     {
         return strtolower($this->getDefaultTableEngine()) === 'innodb';
@@ -184,6 +188,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsIndexSize(): bool
     {
         return true;
@@ -213,6 +218,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getAddTablesDDL(Database $database): string
     {
         $ret = '';
@@ -231,6 +237,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return string
      */
+    #[\Override]
     public function getBeginDDL(): string
     {
         return "
@@ -242,6 +249,7 @@ SET FOREIGN_KEY_CHECKS = 0;
     /**
      * @return string
      */
+    #[\Override]
     public function getEndDDL(): string
     {
         return "
@@ -257,6 +265,7 @@ SET FOREIGN_KEY_CHECKS = 1;
      *
      * @return string
      */
+    #[\Override]
     public function getPrimaryKeyDDL(Table $table): string
     {
         if ($table->hasPrimaryKey()) {
@@ -285,6 +294,7 @@ SET FOREIGN_KEY_CHECKS = 1;
      *
      * @return string
      */
+    #[\Override]
     public function getAddTableDDL(Table $table): string
     {
         $lines = [];
@@ -406,6 +416,7 @@ CREATE TABLE %s
      *
      * @return string
      */
+    #[\Override]
     public function getDropTableDDL(Table $table): string
     {
         return "
@@ -420,6 +431,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getColumnDDL(Column $col): string
     {
         $domain = $col->getDomain();
@@ -571,6 +583,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getDropPrimaryKeyDDL(Table $table): string
     {
         if (!$table->hasPrimaryKey()) {
@@ -589,6 +602,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getAddIndexDDL(Index $index): string
     {
         $pattern = "
@@ -611,6 +625,7 @@ CREATE %sINDEX %s ON %s (%s);
      *
      * @return string
      */
+    #[\Override]
     public function getDropIndexDDL(Index $index): string
     {
         $pattern = "
@@ -631,6 +646,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getIndexDDL(Index $index): string
     {
         return sprintf(
@@ -664,6 +680,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getUniqueDDL(Unique $unique): string
     {
         return sprintf(
@@ -678,6 +695,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddForeignKeyDDL(ForeignKey $fk): string
     {
         if ($this->supportsForeignKeys($fk->getTable())) {
@@ -694,6 +712,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getForeignKeyDDL(ForeignKey $fk): string
     {
         if ($this->supportsForeignKeys($fk->getTable())) {
@@ -708,6 +727,7 @@ DROP INDEX %s ON %s;
      *
      * @return string|null
      */
+    #[\Override]
     public function getDropForeignKeyDDL(ForeignKey $fk): ?string
     {
         if (!$this->supportsForeignKeys($fk->getTable())) {
@@ -732,6 +752,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getCommentBlockDDL(string $comment): string
     {
         $pattern = "
@@ -751,6 +772,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyDatabaseDDL(DatabaseDiff $databaseDiff): string
     {
         $ret = '';
@@ -786,6 +808,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRenameTableDDL(string $fromTableName, string $toTableName): string
     {
         $pattern = "
@@ -806,6 +829,7 @@ RENAME TABLE %s TO %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRemoveColumnDDL(Column $column): string
     {
         $pattern = "
@@ -827,6 +851,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRenameColumnDDL(Column $fromColumn, Column $toColumn): string
     {
         return $this->getChangeColumnDDL($fromColumn, $toColumn);
@@ -839,6 +864,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnDDL(ColumnDiff $columnDiff): string
     {
         $fromColumn = $columnDiff->getFromColumn();
@@ -882,6 +908,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnsDDL(array $columnDiffs): string
     {
         $modifyColumnStatements = array_map($this->getModifyColumnDDL(...), $columnDiffs);
@@ -896,6 +923,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnDDL(Column $column): string
     {
         $pattern = "
@@ -932,6 +960,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnsDDL(array $columns): string
     {
         $lines = '';
@@ -947,6 +976,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return bool
      */
+    #[\Override]
     public function supportsSchemas(): bool
     {
         return true;
@@ -957,6 +987,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return bool
      */
+    #[\Override]
     public function hasSize(string $sqlType): bool
     {
         return !in_array($sqlType, [
@@ -971,6 +1002,7 @@ ALTER TABLE %s ADD %s %s;
     /**
      * @return array<int>
      */
+    #[\Override]
     public function getDefaultTypeSizes(): array
     {
         return [
@@ -990,6 +1022,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function disconnectedEscapeText(string $text): string
     {
         return addslashes($text);
@@ -1006,6 +1039,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string the quoted identifier
      */
+    #[\Override]
     public function doQuoting(string $text): string
     {
         return '`' . strtr($text, ['.' => '`.`']) . '`';
@@ -1016,6 +1050,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnDeleteBehavior(): string
     {
         $majorVersion = $this->getMajorServerVersionNumber();
@@ -1028,6 +1063,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnUpdateBehavior(): string
     {
         $majorVersion = $this->getMajorServerVersionNumber();

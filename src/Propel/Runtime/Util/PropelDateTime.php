@@ -199,6 +199,7 @@ class PropelDateTime extends DateTime
      *
      * @return array{dateString: string, tzString: string}
      */
+    #[\Override]
     public function __serialize(): array
     {
         return [
@@ -219,6 +220,7 @@ class PropelDateTime extends DateTime
      *
      * @return void
      */
+    #[\Override]
     public function __unserialize(array $data): void
     {
         $this->dateString = $data['dateString'] ?? '1970-01-01 00:00:00';

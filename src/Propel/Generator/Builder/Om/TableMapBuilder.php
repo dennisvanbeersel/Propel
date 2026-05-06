@@ -26,6 +26,7 @@ class TableMapBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return parent::getPackage() . '.Map';
@@ -34,6 +35,7 @@ class TableMapBuilder extends AbstractOMBuilder
     /**
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();
@@ -838,6 +840,7 @@ class " . $this->getUnqualifiedClassName() . " extends TableMap
      *
      * @return bool
      */
+    #[\Override]
     public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool
     {
         return parent::hasBehaviorModifier($hookName, 'TableMapBuilderModifier');
