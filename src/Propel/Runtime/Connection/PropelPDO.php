@@ -11,10 +11,26 @@ declare(strict_types=1);
 namespace Propel\Runtime\Connection;
 
 /**
- * Class kept for BC sake - the functionality of the old PropelPDO class was moved to:
- * - ConnectionWrapper for the nested transactions, and logging
- * - PDOConnection for the PDO wrapper
+ * @deprecated since 3.0, will be removed in 4.0. The functionality of the
+ *             original PropelPDO class lives in {@see ConnectionWrapper}
+ *             (nested transactions, logging) and {@see PdoConnection}
+ *             (the PDO wrapper). Depend on those directly.
  */
 class PropelPDO extends ConnectionWrapper
 {
+    /**
+     * @param \Propel\Runtime\Connection\ConnectionInterface $connection
+     */
+    public function __construct(ConnectionInterface $connection)
+    {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is deprecated, use "%s" directly.',
+            self::class,
+            ConnectionWrapper::class,
+        );
+
+        parent::__construct($connection);
+    }
 }

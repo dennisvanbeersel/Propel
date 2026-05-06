@@ -13,9 +13,26 @@ namespace Propel\Runtime\Connection;
 /**
  * Connection wrapper class with debug enabled by default.
  *
- * Class kept for BC sake.
+ * @deprecated since 3.0, will be removed in 4.0. Use {@see ConnectionWrapper}
+ *             directly and toggle debug mode via {@see ConnectionWrapper::useDebug()}.
  */
 class DebugPDO extends ConnectionWrapper
 {
     protected ?bool $useDebugModeOnInstance = true;
+
+    /**
+     * @param \Propel\Runtime\Connection\ConnectionInterface $connection
+     */
+    public function __construct(ConnectionInterface $connection)
+    {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is deprecated, use "%s" directly.',
+            self::class,
+            ConnectionWrapper::class,
+        );
+
+        parent::__construct($connection);
+    }
 }
