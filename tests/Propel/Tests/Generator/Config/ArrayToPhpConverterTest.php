@@ -64,7 +64,7 @@ EOF;
                 'bookstore-cms' => [
                     'adapter' => 'mysql',
                     'dsn' => 'mysql:host=localhost;dbname=bookstore',
-                    'slaves' => [
+                    'replicas' => [
                         ['dsn' => 'mysql:host=slave-server1; dbname=bookstore'],
                         ['dsn' => 'mysql:host=slave-server2; dbname=bookstore'],
                     ],
@@ -213,7 +213,7 @@ EOF;
             'bookstore-cms' => [
               'adapter' => 'mysql',
               'dsn' => 'mysql:host=localhost;dbname=bookstore',
-              'slaves' => [
+              'replicas' => [
                   ['dsn' => 'mysql:host=slave-server1; dbname=bookstore'],
                   ['dsn' => 'mysql:host=slave-server2; dbname=bookstore'],
                 ],

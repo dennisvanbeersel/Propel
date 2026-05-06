@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * Class PropelConfiguration
@@ -122,7 +123,51 @@ class PropelConfiguration implements ConfigurationInterface
                             ->normalizeKeys(false)
                             ->prototype('array')
                             ->fixXmlConfig('slave')
+                            ->fixXmlConfig('replica')
                             ->fixXmlConfig('model_path')
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('slaves', $v))
+                                    ->then(static function (array $v): array {
+                                        trigger_deprecation(
+                                            'maturix/propel',
+                                            '3.0',
+                                            'Configuration key "slaves" is deprecated, use "replicas" instead.',
+                                        );
+                                        $v['replicas'] = array_merge($v['replicas'] ?? [], $v['slaves']);
+                                        unset($v['slaves']);
+
+                                        return $v;
+                                    })
+                                ->end()
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('master', $v))
+                                    ->then(static function (array $v): array {
+                                        trigger_deprecation(
+                                            'maturix/propel',
+                                            '3.0',
+                                            'Configuration key "master" is deprecated, use "primary" (or inline dsn/user/password directly) instead.',
+                                        );
+                                        if (is_array($v['master'])) {
+                                            foreach ($v['master'] as $key => $value) {
+                                                if (!array_key_exists($key, $v)) {
+                                                    $v[$key] = $value;
+                                                }
+                                            }
+                                        }
+                                        unset($v['master']);
+
+                                        return $v;
+                                    })
+                                ->end()
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && isset($v['adapter']) && in_array($v['adapter'], ['oracle', 'mssql', 'sqlsrv'], true))
+                                    ->then(static function (array $v): array {
+                                        throw new InvalidConfigurationException(sprintf(
+                                            'Adapter "%s" is not supported. Propel 3 supports mysql, pgsql and sqlite. See docs/MIGRATION-FROM-PRE-AI.md for migration guidance.',
+                                            $v['adapter'],
+                                        ));
+                                    })
+                                ->end()
                                 ->children()
                                     ->scalarNode('classname')->defaultValue('\Propel\Runtime\Connection\ConnectionWrapper')->end()
                                     ->enumNode('adapter')
@@ -162,7 +207,7 @@ class PropelConfiguration implements ConfigurationInterface
                                         ->defaultValue(['src', 'vendor'])
                                         ->prototype('scalar')->end()
                                     ->end()
-                                    ->arrayNode('slaves')
+                                    ->arrayNode('replicas')
                                         ->prototype('array')
                                             ->children()
                                                 ->scalarNode('dsn')->end()

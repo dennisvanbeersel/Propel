@@ -39,9 +39,9 @@ class ArrayToPhpConverter
                 }
 
                 // set connection settings
-                if (isset($params['slaves'])) {
+                if (isset($params['replicas'])) {
                     $conf[] = "\$manager = new \Propel\Runtime\Connection\ConnectionManagerPrimaryReplica('{$name}');";
-                    $conf[] = '$manager->setReadConfiguration(' . var_export($params['slaves'], true) . ');';
+                    $conf[] = '$manager->setReadConfiguration(' . var_export($params['replicas'], true) . ');';
                 } elseif (isset($params['dsn'])) {
                     $conf[] = "\$manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('{$name}');";
                 } else {
@@ -49,11 +49,11 @@ class ArrayToPhpConverter
                 }
 
                 if (isset($params['dsn'])) {
-                    $masterConfigurationSetter = isset($params['slaves']) ? 'setWriteConfiguration' : 'setConfiguration';
+                    $primaryConfigurationSetter = isset($params['replicas']) ? 'setWriteConfiguration' : 'setConfiguration';
                     $connection = $params;
                     unset($connection['adapter']);
-                    unset($connection['slaves']);
-                    $conf[] = "\$manager->{$masterConfigurationSetter}(" . var_export($connection, true) . ');';
+                    unset($connection['replicas']);
+                    $conf[] = "\$manager->{$primaryConfigurationSetter}(" . var_export($connection, true) . ');';
                 }
 
                 $conf[] = '$serviceContainer->setConnectionManager($manager);';
