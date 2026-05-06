@@ -313,17 +313,17 @@ class DatabaseTest extends ModelTestCase
 
     public static function provideBehaviors()
     {
+        // Note: 'query_cache' and 'validate' removed in Propel 3.0 — see
+        // BehaviorableTrait::addBehavior for the migration-error path.
         return [
             ['aggregate_column', 'AggregateColumn'],
             ['auto_add_pk', 'AutoAddPk'],
             ['concrete_inheritance', 'ConcreteInheritance'],
             ['delegate', 'Delegate'],
             ['nested_set', 'NestedSet'],
-            ['query_cache', 'QueryCache'],
             ['sluggable', 'Sluggable'],
             ['sortable', 'Sortable'],
             ['timestampable', 'Timestampable'],
-            ['validate', 'Validate'],
             ['versionable', 'Versionable'],
         ];
     }

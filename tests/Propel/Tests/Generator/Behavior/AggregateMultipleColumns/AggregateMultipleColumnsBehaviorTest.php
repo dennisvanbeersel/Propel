@@ -301,7 +301,7 @@ EOF;
      *
      * @param \Propel\Tests\Bookstore\Behavior\AggregateMultipleScoreGroup $group
      * @param int $scoreValue
-     * @param string|\Propel\Runtime\Validator\Constraints\Date|null $date
+     * @param string|\DateTimeInterface|null $date
      *
      * @return \Propel\Tests\Bookstore\Behavior\AggregateMultipleScore
      */

@@ -81,6 +81,17 @@ trait BehaviorableTrait
             return $behavior;
         }
 
+        // Behaviors removed in Propel 3.0 (umbrella spec §6.1). Schemas in
+        // the wild may still reference these — surface a clear error pointing
+        // at the migration guide rather than a generic class-not-found.
+        $removedBehaviors = [
+            'validate' => 'Validate behavior was removed in Propel 3.0 (it imported Symfony 3.0-removed classes and produced dead generated code). Use Symfony Validator on application DTOs instead. See docs/MIGRATION-FROM-PRE-AI.md.',
+            'query_cache' => 'QueryCache behavior was removed in Propel 3.0 (it depended on apc_*, removed from PHP in 5.5/2013). Use a PSR-6/PSR-16 cache at the application layer instead. See docs/MIGRATION-FROM-PRE-AI.md.',
+        ];
+        if (isset($removedBehaviors[$bdata['name']])) {
+            throw new BuildException($removedBehaviors[$bdata['name']]);
+        }
+
         $locator = $this->getBehaviorLocator();
         $class = $locator->getBehavior($bdata['name']);
         $behavior = new $class();
