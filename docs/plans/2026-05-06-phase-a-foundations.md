@@ -2325,3 +2325,44 @@ Two execution options for Phase A:
 **2. Inline Execution** — execute tasks in the current session using `superpowers:executing-plans`, batch execution with checkpoints. Best for the documentation tasks (A.38–A.42) where author voice consistency matters.
 
 Recommendation: **mixed** — subagent-driven for tasks A.14–A.31 (mechanical, well-scoped), inline for A.1–A.13 (tooling/config that benefits from holistic context) and A.36–A.42 (docs).
+
+---
+
+## Phase A Retrospective
+
+Authored 2026-05-06 after Round 2 cycle 1 closed the four end-of-phase MUST-FIX findings. Closes umbrella §4.9 DoD #11 (retrospective notes appended to plan file).
+
+### Final task tally
+
+- **38 DONE** — items completed exactly as committed in the plan.
+- **5 DONE-WITH-DEVIATION** — A.3 (Infection install: ran but blocked on test pollution; closed in Round 2 cycle 1), A.4 (Deptrac: package renamed `qossmic/deptrac` → `deptrac/deptrac`; `RuntimeInternal` layer dropped then restored in Round 2), A.5 (PBT: `giorgiosironi/eris` swapped for `innmind/black-box ^6.0` due to PHP 8 incompatibility; documented in W2), A.25 (PropelTypes legacy types: deprecation triggers in place but XSD enumeration was missing the four legacy values until Round 2 cycle 1 added them), A.34 (perf baselines: only 1 of 5 §4.10 metrics captured; remaining 4 forward-deferred to E/F/G/J at phase-time per umbrella §3 just-in-time planning).
+- **1 IN-PROGRESS-DEVIATION** — A.44 (Round 2 review: consolidated 6 lenses into 1 report at maintainer direction; this retrospective closes the open item from that report).
+
+**Total:** 44/44 attempted; 0 skipped.
+
+### Surprises encountered
+
+1. **eris ↔ PHP 8 incompatibility.** `giorgiosironi/eris ^0.10` (named in plan A.5) abandoned PHP 8 support; only `innmind/black-box ^6.0` had a maintained, PHPUnit-compatible PBT generator API. Black-box has its own gaps (no seedable RNG by default — see W2) but unblocks Phase A's "PBT smoke test exists" requirement. Phase F's plan must re-evaluate at phase-start.
+
+2. **PHPUnit doc-comment metadata sweep larger than estimated.** Plan A.7 estimated ~200 deprecation hits when restoring `failOnDeprecation="true"` across the 4 phpunit configs. Actual: 679 doc-comment-attribute deprecations from PHPUnit 11. The sweep had to convert legacy `@dataProvider` / `@depends` annotations to `#[DataProvider]` / `#[Depends]` attributes mechanically. No spec change; just larger churn than projected.
+
+3. **Baseline drawdown forced source-level fixes, not just baselining.** Plan A.32–A.33 set targets ≤80 % of starting line counts. Hitting those targets required actual source fixes (notably in `Generator/Builder/`), not just rolling forward the baseline. End state landed well under target (403 / 1621 vs ≤438 / ≤2078) because the underlying issues were resolved, not deferred.
+
+4. **Static-state pollution in test infrastructure surfaced by Infection.** Three tests (`StandardServiceContainerTest`, `DatabaseMapTest`, `VersionableBehaviorObjectBuilderModifierTest`) had hidden order dependencies that PHPUnit's default ordering masked but Infection's randomized ordering exposed. Two surgical tearDown fixes + one `executionOrder="default"` directive on the agnostic config closed the issue for Phase A. The architectural cleanup (eliminating `ConnectionFactory::$useProfilerConnection` static via decorator chain) lands in Phase E per umbrella §2.1.
+
+### Signals for future phases
+
+- **Phase E (Connection refactor):** Infection's blocked initial run pointed directly at `ConnectionFactory::$useProfilerConnection` and `ConnectionWrapper::$useDebugMode` — both static mutable. The §2.1 collapsed-Connection internals work should erase both. The W6 waiver (signature-diff vs golden-diff) also previews the question of whether to start tracking generated `Internal\*` classes once they exist.
+
+- **Phase B (Generator settle):** the signature-diff gate scope clarification (W6: hand-written → signature-diff; generated → golden-diff) belongs in B's plan as an explicit acceptance criterion. When B's generator output starts churning, golden-diff's "any change is signal" semantics may become noisy and tier boundaries should be revisited.
+
+- **Phase C (XSD additivity):** the BU_DATE/BU_TIMESTAMP/BOOLEAN_EMU/PHP_ARRAY restoration to `default_datatypes` enumeration is load-bearing for the migration guide's promise. Phase C's schema-modernization work must continue this discipline — never remove enum values, even when the deprecation forwarding lands.
+
+- **Phase D (behavior cleanup):** `VersionableBehaviorObjectBuilderModifierTest`'s pollution (W5) is in scope for D. The `executionOrder="default"` workaround on agnostic.phpunit.xml should be removed once D fixes the underlying issue, restoring randomized order as a real test-isolation gate.
+
+### What stayed clean throughout
+
+- **BC tier discipline.** No public-API removals slipped into Phase A; everything user-visible became a deprecation, never a hard break. Tier-2 SPI commitments not yet made (correctly — that's Phase B+).
+- **Test suite green per commit.** All 48 commits on `ar-rewrite` branch landed with `composer test:agnostic` GREEN; no rolling-red commits in the history. Squash-friendly.
+- **Deprecation telemetry wiring.** All 6 `trigger_deprecation` sites use the correct `'maturix/propel'` package name; `DeprecatedConnectionWrappersTest` proves the wiring is non-inert via `expectUserDeprecationMessage`.
+- **Quality stack cleanliness.** `composer stan` (0 errors), `composer psalm` (0 errors), `composer cs-check` (clean), `composer deptrac` (0 violations) held green throughout the phase. Baselines decreased monotonically.

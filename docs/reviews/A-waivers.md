@@ -68,6 +68,34 @@ This is acceptable for Phase A because:
 
 **Confirmation required from:** Phase D plan draft; Round 2 tooling reviewer.
 
+## Round 2 waivers
+
+### W6: Generated AR Tier-1 surface enforced via golden-diff, not signature-diff
+
+**Source:** Round 2 MUST-FIX-CI1.
+
+**Waiver scope:** the `signature-diff` CI gate (`.github/workflows/quality-gates.yml`) tracks only hand-written runtime classes via `tests/snapshots/tracked-classes.txt`. Generated `Propel\Tests\Bookstore\Base\*` classes — which umbrella spec §3.1 declares Tier 1 — are NOT in the tracked set.
+
+**Reasoning:** the generated AR Tier 1 surface IS enforced for BC, but via a strictly stronger mechanism:
+
+1. **`golden-diff` CI job** (`.github/workflows/quality-gates.yml`) compares the regenerated bookstore tree against the committed `tests/snapshots/bookstore-golden/` tree character-by-character via `diff -ru`. This catches:
+   - Method-signature changes (what signature-diff catches).
+   - Method-body changes (signature-diff misses these).
+   - Comment / docblock changes (signature-diff misses these).
+   - Whitespace and formatting drift (signature-diff misses these).
+   - Method-order changes within a class (signature-diff misses these).
+   - File-presence changes — added or removed classes (signature-diff misses these).
+
+2. **`lint-generated` CI job** runs phpcs + phpstan over the regenerated tree at the same bar as `src/`, catching API-shape regressions independent of golden-diff.
+
+Adding generated `Base\*` classes to `tracked-classes.txt` would create 200+ noisy `.signatures.json` files churning together on every fixture regen, with no signal beyond what golden-diff already provides. **Golden-diff is strictly stronger for generated code.**
+
+The BC contract enforcement is therefore tier-appropriate:
+- **Hand-written runtime classes** → signature-diff (allows non-API edits, blocks signature drift).
+- **Generated classes** → golden-diff (blocks ANY drift, since regenerating is itself a deliberate action).
+
+**Confirmation required from:** Phase B reviewer when generator output starts changing — at that point golden-diff's "any change is signal" semantics may become noisy and signature-diff scope can be revisited.
+
 ---
 
 ## Process notes
