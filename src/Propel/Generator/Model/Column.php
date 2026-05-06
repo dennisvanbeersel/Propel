@@ -141,6 +141,22 @@ class Column extends MappingModel
     protected array $valueSet = [];
 
     /**
+     * Generated-column kind: 'virtual', 'stored', or null (not generated).
+     * Phase C (umbrella §6.4): MySQL/MariaDB support both; PostgreSQL supports STORED only.
+     */
+    private ?string $generationKind = null;
+
+    /**
+     * SQL expression for a generated column. Emitted verbatim to the database.
+     */
+    private ?string $generationExpression = null;
+
+    /**
+     * INVISIBLE column flag. Phase C (umbrella §6.4): MySQL 8.0.23+ / MariaDB 10.3+ only.
+     */
+    private bool $invisible = false;
+
+    /**
      * Creates a new column and set the name.
      *
      * @param string $name The column's name
@@ -293,6 +309,43 @@ class Column extends MappingModel
                 use booleanValue()
             */
             $this->isInheritance = ($this->inheritanceType !== null && $this->inheritanceType !== 'false');
+
+            // Phase C: generated columns (umbrella §6.4)
+            $generated = $this->getAttribute('generated');
+            $expression = $this->getAttribute('expression');
+            if ($generated !== null && $generated !== '') {
+                if ($expression === null || $expression === '') {
+                    throw new EngineException(sprintf(
+                        'Column "%s" has generated="%s" but no expression attribute. Generated columns require an SQL expression.',
+                        $this->name,
+                        $generated,
+                    ));
+                }
+                $generated = strtolower((string)$generated);
+                if ($generated !== 'virtual' && $generated !== 'stored') {
+                    throw new EngineException(sprintf(
+                        'Column "%s" has generated="%s"; expected "virtual" or "stored".',
+                        $this->name,
+                        $generated,
+                    ));
+                }
+                $this->generationKind = $generated;
+                $this->generationExpression = (string)$expression;
+            } elseif ($expression !== null && $expression !== '') {
+                // expression without generated — has no effect; emit deprecation
+                if (function_exists('trigger_deprecation')) {
+                    trigger_deprecation('propel/propel', '3.0', 'Column "%s" declares <expression> without <generated> — has no effect.', $this->name);
+                }
+            }
+
+            // Phase C: INVISIBLE columns (umbrella §6.4)
+            $this->invisible = $this->booleanValue($this->getAttribute('invisible'));
+            if ($this->invisible && $this->isPrimaryKey) {
+                throw new EngineException(sprintf(
+                    'Column "%s" cannot be both INVISIBLE and a primary key. MySQL 8 / MariaDB 10.5+ reject INVISIBLE primary keys.',
+                    $this->name,
+                ));
+            }
         } catch (Exception $e) {
             throw new EngineException(sprintf(
                 'Error setting up column %s: %s',
@@ -1529,6 +1582,81 @@ class Column extends MappingModel
     public function setAutoIncrement(bool $flag): void
     {
         $this->isAutoIncrement = $flag;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): is this a database-side generated column?
+     *
+     * @return bool
+     */
+    public function isGenerated(): bool
+    {
+        return $this->generationKind !== null;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): the generation kind, 'virtual' or 'stored', or null when not generated.
+     *
+     * @return string|null
+     */
+    public function getGenerationKind(): ?string
+    {
+        return $this->generationKind;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): the SQL expression that computes the column value, or null.
+     *
+     * @return string|null
+     */
+    public function getGenerationExpression(): ?string
+    {
+        return $this->generationExpression;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): set this column as a generated column.
+     *
+     * @param string $kind 'virtual' or 'stored'
+     * @param string $expression SQL expression
+     *
+     * @throws \Propel\Generator\Exception\EngineException when kind is invalid
+     *
+     * @return void
+     */
+    public function setGenerated(string $kind, string $expression): void
+    {
+        $kind = strtolower($kind);
+        if ($kind !== 'virtual' && $kind !== 'stored') {
+            throw new EngineException(sprintf(
+                'Invalid generated kind "%s"; expected "virtual" or "stored".',
+                $kind,
+            ));
+        }
+        $this->generationKind = $kind;
+        $this->generationExpression = $expression;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): is this an INVISIBLE column?
+     *
+     * @return bool
+     */
+    public function isInvisible(): bool
+    {
+        return $this->invisible;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): toggle INVISIBLE flag on the column.
+     *
+     * @param bool $flag
+     *
+     * @return void
+     */
+    public function setInvisible(bool $flag): void
+    {
+        $this->invisible = $flag;
     }
 
     /**
