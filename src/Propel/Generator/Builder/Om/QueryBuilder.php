@@ -1130,8 +1130,14 @@ class QueryBuilder extends AbstractOMBuilder
             return \$this;
         }";
         } elseif ($col->getType() == PropelTypes::ENUM) {
+            // We do not import the column's specific enum here — generated
+            // code coerces any \BackedEnum to its value, so no symbol from
+            // the enum class is referenced in the query body.
             $script .= "
         \$valueSet = " . $this->getTableMapClassName() . '::getValueSet(' . $this->getColumnConstant($col) . ");
+        if (\$$variableName instanceof \\BackedEnum) {
+            \$$variableName = \${$variableName}->value;
+        }
         if (is_scalar(\$$variableName)) {
             if (!in_array(\$$variableName, \$valueSet)) {
                 throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$$variableName));
@@ -1140,6 +1146,9 @@ class QueryBuilder extends AbstractOMBuilder
         } elseif (is_array(\$$variableName)) {
             \$convertedValues = [];
             foreach (\$$variableName as \$value) {
+                if (\$value instanceof \\BackedEnum) {
+                    \$value = \$value->value;
+                }
                 if (!in_array(\$value, \$valueSet)) {
                     throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$value));
                 }

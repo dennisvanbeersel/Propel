@@ -19,6 +19,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Tests\Bookstore\Behavior\SortableTable13 as ChildSortableTable13;
 use Propel\Tests\Bookstore\Behavior\SortableTable13Query as ChildSortableTable13Query;
+use Propel\Tests\Bookstore\Behavior\SortableTable13Style as ChildSortableTable13Style;
 use Propel\Tests\Bookstore\Behavior\Map\SortableTable13TableMap;
 
 /**
@@ -386,7 +387,7 @@ abstract class SortableTable13 implements ActiveRecordInterface
     /**
      * Get the [style] column value.
      *
-     * @return string|null
+     * @return ChildSortableTable13Style|null
      * @throws \Propel\Runtime\Exception\PropelException
      */
     public function getStyle()
@@ -399,7 +400,7 @@ abstract class SortableTable13 implements ActiveRecordInterface
             throw new PropelException('Unknown stored enum key: ' . $this->style);
         }
 
-        return $valueSet[$this->style];
+        return ChildSortableTable13Style::from($valueSet[$this->style]);
     }
 
     /**
@@ -455,12 +456,15 @@ abstract class SortableTable13 implements ActiveRecordInterface
     /**
      * Set the value of [style] column.
      *
-     * @param string|null $v new value
+     * @param ChildSortableTable13Style|string|null $v new value
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setStyle($v): self
+    public function setStyle(ChildSortableTable13Style|\BackedEnum|string|null $v = null): self
     {
+        if ($v instanceof \BackedEnum) {
+            $v = $v->value;
+        }
         if ($v !== null) {
             $valueSet = SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE);
             if (!in_array($v, $valueSet)) {

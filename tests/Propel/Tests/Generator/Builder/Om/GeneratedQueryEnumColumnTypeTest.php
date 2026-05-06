@@ -59,7 +59,7 @@ EOF;
             ->orderById()
             ->offset(1)
             ->findOne();
-        $this->assertEquals('baz', $e->getBar(), 'enum columns are correctly hydrated');
+        $this->assertSame('baz', $e->getBar()->value, 'enum columns are correctly hydrated');
     }
 
     /**
@@ -71,7 +71,7 @@ EOF;
             ->where('ComplexColumnTypeEntity13.Bar = ?', 'baz')
             ->find();
         $this->assertEquals(1, $e->count(), 'object columns are searchable by enumerated value using where()');
-        $this->assertEquals('baz', $e[0]->getBar(), 'object columns are searchable by enumerated value using where()');
+        $this->assertSame('baz', $e[0]->getBar()->value, 'object columns are searchable by enumerated value using where()');
         $e = ComplexColumnTypeEntity13Query::create()
             ->where('ComplexColumnTypeEntity13.Bar IN ?', ['baz', 4])
             ->find();
@@ -86,15 +86,15 @@ EOF;
         $e = ComplexColumnTypeEntity13Query::create()
             ->filterByBar('4')
             ->findOne();
-        $this->assertEquals('4', $e->getBar(), 'enum columns are searchable by enumerated value');
+        $this->assertSame('4', $e->getBar()->value, 'enum columns are searchable by enumerated value');
         $e = ComplexColumnTypeEntity13Query::create()
             ->filterByBar('baz')
             ->findOne();
-        $this->assertEquals('baz', $e->getBar(), 'enum columns are searchable by enumerated value');
+        $this->assertSame('baz', $e->getBar()->value, 'enum columns are searchable by enumerated value');
         $e = ComplexColumnTypeEntity13Query::create()
             ->filterByBar('baz', Criteria::NOT_EQUAL)
             ->findOne();
-        $this->assertEquals('4', $e->getBar(), 'enum columns are searchable by enumerated value');
+        $this->assertSame('4', $e->getBar()->value, 'enum columns are searchable by enumerated value');
         $nb = ComplexColumnTypeEntity13Query::create()
             ->filterByBar(['baz', '4'], Criteria::IN)
             ->count();

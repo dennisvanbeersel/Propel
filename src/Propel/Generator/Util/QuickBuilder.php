@@ -475,6 +475,18 @@ class QuickBuilder
             $script .= $this->fixNamespaceDeclarations($class);
         }
 
+        // Emit a backed-enum class for each ENUM column so generated model
+        // code that references the enum can resolve the symbol at runtime.
+        foreach ($table->getColumns() as $enumCol) {
+            if (!$enumCol->isEnumType() || $enumCol->getValueSet() === []) {
+                continue;
+            }
+            /** @var \Propel\Generator\Builder\Om\EnumBuilder $enumBuilder */
+            $enumBuilder = $this->getConfig()->getConfiguredBuilder($table, 'enum');
+            $enumBuilder->setColumn($enumCol);
+            $script .= $this->fixNamespaceDeclarations($enumBuilder->build());
+        }
+
         $column = $table->getChildrenColumn();
         if ($column && $column->isEnumeratedClasses()) {
             foreach ($column->getChildren() as $child) {

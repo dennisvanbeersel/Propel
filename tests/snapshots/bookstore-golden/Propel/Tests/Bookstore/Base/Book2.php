@@ -21,6 +21,7 @@ use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Util\UuidConverter;
 use Propel\Tests\Bookstore\Book2Query as ChildBook2Query;
+use Propel\Tests\Bookstore\Book2Style as ChildBook2Style;
 use Propel\Tests\Bookstore\Map\Book2TableMap;
 
 /**
@@ -404,7 +405,7 @@ abstract class Book2 implements ActiveRecordInterface
     /**
      * Get the [style] column value.
      *
-     * @return string|null
+     * @return ChildBook2Style|null
      * @throws \Propel\Runtime\Exception\PropelException
      */
     public function getStyle()
@@ -417,7 +418,7 @@ abstract class Book2 implements ActiveRecordInterface
             throw new PropelException('Unknown stored enum key: ' . $this->style);
         }
 
-        return $valueSet[$this->style];
+        return ChildBook2Style::from($valueSet[$this->style]);
     }
 
     /**
@@ -535,12 +536,15 @@ abstract class Book2 implements ActiveRecordInterface
     /**
      * Set the value of [style] column.
      *
-     * @param string|null $v new value
+     * @param ChildBook2Style|string|null $v new value
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setStyle($v): self
+    public function setStyle(ChildBook2Style|\BackedEnum|string|null $v = null): self
     {
+        if ($v instanceof \BackedEnum) {
+            $v = $v->value;
+        }
         if ($v !== null) {
             $valueSet = Book2TableMap::getValueSet(Book2TableMap::COL_STYLE);
             if (!in_array($v, $valueSet)) {

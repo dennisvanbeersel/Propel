@@ -1081,17 +1081,17 @@ EOF;
         $o->setStyle('novel');
         $o->save();
 
-        $this->assertEquals('novel', $o->getStyle(), 'Set style to novel');
+        $this->assertSame('novel', $o->getStyle()->value, 'Set style to novel');
         $this->assertEquals(1, $o->getVersion(), '');
 
         $o->setStyle('essay');
         $o->save();
 
-        $this->assertEquals('essay', $o->getStyle(), 'Set style to essay');
+        $this->assertSame('essay', $o->getStyle()->value, 'Set style to essay');
         $this->assertEquals(2, $o->getVersion(), '');
 
-        $this->assertEquals('novel', $o->getOneVersion(1)->getStyle(), 'First version is a novel');
-        $this->assertEquals('essay', $o->getOneVersion(2)->getStyle(), 'Second version is an essay');
+        $this->assertSame('novel', $o->getOneVersion(1)->getStyle()->value, 'First version is a novel');
+        $this->assertSame('essay', $o->getOneVersion(2)->getStyle()->value, 'Second version is an essay');
     }
 
     /**

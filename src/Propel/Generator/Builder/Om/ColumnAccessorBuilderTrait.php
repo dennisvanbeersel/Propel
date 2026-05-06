@@ -491,6 +491,7 @@ trait ColumnAccessorBuilderTrait
     public function addEnumAccessorComment(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($column);
 
         $script .= "
     /**
@@ -501,7 +502,7 @@ trait ColumnAccessorBuilderTrait
      * @param ConnectionInterface \$con An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
         }
         $script .= "
-     * @return string|null
+     * @return $enumClassName|null
      * @throws \\Propel\\Runtime\\Exception\\PropelException
      */";
     }
@@ -517,6 +518,8 @@ trait ColumnAccessorBuilderTrait
     protected function addEnumAccessorBody(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($column);
+
         if ($column->isLazyLoad()) {
             $script .= $this->getAccessorLazyLoadSnippet($column);
         }
@@ -530,7 +533,7 @@ trait ColumnAccessorBuilderTrait
             throw new PropelException('Unknown stored enum key: ' . \$this->$clo);
         }
 
-        return \$valueSet[\$this->$clo];";
+        return $enumClassName::from(\$valueSet[\$this->$clo]);";
     }
 
     /**

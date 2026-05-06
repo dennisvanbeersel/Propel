@@ -339,6 +339,9 @@ abstract class SortableTable13Query extends ModelCriteria
     public function filterByStyle($style = null, ?string $comparison = null)
     {
         $valueSet = SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE);
+        if ($style instanceof \BackedEnum) {
+            $style = $style->value;
+        }
         if (is_scalar($style)) {
             if (!in_array($style, $valueSet)) {
                 throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $style));
@@ -347,6 +350,9 @@ abstract class SortableTable13Query extends ModelCriteria
         } elseif (is_array($style)) {
             $convertedValues = [];
             foreach ($style as $value) {
+                if ($value instanceof \BackedEnum) {
+                    $value = $value->value;
+                }
                 if (!in_array($value, $valueSet)) {
                     throw new PropelException(sprintf('Value "%s" is not accepted in this enumerated column', $value));
                 }

@@ -608,6 +608,35 @@ declare(strict_types=1);
     }
 
     /**
+     * Returns the (declared, possibly aliased) short class name to use when emitting
+     * code that references the generated backed enum for an ENUM column.
+     *
+     * The enum class lives in the same namespace as the user stub model
+     * (no `\Base` suffix); this method declares the use-statement so the
+     * generated file imports the enum cleanly.
+     *
+     * @param \Propel\Generator\Model\Column $column
+     *
+     * @throws \Propel\Generator\Exception\RuntimeException
+     *
+     * @return string
+     */
+    public function getEnumClassName(Column $column): string
+    {
+        $table = $column->getTable();
+        if ($table === null) {
+            throw new RuntimeException(sprintf(
+                'Cannot derive enum class name for column "%s": no parent table is set.',
+                $column->getName(),
+            ));
+        }
+        $enumShort = EnumBuilder::buildEnumClassName($table->getPhpName(), $column->getPhpName());
+        $namespace = (string)$table->getNamespace();
+
+        return $this->declareClassNamespace($enumShort, $namespace, true);
+    }
+
+    /**
      * Get the column constant name (e.g. TableMapName::COLUMN_NAME).
      *
      * @param \Propel\Generator\Model\Column $col The column we need a name for.
