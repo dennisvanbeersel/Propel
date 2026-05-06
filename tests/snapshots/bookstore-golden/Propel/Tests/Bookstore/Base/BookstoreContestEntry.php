@@ -1367,13 +1367,6 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
     {
         if ($this->aBookstore === null && ($this->bookstore_id !== null)) {
             $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBookstore->addBookstoreContestEntries($this);
-             */
         }
 
         return $this->aBookstore;
@@ -1418,13 +1411,6 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
     {
         if ($this->aCustomer === null && ($this->customer_id !== null)) {
             $this->aCustomer = ChildCustomerQuery::create()->findPk($this->customer_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aCustomer->addBookstoreContestEntries($this);
-             */
         }
 
         return $this->aCustomer;
@@ -1475,13 +1461,6 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
     {
         if ($this->aBookstoreContest === null && ($this->bookstore_id !== null && $this->contest_id !== null)) {
             $this->aBookstoreContest = ChildBookstoreContestQuery::create()->findPk(array($this->bookstore_id, $this->contest_id), $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBookstoreContest->addBookstoreContestEntries($this);
-             */
         }
 
         return $this->aBookstoreContest;

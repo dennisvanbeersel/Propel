@@ -1224,13 +1224,6 @@ abstract class Contest implements ActiveRecordInterface
     {
         if ($this->aCountry === null && (($this->country_code !== "" && $this->country_code !== null))) {
             $this->aCountry = ChildCountryQuery::create()->findPk($this->country_code, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aCountry->addContests($this);
-             */
         }
 
         return $this->aCountry;

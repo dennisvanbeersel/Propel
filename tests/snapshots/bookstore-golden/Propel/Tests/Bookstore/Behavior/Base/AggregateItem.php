@@ -1191,13 +1191,6 @@ abstract class AggregateItem implements ActiveRecordInterface
     {
         if ($this->aAggregatePoll === null && ($this->poll_id !== null)) {
             $this->aAggregatePoll = ChildAggregatePollQuery::create()->findPk($this->poll_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAggregatePoll->addAggregateItems($this);
-             */
         }
 
         return $this->aAggregatePoll;

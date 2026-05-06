@@ -1261,13 +1261,6 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
     {
         if ($this->aAuthor === null && ($this->target_type === 'author' && $this->target_id !== null)) {
             $this->aAuthor = ChildAuthorQuery::create()->findPk($this->target_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAuthor->addPolymorphicRelationLogs($this);
-             */
         }
 
         return $this->aAuthor;
@@ -1318,13 +1311,6 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
     {
         if ($this->aBook === null && ($this->target_type === 'book' && $this->target_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->target_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBook->addPolymorphicRelationLogs($this);
-             */
         }
 
         return $this->aBook;

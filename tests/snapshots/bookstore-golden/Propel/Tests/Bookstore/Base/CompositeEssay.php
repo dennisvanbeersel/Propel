@@ -1371,13 +1371,6 @@ abstract class CompositeEssay implements ActiveRecordInterface
     {
         if ($this->afirstEssay === null && ($this->first_essay_id !== null)) {
             $this->afirstEssay = ChildCompositeEssayQuery::create()->findPk($this->first_essay_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->afirstEssay->addCompositeEssaysRelatedById0($this);
-             */
         }
 
         return $this->afirstEssay;
@@ -1422,13 +1415,6 @@ abstract class CompositeEssay implements ActiveRecordInterface
     {
         if ($this->asecondEssay === null && ($this->second_essay_id !== null)) {
             $this->asecondEssay = ChildCompositeEssayQuery::create()->findPk($this->second_essay_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->asecondEssay->addCompositeEssaysRelatedById1($this);
-             */
         }
 
         return $this->asecondEssay;

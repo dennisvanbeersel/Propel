@@ -1309,13 +1309,6 @@ abstract class BookstoreContest implements ActiveRecordInterface
     {
         if ($this->aBookstore === null && ($this->bookstore_id !== null)) {
             $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBookstore->addBookstoreContests($this);
-             */
         }
 
         return $this->aBookstore;
@@ -1360,13 +1353,6 @@ abstract class BookstoreContest implements ActiveRecordInterface
     {
         if ($this->aContest === null && ($this->contest_id !== null)) {
             $this->aContest = ChildContestQuery::create()->findPk($this->contest_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aContest->addBookstoreContests($this);
-             */
         }
 
         return $this->aContest;
@@ -1411,13 +1397,6 @@ abstract class BookstoreContest implements ActiveRecordInterface
     {
         if ($this->aWork === null && ($this->prize_book_id !== null)) {
             $this->aWork = ChildBookQuery::create()->findPk($this->prize_book_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aWork->addBookstoreContests($this);
-             */
         }
 
         return $this->aWork;

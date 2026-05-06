@@ -1270,13 +1270,6 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
     {
         if ($this->aAggregateMultipleScoreGroup === null && ($this->score_group_id !== null)) {
             $this->aAggregateMultipleScoreGroup = ChildAggregateMultipleScoreGroupQuery::create()->findPk($this->score_group_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAggregateMultipleScoreGroup->addAggregateMultipleScores($this);
-             */
         }
 
         return $this->aAggregateMultipleScoreGroup;

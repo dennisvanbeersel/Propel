@@ -1159,13 +1159,6 @@ abstract class AcctAuditLog implements ActiveRecordInterface
             $this->aBookstoreEmployeeAccount = ChildBookstoreEmployeeAccountQuery::create()
                 ->filterByAcctAuditLog($this) // here
                 ->findOne($con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBookstoreEmployeeAccount->addAcctAuditLogs($this);
-             */
         }
 
         return $this->aBookstoreEmployeeAccount;

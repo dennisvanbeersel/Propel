@@ -1795,13 +1795,6 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     {
         if ($this->aAcctAccessRole === null && ($this->role_id !== null)) {
             $this->aAcctAccessRole = ChildAcctAccessRoleQuery::create()->findPk($this->role_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAcctAccessRole->addBookstoreEmployeeAccounts($this);
-             */
         }
 
         return $this->aAcctAccessRole;

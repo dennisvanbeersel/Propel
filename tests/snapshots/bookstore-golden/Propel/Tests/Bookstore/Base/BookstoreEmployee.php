@@ -1520,13 +1520,6 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
     {
         if ($this->aSupervisor === null && ($this->supervisor_id !== null)) {
             $this->aSupervisor = ChildBookstoreEmployeeQuery::create()->findPk($this->supervisor_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aSupervisor->addSubordinates($this);
-             */
         }
 
         return $this->aSupervisor;

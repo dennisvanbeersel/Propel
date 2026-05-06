@@ -1340,13 +1340,6 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
     {
         if ($this->aConcreteQuizz === null && ($this->quizz_id !== null)) {
             $this->aConcreteQuizz = ChildConcreteQuizzQuery::create()->findPk($this->quizz_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aConcreteQuizz->addConcreteQuizzQuestions($this);
-             */
         }
 
         return $this->aConcreteQuizz;

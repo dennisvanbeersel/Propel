@@ -1195,13 +1195,6 @@ abstract class ReaderFavorite implements ActiveRecordInterface
     {
         if ($this->aBook === null && ($this->book_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->book_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBook->addReaderFavorites($this);
-             */
         }
 
         return $this->aBook;
@@ -1246,13 +1239,6 @@ abstract class ReaderFavorite implements ActiveRecordInterface
     {
         if ($this->aBookReader === null && ($this->reader_id !== null)) {
             $this->aBookReader = ChildBookReaderQuery::create()->findPk($this->reader_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aBookReader->addReaderFavorites($this);
-             */
         }
 
         return $this->aBookReader;

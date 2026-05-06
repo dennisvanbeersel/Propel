@@ -1475,13 +1475,6 @@ abstract class Essay implements ActiveRecordInterface
     {
         if ($this->aFirstAuthor === null && ($this->first_author_id !== null)) {
             $this->aFirstAuthor = ChildAuthorQuery::create()->findPk($this->first_author_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aFirstAuthor->addEssaysRelatedByFirstAuthorId($this);
-             */
         }
 
         return $this->aFirstAuthor;
@@ -1526,13 +1519,6 @@ abstract class Essay implements ActiveRecordInterface
     {
         if ($this->aSecondAuthor === null && ($this->second_author_id !== null)) {
             $this->aSecondAuthor = ChildAuthorQuery::create()->findPk($this->second_author_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aSecondAuthor->addEssaysRelatedBySecondAuthorId($this);
-             */
         }
 
         return $this->aSecondAuthor;
@@ -1577,13 +1563,6 @@ abstract class Essay implements ActiveRecordInterface
     {
         if ($this->aEssayRelatedByNextEssayId === null && ($this->next_essay_id !== null)) {
             $this->aEssayRelatedByNextEssayId = ChildEssayQuery::create()->findPk($this->next_essay_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aEssayRelatedByNextEssayId->addEssaysRelatedById($this);
-             */
         }
 
         return $this->aEssayRelatedByNextEssayId;

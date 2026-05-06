@@ -1231,13 +1231,6 @@ abstract class ReleasePool implements ActiveRecordInterface
     {
         if ($this->aRecordLabel === null && ($this->record_label_id !== null && ($this->record_label_abbr !== "" && $this->record_label_abbr !== null))) {
             $this->aRecordLabel = ChildRecordLabelQuery::create()->findPk(array($this->record_label_id, $this->record_label_abbr), $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aRecordLabel->addReleasePools($this);
-             */
         }
 
         return $this->aRecordLabel;

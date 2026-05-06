@@ -1463,13 +1463,6 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
     {
         if ($this->aConcreteAuthor === null && ($this->author_id !== null)) {
             $this->aConcreteAuthor = ChildConcreteAuthorQuery::create()->findPk($this->author_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aConcreteAuthor->addArticles($this);
-             */
         }
 
         return $this->aConcreteAuthor;
@@ -1561,13 +1554,6 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
     {
         if ($this->aConcreteCategory === null && ($this->category_id !== null)) {
             $this->aConcreteCategory = ChildConcreteCategoryQuery::create()->findPk($this->category_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aConcreteCategory->addConcreteArticles($this);
-             */
         }
 
         return $this->aConcreteCategory;

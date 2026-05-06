@@ -1104,13 +1104,6 @@ abstract class AggregateComment implements ActiveRecordInterface
     {
         if ($this->aAggregatePost === null && ($this->post_id !== null)) {
             $this->aAggregatePost = ChildAggregatePostQuery::create()->findPk($this->post_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAggregatePost->addAggregateComments($this);
-             */
         }
 
         return $this->aAggregatePost;

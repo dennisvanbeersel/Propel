@@ -1415,13 +1415,6 @@ abstract class TypeObject implements ActiveRecordInterface
     {
         if ($this->aTypeObject === null && ($this->self_ref !== null)) {
             $this->aTypeObject = ChildTypeObjectQuery::create()->findPk($this->self_ref, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aTypeObject->addTypeObjectsRelatedById($this);
-             */
         }
 
         return $this->aTypeObject;

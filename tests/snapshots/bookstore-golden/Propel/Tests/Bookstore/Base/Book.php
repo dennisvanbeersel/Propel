@@ -2000,13 +2000,6 @@ abstract class Book implements ActiveRecordInterface
     {
         if ($this->aPublisher === null && ($this->publisher_id !== null)) {
             $this->aPublisher = ChildPublisherQuery::create()->findPk($this->publisher_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aPublisher->addBooks($this);
-             */
         }
 
         return $this->aPublisher;
@@ -2051,13 +2044,6 @@ abstract class Book implements ActiveRecordInterface
     {
         if ($this->aAuthor === null && ($this->author_id !== null)) {
             $this->aAuthor = ChildAuthorQuery::create()->findPk($this->author_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aAuthor->addBooks($this);
-             */
         }
 
         return $this->aAuthor;

@@ -1146,13 +1146,6 @@ abstract class Table8 implements ActiveRecordInterface
     {
         if ($this->aTable6 === null && ($this->foo_id !== null)) {
             $this->aTable6 = ChildTable6Query::create()->findPk($this->foo_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aTable6->addTable8s($this);
-             */
         }
 
         return $this->aTable6;

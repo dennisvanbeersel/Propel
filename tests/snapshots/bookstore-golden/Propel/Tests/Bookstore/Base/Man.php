@@ -1162,13 +1162,6 @@ abstract class Man implements ActiveRecordInterface
     {
         if ($this->aWomanRelatedByWifeId === null && ($this->wife_id !== null)) {
             $this->aWomanRelatedByWifeId = ChildWomanQuery::create()->findPk($this->wife_id, $con);
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                $this->aWomanRelatedByWifeId->addMenRelatedByWifeId($this);
-             */
         }
 
         return $this->aWomanRelatedByWifeId;
