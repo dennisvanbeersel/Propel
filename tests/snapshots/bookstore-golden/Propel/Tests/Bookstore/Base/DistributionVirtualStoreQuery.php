@@ -28,7 +28,7 @@ class DistributionVirtualStoreQuery extends DistributionStoreQuery
      *
      * @return \Propel\Tests\Bookstore\DistributionVirtualStoreQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof \Propel\Tests\Bookstore\DistributionVirtualStoreQuery) {
             return $criteria;

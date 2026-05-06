@@ -28,7 +28,7 @@ class BookstoreHeadQuery extends BookstoreManagerQuery
      *
      * @return \Propel\Tests\Bookstore\BookstoreHeadQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof \Propel\Tests\Bookstore\BookstoreHeadQuery) {
             return $criteria;

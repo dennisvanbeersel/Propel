@@ -28,7 +28,7 @@ class BookstoreCashierQuery extends BookstoreEmployeeQuery
      *
      * @return \Propel\Tests\Bookstore\BookstoreCashierQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof \Propel\Tests\Bookstore\BookstoreCashierQuery) {
             return $criteria;
