@@ -331,9 +331,6 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Builder/Om/ObjectBuilder.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[addDoInsertBodyWithIdMethod]]></code>
-    </PossiblyUnusedMethod>
     <UnnecessaryVarAnnotation>
       <code><![CDATA[\Propel\Generator\Model\Column]]></code>
       <code><![CDATA[\Propel\Generator\Model\Column]]></code>

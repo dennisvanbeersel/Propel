@@ -564,7 +564,6 @@ trait ForeignKeyBuilderTrait
             $this->addCrossFKAdd($script, $crossFKs);
             $this->addCrossFKDoAdd($script, $crossFKs);
             $this->addCrossFKRemove($script, $crossFKs);
-            //$this->addCrossFKRemoves($script, $crossFKs);
         }
     }
 

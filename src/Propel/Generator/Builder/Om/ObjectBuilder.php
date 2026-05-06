@@ -225,9 +225,10 @@ class ObjectBuilder extends AbstractObjectBuilder
         }
 
         // Check foreign keys to see if there are any foreign keys that
-        // are also matched with an inversed referencing foreign key
-        // (this is currently unsupported behavior)
-        // see: http://propel.phpdb.org/trac/ticket/549
+        // are also matched with an inversed referencing foreign key.
+        // Propel does not support such 1:1 relations defined in both
+        // directions because each side would generate a setter that
+        // re-syncs the other, producing infinite recursion at runtime.
 
         foreach ($table->getForeignKeys() as $fk) {
             if ($fk->isMatchedByInverseFK()) {
@@ -944,7 +945,8 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     {
         $table = $this->getTable();
         // FIXME - Apply support for PHP default expressions here
-        // see: http://propel.phpdb.org/trac/ticket/378
+        // (only literal default values are honoured; arbitrary PHP expressions
+        // declared via defaultExpr are not yet evaluated when applying defaults).
 
         $colsWithDefaults = [];
         foreach ($table->getColumns() as $column) {
@@ -2493,10 +2495,9 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             $this->addGetPrimaryKeySinglePK($script);
         } elseif (count($pkeys) > 1) {
             $this->addGetPrimaryKeyMultiPK($script);
-        } else {
-            // no primary key -- this is deprecated, since we don't *need* this method anymore
-            $this->addGetPrimaryKeyNoPK($script);
         }
+        // Tables with no primary key emit no getPrimaryKey() method —
+        // ActiveRecord no longer requires one.
     }
 
     /**
@@ -2551,33 +2552,6 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         $script .= "
 
         return \$pks;
-    }
-";
-    }
-
-    /**
-     * Adds the getPrimaryKey() method for objects that have no primary key.
-     * This "feature" is deprecated, since the getPrimaryKey() method is not required
-     * by the Persistent interface (or used by the templates). Hence, this method is also
-     * deprecated.
-     *
-     * @deprecated Not needed anymore.
-     *
-     * @param string $script The script will be modified in this method.
-     *
-     * @return void
-     */
-    protected function addGetPrimaryKeyNoPK(string &$script): void
-    {
-        $script .= "
-    /**
-     * Returns NULL since this table doesn't have a primary key.
-     * This method exists only for BC and is deprecated!
-     * @return null
-     */
-    public function getPrimaryKey()
-    {
-        return null;
     }
 ";
     }
@@ -2875,66 +2849,6 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         \$this->setNew(false);
     }
 ";
-
-        return $script;
-    }
-
-    /**
-     * @return string
-     */
-    protected function addDoInsertBodyStandard(): string
-    {
-        return "
-        \$pk = \$criteria->doInsert(\$con);";
-    }
-
-    /**
-     * @return string
-     */
-    protected function addDoInsertBodyWithIdMethod(): string
-    {
-        $table = $this->getTable();
-        $script = '';
-        foreach ($table->getPrimaryKey() as $col) {
-            if (!$col->isAutoIncrement()) {
-                continue;
-            }
-            $colConst = $this->getColumnConstant($col);
-            if (!$table->isAllowPkInsert()) {
-                $script .= "
-        if (\$criteria->keyContainsValue($colConst) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . $colConst . ')');
-        }";
-                if (!$this->getPlatform()->supportsInsertNullPk()) {
-                    $script .= "
-        // remove pkey col since this table uses auto-increment and passing a null value for it is not valid
-        \$criteria->remove($colConst);";
-                }
-            } elseif (!$this->getPlatform()->supportsInsertNullPk()) {
-                $script .= "
-        // remove pkey col if it is null since this table does not accept that
-        if (\$criteria->containsKey($colConst) && !\$criteria->keyContainsValue($colConst) ) {
-            \$criteria->remove($colConst);
-        }";
-            }
-        }
-
-        $script .= $this->addDoInsertBodyStandard();
-
-        foreach ($table->getPrimaryKey() as $col) {
-            if (!$col->isAutoIncrement()) {
-                continue;
-            }
-            if ($table->isAllowPkInsert()) {
-                $script .= "
-        if (\$pk !== null) {
-            \$this->set" . $col->getPhpName() . "(\$pk);  //[IMV] update autoincrement primary key
-        }";
-            } else {
-                $script .= "
-        \$this->set" . $col->getPhpName() . '($pk);  //[IMV] update autoincrement primary key';
-            }
-        }
 
         return $script;
     }
@@ -3545,8 +3459,9 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         if (\$makeNew) {
             \$copyObj->setNew(true);";
 
-        // Note: we're no longer resetting non-autoincrement primary keys to default values
-        // due to: http://propel.phpdb.org/trac/ticket/618
+        // Note: we no longer reset non-autoincrement primary keys to default
+        // values when copying — doing so silently dropped intentional PK
+        // assignments and broke schemas with composite or natural keys.
         foreach ($autoIncCols as $col) {
             $coldefval = $col->getPhpDefaultValue();
             $coldefval = var_export($coldefval, true);

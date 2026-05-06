@@ -303,13 +303,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKAdd(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $collName = $this->getRefFKCollVarName($refFK);
 
@@ -560,13 +554,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKDoAdd(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $relatedObjectClassName = $this->getRefFKPhpNameAffix($refFK, false);
         $lowerRelatedObjectClassName = lcfirst($relatedObjectClassName);
@@ -592,13 +580,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKRemove(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $relatedName = $this->getRefFKPhpNameAffix($refFK, true);
         $relatedObjectClassName = $this->getRefFKPhpNameAffix($refFK, false);
