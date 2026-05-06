@@ -487,6 +487,27 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="generated" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: marks this column as a database-side generated column. Values: 'virtual' (computed on read; MySQL/MariaDB only) or 'stored' (persisted at write; MySQL/MariaDB and PostgreSQL).
+                    If 'generated' is present, 'expression' MUST also be present. Validation is enforced at model-load time (XSD 1.0 cannot express conditional presence).
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="virtual"/>
+                    <xs:enumeration value="stored"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: SQL expression for a generated column. Must be paired with a 'generated' value. The expression is emitted verbatim to the database; it is not validated by the schema loader.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="foreign-key">

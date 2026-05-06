@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Phase C fixture (Task C.1.2): exercises generated/expression attributes on <column>.
+-->
+<database name="phase_c_generated" defaultIdMethod="native">
+    <table name="users">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="first_name" type="VARCHAR" size="100"/>
+        <column name="last_name" type="VARCHAR" size="100"/>
+        <column name="full_name" type="VARCHAR" size="200"
+                generated="stored"
+                expression="CONCAT(first_name, ' ', last_name)"/>
+        <column name="full_name_v" type="VARCHAR" size="200"
+                generated="virtual"
+                expression="CONCAT(first_name, ' ', last_name)"/>
+    </table>
+</database>
