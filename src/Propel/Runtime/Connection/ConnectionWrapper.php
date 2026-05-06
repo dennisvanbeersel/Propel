@@ -388,13 +388,20 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      */
     public function prepare(string $statement, array $driverOptions = [])
     {
-        if ($this->isCachePreparedStatements && isset($this->cachedPreparedStatements[$statement])) {
-            $statementWrapper = $this->cachedPreparedStatements[$statement];
+        // Cache key must include $driverOptions: two prepares of the same SQL
+        // with different cursor types / fetch modes / etc. yield semantically
+        // different statements. Previously the cache silently returned the
+        // first one for ANY $driverOptions value, masking subtle bugs. Use
+        // a NUL-byte separator + serialize for a stable + collision-free key.
+        $cacheKey = $driverOptions === [] ? $statement : $statement . "\0" . serialize($driverOptions);
+
+        if ($this->isCachePreparedStatements && isset($this->cachedPreparedStatements[$cacheKey])) {
+            $statementWrapper = $this->cachedPreparedStatements[$cacheKey];
         } else {
             $statementWrapper = $this->createStatementWrapper($statement);
             $statementWrapper->prepare($driverOptions);
             if ($this->isCachePreparedStatements) {
-                $this->cachedPreparedStatements[$statement] = $statementWrapper;
+                $this->cachedPreparedStatements[$cacheKey] = $statementWrapper;
             }
         }
 
