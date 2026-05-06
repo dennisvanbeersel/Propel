@@ -508,6 +508,13 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: marks the column as INVISIBLE (MySQL 8.0.23+ / MariaDB 10.3+). Hidden from SELECT * but selectable explicitly. Cannot be combined with primaryKey="true" — MySQL/MariaDB reject INVISIBLE primary keys.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="foreign-key">
