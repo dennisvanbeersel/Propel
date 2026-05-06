@@ -59,7 +59,7 @@
             "returnType": "bool"
         },
         {
-            "name": "__sleep",
+            "name": "__serialize",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -68,12 +68,21 @@
             "returnType": "array"
         },
         {
-            "name": "__wakeup",
+            "name": "__unserialize",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
-            "parameters": [],
+            "parameters": [
+                {
+                    "name": "data",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
             "returnType": "void"
         },
         {

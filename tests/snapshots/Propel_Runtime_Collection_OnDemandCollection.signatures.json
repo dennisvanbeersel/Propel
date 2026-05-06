@@ -189,7 +189,7 @@
                     "nullable": true
                 }
             ],
-            "returnType": null
+            "returnType": "mixed"
         },
         {
             "name": "offsetSet",

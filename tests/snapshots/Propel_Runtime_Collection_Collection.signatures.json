@@ -8,7 +8,6 @@
         "ArrayAccess",
         "Countable",
         "IteratorAggregate",
-        "Serializable",
         "Stringable",
         "Traversable"
     ],
@@ -447,7 +446,7 @@
                     "nullable": true
                 }
             ],
-            "returnType": null
+            "returnType": "mixed"
         },
         {
             "name": "offsetSet",
@@ -575,15 +574,6 @@
             "returnType": null
         },
         {
-            "name": "serialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "?string"
-        },
-        {
             "name": "set",
             "visibility": "public",
             "isStatic": false,
@@ -671,24 +661,6 @@
             "isFinal": false,
             "parameters": [],
             "returnType": null
-        },
-        {
-            "name": "unserialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "data",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
         }
     ],
     "phpDocMethods": [

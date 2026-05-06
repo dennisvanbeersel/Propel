@@ -16,6 +16,24 @@
             "returnType": null
         },
         {
+            "name": "getReflectionClass",
+            "visibility": "protected",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "ReflectionClass"
+        },
+        {
             "name": "isWithOneToMany",
             "visibility": "protected",
             "isStatic": false,
