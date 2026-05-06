@@ -175,6 +175,22 @@ class MigrationManager extends AbstractManager
             try {
                 $migrationData += $this->getMigrationData($name);
             } catch (PDOException $e) {
+                if (!$this->isTableNotFoundError($e)) {
+                    // Re-throw real errors (typo'd migration table name,
+                    // permission issues, network failures, schema drift,
+                    // etc.) instead of silently creating the table and
+                    // masking the real problem.
+                    throw new RuntimeException(
+                        sprintf(
+                            'Migration table "%s" could not be queried on connection "%s": %s',
+                            $this->getMigrationTable(),
+                            $name,
+                            $e->getMessage(),
+                        ),
+                        0,
+                        $e,
+                    );
+                }
                 $this->createMigrationTable($name);
                 $migrationData = [];
             }
@@ -191,6 +207,38 @@ class MigrationManager extends AbstractManager
         return array_map(function (array $migration) {
             return (int)$migration[static::COL_VERSION];
         }, $migrationData);
+    }
+
+    /**
+     * Heuristic for "the migration table does not exist yet" — the only
+     * PDOException we want to silently auto-create the table for.
+     *
+     * Matches by SQLSTATE (MySQL 42S02, PG 42P01, SQLite "no such table")
+     * AND by message content as a safety net (drivers vary on which they
+     * report). Other PDOExceptions (column drift, permissions, network)
+     * propagate unchanged so users see the real failure.
+     *
+     * @param \PDOException $e
+     *
+     * @return bool
+     */
+    protected function isTableNotFoundError(PDOException $e): bool
+    {
+        $sqlState = (string)$e->getCode();
+        if (in_array($sqlState, ['42S02', '42P01'], true)) {
+            return true;
+        }
+        $message = (string)$e->getMessage();
+        if (
+            str_contains($message, 'no such table')          // SQLite
+            || str_contains($message, 'does not exist')      // PostgreSQL
+            || str_contains($message, "doesn't exist")       // MySQL/MariaDB
+            || str_contains($message, 'Base table or view not found')
+        ) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
