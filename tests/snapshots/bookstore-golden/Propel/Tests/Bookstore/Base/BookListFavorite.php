@@ -1089,7 +1089,7 @@ abstract class BookListFavorite implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setFavoriteBook(?ChildBook $v = null)
+    public function setFavoriteBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1117,7 +1117,7 @@ abstract class BookListFavorite implements ActiveRecordInterface
      * @return ChildBook The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getFavoriteBook(?ConnectionInterface $con = null)
+    public function getFavoriteBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aFavoriteBook === null && ($this->book_id !== null)) {
             $this->aFavoriteBook = ChildBookQuery::create()->findPk($this->book_id, $con);
@@ -1140,7 +1140,7 @@ abstract class BookListFavorite implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setFavoriteBookClubList(?ChildBookClubList $v = null)
+    public function setFavoriteBookClubList(?ChildBookClubList $v = null): self
     {
         if ($v === null) {
             $this->setBookClubListId(NULL);
@@ -1168,7 +1168,7 @@ abstract class BookListFavorite implements ActiveRecordInterface
      * @return ChildBookClubList The associated ChildBookClubList object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getFavoriteBookClubList(?ConnectionInterface $con = null)
+    public function getFavoriteBookClubList(?ConnectionInterface $con = null): ?ChildBookClubList
     {
         if ($this->aFavoriteBookClubList === null && ($this->book_club_list_id !== null)) {
             $this->aFavoriteBookClubList = ChildBookClubListQuery::create()->findPk($this->book_club_list_id, $con);

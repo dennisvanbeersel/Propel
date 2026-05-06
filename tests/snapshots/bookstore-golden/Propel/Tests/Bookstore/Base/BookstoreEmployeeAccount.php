@@ -1693,7 +1693,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstoreEmployee(?ChildBookstoreEmployee $v = null)
+    public function setBookstoreEmployee(?ChildBookstoreEmployee $v = null): self
     {
         if ($v === null) {
             $this->setEmployeeId(NULL);
@@ -1720,7 +1720,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @return ChildBookstoreEmployee The associated ChildBookstoreEmployee object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstoreEmployee(?ConnectionInterface $con = null)
+    public function getBookstoreEmployee(?ConnectionInterface $con = null): ?ChildBookstoreEmployee
     {
         if ($this->aBookstoreEmployee === null && ($this->employee_id !== null)) {
             $this->aBookstoreEmployee = ChildBookstoreEmployeeQuery::create()->findPk($this->employee_id, $con);
@@ -1740,7 +1740,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAcctAccessRole(?ChildAcctAccessRole $v = null)
+    public function setAcctAccessRole(?ChildAcctAccessRole $v = null): self
     {
         if ($v === null) {
             $this->setRoleId(NULL);
@@ -1768,7 +1768,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @return ChildAcctAccessRole|null The associated ChildAcctAccessRole object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAcctAccessRole(?ConnectionInterface $con = null)
+    public function getAcctAccessRole(?ConnectionInterface $con = null): ?ChildAcctAccessRole
     {
         if ($this->aAcctAccessRole === null && ($this->role_id !== null)) {
             $this->aAcctAccessRole = ChildAcctAccessRoleQuery::create()->findPk($this->role_id, $con);

@@ -1945,7 +1945,7 @@ abstract class Book implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setPublisher(?ChildPublisher $v = null)
+    public function setPublisher(?ChildPublisher $v = null): self
     {
         if ($v === null) {
             $this->setPublisherId(NULL);
@@ -1973,7 +1973,7 @@ abstract class Book implements ActiveRecordInterface
      * @return ChildPublisher|null The associated ChildPublisher object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getPublisher(?ConnectionInterface $con = null)
+    public function getPublisher(?ConnectionInterface $con = null): ?ChildPublisher
     {
         if ($this->aPublisher === null && ($this->publisher_id !== null)) {
             $this->aPublisher = ChildPublisherQuery::create()->findPk($this->publisher_id, $con);
@@ -1996,7 +1996,7 @@ abstract class Book implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAuthor(?ChildAuthor $v = null)
+    public function setAuthor(?ChildAuthor $v = null): self
     {
         if ($v === null) {
             $this->setAuthorId(NULL);
@@ -2024,7 +2024,7 @@ abstract class Book implements ActiveRecordInterface
      * @return ChildAuthor|null The associated ChildAuthor object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAuthor(?ConnectionInterface $con = null)
+    public function getAuthor(?ConnectionInterface $con = null): ?ChildAuthor
     {
         if ($this->aAuthor === null && ($this->author_id !== null)) {
             $this->aAuthor = ChildAuthorQuery::create()->findPk($this->author_id, $con);

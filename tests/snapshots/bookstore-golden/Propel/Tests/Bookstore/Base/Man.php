@@ -1107,7 +1107,7 @@ abstract class Man implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setWomanRelatedByWifeId(?ChildWoman $v = null)
+    public function setWomanRelatedByWifeId(?ChildWoman $v = null): self
     {
         if ($v === null) {
             $this->setWifeId(NULL);
@@ -1135,7 +1135,7 @@ abstract class Man implements ActiveRecordInterface
      * @return ChildWoman|null The associated ChildWoman object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getWomanRelatedByWifeId(?ConnectionInterface $con = null)
+    public function getWomanRelatedByWifeId(?ConnectionInterface $con = null): ?ChildWoman
     {
         if ($this->aWomanRelatedByWifeId === null && ($this->wife_id !== null)) {
             $this->aWomanRelatedByWifeId = ChildWomanQuery::create()->findPk($this->wife_id, $con);

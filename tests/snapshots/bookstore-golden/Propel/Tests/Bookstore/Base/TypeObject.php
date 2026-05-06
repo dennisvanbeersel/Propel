@@ -1360,7 +1360,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setTypeObject(?TypeObjectInterface $v = null)
+    public function setTypeObject(?TypeObjectInterface $v = null): self
     {
         if ($v === null) {
             $this->setSelfRef(NULL);
@@ -1388,7 +1388,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @return TypeObjectInterface|null
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getTypeObject(?ConnectionInterface $con = null)
+    public function getTypeObject(?ConnectionInterface $con = null): ?TypeObjectInterface
     {
         if ($this->aTypeObject === null && ($this->self_ref !== null)) {
             $this->aTypeObject = ChildTypeObjectQuery::create()->findPk($this->self_ref, $con);

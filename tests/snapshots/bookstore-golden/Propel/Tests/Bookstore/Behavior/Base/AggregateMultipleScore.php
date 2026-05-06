@@ -1215,16 +1215,8 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAggregateMultipleScoreGroup(?ChildAggregateMultipleScoreGroup $v = null)
+    public function setAggregateMultipleScoreGroup(?ChildAggregateMultipleScoreGroup $v = null): self
     {
-        // aggregate_column_relation behavior
-        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
-            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore1 = $this->aAggregateMultipleScoreGroup;
-        }
-        // aggregate_column_relation behavior
-        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
-            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore = $this->aAggregateMultipleScoreGroup;
-        }
         if ($v === null) {
             $this->setScoreGroupId(NULL);
         } else {
@@ -1251,7 +1243,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @return ChildAggregateMultipleScoreGroup|null The associated ChildAggregateMultipleScoreGroup object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAggregateMultipleScoreGroup(?ConnectionInterface $con = null)
+    public function getAggregateMultipleScoreGroup(?ConnectionInterface $con = null): ?ChildAggregateMultipleScoreGroup
     {
         if ($this->aAggregateMultipleScoreGroup === null && ($this->score_group_id !== null)) {
             $this->aAggregateMultipleScoreGroup = ChildAggregateMultipleScoreGroupQuery::create()->findPk($this->score_group_id, $con);

@@ -1170,7 +1170,7 @@ abstract class ReleasePool implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setRecordLabel(?ChildRecordLabel $v = null)
+    public function setRecordLabel(?ChildRecordLabel $v = null): self
     {
         if ($v === null) {
             $this->setRecordLabelId(NULL);
@@ -1204,7 +1204,7 @@ abstract class ReleasePool implements ActiveRecordInterface
      * @return ChildRecordLabel The associated ChildRecordLabel object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getRecordLabel(?ConnectionInterface $con = null)
+    public function getRecordLabel(?ConnectionInterface $con = null): ?ChildRecordLabel
     {
         if ($this->aRecordLabel === null && ($this->record_label_id !== null && ($this->record_label_abbr !== "" && $this->record_label_abbr !== null))) {
             $this->aRecordLabel = ChildRecordLabelQuery::create()->findPk(array($this->record_label_id, $this->record_label_abbr), $con);

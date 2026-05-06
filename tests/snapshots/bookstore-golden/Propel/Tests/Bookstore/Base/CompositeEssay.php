@@ -1316,7 +1316,7 @@ abstract class CompositeEssay implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setfirstEssay(?ChildCompositeEssay $v = null)
+    public function setfirstEssay(?ChildCompositeEssay $v = null): self
     {
         if ($v === null) {
             $this->setFirstEssayId(NULL);
@@ -1344,7 +1344,7 @@ abstract class CompositeEssay implements ActiveRecordInterface
      * @return ChildCompositeEssay|null The associated ChildCompositeEssay object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getfirstEssay(?ConnectionInterface $con = null)
+    public function getfirstEssay(?ConnectionInterface $con = null): ?ChildCompositeEssay
     {
         if ($this->afirstEssay === null && ($this->first_essay_id !== null)) {
             $this->afirstEssay = ChildCompositeEssayQuery::create()->findPk($this->first_essay_id, $con);
@@ -1367,7 +1367,7 @@ abstract class CompositeEssay implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setsecondEssay(?ChildCompositeEssay $v = null)
+    public function setsecondEssay(?ChildCompositeEssay $v = null): self
     {
         if ($v === null) {
             $this->setSecondEssayId(NULL);
@@ -1395,7 +1395,7 @@ abstract class CompositeEssay implements ActiveRecordInterface
      * @return ChildCompositeEssay|null The associated ChildCompositeEssay object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getsecondEssay(?ConnectionInterface $con = null)
+    public function getsecondEssay(?ConnectionInterface $con = null): ?ChildCompositeEssay
     {
         if ($this->asecondEssay === null && ($this->second_essay_id !== null)) {
             $this->asecondEssay = ChildCompositeEssayQuery::create()->findPk($this->second_essay_id, $con);

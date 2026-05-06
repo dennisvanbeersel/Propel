@@ -1295,7 +1295,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstore(?ChildBookstore $v = null)
+    public function setBookstore(?ChildBookstore $v = null): self
     {
         if ($v === null) {
             $this->setBookstoreId(1);
@@ -1323,7 +1323,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @return ChildBookstore|null The associated ChildBookstore object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstore(?ConnectionInterface $con = null)
+    public function getBookstore(?ConnectionInterface $con = null): ?ChildBookstore
     {
         if ($this->aBookstore === null && ($this->bookstore_id !== null)) {
             $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
@@ -1346,7 +1346,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setPublisher(?ChildPublisher $v = null)
+    public function setPublisher(?ChildPublisher $v = null): self
     {
         if ($v === null) {
             $this->setPublisherId(NULL);
@@ -1374,7 +1374,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @return ChildPublisher|null The associated ChildPublisher object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getPublisher(?ConnectionInterface $con = null)
+    public function getPublisher(?ConnectionInterface $con = null): ?ChildPublisher
     {
         if ($this->aPublisher === null && ($this->publisher_id !== null)) {
             $this->aPublisher = ChildPublisherQuery::create()->findPk($this->publisher_id, $con);

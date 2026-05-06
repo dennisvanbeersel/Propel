@@ -1254,7 +1254,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstore(?ChildBookstore $v = null)
+    public function setBookstore(?ChildBookstore $v = null): self
     {
         if ($v === null) {
             $this->setBookstoreId(NULL);
@@ -1282,7 +1282,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return ChildBookstore The associated ChildBookstore object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstore(?ConnectionInterface $con = null)
+    public function getBookstore(?ConnectionInterface $con = null): ?ChildBookstore
     {
         if ($this->aBookstore === null && ($this->bookstore_id !== null)) {
             $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
@@ -1305,7 +1305,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setContest(?ChildContest $v = null)
+    public function setContest(?ChildContest $v = null): self
     {
         if ($v === null) {
             $this->setContestId(NULL);
@@ -1333,7 +1333,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return ChildContest The associated ChildContest object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getContest(?ConnectionInterface $con = null)
+    public function getContest(?ConnectionInterface $con = null): ?ChildContest
     {
         if ($this->aContest === null && ($this->contest_id !== null)) {
             $this->aContest = ChildContestQuery::create()->findPk($this->contest_id, $con);
@@ -1356,7 +1356,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setWork(?ChildBook $v = null)
+    public function setWork(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setPrizeBookId(NULL);
@@ -1384,7 +1384,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @return ChildBook|null The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getWork(?ConnectionInterface $con = null)
+    public function getWork(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aWork === null && ($this->prize_book_id !== null)) {
             $this->aWork = ChildBookQuery::create()->findPk($this->prize_book_id, $con);

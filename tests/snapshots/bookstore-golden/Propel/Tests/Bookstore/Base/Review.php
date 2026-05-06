@@ -1341,7 +1341,7 @@ abstract class Review implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBook(?ChildBook $v = null)
+    public function setBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1369,7 +1369,7 @@ abstract class Review implements ActiveRecordInterface
      * @return ChildBook|null The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBook(?ConnectionInterface $con = null)
+    public function getBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aBook === null && ($this->book_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->book_id, $con);

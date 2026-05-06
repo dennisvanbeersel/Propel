@@ -1420,7 +1420,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setFirstAuthor(?ChildAuthor $v = null)
+    public function setFirstAuthor(?ChildAuthor $v = null): self
     {
         if ($v === null) {
             $this->setFirstAuthorId(NULL);
@@ -1448,7 +1448,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return ChildAuthor|null The associated ChildAuthor object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getFirstAuthor(?ConnectionInterface $con = null)
+    public function getFirstAuthor(?ConnectionInterface $con = null): ?ChildAuthor
     {
         if ($this->aFirstAuthor === null && ($this->first_author_id !== null)) {
             $this->aFirstAuthor = ChildAuthorQuery::create()->findPk($this->first_author_id, $con);
@@ -1471,7 +1471,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setSecondAuthor(?ChildAuthor $v = null)
+    public function setSecondAuthor(?ChildAuthor $v = null): self
     {
         if ($v === null) {
             $this->setSecondAuthorId(NULL);
@@ -1499,7 +1499,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return ChildAuthor|null The associated ChildAuthor object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSecondAuthor(?ConnectionInterface $con = null)
+    public function getSecondAuthor(?ConnectionInterface $con = null): ?ChildAuthor
     {
         if ($this->aSecondAuthor === null && ($this->second_author_id !== null)) {
             $this->aSecondAuthor = ChildAuthorQuery::create()->findPk($this->second_author_id, $con);
@@ -1522,7 +1522,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setEssayRelatedByNextEssayId(?ChildEssay $v = null)
+    public function setEssayRelatedByNextEssayId(?ChildEssay $v = null): self
     {
         if ($v === null) {
             $this->setNextEssayId(NULL);
@@ -1550,7 +1550,7 @@ abstract class Essay implements ActiveRecordInterface
      * @return ChildEssay|null The associated ChildEssay object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getEssayRelatedByNextEssayId(?ConnectionInterface $con = null)
+    public function getEssayRelatedByNextEssayId(?ConnectionInterface $con = null): ?ChildEssay
     {
         if ($this->aEssayRelatedByNextEssayId === null && ($this->next_essay_id !== null)) {
             $this->aEssayRelatedByNextEssayId = ChildEssayQuery::create()->findPk($this->next_essay_id, $con);

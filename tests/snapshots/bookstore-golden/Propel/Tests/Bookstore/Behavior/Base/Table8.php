@@ -1091,7 +1091,7 @@ abstract class Table8 implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setTable6(?ChildTable6 $v = null)
+    public function setTable6(?ChildTable6 $v = null): self
     {
         if ($v === null) {
             $this->setFooId(NULL);
@@ -1119,7 +1119,7 @@ abstract class Table8 implements ActiveRecordInterface
      * @return ChildTable6|null The associated ChildTable6 object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getTable6(?ConnectionInterface $con = null)
+    public function getTable6(?ConnectionInterface $con = null): ?ChildTable6
     {
         if ($this->aTable6 === null && ($this->foo_id !== null)) {
             $this->aTable6 = ChildTable6Query::create()->findPk($this->foo_id, $con);

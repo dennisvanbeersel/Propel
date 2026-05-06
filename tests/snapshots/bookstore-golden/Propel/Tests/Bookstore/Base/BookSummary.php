@@ -1102,7 +1102,7 @@ abstract class BookSummary implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setSummarizedBook(?ChildBook $v = null)
+    public function setSummarizedBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1130,7 +1130,7 @@ abstract class BookSummary implements ActiveRecordInterface
      * @return ChildBook The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSummarizedBook(?ConnectionInterface $con = null)
+    public function getSummarizedBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aSummarizedBook === null && ($this->book_id !== null)) {
             $this->aSummarizedBook = ChildBookQuery::create()->findPk($this->book_id, $con);

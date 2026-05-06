@@ -1285,7 +1285,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteQuizz(?ChildConcreteQuizz $v = null)
+    public function setConcreteQuizz(?ChildConcreteQuizz $v = null): self
     {
         if ($v === null) {
             $this->setQuizzId(NULL);
@@ -1313,7 +1313,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @return ChildConcreteQuizz The associated ChildConcreteQuizz object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteQuizz(?ConnectionInterface $con = null)
+    public function getConcreteQuizz(?ConnectionInterface $con = null): ?ChildConcreteQuizz
     {
         if ($this->aConcreteQuizz === null && ($this->quizz_id !== null)) {
             $this->aConcreteQuizz = ChildConcreteQuizzQuery::create()->findPk($this->quizz_id, $con);

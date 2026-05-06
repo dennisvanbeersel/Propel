@@ -1312,7 +1312,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstore(?ChildBookstore $v = null)
+    public function setBookstore(?ChildBookstore $v = null): self
     {
         if ($v === null) {
             $this->setBookstoreId(NULL);
@@ -1340,7 +1340,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return ChildBookstore The associated ChildBookstore object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstore(?ConnectionInterface $con = null)
+    public function getBookstore(?ConnectionInterface $con = null): ?ChildBookstore
     {
         if ($this->aBookstore === null && ($this->bookstore_id !== null)) {
             $this->aBookstore = ChildBookstoreQuery::create()->findPk($this->bookstore_id, $con);
@@ -1363,7 +1363,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setCustomer(?ChildCustomer $v = null)
+    public function setCustomer(?ChildCustomer $v = null): self
     {
         if ($v === null) {
             $this->setCustomerId(NULL);
@@ -1391,7 +1391,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return ChildCustomer The associated ChildCustomer object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getCustomer(?ConnectionInterface $con = null)
+    public function getCustomer(?ConnectionInterface $con = null): ?ChildCustomer
     {
         if ($this->aCustomer === null && ($this->customer_id !== null)) {
             $this->aCustomer = ChildCustomerQuery::create()->findPk($this->customer_id, $con);
@@ -1414,7 +1414,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstoreContest(?ChildBookstoreContest $v = null)
+    public function setBookstoreContest(?ChildBookstoreContest $v = null): self
     {
         if ($v === null) {
             $this->setBookstoreId(NULL);
@@ -1448,7 +1448,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @return ChildBookstoreContest The associated ChildBookstoreContest object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstoreContest(?ConnectionInterface $con = null)
+    public function getBookstoreContest(?ConnectionInterface $con = null): ?ChildBookstoreContest
     {
         if ($this->aBookstoreContest === null && ($this->bookstore_id !== null && $this->contest_id !== null)) {
             $this->aBookstoreContest = ChildBookstoreContestQuery::create()->findPk(array($this->bookstore_id, $this->contest_id), $con);

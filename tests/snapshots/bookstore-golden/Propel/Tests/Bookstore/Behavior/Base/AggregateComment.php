@@ -1049,12 +1049,8 @@ abstract class AggregateComment implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAggregatePost(?ChildAggregatePost $v = null)
+    public function setAggregatePost(?ChildAggregatePost $v = null): self
     {
-        // aggregate_column_relation behavior
-        if (null !== $this->aAggregatePost && $v !== $this->aAggregatePost) {
-            $this->oldAggregatePostNbComments = $this->aAggregatePost;
-        }
         if ($v === null) {
             $this->setPostId(NULL);
         } else {
@@ -1081,7 +1077,7 @@ abstract class AggregateComment implements ActiveRecordInterface
      * @return ChildAggregatePost|null The associated ChildAggregatePost object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAggregatePost(?ConnectionInterface $con = null)
+    public function getAggregatePost(?ConnectionInterface $con = null): ?ChildAggregatePost
     {
         if ($this->aAggregatePost === null && ($this->post_id !== null)) {
             $this->aAggregatePost = ChildAggregatePostQuery::create()->findPk($this->post_id, $con);

@@ -1169,7 +1169,7 @@ abstract class Contest implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setCountry(?ChildCountry $v = null)
+    public function setCountry(?ChildCountry $v = null): self
     {
         if ($v === null) {
             $this->setCountryCode(NULL);
@@ -1197,7 +1197,7 @@ abstract class Contest implements ActiveRecordInterface
      * @return ChildCountry|null The associated ChildCountry object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getCountry(?ConnectionInterface $con = null)
+    public function getCountry(?ConnectionInterface $con = null): ?ChildCountry
     {
         if ($this->aCountry === null && (($this->country_code !== "" && $this->country_code !== null))) {
             $this->aCountry = ChildCountryQuery::create()->findPk($this->country_code, $con);

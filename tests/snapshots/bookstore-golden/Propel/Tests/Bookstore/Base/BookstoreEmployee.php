@@ -1465,7 +1465,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setSupervisor(?ChildBookstoreEmployee $v = null)
+    public function setSupervisor(?ChildBookstoreEmployee $v = null): self
     {
         if ($v === null) {
             $this->setSupervisorId(NULL);
@@ -1493,7 +1493,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @return ChildBookstoreEmployee|null The associated ChildBookstoreEmployee object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getSupervisor(?ConnectionInterface $con = null)
+    public function getSupervisor(?ConnectionInterface $con = null): ?ChildBookstoreEmployee
     {
         if ($this->aSupervisor === null && ($this->supervisor_id !== null)) {
             $this->aSupervisor = ChildBookstoreEmployeeQuery::create()->findPk($this->supervisor_id, $con);

@@ -1181,7 +1181,7 @@ abstract class Distribution implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setDistributionManager(?ChildDistributionManager $v = null)
+    public function setDistributionManager(?ChildDistributionManager $v = null): self
     {
         if ($v === null) {
             $this->setDistributionManagerId(NULL);
@@ -1209,7 +1209,7 @@ abstract class Distribution implements ActiveRecordInterface
      * @return ChildDistributionManager The associated ChildDistributionManager object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getDistributionManager(?ConnectionInterface $con = null)
+    public function getDistributionManager(?ConnectionInterface $con = null): ?ChildDistributionManager
     {
         if ($this->aDistributionManager === null && ($this->distribution_manager_id !== null)) {
             $this->aDistributionManager = ChildDistributionManagerQuery::create()->findPk($this->distribution_manager_id, $con);

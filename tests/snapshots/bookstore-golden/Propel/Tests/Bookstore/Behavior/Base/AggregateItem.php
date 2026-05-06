@@ -1136,16 +1136,8 @@ abstract class AggregateItem implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAggregatePoll(?ChildAggregatePoll $v = null)
+    public function setAggregatePoll(?ChildAggregatePoll $v = null): self
     {
-        // aggregate_column_relation behavior
-        if (null !== $this->aAggregatePoll && $v !== $this->aAggregatePoll) {
-            $this->oldAggregatePollNbVotes = $this->aAggregatePoll;
-        }
-        // aggregate_column_relation behavior
-        if (null !== $this->aAggregatePoll && $v !== $this->aAggregatePoll) {
-            $this->oldAggregatePollTotalScore = $this->aAggregatePoll;
-        }
         if ($v === null) {
             $this->setPollId(NULL);
         } else {
@@ -1172,7 +1164,7 @@ abstract class AggregateItem implements ActiveRecordInterface
      * @return ChildAggregatePoll|null The associated ChildAggregatePoll object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAggregatePoll(?ConnectionInterface $con = null)
+    public function getAggregatePoll(?ConnectionInterface $con = null): ?ChildAggregatePoll
     {
         if ($this->aAggregatePoll === null && ($this->poll_id !== null)) {
             $this->aAggregatePoll = ChildAggregatePollQuery::create()->findPk($this->poll_id, $con);

@@ -1140,7 +1140,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBook(?ChildBook $v = null)
+    public function setBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1168,7 +1168,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return ChildBook The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBook(?ConnectionInterface $con = null)
+    public function getBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aBook === null && ($this->book_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->book_id, $con);
@@ -1191,7 +1191,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookReader(?ChildBookReader $v = null)
+    public function setBookReader(?ChildBookReader $v = null): self
     {
         if ($v === null) {
             $this->setReaderId(NULL);
@@ -1219,7 +1219,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return ChildBookReader The associated ChildBookReader object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookReader(?ConnectionInterface $con = null)
+    public function getBookReader(?ConnectionInterface $con = null): ?ChildBookReader
     {
         if ($this->aBookReader === null && ($this->reader_id !== null)) {
             $this->aBookReader = ChildBookReaderQuery::create()->findPk($this->reader_id, $con);
@@ -1242,7 +1242,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookOpinion(?ChildBookOpinion $v = null)
+    public function setBookOpinion(?ChildBookOpinion $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1275,7 +1275,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @return ChildBookOpinion The associated ChildBookOpinion object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookOpinion(?ConnectionInterface $con = null)
+    public function getBookOpinion(?ConnectionInterface $con = null): ?ChildBookOpinion
     {
         if ($this->aBookOpinion === null && ($this->book_id !== null && $this->reader_id !== null)) {
             $this->aBookOpinion = ChildBookOpinionQuery::create()->findPk(array($this->book_id, $this->reader_id), $con);

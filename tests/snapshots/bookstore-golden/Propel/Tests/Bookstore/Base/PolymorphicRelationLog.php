@@ -1200,7 +1200,7 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setAuthor(?ChildAuthor $v = null)
+    public function setAuthor(?ChildAuthor $v = null): self
     {
         if ($v === null) {
             $this->setTargetType(null);
@@ -1234,7 +1234,7 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
      * @return ChildAuthor|null The associated ChildAuthor object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getAuthor(?ConnectionInterface $con = null)
+    public function getAuthor(?ConnectionInterface $con = null): ?ChildAuthor
     {
         if ($this->aAuthor === null && ($this->target_type === 'author' && $this->target_id !== null)) {
             $this->aAuthor = ChildAuthorQuery::create()->findPk($this->target_id, $con);
@@ -1257,7 +1257,7 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBook(?ChildBook $v = null)
+    public function setBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setTargetType(null);
@@ -1291,7 +1291,7 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
      * @return ChildBook|null The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBook(?ConnectionInterface $con = null)
+    public function getBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aBook === null && ($this->target_type === 'book' && $this->target_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->target_id, $con);

@@ -1242,7 +1242,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteCategory(?ChildConcreteCategory $v = null)
+    public function setConcreteCategory(?ChildConcreteCategory $v = null): self
     {
         if ($v === null) {
             $this->setCategoryId(NULL);
@@ -1270,7 +1270,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @return ChildConcreteCategory|null The associated ChildConcreteCategory object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteCategory(?ConnectionInterface $con = null)
+    public function getConcreteCategory(?ConnectionInterface $con = null): ?ChildConcreteCategory
     {
         if ($this->aConcreteCategory === null && ($this->category_id !== null)) {
             $this->aConcreteCategory = ChildConcreteCategoryQuery::create()->findPk($this->category_id, $con);

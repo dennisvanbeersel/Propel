@@ -1347,7 +1347,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteArticle(?ChildConcreteArticle $v = null)
+    public function setConcreteArticle(?ChildConcreteArticle $v = null): self
     {
         if ($v === null) {
             $this->setId(NULL);
@@ -1374,7 +1374,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return ChildConcreteArticle The associated ChildConcreteArticle object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteArticle(?ConnectionInterface $con = null)
+    public function getConcreteArticle(?ConnectionInterface $con = null): ?ChildConcreteArticle
     {
         if ($this->aConcreteArticle === null && ($this->id !== null)) {
             $this->aConcreteArticle = ChildConcreteArticleQuery::create()->findPk($this->id, $con);
@@ -1394,7 +1394,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteAuthor(?ChildConcreteAuthor $v = null)
+    public function setConcreteAuthor(?ChildConcreteAuthor $v = null): self
     {
         if ($v === null) {
             $this->setAuthorId(NULL);
@@ -1422,7 +1422,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return ChildConcreteAuthor|null The associated ChildConcreteAuthor object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteAuthor(?ConnectionInterface $con = null)
+    public function getConcreteAuthor(?ConnectionInterface $con = null): ?ChildConcreteAuthor
     {
         if ($this->aConcreteAuthor === null && ($this->author_id !== null)) {
             $this->aConcreteAuthor = ChildConcreteAuthorQuery::create()->findPk($this->author_id, $con);
@@ -1445,7 +1445,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteContent(?ChildConcreteContent $v = null)
+    public function setConcreteContent(?ChildConcreteContent $v = null): self
     {
         if ($v === null) {
             $this->setId(NULL);
@@ -1472,7 +1472,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return ChildConcreteContent The associated ChildConcreteContent object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteContent(?ConnectionInterface $con = null)
+    public function getConcreteContent(?ConnectionInterface $con = null): ?ChildConcreteContent
     {
         if ($this->aConcreteContent === null && ($this->id !== null)) {
             $this->aConcreteContent = ChildConcreteContentQuery::create()->findPk($this->id, $con);
@@ -1492,7 +1492,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setConcreteCategory(?ChildConcreteCategory $v = null)
+    public function setConcreteCategory(?ChildConcreteCategory $v = null): self
     {
         if ($v === null) {
             $this->setCategoryId(NULL);
@@ -1520,7 +1520,7 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      * @return ChildConcreteCategory|null The associated ChildConcreteCategory object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getConcreteCategory(?ConnectionInterface $con = null)
+    public function getConcreteCategory(?ConnectionInterface $con = null): ?ChildConcreteCategory
     {
         if ($this->aConcreteCategory === null && ($this->category_id !== null)) {
             $this->aConcreteCategory = ChildConcreteCategoryQuery::create()->findPk($this->category_id, $con);

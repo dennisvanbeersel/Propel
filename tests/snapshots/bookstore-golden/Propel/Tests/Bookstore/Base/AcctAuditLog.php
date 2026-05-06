@@ -1102,7 +1102,7 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookstoreEmployeeAccount(?ChildBookstoreEmployeeAccount $v = null)
+    public function setBookstoreEmployeeAccount(?ChildBookstoreEmployeeAccount $v = null): self
     {
         if ($v === null) {
             $this->setUid(NULL);
@@ -1130,7 +1130,7 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      * @return ChildBookstoreEmployeeAccount The associated ChildBookstoreEmployeeAccount object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookstoreEmployeeAccount(?ConnectionInterface $con = null)
+    public function getBookstoreEmployeeAccount(?ConnectionInterface $con = null): ?ChildBookstoreEmployeeAccount
     {
         if ($this->aBookstoreEmployeeAccount === null && (($this->uid !== "" && $this->uid !== null))) {
             $this->aBookstoreEmployeeAccount = ChildBookstoreEmployeeAccountQuery::create()

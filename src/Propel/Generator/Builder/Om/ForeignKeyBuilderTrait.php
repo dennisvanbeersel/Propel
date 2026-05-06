@@ -105,7 +105,7 @@ trait ForeignKeyBuilderTrait
      * @return \$this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function set" . $this->getFKPhpNameAffix($fk, false) . "(?$className \$v = null)
+    public function set" . $this->getFKPhpNameAffix($fk, false) . "(?$className \$v = null): self
     {";
 
         foreach ($fk->getMapping() as $map) {
@@ -233,7 +233,7 @@ trait ForeignKeyBuilderTrait
      * @return {$className}{$orNull} $returnDesc
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function get" . $this->getFKPhpNameAffix($fk, false) . "(?ConnectionInterface \$con = null)
+    public function get" . $this->getFKPhpNameAffix($fk, false) . "(?ConnectionInterface \$con = null): ?$className
     {";
         $script .= "
         if (\$this->$varName === null && ($conditional)) {";

@@ -1089,7 +1089,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBook(?ChildBook $v = null)
+    public function setBook(?ChildBook $v = null): self
     {
         if ($v === null) {
             $this->setBookId(NULL);
@@ -1117,7 +1117,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @return ChildBook The associated ChildBook object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBook(?ConnectionInterface $con = null)
+    public function getBook(?ConnectionInterface $con = null): ?ChildBook
     {
         if ($this->aBook === null && ($this->book_id !== null)) {
             $this->aBook = ChildBookQuery::create()->findPk($this->book_id, $con);
@@ -1140,7 +1140,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setBookClubList(?ChildBookClubList $v = null)
+    public function setBookClubList(?ChildBookClubList $v = null): self
     {
         if ($v === null) {
             $this->setBookClubListId(NULL);
@@ -1168,7 +1168,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @return ChildBookClubList The associated ChildBookClubList object.
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getBookClubList(?ConnectionInterface $con = null)
+    public function getBookClubList(?ConnectionInterface $con = null): ?ChildBookClubList
     {
         if ($this->aBookClubList === null && ($this->book_club_list_id !== null)) {
             $this->aBookClubList = ChildBookClubListQuery::create()->findPk($this->book_club_list_id, $con);
