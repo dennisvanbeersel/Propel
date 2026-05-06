@@ -402,7 +402,7 @@ abstract class BookOpinion implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -426,7 +426,7 @@ abstract class BookOpinion implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setReaderId($v)
+    public function setReaderId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -450,7 +450,7 @@ abstract class BookOpinion implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setRating($v)
+    public function setRating($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -474,7 +474,7 @@ abstract class BookOpinion implements ActiveRecordInterface
      * @param bool|integer|string|null $v The new value
      * @return $this The current object (for fluent API support)
      */
-    public function setRecommendToFriend($v)
+    public function setRecommendToFriend($v): self
     {
         if ($v !== null) {
             if (is_string($v)) {

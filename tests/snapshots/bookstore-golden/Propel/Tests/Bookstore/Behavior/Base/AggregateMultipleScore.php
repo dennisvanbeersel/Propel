@@ -418,7 +418,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -438,7 +438,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setScore($v)
+    public function setScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -459,7 +459,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setScoredAt($v)
+    public function setScoredAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->scored_at !== null || $dt !== null) {
@@ -478,7 +478,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setScoreGroupId($v)
+    public function setScoreGroupId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

@@ -394,7 +394,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookstoreId($v)
+    public function setBookstoreId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -418,7 +418,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setContestId($v)
+    public function setContestId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -442,7 +442,7 @@ abstract class BookstoreContest implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPrizeBookId($v)
+    public function setPrizeBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

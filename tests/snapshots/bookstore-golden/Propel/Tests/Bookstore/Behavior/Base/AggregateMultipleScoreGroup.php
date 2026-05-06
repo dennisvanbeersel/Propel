@@ -518,7 +518,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -539,7 +539,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setFirstScoreAt($v)
+    public function setFirstScoreAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->first_score_at !== null || $dt !== null) {
@@ -559,7 +559,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setLastScoreAt($v)
+    public function setLastScoreAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->last_score_at !== null || $dt !== null) {
@@ -578,7 +578,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTotalScore($v)
+    public function setTotalScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -598,7 +598,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setNumberOfScores($v)
+    public function setNumberOfScores($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -618,7 +618,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAvgScore($v)
+    public function setAvgScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -638,7 +638,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setMinScore($v)
+    public function setMinScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -658,7 +658,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setMaxScore($v)
+    public function setMaxScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -678,7 +678,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTotalBigScore($v)
+    public function setTotalBigScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -698,7 +698,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setNumberOfBigScores($v)
+    public function setNumberOfBigScores($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

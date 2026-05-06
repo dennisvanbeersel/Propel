@@ -556,7 +556,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setEmployeeId($v)
+    public function setEmployeeId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -580,7 +580,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setLogin($v)
+    public function setLogin($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -600,7 +600,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPassword($v)
+    public function setPassword($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -624,7 +624,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param bool|integer|string|null $v The new value
      * @return $this The current object (for fluent API support)
      */
-    public function setEnabled($v)
+    public function setEnabled($v): self
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -652,7 +652,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param bool|integer|string|null $v The new value
      * @return $this The current object (for fluent API support)
      */
-    public function setNotEnabled($v)
+    public function setNotEnabled($v): self
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -677,7 +677,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setCreated($v)
+    public function setCreated($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->created !== null || $dt !== null) {
@@ -697,7 +697,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setUpdated($v)
+    public function setUpdated($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->updated !== null || $dt !== null) {
@@ -716,7 +716,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setRoleId($v)
+    public function setRoleId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -740,7 +740,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAuthenticator($v)
+    public function setAuthenticator($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

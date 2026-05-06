@@ -131,7 +131,7 @@ trait ColumnMutatorBuilderTrait
         }
 
         $script .= "
-    " . $visibility . " function set$cfc($typeHint\$v$null)
+    " . $visibility . " function set$cfc($typeHint\$v$null): self
     {";
     }
 

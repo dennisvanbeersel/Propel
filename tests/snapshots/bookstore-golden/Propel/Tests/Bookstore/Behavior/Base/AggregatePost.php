@@ -356,7 +356,7 @@ abstract class AggregatePost implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -376,7 +376,7 @@ abstract class AggregatePost implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setNbComments($v)
+    public function setNbComments($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

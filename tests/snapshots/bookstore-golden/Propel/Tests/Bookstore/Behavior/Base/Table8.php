@@ -361,7 +361,7 @@ abstract class Table8 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -381,7 +381,7 @@ abstract class Table8 implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setFooId($v)
+    public function setFooId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -405,7 +405,7 @@ abstract class Table8 implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setIdentifier($v)
+    public function setIdentifier($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

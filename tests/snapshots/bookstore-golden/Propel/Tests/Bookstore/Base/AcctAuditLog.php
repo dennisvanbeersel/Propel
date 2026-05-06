@@ -361,7 +361,7 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -381,7 +381,7 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setUid($v)
+    public function setUid($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -405,7 +405,7 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setMessage($v)
+    public function setMessage($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

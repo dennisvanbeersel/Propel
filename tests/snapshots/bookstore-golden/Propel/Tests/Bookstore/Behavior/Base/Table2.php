@@ -397,7 +397,7 @@ abstract class Table2 implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -417,7 +417,7 @@ abstract class Table2 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -438,7 +438,7 @@ abstract class Table2 implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setCreatedAt($v)
+    public function setCreatedAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->created_at !== null || $dt !== null) {
@@ -458,7 +458,7 @@ abstract class Table2 implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setUpdatedAt($v)
+    public function setUpdatedAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->updated_at !== null || $dt !== null) {

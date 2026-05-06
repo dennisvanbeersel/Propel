@@ -358,7 +358,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -386,7 +386,7 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setReaderId($v)
+    public function setReaderId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

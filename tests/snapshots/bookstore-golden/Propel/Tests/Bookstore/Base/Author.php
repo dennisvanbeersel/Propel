@@ -455,7 +455,7 @@ abstract class Author implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -475,7 +475,7 @@ abstract class Author implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setFirstName($v)
+    public function setFirstName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -495,7 +495,7 @@ abstract class Author implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setLastName($v)
+    public function setLastName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -515,7 +515,7 @@ abstract class Author implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setEmail($v)
+    public function setEmail($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -535,7 +535,7 @@ abstract class Author implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAge($v)
+    public function setAge($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

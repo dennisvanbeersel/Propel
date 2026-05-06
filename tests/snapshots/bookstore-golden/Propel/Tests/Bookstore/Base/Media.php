@@ -464,7 +464,7 @@ abstract class Media implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -484,7 +484,7 @@ abstract class Media implements ActiveRecordInterface
      * @param resource|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setCoverImage($v)
+    public function setCoverImage($v): self
     {
         // explicitly set the is-loaded flag to true for this lazy load col;
         // it doesn't matter if the value is actually set or not (logic below) as
@@ -513,7 +513,7 @@ abstract class Media implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setExcerpt($v)
+    public function setExcerpt($v): self
     {
         // explicitly set the is-loaded flag to true for this lazy load col;
         // it doesn't matter if the value is actually set or not (logic below) as
@@ -539,7 +539,7 @@ abstract class Media implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

@@ -412,7 +412,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -432,7 +432,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setQuestion($v)
+    public function setQuestion($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -452,7 +452,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAnswer1($v)
+    public function setAnswer1($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -472,7 +472,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAnswer2($v)
+    public function setAnswer2($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -492,7 +492,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setCorrectAnswer($v)
+    public function setCorrectAnswer($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -512,7 +512,7 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setQuizzId($v)
+    public function setQuizzId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

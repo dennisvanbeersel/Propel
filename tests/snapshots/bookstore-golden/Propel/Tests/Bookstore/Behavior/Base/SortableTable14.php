@@ -403,7 +403,7 @@ abstract class SortableTable14 implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -423,7 +423,7 @@ abstract class SortableTable14 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -444,7 +444,7 @@ abstract class SortableTable14 implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setStyle2($v)
+    public function setStyle2($v): self
     {
         if ($this->style2_converted === null || count(array_diff($this->style2_converted, $v)) > 0 || count(array_diff($v, $this->style2_converted)) > 0) {
             $valueSet = SortableTable14TableMap::getValueSet(SortableTable14TableMap::COL_STYLE2);
@@ -472,7 +472,7 @@ abstract class SortableTable14 implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSortableRank($v)
+    public function setSortableRank($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

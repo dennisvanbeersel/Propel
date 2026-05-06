@@ -438,7 +438,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -458,7 +458,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -478,7 +478,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setFirstAuthorId($v)
+    public function setFirstAuthorId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -502,7 +502,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSecondAuthorId($v)
+    public function setSecondAuthorId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -526,7 +526,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSecondTitle($v)
+    public function setSecondTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -546,7 +546,7 @@ abstract class Essay implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setNextEssayId($v)
+    public function setNextEssayId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

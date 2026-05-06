@@ -475,7 +475,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -495,7 +495,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -516,7 +516,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setStyle($v)
+    public function setStyle($v): self
     {
         if ($v !== null) {
             $valueSet = Book2TableMap::getValueSet(Book2TableMap::COL_STYLE);
@@ -541,7 +541,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @return $this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function setStyle2($v)
+    public function setStyle2($v): self
     {
         if ($this->style2_converted === null || count(array_diff($this->style2_converted, $v)) > 0 || count(array_diff($v, $this->style2_converted)) > 0) {
             $valueSet = Book2TableMap::getValueSet(Book2TableMap::COL_STYLE2);
@@ -566,7 +566,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @param array|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTags($v)
+    public function setTags($v): self
     {
         if ($this->tags_unserialized !== $v) {
             $this->tags_unserialized = $v;
@@ -617,7 +617,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setUuid($v)
+    public function setUuid($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -637,7 +637,7 @@ abstract class Book2 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setUuidBin($v)
+    public function setUuidBin($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

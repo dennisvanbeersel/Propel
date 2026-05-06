@@ -373,7 +373,7 @@ abstract class AggregatePoll implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -393,7 +393,7 @@ abstract class AggregatePoll implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTotalScore($v)
+    public function setTotalScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -413,7 +413,7 @@ abstract class AggregatePoll implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setNbVotes($v)
+    public function setNbVotes($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

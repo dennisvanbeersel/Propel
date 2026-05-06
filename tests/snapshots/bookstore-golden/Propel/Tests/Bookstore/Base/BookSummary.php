@@ -361,7 +361,7 @@ abstract class BookSummary implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -381,7 +381,7 @@ abstract class BookSummary implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -405,7 +405,7 @@ abstract class BookSummary implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSummary($v)
+    public function setSummary($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

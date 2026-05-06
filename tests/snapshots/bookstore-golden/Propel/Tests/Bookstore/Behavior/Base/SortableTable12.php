@@ -386,7 +386,7 @@ abstract class SortableTable12 implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -406,7 +406,7 @@ abstract class SortableTable12 implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -426,7 +426,7 @@ abstract class SortableTable12 implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPosition($v)
+    public function setPosition($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -446,7 +446,7 @@ abstract class SortableTable12 implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setMyScopeColumn($v)
+    public function setMyScopeColumn($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

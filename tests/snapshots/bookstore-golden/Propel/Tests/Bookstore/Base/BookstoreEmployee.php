@@ -493,7 +493,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -513,7 +513,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setClassKey($v)
+    public function setClassKey($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -533,7 +533,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setName($v)
+    public function setName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -553,7 +553,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setJobTitle($v)
+    public function setJobTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -573,7 +573,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSupervisorId($v)
+    public function setSupervisorId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -597,7 +597,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * @param resource|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPhoto($v)
+    public function setPhoto($v): self
     {
         // explicitly set the is-loaded flag to true for this lazy load col;
         // it doesn't matter if the value is actually set or not (logic below) as

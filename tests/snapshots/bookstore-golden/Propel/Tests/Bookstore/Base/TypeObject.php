@@ -454,7 +454,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -474,7 +474,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @param  $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setDetails($v)
+    public function setDetails($v): self
     {
         if (null === $this->details || (rewind($this->details) !== false && stream_get_contents($this->details) !== serialize($v))) {
             $this->details_unserialized = $v;
@@ -493,7 +493,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @param  $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setDummyObject(?DummyObjectClass $v = null)
+    public function setDummyObject(?DummyObjectClass $v = null): self
     {
         if (null === $this->dummy_object || (rewind($this->dummy_object) !== false && stream_get_contents($this->dummy_object) !== serialize($v))) {
             $this->dummy_object_unserialized = $v;
@@ -512,7 +512,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSelfRef($v)
+    public function setSelfRef($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -536,7 +536,7 @@ abstract class TypeObject implements ActiveRecordInterface
      * @param array|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSomeArray(?array $v = null)
+    public function setSomeArray(?array $v = null): self
     {
         if ($this->some_array_unserialized !== $v) {
             $this->some_array_unserialized = $v;

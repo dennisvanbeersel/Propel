@@ -387,7 +387,7 @@ abstract class AggregateItem implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -407,7 +407,7 @@ abstract class AggregateItem implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setScore($v)
+    public function setScore($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -427,7 +427,7 @@ abstract class AggregateItem implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPollId($v)
+    public function setPollId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

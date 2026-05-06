@@ -417,7 +417,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -437,7 +437,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookstoreId($v)
+    public function setBookstoreId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -461,7 +461,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPublisherId($v)
+    public function setPublisherId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -485,7 +485,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setSaleName($v)
+    public function setSaleName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -505,7 +505,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setDiscount($v)
+    public function setDiscount($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

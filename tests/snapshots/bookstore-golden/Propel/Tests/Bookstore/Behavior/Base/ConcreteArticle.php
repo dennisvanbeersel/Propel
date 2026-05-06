@@ -435,7 +435,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBody($v)
+    public function setBody($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -455,7 +455,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setAuthorId($v)
+    public function setAuthorId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -479,7 +479,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -503,7 +503,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -523,7 +523,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setCategoryId($v)
+    public function setCategoryId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -547,7 +547,7 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setDescendantClass($v)
+    public function setDescendantClass($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

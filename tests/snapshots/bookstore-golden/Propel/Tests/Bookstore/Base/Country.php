@@ -371,7 +371,7 @@ abstract class Country implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setCode($v)
+    protected function setCode($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -391,7 +391,7 @@ abstract class Country implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setCapital($v)
+    protected function setCapital($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

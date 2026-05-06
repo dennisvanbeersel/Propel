@@ -351,7 +351,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -375,7 +375,7 @@ abstract class BookListRel implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookClubListId($v)
+    public function setBookClubListId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

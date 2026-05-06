@@ -459,7 +459,7 @@ abstract class BookClubList implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -479,7 +479,7 @@ abstract class BookClubList implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setGroupLeader($v)
+    public function setGroupLeader($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -499,7 +499,7 @@ abstract class BookClubList implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTheme($v)
+    public function setTheme($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -520,7 +520,7 @@ abstract class BookClubList implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setCreatedAt($v)
+    public function setCreatedAt($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->created_at !== null || $dt !== null) {

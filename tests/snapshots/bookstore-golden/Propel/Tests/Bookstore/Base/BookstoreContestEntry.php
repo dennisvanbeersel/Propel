@@ -419,7 +419,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookstoreId($v)
+    public function setBookstoreId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -447,7 +447,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setContestId($v)
+    public function setContestId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -471,7 +471,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setCustomerId($v)
+    public function setCustomerId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -496,7 +496,7 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setEntryDate($v)
+    public function setEntryDate($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->entry_date !== null || $dt !== null) {

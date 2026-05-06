@@ -387,7 +387,7 @@ abstract class Customer implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -407,7 +407,7 @@ abstract class Customer implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setName($v)
+    public function setName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -428,7 +428,7 @@ abstract class Customer implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setJoinDate($v)
+    public function setJoinDate($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->join_date !== null || $dt !== null) {

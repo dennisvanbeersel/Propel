@@ -450,7 +450,7 @@ abstract class Review implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -470,7 +470,7 @@ abstract class Review implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setReviewedBy($v)
+    public function setReviewedBy($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -491,7 +491,7 @@ abstract class Review implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setReviewDate($v)
+    public function setReviewDate($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->review_date !== null || $dt !== null) {
@@ -516,7 +516,7 @@ abstract class Review implements ActiveRecordInterface
      * @param bool|integer|string $v The new value
      * @return $this The current object (for fluent API support)
      */
-    public function setRecommended($v)
+    public function setRecommended($v): self
     {
         if ($v !== null) {
             if (is_string($v)) {
@@ -540,7 +540,7 @@ abstract class Review implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setStatus($v)
+    public function setStatus($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -560,7 +560,7 @@ abstract class Review implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setBookId($v)
+    public function setBookId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;

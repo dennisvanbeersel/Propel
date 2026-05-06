@@ -393,7 +393,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -413,7 +413,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTitle($v)
+    public function setTitle($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -433,7 +433,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setCategoryId($v)
+    public function setCategoryId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -457,7 +457,7 @@ abstract class ConcreteContent implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setDescendantClass($v)
+    public function setDescendantClass($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

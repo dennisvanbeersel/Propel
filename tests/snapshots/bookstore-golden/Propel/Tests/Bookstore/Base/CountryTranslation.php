@@ -376,7 +376,7 @@ abstract class CountryTranslation implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setId($v)
+    protected function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -396,7 +396,7 @@ abstract class CountryTranslation implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setCountryCode($v)
+    protected function setCountryCode($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -420,7 +420,7 @@ abstract class CountryTranslation implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setLanguageCode($v)
+    protected function setLanguageCode($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -440,7 +440,7 @@ abstract class CountryTranslation implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    protected function setLabel($v)
+    protected function setLabel($v): self
     {
         if ($v !== null) {
             $v = (string) $v;

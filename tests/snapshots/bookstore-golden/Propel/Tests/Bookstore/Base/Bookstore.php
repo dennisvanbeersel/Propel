@@ -489,7 +489,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param int $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setId($v)
+    public function setId($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -509,7 +509,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param string $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setStoreName($v)
+    public function setStoreName($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -529,7 +529,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setLocation($v)
+    public function setLocation($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -549,7 +549,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setPopulationServed($v)
+    public function setPopulationServed($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
@@ -569,7 +569,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param int|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setTotalBooks($v)
+    public function setTotalBooks($v): self
     {
         if ($v !== null) {
             $v = (int) $v;
@@ -590,7 +590,7 @@ abstract class Bookstore implements ActiveRecordInterface
      *               Empty strings are treated as NULL.
      * @return $this The current object (for fluent API support)
      */
-    public function setStoreOpenTime($v)
+    public function setStoreOpenTime($v): self
     {
         $dt = PropelDateTime::newInstance($v, null, 'DateTime');
         if ($this->store_open_time !== null || $dt !== null) {
@@ -609,7 +609,7 @@ abstract class Bookstore implements ActiveRecordInterface
      * @param string|null $v New value
      * @return $this The current object (for fluent API support)
      */
-    public function setWebsite($v)
+    public function setWebsite($v): self
     {
         if ($v !== null) {
             $v = (string) $v;
