@@ -163,7 +163,7 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
  * @method     ChildBook|null findOneById(int $id) Return the first ChildBook filtered by the id column
  * @method     ChildBook|null findOneByTitle(string $title) Return the first ChildBook filtered by the title column
  * @method     ChildBook|null findOneByISBN(string $isbn) Return the first ChildBook filtered by the isbn column
- * @method     ChildBook|null findOneByPrice(double $price) Return the first ChildBook filtered by the price column
+ * @method     ChildBook|null findOneByPrice(float $price) Return the first ChildBook filtered by the price column
  * @method     ChildBook|null findOneByPublisherId(int $publisher_id) Return the first ChildBook filtered by the publisher_id column
  * @method     ChildBook|null findOneByAuthorId(int $author_id) Return the first ChildBook filtered by the author_id column
  *
@@ -173,7 +173,7 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
  * @method     ChildBook requireOneById(int $id) Return the first ChildBook filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByTitle(string $title) Return the first ChildBook filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByISBN(string $isbn) Return the first ChildBook filtered by the isbn column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBook requireOneByPrice(double $price) Return the first ChildBook filtered by the price column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBook requireOneByPrice(float $price) Return the first ChildBook filtered by the price column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByPublisherId(int $publisher_id) Return the first ChildBook filtered by the publisher_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook requireOneByAuthorId(int $author_id) Return the first ChildBook filtered by the author_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -186,8 +186,8 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
  * @psalm-method Collection&\Traversable<ChildBook> findByTitle(string|array<string> $title) Return ChildBook objects filtered by the title column
  * @method     ChildBook[]|Collection findByISBN(string|array<string> $isbn) Return ChildBook objects filtered by the isbn column
  * @psalm-method Collection&\Traversable<ChildBook> findByISBN(string|array<string> $isbn) Return ChildBook objects filtered by the isbn column
- * @method     ChildBook[]|Collection findByPrice(double|array<double> $price) Return ChildBook objects filtered by the price column
- * @psalm-method Collection&\Traversable<ChildBook> findByPrice(double|array<double> $price) Return ChildBook objects filtered by the price column
+ * @method     ChildBook[]|Collection findByPrice(float|array<float> $price) Return ChildBook objects filtered by the price column
+ * @psalm-method Collection&\Traversable<ChildBook> findByPrice(float|array<float> $price) Return ChildBook objects filtered by the price column
  * @method     ChildBook[]|Collection findByPublisherId(int|array<int> $publisher_id) Return ChildBook objects filtered by the publisher_id column
  * @psalm-method Collection&\Traversable<ChildBook> findByPublisherId(int|array<int> $publisher_id) Return ChildBook objects filtered by the publisher_id column
  * @method     ChildBook[]|Collection findByAuthorId(int|array<int> $author_id) Return ChildBook objects filtered by the author_id column

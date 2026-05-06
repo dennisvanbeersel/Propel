@@ -649,7 +649,7 @@ class ColumnTest extends ModelTestCase
         $column->setDomain($domain);
         $column->setType($mappingType);
 
-        $this->assertSame('boolean', $column->getPhpType());
+        $this->assertSame('bool', $column->getPhpType());
         $this->assertTrue($column->isPhpPrimitiveType());
         $this->assertTrue($column->isBooleanType());
     }
@@ -696,11 +696,11 @@ class ColumnTest extends ModelTestCase
             ['TINYINT', 'int', true],
             ['INTEGER', 'int', true],
             ['BIGINT', 'string', false],
-            ['FLOAT', 'double', true],
-            ['DOUBLE', 'double', true],
+            ['FLOAT', 'float', true],
+            ['DOUBLE', 'float', true],
             ['NUMERIC', 'string', false],
             ['DECIMAL', 'string', false],
-            ['REAL', 'double', true],
+            ['REAL', 'float', true],
         ];
     }
 

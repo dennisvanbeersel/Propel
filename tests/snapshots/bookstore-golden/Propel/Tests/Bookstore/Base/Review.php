@@ -92,7 +92,7 @@ abstract class Review implements ActiveRecordInterface
     /**
      * The value for the recommended field.
      * Does reviewer recommend book?
-     * @var        boolean
+     * @var        bool
      */
     protected $recommended;
 
@@ -407,7 +407,7 @@ abstract class Review implements ActiveRecordInterface
     /**
      * Get the [recommended] column value.
      * Does reviewer recommend book?
-     * @return boolean
+     * @return bool
      */
     public function getRecommended()
     {
@@ -417,7 +417,7 @@ abstract class Review implements ActiveRecordInterface
     /**
      * Get the [recommended] column value.
      * Does reviewer recommend book?
-     * @return boolean
+     * @return bool
      */
     public function isRecommended()
     {
@@ -520,9 +520,9 @@ abstract class Review implements ActiveRecordInterface
     {
         if ($v !== null) {
             if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                $v = in_array(strtolower($v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                $v = (boolean) $v;
+                $v = (bool) $v;
             }
         }
 
@@ -628,7 +628,7 @@ abstract class Review implements ActiveRecordInterface
             $this->review_date = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : ReviewTableMap::translateFieldName('Recommended', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->recommended = (null !== $col) ? (boolean) $col : null;
+            $this->recommended = (null !== $col) ? (bool) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : ReviewTableMap::translateFieldName('Status', TableMap::TYPE_PHPNAME, $indexType)];
             $this->status = (null !== $col) ? (string) $col : null;

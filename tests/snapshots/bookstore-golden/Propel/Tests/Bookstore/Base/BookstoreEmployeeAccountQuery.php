@@ -89,8 +89,8 @@ use Propel\Tests\Bookstore\Map\BookstoreEmployeeAccountTableMap;
  * @method     ChildBookstoreEmployeeAccount|null findOneByEmployeeId(int $employee_id) Return the first ChildBookstoreEmployeeAccount filtered by the employee_id column
  * @method     ChildBookstoreEmployeeAccount|null findOneByLogin(string $login) Return the first ChildBookstoreEmployeeAccount filtered by the login column
  * @method     ChildBookstoreEmployeeAccount|null findOneByPassword(string $password) Return the first ChildBookstoreEmployeeAccount filtered by the password column
- * @method     ChildBookstoreEmployeeAccount|null findOneByEnabled(boolean $enabled) Return the first ChildBookstoreEmployeeAccount filtered by the enabled column
- * @method     ChildBookstoreEmployeeAccount|null findOneByNotEnabled(boolean $not_enabled) Return the first ChildBookstoreEmployeeAccount filtered by the not_enabled column
+ * @method     ChildBookstoreEmployeeAccount|null findOneByEnabled(bool $enabled) Return the first ChildBookstoreEmployeeAccount filtered by the enabled column
+ * @method     ChildBookstoreEmployeeAccount|null findOneByNotEnabled(bool $not_enabled) Return the first ChildBookstoreEmployeeAccount filtered by the not_enabled column
  * @method     ChildBookstoreEmployeeAccount|null findOneByCreated(string $created) Return the first ChildBookstoreEmployeeAccount filtered by the created column
  * @method     ChildBookstoreEmployeeAccount|null findOneByUpdated(string $updated) Return the first ChildBookstoreEmployeeAccount filtered by the updated column
  * @method     ChildBookstoreEmployeeAccount|null findOneByRoleId(int $role_id) Return the first ChildBookstoreEmployeeAccount filtered by the role_id column
@@ -102,8 +102,8 @@ use Propel\Tests\Bookstore\Map\BookstoreEmployeeAccountTableMap;
  * @method     ChildBookstoreEmployeeAccount requireOneByEmployeeId(int $employee_id) Return the first ChildBookstoreEmployeeAccount filtered by the employee_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookstoreEmployeeAccount requireOneByLogin(string $login) Return the first ChildBookstoreEmployeeAccount filtered by the login column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookstoreEmployeeAccount requireOneByPassword(string $password) Return the first ChildBookstoreEmployeeAccount filtered by the password column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBookstoreEmployeeAccount requireOneByEnabled(boolean $enabled) Return the first ChildBookstoreEmployeeAccount filtered by the enabled column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBookstoreEmployeeAccount requireOneByNotEnabled(boolean $not_enabled) Return the first ChildBookstoreEmployeeAccount filtered by the not_enabled column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBookstoreEmployeeAccount requireOneByEnabled(bool $enabled) Return the first ChildBookstoreEmployeeAccount filtered by the enabled column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBookstoreEmployeeAccount requireOneByNotEnabled(bool $not_enabled) Return the first ChildBookstoreEmployeeAccount filtered by the not_enabled column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookstoreEmployeeAccount requireOneByCreated(string $created) Return the first ChildBookstoreEmployeeAccount filtered by the created column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookstoreEmployeeAccount requireOneByUpdated(string $updated) Return the first ChildBookstoreEmployeeAccount filtered by the updated column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookstoreEmployeeAccount requireOneByRoleId(int $role_id) Return the first ChildBookstoreEmployeeAccount filtered by the role_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -118,10 +118,10 @@ use Propel\Tests\Bookstore\Map\BookstoreEmployeeAccountTableMap;
  * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByLogin(string|array<string> $login) Return ChildBookstoreEmployeeAccount objects filtered by the login column
  * @method     ChildBookstoreEmployeeAccount[]|Collection findByPassword(string|array<string> $password) Return ChildBookstoreEmployeeAccount objects filtered by the password column
  * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByPassword(string|array<string> $password) Return ChildBookstoreEmployeeAccount objects filtered by the password column
- * @method     ChildBookstoreEmployeeAccount[]|Collection findByEnabled(boolean|array<boolean> $enabled) Return ChildBookstoreEmployeeAccount objects filtered by the enabled column
- * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByEnabled(boolean|array<boolean> $enabled) Return ChildBookstoreEmployeeAccount objects filtered by the enabled column
- * @method     ChildBookstoreEmployeeAccount[]|Collection findByNotEnabled(boolean|array<boolean> $not_enabled) Return ChildBookstoreEmployeeAccount objects filtered by the not_enabled column
- * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByNotEnabled(boolean|array<boolean> $not_enabled) Return ChildBookstoreEmployeeAccount objects filtered by the not_enabled column
+ * @method     ChildBookstoreEmployeeAccount[]|Collection findByEnabled(bool|array<bool> $enabled) Return ChildBookstoreEmployeeAccount objects filtered by the enabled column
+ * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByEnabled(bool|array<bool> $enabled) Return ChildBookstoreEmployeeAccount objects filtered by the enabled column
+ * @method     ChildBookstoreEmployeeAccount[]|Collection findByNotEnabled(bool|array<bool> $not_enabled) Return ChildBookstoreEmployeeAccount objects filtered by the not_enabled column
+ * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByNotEnabled(bool|array<bool> $not_enabled) Return ChildBookstoreEmployeeAccount objects filtered by the not_enabled column
  * @method     ChildBookstoreEmployeeAccount[]|Collection findByCreated(string|array<string> $created) Return ChildBookstoreEmployeeAccount objects filtered by the created column
  * @psalm-method Collection&\Traversable<ChildBookstoreEmployeeAccount> findByCreated(string|array<string> $created) Return ChildBookstoreEmployeeAccount objects filtered by the created column
  * @method     ChildBookstoreEmployeeAccount[]|Collection findByUpdated(string|array<string> $updated) Return ChildBookstoreEmployeeAccount objects filtered by the updated column

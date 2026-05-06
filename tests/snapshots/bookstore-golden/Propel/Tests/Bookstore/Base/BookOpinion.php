@@ -93,7 +93,7 @@ abstract class BookOpinion implements ActiveRecordInterface
     /**
      * The value for the recommend_to_friend field.
      *
-     * @var        boolean|null
+     * @var        bool|null
      */
     protected $recommend_to_friend;
 
@@ -379,7 +379,7 @@ abstract class BookOpinion implements ActiveRecordInterface
     /**
      * Get the [recommend_to_friend] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getRecommendToFriend()
     {
@@ -389,7 +389,7 @@ abstract class BookOpinion implements ActiveRecordInterface
     /**
      * Get the [recommend_to_friend] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function isRecommendToFriend()
     {
@@ -478,9 +478,9 @@ abstract class BookOpinion implements ActiveRecordInterface
     {
         if ($v !== null) {
             if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                $v = in_array(strtolower($v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                $v = (boolean) $v;
+                $v = (bool) $v;
             }
         }
 
@@ -538,7 +538,7 @@ abstract class BookOpinion implements ActiveRecordInterface
             $this->rating = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookOpinionTableMap::translateFieldName('RecommendToFriend', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->recommend_to_friend = (null !== $col) ? (boolean) $col : null;
+            $this->recommend_to_friend = (null !== $col) ? (bool) $col : null;
 
             $this->resetModified();
             $this->setNew(false);

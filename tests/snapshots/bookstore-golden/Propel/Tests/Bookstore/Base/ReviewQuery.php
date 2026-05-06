@@ -63,7 +63,7 @@ use Propel\Tests\Bookstore\Map\ReviewTableMap;
  * @method     ChildReview|null findOneById(int $id) Return the first ChildReview filtered by the id column
  * @method     ChildReview|null findOneByReviewedBy(string $reviewed_by) Return the first ChildReview filtered by the reviewed_by column
  * @method     ChildReview|null findOneByReviewDate(string $review_date) Return the first ChildReview filtered by the review_date column
- * @method     ChildReview|null findOneByRecommended(boolean $recommended) Return the first ChildReview filtered by the recommended column
+ * @method     ChildReview|null findOneByRecommended(bool $recommended) Return the first ChildReview filtered by the recommended column
  * @method     ChildReview|null findOneByStatus(string $status) Return the first ChildReview filtered by the status column
  * @method     ChildReview|null findOneByBookId(int $book_id) Return the first ChildReview filtered by the book_id column
  *
@@ -73,7 +73,7 @@ use Propel\Tests\Bookstore\Map\ReviewTableMap;
  * @method     ChildReview requireOneById(int $id) Return the first ChildReview filtered by the id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReview requireOneByReviewedBy(string $reviewed_by) Return the first ChildReview filtered by the reviewed_by column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReview requireOneByReviewDate(string $review_date) Return the first ChildReview filtered by the review_date column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildReview requireOneByRecommended(boolean $recommended) Return the first ChildReview filtered by the recommended column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildReview requireOneByRecommended(bool $recommended) Return the first ChildReview filtered by the recommended column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReview requireOneByStatus(string $status) Return the first ChildReview filtered by the status column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildReview requireOneByBookId(int $book_id) Return the first ChildReview filtered by the book_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -86,8 +86,8 @@ use Propel\Tests\Bookstore\Map\ReviewTableMap;
  * @psalm-method Collection&\Traversable<ChildReview> findByReviewedBy(string|array<string> $reviewed_by) Return ChildReview objects filtered by the reviewed_by column
  * @method     ChildReview[]|Collection findByReviewDate(string|array<string> $review_date) Return ChildReview objects filtered by the review_date column
  * @psalm-method Collection&\Traversable<ChildReview> findByReviewDate(string|array<string> $review_date) Return ChildReview objects filtered by the review_date column
- * @method     ChildReview[]|Collection findByRecommended(boolean|array<boolean> $recommended) Return ChildReview objects filtered by the recommended column
- * @psalm-method Collection&\Traversable<ChildReview> findByRecommended(boolean|array<boolean> $recommended) Return ChildReview objects filtered by the recommended column
+ * @method     ChildReview[]|Collection findByRecommended(bool|array<bool> $recommended) Return ChildReview objects filtered by the recommended column
+ * @psalm-method Collection&\Traversable<ChildReview> findByRecommended(bool|array<bool> $recommended) Return ChildReview objects filtered by the recommended column
  * @method     ChildReview[]|Collection findByStatus(string|array<string> $status) Return ChildReview objects filtered by the status column
  * @psalm-method Collection&\Traversable<ChildReview> findByStatus(string|array<string> $status) Return ChildReview objects filtered by the status column
  * @method     ChildReview[]|Collection findByBookId(int|array<int> $book_id) Return ChildReview objects filtered by the book_id column

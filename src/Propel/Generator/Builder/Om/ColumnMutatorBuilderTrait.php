@@ -694,9 +694,9 @@ trait ColumnMutatorBuilderTrait
         $script .= "
         if (\$v !== null) {
             if (is_string(\$v)) {
-                \$v = in_array(strtolower(\$v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                \$v = in_array(strtolower(\$v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                \$v = (boolean) \$v;
+                \$v = (bool) \$v;
             }
         }
 

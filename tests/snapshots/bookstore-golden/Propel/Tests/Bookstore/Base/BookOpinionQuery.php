@@ -77,7 +77,7 @@ use Propel\Tests\Bookstore\Map\BookOpinionTableMap;
  * @method     ChildBookOpinion|null findOneByBookId(int $book_id) Return the first ChildBookOpinion filtered by the book_id column
  * @method     ChildBookOpinion|null findOneByReaderId(int $reader_id) Return the first ChildBookOpinion filtered by the reader_id column
  * @method     ChildBookOpinion|null findOneByRating(string $rating) Return the first ChildBookOpinion filtered by the rating column
- * @method     ChildBookOpinion|null findOneByRecommendToFriend(boolean $recommend_to_friend) Return the first ChildBookOpinion filtered by the recommend_to_friend column
+ * @method     ChildBookOpinion|null findOneByRecommendToFriend(bool $recommend_to_friend) Return the first ChildBookOpinion filtered by the recommend_to_friend column
  *
  * @method     ChildBookOpinion requirePk($key, ?ConnectionInterface $con = null) Return the ChildBookOpinion by primary key and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookOpinion requireOne(?ConnectionInterface $con = null) Return the first ChildBookOpinion matching the query and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
@@ -85,7 +85,7 @@ use Propel\Tests\Bookstore\Map\BookOpinionTableMap;
  * @method     ChildBookOpinion requireOneByBookId(int $book_id) Return the first ChildBookOpinion filtered by the book_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookOpinion requireOneByReaderId(int $reader_id) Return the first ChildBookOpinion filtered by the reader_id column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBookOpinion requireOneByRating(string $rating) Return the first ChildBookOpinion filtered by the rating column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBookOpinion requireOneByRecommendToFriend(boolean $recommend_to_friend) Return the first ChildBookOpinion filtered by the recommend_to_friend column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBookOpinion requireOneByRecommendToFriend(bool $recommend_to_friend) Return the first ChildBookOpinion filtered by the recommend_to_friend column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
  * @method     ChildBookOpinion[]|Collection find(?ConnectionInterface $con = null) Return ChildBookOpinion objects based on current ModelCriteria
  * @psalm-method Collection&\Traversable<ChildBookOpinion> find(?ConnectionInterface $con = null) Return ChildBookOpinion objects based on current ModelCriteria
@@ -96,8 +96,8 @@ use Propel\Tests\Bookstore\Map\BookOpinionTableMap;
  * @psalm-method Collection&\Traversable<ChildBookOpinion> findByReaderId(int|array<int> $reader_id) Return ChildBookOpinion objects filtered by the reader_id column
  * @method     ChildBookOpinion[]|Collection findByRating(string|array<string> $rating) Return ChildBookOpinion objects filtered by the rating column
  * @psalm-method Collection&\Traversable<ChildBookOpinion> findByRating(string|array<string> $rating) Return ChildBookOpinion objects filtered by the rating column
- * @method     ChildBookOpinion[]|Collection findByRecommendToFriend(boolean|array<boolean> $recommend_to_friend) Return ChildBookOpinion objects filtered by the recommend_to_friend column
- * @psalm-method Collection&\Traversable<ChildBookOpinion> findByRecommendToFriend(boolean|array<boolean> $recommend_to_friend) Return ChildBookOpinion objects filtered by the recommend_to_friend column
+ * @method     ChildBookOpinion[]|Collection findByRecommendToFriend(bool|array<bool> $recommend_to_friend) Return ChildBookOpinion objects filtered by the recommend_to_friend column
+ * @psalm-method Collection&\Traversable<ChildBookOpinion> findByRecommendToFriend(bool|array<bool> $recommend_to_friend) Return ChildBookOpinion objects filtered by the recommend_to_friend column
  *
  * @method     ChildBookOpinion[]|\Propel\Runtime\Util\PropelModelPager paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit
  * @psalm-method \Propel\Runtime\Util\PropelModelPager&\Traversable<ChildBookOpinion> paginate($page = 1, $maxPerPage = 10, ?ConnectionInterface $con = null) Issue a SELECT query based on the current ModelCriteria and uses a page and a maximum number of results per page to compute an offset and a limit

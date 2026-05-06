@@ -100,7 +100,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * The value for the enabled field.
      *
      * Note: this column has a database default value of: true
-     * @var        boolean|null
+     * @var        bool|null
      */
     protected $enabled;
 
@@ -108,7 +108,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * The value for the not_enabled field.
      *
      * Note: this column has a database default value of: false
-     * @var        boolean|null
+     * @var        bool|null
      */
     protected $not_enabled;
 
@@ -449,7 +449,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     /**
      * Get the [enabled] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getEnabled()
     {
@@ -459,7 +459,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     /**
      * Get the [enabled] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function isEnabled()
     {
@@ -469,7 +469,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     /**
      * Get the [not_enabled] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function getNotEnabled()
     {
@@ -479,7 +479,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     /**
      * Get the [not_enabled] column value.
      *
-     * @return boolean|null
+     * @return bool|null
      */
     public function isNotEnabled()
     {
@@ -628,9 +628,9 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     {
         if ($v !== null) {
             if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                $v = in_array(strtolower($v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                $v = (boolean) $v;
+                $v = (bool) $v;
             }
         }
 
@@ -656,9 +656,9 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     {
         if ($v !== null) {
             if (is_string($v)) {
-                $v = in_array(strtolower($v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                $v = in_array(strtolower($v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                $v = (boolean) $v;
+                $v = (bool) $v;
             }
         }
 
@@ -812,10 +812,10 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
             $this->password = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('Enabled', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->enabled = (null !== $col) ? (boolean) $col : null;
+            $this->enabled = (null !== $col) ? (bool) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('NotEnabled', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->not_enabled = (null !== $col) ? (boolean) $col : null;
+            $this->not_enabled = (null !== $col) ? (bool) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : BookstoreEmployeeAccountTableMap::translateFieldName('Created', TableMap::TYPE_PHPNAME, $indexType)];
             $this->created = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;

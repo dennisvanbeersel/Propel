@@ -432,7 +432,7 @@ abstract class Book2 implements ActiveRecordInterface
         }
         if (!$this->tags_unserialized && null !== $this->tags) {
             $tags_unserialized = substr($this->tags, 2, -2);
-            $this->tags_unserialized = '' !== $tags_unserialized ? explode(' | ', $tags_unserialized) : array();
+            $this->tags_unserialized = '' !== $tags_unserialized ? explode(' | ', $tags_unserialized) : [];
         }
 
         return $this->tags_unserialized;

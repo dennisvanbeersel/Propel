@@ -442,7 +442,7 @@ abstract class TypeObject implements ActiveRecordInterface
         }
         if (!$this->some_array_unserialized && null !== $this->some_array) {
             $some_array_unserialized = substr($this->some_array, 2, -2);
-            $this->some_array_unserialized = '' !== $some_array_unserialized ? explode(' | ', $some_array_unserialized) : array();
+            $this->some_array_unserialized = '' !== $some_array_unserialized ? explode(' | ', $some_array_unserialized) : [];
         }
 
         return $this->some_array_unserialized;

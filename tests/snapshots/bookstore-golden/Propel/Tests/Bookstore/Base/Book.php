@@ -122,7 +122,7 @@ abstract class Book implements ActiveRecordInterface
     /**
      * The value for the price field.
      * Price of the book.
-     * @var        double|null
+     * @var        float|null
      */
     protected $price;
 
@@ -579,7 +579,7 @@ abstract class Book implements ActiveRecordInterface
     /**
      * Get the [price] column value.
      * Price of the book.
-     * @return double|null
+     * @return float|null
      */
     public function getPrice()
     {
@@ -669,13 +669,13 @@ abstract class Book implements ActiveRecordInterface
     /**
      * Set the value of [price] column.
      * Price of the book.
-     * @param double|null $v New value
+     * @param float|null $v New value
      * @return $this The current object (for fluent API support)
      */
     public function setPrice($v)
     {
         if ($v !== null) {
-            $v = (double) $v;
+            $v = (float) $v;
         }
 
         if ($this->price !== $v) {
@@ -780,7 +780,7 @@ abstract class Book implements ActiveRecordInterface
             $this->isbn = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : BookTableMap::translateFieldName('Price', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->price = (null !== $col) ? (double) $col : null;
+            $this->price = (null !== $col) ? (float) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : BookTableMap::translateFieldName('PublisherId', TableMap::TYPE_PHPNAME, $indexType)];
             $this->publisher_id = (null !== $col) ? (int) $col : null;
