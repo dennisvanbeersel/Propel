@@ -84,8 +84,7 @@ class MysqlPlatformTest extends PlatformTestProvider
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
@@ -156,8 +155,7 @@ EOF;
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
@@ -899,16 +897,10 @@ CREATE TABLE `foo`
             <parameter name="Collate" value="utf8_unicode_ci"/>
             <parameter name="Connection" value="mysql://foo@bar.host:9306/federated/test_table"/>
             <parameter name="DataDirectory" value="/tmp/mysql-foo-table/"/>
-            <parameter name="DelayKeyWrite" value="1"/>
             <parameter name="IndexDirectory" value="/tmp/mysql-foo-table-idx/"/>
-            <parameter name="InsertMethod" value="LAST"/>
             <parameter name="KeyBlockSize" value="5"/>
             <parameter name="MaxRows" value="5000"/>
             <parameter name="MinRows" value="0"/>
-            <parameter name="Pack_Keys" value="DEFAULT"/>
-            <parameter name="PackKeys" value="1"/>
-            <parameter name="RowFormat" value="COMPRESSED"/>
-            <parameter name="Union" value="other_table"/>
         </vendor>
     </table>
 </database>
@@ -919,7 +911,7 @@ CREATE TABLE `foo`
 (
     `id` INTEGER NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 AVG_ROW_LENGTH=50 CHARACTER SET='utf8' CHECKSUM=1 COLLATE='utf8_unicode_ci' CONNECTION='mysql://foo@bar.host:9306/federated/test_table' DATA DIRECTORY='/tmp/mysql-foo-table/' DELAY_KEY_WRITE=1 INDEX DIRECTORY='/tmp/mysql-foo-table-idx/' INSERT_METHOD=LAST KEY_BLOCK_SIZE=5 MAX_ROWS=5000 MIN_ROWS=0 PACK_KEYS=DEFAULT PACK_KEYS=1 ROW_FORMAT=COMPRESSED UNION='other_table';
+) ENGINE=InnoDB AUTO_INCREMENT=100 AVG_ROW_LENGTH=50 CHARACTER SET='utf8' CHECKSUM=1 COLLATE='utf8_unicode_ci' CONNECTION='mysql://foo@bar.host:9306/federated/test_table' DATA DIRECTORY='/tmp/mysql-foo-table/' INDEX DIRECTORY='/tmp/mysql-foo-table-idx/' KEY_BLOCK_SIZE=5 MAX_ROWS=5000 MIN_ROWS=0;
 ";
         $this->assertEquals($expected, $this->getPlatform()->getAddTableDDL($table));
     }

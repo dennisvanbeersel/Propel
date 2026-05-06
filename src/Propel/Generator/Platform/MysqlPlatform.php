@@ -234,8 +234,7 @@ class MysqlPlatform extends DefaultPlatform
     public function getBeginDDL(): string
     {
         return "
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It \"suspends judgement\" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 ";
     }
@@ -362,8 +361,7 @@ CREATE TABLE %s
     {
         $vi = $table->getVendorInfoForType('mysql');
         $tableOptions = [];
-        // List of supported table options
-        // see http://dev.mysql.com/doc/refman/5.5/en/create-table.html
+        // List of supported table options (InnoDB-focused; MyISAM-only options dropped).
         $supportedOptions = [
             'AutoIncrement' => 'AUTO_INCREMENT',
             'AvgRowLength' => 'AVG_ROW_LENGTH',
@@ -372,25 +370,13 @@ CREATE TABLE %s
             'Collate' => 'COLLATE',
             'Connection' => 'CONNECTION',
             'DataDirectory' => 'DATA DIRECTORY',
-            'Delay_key_write' => 'DELAY_KEY_WRITE',
-            'DelayKeyWrite' => 'DELAY_KEY_WRITE',
             'IndexDirectory' => 'INDEX DIRECTORY',
-            'InsertMethod' => 'INSERT_METHOD',
             'KeyBlockSize' => 'KEY_BLOCK_SIZE',
             'MaxRows' => 'MAX_ROWS',
             'MinRows' => 'MIN_ROWS',
-            'Pack_Keys' => 'PACK_KEYS',
-            'PackKeys' => 'PACK_KEYS',
-            'RowFormat' => 'ROW_FORMAT',
-            'Union' => 'UNION',
         ];
 
-        $noQuotedValue = array_flip([
-            'InsertMethod',
-            'Pack_Keys',
-            'PackKeys',
-            'RowFormat',
-        ]);
+        $noQuotedValue = [];
 
         foreach ($supportedOptions as $name => $sqlName) {
             $parameterValue = null;
@@ -1023,31 +1009,6 @@ ALTER TABLE %s ADD %s %s;
     public function doQuoting(string $text): string
     {
         return '`' . strtr($text, ['.' => '`.`']) . '`';
-    }
-
-    /**
-     * @param \Propel\Generator\Model\Column $column
-     * @param string $identifier
-     * @param string $columnValueAccessor
-     * @param string $tab
-     *
-     * @return string
-     */
-    public function getColumnBindingPHP(Column $column, string $identifier, string $columnValueAccessor, string $tab = '            '): string
-    {
-        // FIXME - This is a temporary hack to get around apparent bugs w/ PDO+MYSQL
-        // See http://pecl.php.net/bugs/bug.php?id=9919
-        if ($column->getPDOType() === PDO::PARAM_BOOL) {
-            return sprintf(
-                "
-%s\$stmt->bindValue(%s, (int) %s, PDO::PARAM_INT);",
-                $tab,
-                $identifier,
-                $columnValueAccessor,
-            );
-        }
-
-        return parent::getColumnBindingPHP($column, $identifier, $columnValueAccessor, $tab);
     }
 
     /**

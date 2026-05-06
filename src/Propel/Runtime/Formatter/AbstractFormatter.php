@@ -49,7 +49,6 @@ abstract class AbstractFormatter
         return self::$reflectionCache[$class] ??= new ReflectionClass($class);
     }
 
-
     /**
      * @var string|null
      */

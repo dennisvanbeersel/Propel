@@ -84,8 +84,7 @@ class MysqlPlatformMyISAMTest extends PlatformTestProvider
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
@@ -149,8 +148,7 @@ EOF;
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------

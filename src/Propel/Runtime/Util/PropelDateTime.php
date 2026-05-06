@@ -215,7 +215,7 @@ class PropelDateTime extends DateTime
      * mid-stream can corrupt larger unserialize batches and the original
      * \Exception is hard to surface from __unserialize.
      *
-     * @param array{dateString?: string, tzString?: string} $data
+     * @param array{dateString?: string, tzString?: string}|array $data
      *
      * @return void
      */
@@ -226,7 +226,7 @@ class PropelDateTime extends DateTime
 
         try {
             $tz = new DateTimeZone($this->tzString);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             trigger_error(
                 sprintf(
                     'PropelDateTime::__unserialize: stored timezone "%s" is invalid (%s); falling back to UTC',

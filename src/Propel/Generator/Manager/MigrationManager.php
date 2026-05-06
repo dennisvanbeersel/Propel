@@ -160,6 +160,7 @@ class MigrationManager extends AbstractManager
 
     /**
      * @throws \Exception
+     * @throws \RuntimeException
      *
      * @return list<int>
      */
@@ -230,9 +231,9 @@ class MigrationManager extends AbstractManager
         }
         $message = (string)$e->getMessage();
         if (
-            str_contains($message, 'no such table')          // SQLite
-            || str_contains($message, 'does not exist')      // PostgreSQL
-            || str_contains($message, "doesn't exist")       // MySQL/MariaDB
+            str_contains($message, 'no such table') // SQLite
+            || str_contains($message, 'does not exist') // PostgreSQL
+            || str_contains($message, "doesn't exist") // MySQL/MariaDB
             || str_contains($message, 'Base table or view not found')
         ) {
             return true;
