@@ -43,6 +43,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `docs/reviews/` directory + Round 1 reports (architecture, BC realism, tooling/CI specialist) + summary + waivers + iteration log + perf-baseline.json.
 - Docblock `@method toArray()` on `ActiveRecordInterface` documenting the generated-AR contract per umbrella §3.1.
 
+### BC Breaks (Phase B)
+
+- **Generated setter return type — LSP requirement on subclass overrides.** Generated `setX()` methods now declare `: self` (previously had no return type). User subclasses that override a generated setter without a matching return type will fatal at class load. See `docs/MIGRATION-FROM-PRE-AI.md` § "API surface changes" → ": self return type on generated setters" for migration code and grep patterns. The same rule applies to FK getters (`: ?Publisher` etc.).
+- **Generated AR `__sleep` → `__serialize`/`__unserialize` wire-format change.** Persisted serialized AR objects (sessions, caches, message queues) created on pre-rewrite Propel cannot round-trip through the new methods. PHP-level `serialize()`/`unserialize()` behavior is preserved, but the byte sequence on the wire is not. Invalidate stale caches at deploy time, or use the one-time read-old-write-new pattern documented in `docs/MIGRATION-FROM-PRE-AI.md`.
+- **`PropelTypes::*_NATIVE_TYPE` constant value drift.** `REAL_NATIVE_TYPE`, `FLOAT_NATIVE_TYPE`, `DOUBLE_NATIVE_TYPE` shifted from `'double'` to `'float'`; `BOOLEAN_NATIVE_TYPE`, `BOOLEAN_EMU_NATIVE_TYPE` from `'boolean'` to `'bool'` (PHP-canonical names). Consumer code reading these constants and comparing against literal strings (`=== 'double'`, `=== 'boolean'`) will silently see false. Compare against the constant itself instead. `PropelTypes::isPhpPrimitiveType()` accepts both old and new spellings, so call-site behavior through that helper is unchanged.
+
 ### Changed
 
 - `composer.json` — `testsuite` script now includes `composer run deptrac`.

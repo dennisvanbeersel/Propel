@@ -118,6 +118,36 @@ These types still parse in schemas and emit a deprecation warning when resolved.
 
 Update your `<column type="BU_DATE">` to `<column type="TIMESTAMP">` etc. The schema XSD still parses the old values per the additivity promise (`docs/BACKWARD_COMPATIBILITY.md` §3.7), but the deprecation warning surfaces at codegen time.
 
+### `PropelTypes::*_NATIVE_TYPE` constant value drift
+
+Several public constants on `Propel\Generator\Model\PropelTypes` had their string values normalized to PHP-canonical names:
+
+| Constant | Old value | New value |
+|---|---|---|
+| `PropelTypes::REAL_NATIVE_TYPE` | `'double'` | `'float'` |
+| `PropelTypes::FLOAT_NATIVE_TYPE` | `'double'` | `'float'` |
+| `PropelTypes::DOUBLE_NATIVE_TYPE` | `'double'` | `'float'` |
+| `PropelTypes::BOOLEAN_NATIVE_TYPE` | `'boolean'` | `'bool'` |
+| `PropelTypes::BOOLEAN_EMU_NATIVE_TYPE` | `'boolean'` | `'bool'` |
+
+The helper `PropelTypes::isPhpPrimitiveType()` accepts both old and new spellings so behavior driven through the helper is unchanged. **But code that reads the constant directly and compares against a literal string will silently fail:**
+
+```php
+// Before — worked because constant was 'double'
+if ($column->getPhpType() === 'double') { /* ... */ }
+
+// Before — also worked but always was the right pattern
+if ($column->getPhpType() === PropelTypes::DOUBLE_NATIVE_TYPE) { /* ... */ }
+
+// After — the literal-string comparison silently goes false
+if ($column->getPhpType() === 'double') { /* never enters */ }
+
+// After — the constant comparison stays correct (resolves to 'float')
+if ($column->getPhpType() === PropelTypes::DOUBLE_NATIVE_TYPE) { /* still works */ }
+```
+
+Recommendation: search your codebase for hard-coded `'double'` and `'boolean'` literals near Propel's column-type APIs and replace them with constant references. Grep pattern: `grep -rn "['\"]double['\"]\|['\"]boolean['\"]" src/ | grep -i propel`.
+
 ---
 
 ## Removed connection classes (alias, kill in 4.0)
@@ -157,12 +187,54 @@ Both `connection` (singular) and `connections` (plural) keys are accepted; no re
 
 ### `: self` return type on generated setters (NOT `: static`)
 
-Previously: generated `setX()` had no return type annotation. We considered adding `: static` but reverted to `: self` because `: static` is an LSP break for user subclasses overriding `setX($v)` without a return type. With `: self`, your existing overrides remain valid.
+Previously: generated `setX()` had no return type annotation. The rewrite adds `: self`. We picked `: self` over `: static` because `: static` imposes extra covariance pressure on subclasses (every override has to return `static`-compatible).
 
-If you write code that depends on Propel-3.0+ being installed:
-```php
-return $this->setTitle('foo');  // returns self|static — both work
+**This is a BC break for any user subclass that overrides a generated setter without a matching return type.** PHP enforces strict LSP on declared return types: an override that lacks `: self` (or the concrete class name, or `: static`) fatals at class load:
+
 ```
+Fatal error: Declaration of App\MyBook::setTitle($v) must be compatible
+with Propel\Tests\Bookstore\Base\Book::setTitle(?string $v): self
+```
+
+The same applies to generated FK getters (`: ?Publisher`, `: ?Author`, etc.).
+
+**Migration — concrete code:**
+
+```php
+// Before (pre-rewrite Propel) — works because parent setter has no return type
+class MyBook extends Book
+{
+    public function setTitle($v)
+    {
+        // custom logic
+        return parent::setTitle($v);
+    }
+}
+
+// After Propel 3.0 — must declare a return type matching the parent
+class MyBook extends Book
+{
+    public function setTitle($v): self
+    {
+        // custom logic
+        return parent::setTitle($v);
+    }
+}
+```
+
+You can also use the concrete class name (`: MyBook`) or `: static`, which are stricter covariant alternatives.
+
+**Finding overrides that need updating:**
+
+```bash
+# Grep for setter overrides without return types in your project
+grep -rEn 'function set[A-Z][A-Za-z0-9_]*\([^)]*\)\s*\{' src/ tests/ | grep -v ': '
+
+# Same for FK getter overrides
+grep -rEn 'function get[A-Z][A-Za-z0-9_]*\([^)]*\)\s*\{' src/ tests/ | grep -v ': '
+```
+
+A `propel/rector-rules` package is planned for Propel 4.0 with a mechanical fix (`AddSelfReturnTypeToSetterOverridesRector`); for 3.x the migration is manual.
 
 ### `Collection::offsetGet` no longer returns by reference
 
@@ -191,6 +263,57 @@ The interface was soft-deprecated in PHP 8.1 and is fully obsolete. `Collection:
 Previously had `__sleep` / `__wakeup`. PHP 8 now uses `__serialize` from the parent `DateTime` class which shadowed `__sleep`. The new methods preserve serialization semantics with microsecond precision and gracefully handle invalid stored timezones (fall back to UTC with E_USER_WARNING instead of throwing mid-unserialize).
 
 If you persisted serialized PropelDateTime objects: existing serialized data created with the old `__sleep` format remains readable via the parent DateTime's standard format. New serializations use the cleaner 2-field shape.
+
+### Generated AR base classes migrated to `__serialize` / `__unserialize` (wire-format BC break)
+
+The base class emitted into `templates/Builder/Om/baseObjectMethods.php` now implements `__serialize(): array` / `__unserialize(array $data): void` instead of the deprecated `__sleep(): array` magic. PHP-level behavior of `serialize($activeRecord)` / `unserialize($s)` is preserved, but the on-the-wire byte sequence is **not** backward-compatible.
+
+The old format serialized a list of property names (PHP serializer materialised values via `__sleep` semantics). The new format serializes `array<string, mixed>` directly, capturing values up-front. PHP picks `__serialize` over `__sleep` when both are present.
+
+**Impact — any persisted serialized AR object created on a pre-rewrite Propel will not round-trip through the new methods.** Specifically affected:
+
+- Sessions storing AR objects (`$_SESSION['user'] = $userActiveRecord;`).
+- PSR-6 / PSR-16 caches keyed on AR objects.
+- Message queues (Symfony Messenger, Laravel queues, RabbitMQ envelopes) carrying AR objects in payloads.
+- Filesystem dumps of `serialize(...)` output.
+
+**Migration — invalidate caches at deploy time.** This is the simplest and safest path:
+
+```bash
+# Symfony cache
+bin/console cache:pool:clear cache.app
+
+# Sessions backed by Symfony cache
+bin/console cache:pool:clear cache.session
+
+# File-backed sessions — wipe the directory
+rm -rf var/sessions/*
+
+# Redis sessions — flush the relevant keyspace
+redis-cli --scan --pattern 'sess:*' | xargs redis-cli del
+```
+
+**Migration — one-time read-old-write-new (only if invalidation is not acceptable):**
+
+```php
+// Run this in a maintenance script before deploying the new Propel version.
+// Requires the OLD Propel version to be available — typically you check out
+// a tag of your project, deserialize, write to a side store, then deploy
+// the new version and re-read.
+foreach ($legacyKeys as $key) {
+    $obj = $oldCache->get($key);          // unserializes via __sleep / wakeup
+    $newCache->set($key, $obj->toArray()); // store as plain array
+}
+
+// After deploy: rebuild AR objects from the stored arrays.
+foreach ($newCache->all() as $key => $array) {
+    $obj = new Book();
+    $obj->fromArray($array, TableMap::TYPE_PHPNAME);
+    $newCache->set($key, $obj);            // re-serializes via __serialize
+}
+```
+
+Most projects can simply invalidate; the read-old-write-new path is only relevant when persisted state has high value (e.g. long-running message queues that cannot be drained).
 
 ---
 

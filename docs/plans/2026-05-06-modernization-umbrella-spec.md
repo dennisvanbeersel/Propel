@@ -234,10 +234,25 @@ One full minor in 3.x with `trigger_deprecation('maturix/propel', '3.X', '...')`
 
 ### 3.5 `: static` vs `: self` decision (closes review M7)
 
-Generated setters today have no return type; companion plan adds `: static`. **`: static` IS an LSP break** for user subclasses overriding `setTitle($v)` without `: static`. Decision:
+Generated setters today have no return type; the rewrite adds an explicit return type. The choice is between `: self` and `: static`. Decision:
 
-- **Use `: self` (not `: static`)** in generated setters. Existing user-subclass `setTitle($v)` overrides remain valid (they implicitly return `static`-compatible). This costs us return-type covariance in subclasses but is BC-safe.
-- Document the reason in `2026-02-03-builder-om-modernization.md` (companion plan task 2.6 needs amending).
+- **Use `: self` (not `: static`)** in generated setters. Rationale: `: static` imposes additional covariance burden — every user subclass override would need to return `static`-compatible (i.e. `new static(...)` semantics in returned instances). `: self` only requires the override to return a same-class instance, which is what existing legacy `return $this` overrides already do.
+- **Honest BC caveat — both options break overrides without a return type.** PHP enforces strict LSP on declared return types. A pre-rewrite override of the form `public function setTitle($v) { ... return $this; }` (no return type) will fatal at class load against EITHER `: self` or `: static`:
+
+  ```
+  Fatal error: Declaration of MyBook::setTitle($v) must be compatible
+  with Propel\…\Base\Book::setTitle(?string $v): self
+  ```
+
+  `: self` is preferred because it is the easier of the two to fix in consumer code: the override only has to add `: self` (or the concrete class name), not the more semantically-loaded `: static`.
+
+- **Mechanical migration for consumers.** Two options:
+  1. Add a return type to every override. Grep pattern: `grep -rEn 'function set[A-Z][A-Za-z0-9_]*\([^)]*\)\s*\{' src/ tests/ | grep -v ': '` — surfaces overrides without return types.
+  2. Rector rule (planned to ship in `propel/rector-rules` at 4.0): `Propel\Rector\AddSelfReturnTypeToSetterOverridesRector` — walks every method matching `set[A-Z]*` whose parent declares `: self` and lacks a return type, adds `: self`.
+
+- The same caveat applies to FK getters (`: ?Publisher`, etc.) — covariant overrides without a matching return type also fatal at class load. Same migration steps.
+
+- Companion plan `2026-02-03-builder-om-modernization.md` task 2.6: amend to record both the `: self` choice AND the consumer-override caveat.
 
 ### 3.6 `DebugPDO` / `PropelPDO` — alias, don't delete (closes review M4)
 
