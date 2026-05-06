@@ -84,19 +84,19 @@ abstract class ReaderFavorite implements ActiveRecordInterface
     protected ?int $reader_id = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aBook;
+    protected ?ChildBook $aBook = null;
 
     /**
-     * @var        ChildBookReader
+     * @var        ChildBookReader|null
      */
-    protected $aBookReader;
+    protected ?ChildBookReader $aBookReader = null;
 
     /**
-     * @var        ChildBookOpinion
+     * @var        ChildBookOpinion|null
      */
-    protected $aBookOpinion;
+    protected ?ChildBookOpinion $aBookOpinion = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -94,7 +94,7 @@ abstract class RecordLabel implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildReleasePool> Collection to store aggregation of ChildReleasePool objects.
      */
     protected $collReleasePools;
-    protected $collReleasePoolsPartial;
+    protected bool $collReleasePoolsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -93,16 +93,16 @@ abstract class ConcreteQuizz extends ChildConcreteContent implements ActiveRecor
     protected ?int $category_id = null;
 
     /**
-     * @var        ChildConcreteCategory
+     * @var        ChildConcreteCategory|null
      */
-    protected $aConcreteCategory;
+    protected ?ChildConcreteCategory $aConcreteCategory = null;
 
     /**
      * @var        ObjectCollection|ChildConcreteQuizzQuestion[] Collection to store aggregation of ChildConcreteQuizzQuestion objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteQuizzQuestion> Collection to store aggregation of ChildConcreteQuizzQuestion objects.
      */
     protected $collConcreteQuizzQuestions;
-    protected $collConcreteQuizzQuestionsPartial;
+    protected bool $collConcreteQuizzQuestionsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

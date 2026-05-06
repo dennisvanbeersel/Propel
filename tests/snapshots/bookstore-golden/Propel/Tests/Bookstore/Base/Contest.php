@@ -92,16 +92,16 @@ abstract class Contest implements ActiveRecordInterface
     protected ?string $country_code = null;
 
     /**
-     * @var        ChildCountry
+     * @var        ChildCountry|null
      */
-    protected $aCountry;
+    protected ?ChildCountry $aCountry = null;
 
     /**
      * @var        ObjectCollection|ChildBookstoreContest[] Collection to store aggregation of ChildBookstoreContest objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContest> Collection to store aggregation of ChildBookstoreContest objects.
      */
     protected $collBookstoreContests;
-    protected $collBookstoreContestsPartial;
+    protected bool $collBookstoreContestsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

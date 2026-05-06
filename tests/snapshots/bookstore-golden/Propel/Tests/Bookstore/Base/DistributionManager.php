@@ -87,7 +87,7 @@ abstract class DistributionManager implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildDistribution> Collection to store aggregation of ChildDistribution objects.
      */
     protected $collDistributions;
-    protected $collDistributionsPartial;
+    protected bool $collDistributionsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

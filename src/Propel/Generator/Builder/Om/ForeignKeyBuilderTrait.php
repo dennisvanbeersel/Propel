@@ -68,9 +68,9 @@ trait ForeignKeyBuilderTrait
 
         $script .= "
     /**
-     * @var        $className
+     * @var        $className|null
      */
-    protected $" . $varName . ";
+    protected ?$className $$varName = null;
 ";
     }
 

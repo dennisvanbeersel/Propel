@@ -95,9 +95,9 @@ abstract class Distribution implements ActiveRecordInterface
     protected ?int $distribution_manager_id = null;
 
     /**
-     * @var        ChildDistributionManager
+     * @var        ChildDistributionManager|null
      */
-    protected $aDistributionManager;
+    protected ?ChildDistributionManager $aDistributionManager = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

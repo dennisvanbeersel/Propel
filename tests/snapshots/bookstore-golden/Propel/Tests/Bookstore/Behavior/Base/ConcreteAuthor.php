@@ -90,14 +90,14 @@ abstract class ConcreteAuthor implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteArticle> Collection to store aggregation of ChildConcreteArticle objects.
      */
     protected $collArticles;
-    protected $collArticlesPartial;
+    protected bool $collArticlesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildConcreteNews[] Collection to store aggregation of ChildConcreteNews objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteNews> Collection to store aggregation of ChildConcreteNews objects.
      */
     protected $collConcreteNewss;
-    protected $collConcreteNewssPartial;
+    protected bool $collConcreteNewssPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

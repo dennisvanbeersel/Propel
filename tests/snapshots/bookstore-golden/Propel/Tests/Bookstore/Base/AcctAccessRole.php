@@ -87,7 +87,7 @@ abstract class AcctAccessRole implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreEmployeeAccount> Collection to store aggregation of ChildBookstoreEmployeeAccount objects.
      */
     protected $collBookstoreEmployeeAccounts;
-    protected $collBookstoreEmployeeAccountsPartial;
+    protected bool $collBookstoreEmployeeAccountsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -105,14 +105,14 @@ abstract class BookstoreSale implements ActiveRecordInterface
     protected ?int $discount = null;
 
     /**
-     * @var        ChildBookstore
+     * @var        ChildBookstore|null
      */
-    protected $aBookstore;
+    protected ?ChildBookstore $aBookstore = null;
 
     /**
-     * @var        ChildPublisher
+     * @var        ChildPublisher|null
      */
-    protected $aPublisher;
+    protected ?ChildPublisher $aPublisher = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

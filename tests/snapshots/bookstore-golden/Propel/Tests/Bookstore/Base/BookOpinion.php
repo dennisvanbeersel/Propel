@@ -98,19 +98,19 @@ abstract class BookOpinion implements ActiveRecordInterface
     protected ?bool $recommend_to_friend = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aBook;
+    protected ?ChildBook $aBook = null;
 
     /**
-     * @var        ChildBookReader
+     * @var        ChildBookReader|null
      */
-    protected $aBookReader;
+    protected ?ChildBookReader $aBookReader = null;
 
     /**
-     * @var        ChildReaderFavorite one-to-one related ChildReaderFavorite object
+     * @var        ChildReaderFavorite|null one-to-one related ChildReaderFavorite object
      */
-    protected $singleReaderFavorite;
+    protected ?ChildReaderFavorite $singleReaderFavorite = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

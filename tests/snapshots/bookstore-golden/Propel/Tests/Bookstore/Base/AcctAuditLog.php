@@ -87,9 +87,9 @@ abstract class AcctAuditLog implements ActiveRecordInterface
     protected ?string $message = null;
 
     /**
-     * @var        ChildBookstoreEmployeeAccount
+     * @var        ChildBookstoreEmployeeAccount|null
      */
-    protected $aBookstoreEmployeeAccount;
+    protected ?ChildBookstoreEmployeeAccount $aBookstoreEmployeeAccount = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

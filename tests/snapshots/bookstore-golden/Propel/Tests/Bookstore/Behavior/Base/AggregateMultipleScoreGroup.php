@@ -145,7 +145,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildAggregateMultipleScore> Collection to store aggregation of ChildAggregateMultipleScore objects.
      */
     protected $collAggregateMultipleScores;
-    protected $collAggregateMultipleScoresPartial;
+    protected bool $collAggregateMultipleScoresPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

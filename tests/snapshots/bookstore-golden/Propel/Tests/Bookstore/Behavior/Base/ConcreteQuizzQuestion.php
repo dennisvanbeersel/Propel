@@ -108,9 +108,9 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
     protected ?int $quizz_id = null;
 
     /**
-     * @var        ChildConcreteQuizz
+     * @var        ChildConcreteQuizz|null
      */
-    protected $aConcreteQuizz;
+    protected ?ChildConcreteQuizz $aConcreteQuizz = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

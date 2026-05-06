@@ -82,14 +82,14 @@ abstract class BookListRel implements ActiveRecordInterface
     protected ?int $book_club_list_id = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aBook;
+    protected ?ChildBook $aBook = null;
 
     /**
-     * @var        ChildBookClubList
+     * @var        ChildBookClubList|null
      */
-    protected $aBookClubList;
+    protected ?ChildBookClubList $aBookClubList = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

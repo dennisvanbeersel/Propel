@@ -87,7 +87,7 @@ abstract class AggregatePost implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildAggregateComment> Collection to store aggregation of ChildAggregateComment objects.
      */
     protected $collAggregateComments;
-    protected $collAggregateCommentsPartial;
+    protected bool $collAggregateCommentsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

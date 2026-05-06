@@ -114,28 +114,28 @@ abstract class Author implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBook> Collection to store aggregation of ChildBook objects.
      */
     protected $collBooks;
-    protected $collBooksPartial;
+    protected bool $collBooksPartial = false;
 
     /**
      * @var        ObjectCollection|ChildEssay[] Collection to store aggregation of ChildEssay objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildEssay> Collection to store aggregation of ChildEssay objects.
      */
     protected $collEssaysRelatedByFirstAuthorId;
-    protected $collEssaysRelatedByFirstAuthorIdPartial;
+    protected bool $collEssaysRelatedByFirstAuthorIdPartial = false;
 
     /**
      * @var        ObjectCollection|ChildEssay[] Collection to store aggregation of ChildEssay objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildEssay> Collection to store aggregation of ChildEssay objects.
      */
     protected $collEssaysRelatedBySecondAuthorId;
-    protected $collEssaysRelatedBySecondAuthorIdPartial;
+    protected bool $collEssaysRelatedBySecondAuthorIdPartial = false;
 
     /**
      * @var        ObjectCollection|ChildPolymorphicRelationLog[] Collection to store aggregation of ChildPolymorphicRelationLog objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildPolymorphicRelationLog> Collection to store aggregation of ChildPolymorphicRelationLog objects.
      */
     protected $collPolymorphicRelationLogs;
-    protected $collPolymorphicRelationLogsPartial;
+    protected bool $collPolymorphicRelationLogsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

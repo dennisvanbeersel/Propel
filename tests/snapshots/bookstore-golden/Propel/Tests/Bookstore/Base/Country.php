@@ -88,14 +88,14 @@ abstract class Country implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildContest> Collection to store aggregation of ChildContest objects.
      */
     protected $collContests;
-    protected $collContestsPartial;
+    protected bool $collContestsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildCountryTranslation[] Collection to store aggregation of ChildCountryTranslation objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildCountryTranslation> Collection to store aggregation of ChildCountryTranslation objects.
      */
     protected $collCountryTranslations;
-    protected $collCountryTranslationsPartial;
+    protected bool $collCountryTranslationsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

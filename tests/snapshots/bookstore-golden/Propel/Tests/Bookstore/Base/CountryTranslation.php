@@ -92,9 +92,9 @@ abstract class CountryTranslation implements ActiveRecordInterface
     protected ?string $label = null;
 
     /**
-     * @var        ChildCountry
+     * @var        ChildCountry|null
      */
-    protected $aCountry;
+    protected ?ChildCountry $aCountry = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -97,9 +97,9 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
     protected ?int $score_group_id = null;
 
     /**
-     * @var        ChildAggregateMultipleScoreGroup
+     * @var        ChildAggregateMultipleScoreGroup|null
      */
-    protected $aAggregateMultipleScoreGroup;
+    protected ?ChildAggregateMultipleScoreGroup $aAggregateMultipleScoreGroup = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

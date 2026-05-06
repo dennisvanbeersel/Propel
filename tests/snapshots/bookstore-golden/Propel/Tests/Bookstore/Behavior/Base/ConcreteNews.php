@@ -107,24 +107,24 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
     protected ?int $category_id = null;
 
     /**
-     * @var        ChildConcreteArticle
+     * @var        ChildConcreteArticle|null
      */
-    protected $aConcreteArticle;
+    protected ?ChildConcreteArticle $aConcreteArticle = null;
 
     /**
-     * @var        ChildConcreteAuthor
+     * @var        ChildConcreteAuthor|null
      */
-    protected $aConcreteAuthor;
+    protected ?ChildConcreteAuthor $aConcreteAuthor = null;
 
     /**
-     * @var        ChildConcreteContent
+     * @var        ChildConcreteContent|null
      */
-    protected $aConcreteContent;
+    protected ?ChildConcreteContent $aConcreteContent = null;
 
     /**
-     * @var        ChildConcreteCategory
+     * @var        ChildConcreteCategory|null
      */
-    protected $aConcreteCategory;
+    protected ?ChildConcreteCategory $aConcreteCategory = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

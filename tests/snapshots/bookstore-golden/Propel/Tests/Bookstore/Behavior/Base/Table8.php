@@ -87,9 +87,9 @@ abstract class Table8 implements ActiveRecordInterface
     protected ?string $identifier = null;
 
     /**
-     * @var        ChildTable6
+     * @var        ChildTable6|null
      */
-    protected $aTable6;
+    protected ?ChildTable6 $aTable6 = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

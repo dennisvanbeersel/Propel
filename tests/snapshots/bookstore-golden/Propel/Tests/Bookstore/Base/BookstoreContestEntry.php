@@ -101,19 +101,19 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
     protected $entry_date;
 
     /**
-     * @var        ChildBookstore
+     * @var        ChildBookstore|null
      */
-    protected $aBookstore;
+    protected ?ChildBookstore $aBookstore = null;
 
     /**
-     * @var        ChildCustomer
+     * @var        ChildCustomer|null
      */
-    protected $aCustomer;
+    protected ?ChildCustomer $aCustomer = null;
 
     /**
-     * @var        ChildBookstoreContest
+     * @var        ChildBookstoreContest|null
      */
-    protected $aBookstoreContest;
+    protected ?ChildBookstoreContest $aBookstoreContest = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

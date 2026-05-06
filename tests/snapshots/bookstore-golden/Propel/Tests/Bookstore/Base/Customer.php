@@ -96,7 +96,7 @@ abstract class Customer implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContestEntry> Collection to store aggregation of ChildBookstoreContestEntry objects.
      */
     protected $collBookstoreContestEntries;
-    protected $collBookstoreContestEntriesPartial;
+    protected bool $collBookstoreContestEntriesPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

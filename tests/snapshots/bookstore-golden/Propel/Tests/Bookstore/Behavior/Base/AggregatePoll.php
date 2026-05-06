@@ -94,7 +94,7 @@ abstract class AggregatePoll implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildAggregateItem> Collection to store aggregation of ChildAggregateItem objects.
      */
     protected $collAggregateItems;
-    protected $collAggregateItemsPartial;
+    protected bool $collAggregateItemsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

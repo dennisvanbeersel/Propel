@@ -87,9 +87,9 @@ abstract class BookSummary implements ActiveRecordInterface
     protected ?string $summary = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aSummarizedBook;
+    protected ?ChildBook $aSummarizedBook = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

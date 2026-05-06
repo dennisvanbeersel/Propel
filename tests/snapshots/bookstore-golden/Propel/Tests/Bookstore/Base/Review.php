@@ -111,9 +111,9 @@ abstract class Review implements ActiveRecordInterface
     protected ?int $book_id = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aBook;
+    protected ?ChildBook $aBook = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

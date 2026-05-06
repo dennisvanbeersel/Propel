@@ -83,16 +83,16 @@ abstract class Woman implements ActiveRecordInterface
     protected ?int $husband_id = null;
 
     /**
-     * @var        ChildMan
+     * @var        ChildMan|null
      */
-    protected $aManRelatedByHusbandId;
+    protected ?ChildMan $aManRelatedByHusbandId = null;
 
     /**
      * @var        ObjectCollection|ChildMan[] Collection to store aggregation of ChildMan objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildMan> Collection to store aggregation of ChildMan objects.
      */
     protected $collMenRelatedByWifeId;
-    protected $collMenRelatedByWifeIdPartial;
+    protected bool $collMenRelatedByWifeIdPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

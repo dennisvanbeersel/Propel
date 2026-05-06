@@ -118,21 +118,21 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
     protected bool $photo_isLoaded = false;
 
     /**
-     * @var        ChildBookstoreEmployee
+     * @var        ChildBookstoreEmployee|null
      */
-    protected $aSupervisor;
+    protected ?ChildBookstoreEmployee $aSupervisor = null;
 
     /**
      * @var        ObjectCollection|ChildBookstoreEmployee[] Collection to store aggregation of ChildBookstoreEmployee objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreEmployee> Collection to store aggregation of ChildBookstoreEmployee objects.
      */
     protected $collSubordinates;
-    protected $collSubordinatesPartial;
+    protected bool $collSubordinatesPartial = false;
 
     /**
-     * @var        ChildBookstoreEmployeeAccount one-to-one related ChildBookstoreEmployeeAccount object
+     * @var        ChildBookstoreEmployeeAccount|null one-to-one related ChildBookstoreEmployeeAccount object
      */
-    protected $singleBookstoreEmployeeAccount;
+    protected ?ChildBookstoreEmployeeAccount $singleBookstoreEmployeeAccount = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

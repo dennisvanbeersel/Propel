@@ -141,77 +141,77 @@ abstract class Book implements ActiveRecordInterface
     protected ?int $author_id = null;
 
     /**
-     * @var        ChildPublisher
+     * @var        ChildPublisher|null
      */
-    protected $aPublisher;
+    protected ?ChildPublisher $aPublisher = null;
 
     /**
-     * @var        ChildAuthor
+     * @var        ChildAuthor|null
      */
-    protected $aAuthor;
+    protected ?ChildAuthor $aAuthor = null;
 
     /**
      * @var        ObjectCollection|ChildBookSummary[] Collection to store aggregation of ChildBookSummary objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookSummary> Collection to store aggregation of ChildBookSummary objects.
      */
     protected $collBookSummaries;
-    protected $collBookSummariesPartial;
+    protected bool $collBookSummariesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildReview[] Collection to store aggregation of ChildReview objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildReview> Collection to store aggregation of ChildReview objects.
      */
     protected $collReviews;
-    protected $collReviewsPartial;
+    protected bool $collReviewsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildMedia[] Collection to store aggregation of ChildMedia objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildMedia> Collection to store aggregation of ChildMedia objects.
      */
     protected $collMedias;
-    protected $collMediasPartial;
+    protected bool $collMediasPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookListRel[] Collection to store aggregation of ChildBookListRel objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookListRel> Collection to store aggregation of ChildBookListRel objects.
      */
     protected $collBookListRels;
-    protected $collBookListRelsPartial;
+    protected bool $collBookListRelsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookListFavorite[] Collection to store aggregation of ChildBookListFavorite objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookListFavorite> Collection to store aggregation of ChildBookListFavorite objects.
      */
     protected $collBookListFavorites;
-    protected $collBookListFavoritesPartial;
+    protected bool $collBookListFavoritesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookOpinion[] Collection to store aggregation of ChildBookOpinion objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookOpinion> Collection to store aggregation of ChildBookOpinion objects.
      */
     protected $collBookOpinions;
-    protected $collBookOpinionsPartial;
+    protected bool $collBookOpinionsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildReaderFavorite[] Collection to store aggregation of ChildReaderFavorite objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildReaderFavorite> Collection to store aggregation of ChildReaderFavorite objects.
      */
     protected $collReaderFavorites;
-    protected $collReaderFavoritesPartial;
+    protected bool $collReaderFavoritesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookstoreContest[] Collection to store aggregation of ChildBookstoreContest objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContest> Collection to store aggregation of ChildBookstoreContest objects.
      */
     protected $collBookstoreContests;
-    protected $collBookstoreContestsPartial;
+    protected bool $collBookstoreContestsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildPolymorphicRelationLog[] Collection to store aggregation of ChildPolymorphicRelationLog objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildPolymorphicRelationLog> Collection to store aggregation of ChildPolymorphicRelationLog objects.
      */
     protected $collPolymorphicRelationLogs;
-    protected $collPolymorphicRelationLogsPartial;
+    protected bool $collPolymorphicRelationLogsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookClubList[] Cross Collection to store aggregation of ChildBookClubList objects.

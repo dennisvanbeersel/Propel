@@ -94,28 +94,28 @@ abstract class CompositeEssay implements ActiveRecordInterface
     protected ?int $second_essay_id = null;
 
     /**
-     * @var        ChildCompositeEssay
+     * @var        ChildCompositeEssay|null
      */
-    protected $afirstEssay;
+    protected ?ChildCompositeEssay $afirstEssay = null;
 
     /**
-     * @var        ChildCompositeEssay
+     * @var        ChildCompositeEssay|null
      */
-    protected $asecondEssay;
+    protected ?ChildCompositeEssay $asecondEssay = null;
 
     /**
      * @var        ObjectCollection|ChildCompositeEssay[] Collection to store aggregation of ChildCompositeEssay objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildCompositeEssay> Collection to store aggregation of ChildCompositeEssay objects.
      */
     protected $collCompositeEssaysRelatedById0;
-    protected $collCompositeEssaysRelatedById0Partial;
+    protected bool $collCompositeEssaysRelatedById0Partial = false;
 
     /**
      * @var        ObjectCollection|ChildCompositeEssay[] Collection to store aggregation of ChildCompositeEssay objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildCompositeEssay> Collection to store aggregation of ChildCompositeEssay objects.
      */
     protected $collCompositeEssaysRelatedById1;
-    protected $collCompositeEssaysRelatedById1Partial;
+    protected bool $collCompositeEssaysRelatedById1Partial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

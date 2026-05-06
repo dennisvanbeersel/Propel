@@ -87,7 +87,7 @@ abstract class Table6 implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildTable8> Collection to store aggregation of ChildTable8 objects.
      */
     protected $collTable8s;
-    protected $collTable8sPartial;
+    protected bool $collTable8sPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -88,9 +88,9 @@ abstract class AggregateItem implements ActiveRecordInterface
     protected ?int $poll_id = null;
 
     /**
-     * @var        ChildAggregatePoll
+     * @var        ChildAggregatePoll|null
      */
-    protected $aAggregatePoll;
+    protected ?ChildAggregatePoll $aAggregatePoll = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

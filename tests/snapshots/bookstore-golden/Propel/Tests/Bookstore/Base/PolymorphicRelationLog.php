@@ -96,14 +96,14 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
     protected ?string $target_type = null;
 
     /**
-     * @var        ChildAuthor
+     * @var        ChildAuthor|null
      */
-    protected $aAuthor;
+    protected ?ChildAuthor $aAuthor = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aBook;
+    protected ?ChildBook $aBook = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

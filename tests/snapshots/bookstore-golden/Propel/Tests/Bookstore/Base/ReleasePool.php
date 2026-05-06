@@ -94,9 +94,9 @@ abstract class ReleasePool implements ActiveRecordInterface
     protected ?string $name = null;
 
     /**
-     * @var        ChildRecordLabel
+     * @var        ChildRecordLabel|null
      */
-    protected $aRecordLabel;
+    protected ?ChildRecordLabel $aRecordLabel = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

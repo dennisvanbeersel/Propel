@@ -96,26 +96,26 @@ abstract class BookstoreContest implements ActiveRecordInterface
     protected ?int $prize_book_id = null;
 
     /**
-     * @var        ChildBookstore
+     * @var        ChildBookstore|null
      */
-    protected $aBookstore;
+    protected ?ChildBookstore $aBookstore = null;
 
     /**
-     * @var        ChildContest
+     * @var        ChildContest|null
      */
-    protected $aContest;
+    protected ?ChildContest $aContest = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aWork;
+    protected ?ChildBook $aWork = null;
 
     /**
      * @var        ObjectCollection|ChildBookstoreContestEntry[] Collection to store aggregation of ChildBookstoreContestEntry objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContestEntry> Collection to store aggregation of ChildBookstoreContestEntry objects.
      */
     protected $collBookstoreContestEntries;
-    protected $collBookstoreContestEntriesPartial;
+    protected bool $collBookstoreContestEntriesPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

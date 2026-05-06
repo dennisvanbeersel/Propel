@@ -110,26 +110,26 @@ abstract class Essay implements ActiveRecordInterface
     protected ?int $next_essay_id = null;
 
     /**
-     * @var        ChildAuthor
+     * @var        ChildAuthor|null
      */
-    protected $aFirstAuthor;
+    protected ?ChildAuthor $aFirstAuthor = null;
 
     /**
-     * @var        ChildAuthor
+     * @var        ChildAuthor|null
      */
-    protected $aSecondAuthor;
+    protected ?ChildAuthor $aSecondAuthor = null;
 
     /**
-     * @var        ChildEssay
+     * @var        ChildEssay|null
      */
-    protected $aEssayRelatedByNextEssayId;
+    protected ?ChildEssay $aEssayRelatedByNextEssayId = null;
 
     /**
      * @var        ObjectCollection|ChildEssay[] Collection to store aggregation of ChildEssay objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildEssay> Collection to store aggregation of ChildEssay objects.
      */
     protected $collEssaysRelatedById;
-    protected $collEssaysRelatedByIdPartial;
+    protected bool $collEssaysRelatedByIdPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

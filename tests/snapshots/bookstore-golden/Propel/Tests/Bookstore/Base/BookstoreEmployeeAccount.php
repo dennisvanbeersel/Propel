@@ -144,21 +144,21 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
     protected ?string $authenticator = null;
 
     /**
-     * @var        ChildBookstoreEmployee
+     * @var        ChildBookstoreEmployee|null
      */
-    protected $aBookstoreEmployee;
+    protected ?ChildBookstoreEmployee $aBookstoreEmployee = null;
 
     /**
-     * @var        ChildAcctAccessRole
+     * @var        ChildAcctAccessRole|null
      */
-    protected $aAcctAccessRole;
+    protected ?ChildAcctAccessRole $aAcctAccessRole = null;
 
     /**
      * @var        ObjectCollection|ChildAcctAuditLog[] Collection to store aggregation of ChildAcctAuditLog objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildAcctAuditLog> Collection to store aggregation of ChildAcctAuditLog objects.
      */
     protected $collAcctAuditLogs;
-    protected $collAcctAuditLogsPartial;
+    protected bool $collAcctAuditLogsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

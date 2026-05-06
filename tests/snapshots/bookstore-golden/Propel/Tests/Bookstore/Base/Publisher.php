@@ -91,14 +91,14 @@ abstract class Publisher implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBook> Collection to store aggregation of ChildBook objects.
      */
     protected $collBooks;
-    protected $collBooksPartial;
+    protected bool $collBooksPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookstoreSale[] Collection to store aggregation of ChildBookstoreSale objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreSale> Collection to store aggregation of ChildBookstoreSale objects.
      */
     protected $collBookstoreSales;
-    protected $collBookstoreSalesPartial;
+    protected bool $collBookstoreSalesPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

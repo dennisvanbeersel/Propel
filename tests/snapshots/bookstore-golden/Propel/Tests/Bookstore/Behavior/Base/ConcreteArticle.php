@@ -115,24 +115,24 @@ abstract class ConcreteArticle extends ChildConcreteContent implements ActiveRec
     protected ?string $descendant_class = null;
 
     /**
-     * @var        ChildConcreteAuthor
+     * @var        ChildConcreteAuthor|null
      */
-    protected $aConcreteAuthor;
+    protected ?ChildConcreteAuthor $aConcreteAuthor = null;
 
     /**
-     * @var        ChildConcreteContent
+     * @var        ChildConcreteContent|null
      */
-    protected $aConcreteContent;
+    protected ?ChildConcreteContent $aConcreteContent = null;
 
     /**
-     * @var        ChildConcreteCategory
+     * @var        ChildConcreteCategory|null
      */
-    protected $aConcreteCategory;
+    protected ?ChildConcreteCategory $aConcreteCategory = null;
 
     /**
-     * @var        ChildConcreteNews one-to-one related ChildConcreteNews object
+     * @var        ChildConcreteNews|null one-to-one related ChildConcreteNews object
      */
-    protected $singleConcreteNews;
+    protected ?ChildConcreteNews $singleConcreteNews = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

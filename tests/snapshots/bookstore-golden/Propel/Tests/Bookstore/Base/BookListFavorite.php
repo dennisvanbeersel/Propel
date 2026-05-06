@@ -82,14 +82,14 @@ abstract class BookListFavorite implements ActiveRecordInterface
     protected ?int $book_club_list_id = null;
 
     /**
-     * @var        ChildBook
+     * @var        ChildBook|null
      */
-    protected $aFavoriteBook;
+    protected ?ChildBook $aFavoriteBook = null;
 
     /**
-     * @var        ChildBookClubList
+     * @var        ChildBookClubList|null
      */
-    protected $aFavoriteBookClubList;
+    protected ?ChildBookClubList $aFavoriteBookClubList = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

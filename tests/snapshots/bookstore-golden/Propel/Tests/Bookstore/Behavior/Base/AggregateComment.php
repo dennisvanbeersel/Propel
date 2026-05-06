@@ -80,9 +80,9 @@ abstract class AggregateComment implements ActiveRecordInterface
     protected ?int $post_id = null;
 
     /**
-     * @var        ChildAggregatePost
+     * @var        ChildAggregatePost|null
      */
-    protected $aAggregatePost;
+    protected ?ChildAggregatePost $aAggregatePost = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

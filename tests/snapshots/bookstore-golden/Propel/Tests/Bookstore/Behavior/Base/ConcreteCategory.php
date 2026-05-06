@@ -96,28 +96,28 @@ abstract class ConcreteCategory implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteContent> Collection to store aggregation of ChildConcreteContent objects.
      */
     protected $collConcreteContents;
-    protected $collConcreteContentsPartial;
+    protected bool $collConcreteContentsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildConcreteArticle[] Collection to store aggregation of ChildConcreteArticle objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteArticle> Collection to store aggregation of ChildConcreteArticle objects.
      */
     protected $collConcreteArticles;
-    protected $collConcreteArticlesPartial;
+    protected bool $collConcreteArticlesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildConcreteNews[] Collection to store aggregation of ChildConcreteNews objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteNews> Collection to store aggregation of ChildConcreteNews objects.
      */
     protected $collConcreteNewss;
-    protected $collConcreteNewssPartial;
+    protected bool $collConcreteNewssPartial = false;
 
     /**
      * @var        ObjectCollection|ChildConcreteQuizz[] Collection to store aggregation of ChildConcreteQuizz objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildConcreteQuizz> Collection to store aggregation of ChildConcreteQuizz objects.
      */
     protected $collConcreteQuizzs;
-    protected $collConcreteQuizzsPartial;
+    protected bool $collConcreteQuizzsPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

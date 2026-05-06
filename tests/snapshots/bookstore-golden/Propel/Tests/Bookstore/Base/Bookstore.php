@@ -130,21 +130,21 @@ abstract class Bookstore implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreSale> Collection to store aggregation of ChildBookstoreSale objects.
      */
     protected $collBookstoreSales;
-    protected $collBookstoreSalesPartial;
+    protected bool $collBookstoreSalesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookstoreContest[] Collection to store aggregation of ChildBookstoreContest objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContest> Collection to store aggregation of ChildBookstoreContest objects.
      */
     protected $collBookstoreContests;
-    protected $collBookstoreContestsPartial;
+    protected bool $collBookstoreContestsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookstoreContestEntry[] Collection to store aggregation of ChildBookstoreContestEntry objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookstoreContestEntry> Collection to store aggregation of ChildBookstoreContestEntry objects.
      */
     protected $collBookstoreContestEntries;
-    protected $collBookstoreContestEntriesPartial;
+    protected bool $collBookstoreContestEntriesPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

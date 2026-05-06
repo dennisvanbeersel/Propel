@@ -108,14 +108,14 @@ abstract class BookClubList implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBookListRel> Collection to store aggregation of ChildBookListRel objects.
      */
     protected $collBookListRels;
-    protected $collBookListRelsPartial;
+    protected bool $collBookListRelsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBookListFavorite[] Collection to store aggregation of ChildBookListFavorite objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildBookListFavorite> Collection to store aggregation of ChildBookListFavorite objects.
      */
     protected $collBookListFavorites;
-    protected $collBookListFavoritesPartial;
+    protected bool $collBookListFavoritesPartial = false;
 
     /**
      * @var        ObjectCollection|ChildBook[] Cross Collection to store aggregation of ChildBook objects.

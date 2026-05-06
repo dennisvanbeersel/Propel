@@ -90,14 +90,14 @@ abstract class BookReader implements ActiveRecordInterface
      * @phpstan-var ObjectCollection&\Traversable<ChildBookOpinion> Collection to store aggregation of ChildBookOpinion objects.
      */
     protected $collBookOpinions;
-    protected $collBookOpinionsPartial;
+    protected bool $collBookOpinionsPartial = false;
 
     /**
      * @var        ObjectCollection|ChildReaderFavorite[] Collection to store aggregation of ChildReaderFavorite objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildReaderFavorite> Collection to store aggregation of ChildReaderFavorite objects.
      */
     protected $collReaderFavorites;
-    protected $collReaderFavoritesPartial;
+    protected bool $collReaderFavoritesPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

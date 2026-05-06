@@ -99,19 +99,19 @@ abstract class ConcreteContent implements ActiveRecordInterface
     protected ?string $descendant_class = null;
 
     /**
-     * @var        ChildConcreteCategory
+     * @var        ChildConcreteCategory|null
      */
-    protected $aConcreteCategory;
+    protected ?ChildConcreteCategory $aConcreteCategory = null;
 
     /**
-     * @var        ChildConcreteArticle one-to-one related ChildConcreteArticle object
+     * @var        ChildConcreteArticle|null one-to-one related ChildConcreteArticle object
      */
-    protected $singleConcreteArticle;
+    protected ?ChildConcreteArticle $singleConcreteArticle = null;
 
     /**
-     * @var        ChildConcreteNews one-to-one related ChildConcreteNews object
+     * @var        ChildConcreteNews|null one-to-one related ChildConcreteNews object
      */
-    protected $singleConcreteNews;
+    protected ?ChildConcreteNews $singleConcreteNews = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

@@ -124,16 +124,16 @@ abstract class TypeObject implements ActiveRecordInterface
     protected $some_array_unserialized;
 
     /**
-     * @var        ChildTypeObject
+     * @var        ChildTypeObject|null
      */
-    protected $aTypeObject;
+    protected ?ChildTypeObject $aTypeObject = null;
 
     /**
      * @var        ObjectCollection|ChildTypeObject[] Collection to store aggregation of ChildTypeObject objects.
      * @phpstan-var ObjectCollection&\Traversable<ChildTypeObject> Collection to store aggregation of ChildTypeObject objects.
      */
     protected $collTypeObjectsRelatedById;
-    protected $collTypeObjectsRelatedByIdPartial;
+    protected bool $collTypeObjectsRelatedByIdPartial = false;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

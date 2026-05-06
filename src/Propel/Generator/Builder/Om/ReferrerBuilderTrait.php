@@ -133,9 +133,9 @@ trait ReferrerBuilderTrait
         if ($refFK->isLocalPrimaryKey()) {
             $script .= "
     /**
-     * @var        $className one-to-one related $className object
+     * @var        $className|null one-to-one related $className object
      */
-    protected $" . $this->getPKRefFKVarName($refFK) . ";
+    protected ?$className $" . $this->getPKRefFKVarName($refFK) . " = null;
 ";
         } else {
             $script .= "
@@ -144,7 +144,7 @@ trait ReferrerBuilderTrait
      * @phpstan-var ObjectCollection&\Traversable<{$className}> Collection to store aggregation of $className objects.
      */
     protected $" . $this->getRefFKCollVarName($refFK) . ";
-    protected $" . $this->getRefFKCollVarName($refFK) . "Partial;
+    protected bool $" . $this->getRefFKCollVarName($refFK) . "Partial = false;
 ";
         }
     }
