@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         php-version: ['8.3', '8.4']
-        db-type: [mysql, pgsql, agnostic]
+        db-type: [mysql, pgsql, sqlite, agnostic]
         symfony-version: ['7-min', '7-max']
     env:
       DB_NAME: 'propel_tests'
@@ -43,8 +43,8 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php-version }}
-          extensions: json, libxml, pdo, pdo_mysql, pdo_pgsql
-          coverage: none
+          extensions: json, libxml, pdo, pdo_mysql, pdo_pgsql, pdo_sqlite
+          coverage: pcov
 
       - name: Composer cache
         uses: actions/cache@v4
@@ -89,7 +89,14 @@ jobs:
         run: tests/bin/setup.${{ matrix.db-type }}.sh
 
       - name: Run tests
-        run: vendor/bin/phpunit -c tests/${{ matrix.db-type }}.phpunit.xml --colors=always
+        run: vendor/bin/phpunit -c tests/${{ matrix.db-type }}.phpunit.xml --colors=always --coverage-clover=coverage.xml
+
+      - name: Upload coverage artifact
+        if: matrix.php-version == '8.3' && matrix.symfony-version == '7-max'
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-${{ matrix.db-type }}
+          path: coverage.xml
 
   code-quality:
     name: "Code Quality"

@@ -1,16 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/10.5/phpunit.xsd"
+    xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
     colors="true"
     bootstrap="bootstrap.php"
     cacheDirectory=".phpunit.cache"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
+    failOnDeprecation="true"
+    failOnPhpunitDeprecation="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    failOnIncomplete="true"
+    failOnNotice="true"
+    failOnEmptyTestSuite="true"
 >
     <testsuites>
         <testsuite name="propel2">
             <directory>Propel/Tests/</directory>
+            <exclude>Propel/Tests/PropertyTests/</exclude>
         </testsuite>
     </testsuites>
 
@@ -26,7 +34,12 @@
 
     <php>
         <env name="DB" value="sqlite"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;baselineFile=tests/deprecations.allowlist.json&amp;generateBaseline=false"/>
     </php>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+    </extensions>
 
     <source>
         <include>
