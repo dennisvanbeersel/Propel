@@ -491,6 +491,20 @@ class PropelTypes
     ];
 
     /**
+     * Mapping types that are deprecated for removal in 4.0, and the
+     * recommended replacement to surface via trigger_deprecation().
+     *
+     * @var array<string, string>
+     */
+    private const DEPRECATED_TYPE_REPLACEMENTS = [
+        self::BU_DATE => self::TIMESTAMP,
+        self::BU_TIMESTAMP => self::TIMESTAMP,
+        self::BOOLEAN_EMU => self::BOOLEAN,
+        self::OBJECT => 'JSON or app-layer storage',
+        self::PHP_ARRAY => self::JSON,
+    ];
+
+    /**
      * Returns the native PHP type which corresponds to the
      * mapping type provided. Use in the base object class generation.
      *
@@ -500,6 +514,8 @@ class PropelTypes
      */
     public static function getPhpNative(string $mappingType): string
     {
+        self::triggerDeprecationIfDeprecated($mappingType);
+
         return self::$mappingToPHPNativeMap[$mappingType];
     }
 
@@ -512,6 +528,8 @@ class PropelTypes
      */
     public static function getPDOType(string $type): int
     {
+        self::triggerDeprecationIfDeprecated($type);
+
         return self::$mappingTypeToPDOTypeMap[$type];
     }
 
@@ -524,7 +542,31 @@ class PropelTypes
      */
     public static function getPdoTypeString(string $type): string
     {
+        self::triggerDeprecationIfDeprecated($type);
+
         return self::$pdoTypeNames[self::$mappingTypeToPDOTypeMap[$type]];
+    }
+
+    /**
+     * Emits a deprecation notice when the given mapping type has been scheduled
+     * for removal in 4.0. No-op for non-deprecated types.
+     *
+     * @param string $type
+     *
+     * @return void
+     */
+    private static function triggerDeprecationIfDeprecated(string $type): void
+    {
+        if (!isset(self::DEPRECATED_TYPE_REPLACEMENTS[$type])) {
+            return;
+        }
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'PropelType "%s" is deprecated and will be removed in 4.0; use %s instead.',
+            $type,
+            self::DEPRECATED_TYPE_REPLACEMENTS[$type],
+        );
     }
 
     /**
