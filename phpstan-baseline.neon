@@ -313,42 +313,6 @@ parameters:
 			path: src/Propel/Runtime/Adapter/Pdo/SqliteAdapter.php
 
 		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:clear\(\)\.$#'
-			identifier: method.notFound
-			count: 2
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:delete\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:fromArray\(\)\.$#'
-			identifier: method.notFound
-			count: 3
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:save\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:setDeleted\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:setNew\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ArrayCollection.php
-
-		-
 			message: '#^Call to an undefined static method Propel\\Runtime\\Map\\TableMap\:\:getPrimaryKeyFromRow\(\)\.$#'
 			identifier: staticMethod.notFound
 			count: 1
@@ -365,36 +329,6 @@ parameters:
 			identifier: method.notFound
 			count: 1
 			path: src/Propel/Runtime/Collection/Collection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:delete\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ObjectCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:fromArray\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ObjectCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:getPrimaryKey\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ObjectCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:save\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ObjectCollection.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:getPrimaryKey\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Collection/ObjectCombinationCollection.php
 
 		-
 			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:hashCode\(\)\.$#'
@@ -431,12 +365,6 @@ parameters:
 			identifier: argument.type
 			count: 1
 			path: src/Propel/Runtime/Formatter/AbstractFormatterWithHydration.php
-
-		-
-			message: '#^Call to an undefined method Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface\:\:getPrimaryKey\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/Formatter/ObjectFormatter.php
 
 		-
 			message: '#^Call to an undefined method Propel\\Runtime\\Map\\TableMap\:\:populateObject\(\)\.$#'
