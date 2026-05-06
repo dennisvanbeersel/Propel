@@ -424,7 +424,7 @@ abstract class TypeObjectQuery extends ModelCriteria
     public function filterBySomeArray($someArray = null, ?string $comparison = null)
     {
         $key = $this->getAliasedColName(TypeObjectTableMap::COL_SOME_ARRAY);
-        if (null === $comparison || $comparison == Criteria::CONTAINS_ALL) {
+        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
             foreach ($someArray as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {
@@ -435,7 +435,7 @@ abstract class TypeObjectQuery extends ModelCriteria
             }
 
             return $this;
-        } elseif ($comparison == Criteria::CONTAINS_SOME) {
+        } elseif ($comparison === Criteria::CONTAINS_SOME) {
             foreach ($someArray as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {
@@ -446,7 +446,7 @@ abstract class TypeObjectQuery extends ModelCriteria
             }
 
             return $this;
-        } elseif ($comparison == Criteria::CONTAINS_NONE) {
+        } elseif ($comparison === Criteria::CONTAINS_NONE) {
             foreach ($someArray as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {

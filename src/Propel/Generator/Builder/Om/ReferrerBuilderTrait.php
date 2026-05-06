@@ -70,15 +70,15 @@ trait ReferrerBuilderTrait
 
             // it doesn't make sense to join in rows from the current table, since we are fetching
             // objects related to *this* table (i.e. the joined rows will all be the same row as current object)
-            if ($this->getTable()->getPhpName() == $tblFK2->getPhpName()) {
+            if ($this->getTable()->getPhpName() === $tblFK2->getPhpName()) {
                 $doJoinGet = false;
             }
 
             $relCol2 = $this->getFKPhpNameAffix($fk2, false);
 
             if (
-                $this->getRelatedBySuffix($refFK) != '' &&
-                ($this->getRelatedBySuffix($refFK) == $this->getRelatedBySuffix($fk2))
+                $this->getRelatedBySuffix($refFK) !== '' &&
+                ($this->getRelatedBySuffix($refFK) === $this->getRelatedBySuffix($fk2))
             ) {
                 $doJoinGet = false;
             }

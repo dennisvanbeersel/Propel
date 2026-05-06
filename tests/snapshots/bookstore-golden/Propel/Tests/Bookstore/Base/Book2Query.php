@@ -406,17 +406,17 @@ abstract class Book2Query extends ModelCriteria
         } catch (SetColumnConverterException $e) {
             throw new PropelException(sprintf('Value "%s" is not accepted in this set column', $e->getValue()), $e->getCode(), $e);
         }
-        if (null === $comparison || $comparison == Criteria::CONTAINS_ALL) {
+        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
             if ($style2 === '0') {
                 return $this;
             }
             $comparison = Criteria::BINARY_ALL;
-        } elseif ($comparison == Criteria::CONTAINS_SOME || $comparison == Criteria::IN) {
+        } elseif ($comparison === Criteria::CONTAINS_SOME || $comparison === Criteria::IN) {
             if ($style2 === '0') {
                 return $this;
             }
             $comparison = Criteria::BINARY_AND;
-        } elseif ($comparison == Criteria::CONTAINS_NONE) {
+        } elseif ($comparison === Criteria::CONTAINS_NONE) {
             $key = $this->getAliasedColName(Book2TableMap::COL_STYLE2);
             if ($style2 !== '0') {
                 $this->add($key, $style2, Criteria::BINARY_NONE);
@@ -442,7 +442,7 @@ abstract class Book2Query extends ModelCriteria
     public function filterByTags($tags = null, ?string $comparison = null)
     {
         $key = $this->getAliasedColName(Book2TableMap::COL_TAGS);
-        if (null === $comparison || $comparison == Criteria::CONTAINS_ALL) {
+        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
             foreach ($tags as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {
@@ -453,7 +453,7 @@ abstract class Book2Query extends ModelCriteria
             }
 
             return $this;
-        } elseif ($comparison == Criteria::CONTAINS_SOME) {
+        } elseif ($comparison === Criteria::CONTAINS_SOME) {
             foreach ($tags as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {
@@ -464,7 +464,7 @@ abstract class Book2Query extends ModelCriteria
             }
 
             return $this;
-        } elseif ($comparison == Criteria::CONTAINS_NONE) {
+        } elseif ($comparison === Criteria::CONTAINS_NONE) {
             foreach ($tags as $value) {
                 $value = '%| ' . $value . ' |%';
                 if ($this->containsKey($key)) {
@@ -492,12 +492,12 @@ abstract class Book2Query extends ModelCriteria
      */
     public function filterByTag($tags = null, ?string $comparison = null)
     {
-        if (null === $comparison || $comparison == Criteria::CONTAINS_ALL) {
+        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
             if (is_scalar($tags)) {
                 $tags = '%| ' . $tags . ' |%';
                 $comparison = Criteria::LIKE;
             }
-        } elseif ($comparison == Criteria::CONTAINS_NONE) {
+        } elseif ($comparison === Criteria::CONTAINS_NONE) {
             $tags = '%| ' . $tags . ' |%';
             $comparison = Criteria::NOT_LIKE;
             $key = $this->getAliasedColName(Book2TableMap::COL_TAGS);

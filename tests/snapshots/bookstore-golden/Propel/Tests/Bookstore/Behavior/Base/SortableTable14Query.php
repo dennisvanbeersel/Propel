@@ -346,17 +346,17 @@ abstract class SortableTable14Query extends ModelCriteria
         } catch (SetColumnConverterException $e) {
             throw new PropelException(sprintf('Value "%s" is not accepted in this set column', $e->getValue()), $e->getCode(), $e);
         }
-        if (null === $comparison || $comparison == Criteria::CONTAINS_ALL) {
+        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
             if ($style2 === '0') {
                 return $this;
             }
             $comparison = Criteria::BINARY_ALL;
-        } elseif ($comparison == Criteria::CONTAINS_SOME || $comparison == Criteria::IN) {
+        } elseif ($comparison === Criteria::CONTAINS_SOME || $comparison === Criteria::IN) {
             if ($style2 === '0') {
                 return $this;
             }
             $comparison = Criteria::BINARY_AND;
-        } elseif ($comparison == Criteria::CONTAINS_NONE) {
+        } elseif ($comparison === Criteria::CONTAINS_NONE) {
             $key = $this->getAliasedColName(SortableTable14TableMap::COL_STYLE2);
             if ($style2 !== '0') {
                 $this->add($key, $style2, Criteria::BINARY_NONE);

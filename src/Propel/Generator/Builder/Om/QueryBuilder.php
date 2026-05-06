@@ -999,7 +999,7 @@ class QueryBuilder extends AbstractOMBuilder
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => \$minValue, 'max' => \$maxValue) for intervals.";
-        } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
+        } elseif ($col->getType() === PropelTypes::PHP_ARRAY) {
             $script .= "
      * @param array \$$variableName The values to use as filter.";
         } elseif ($col->isTextType()) {
@@ -1055,15 +1055,15 @@ class QueryBuilder extends AbstractOMBuilder
                 \$comparison = Criteria::IN;
             }
         }";
-        } elseif ($col->getType() == PropelTypes::OBJECT) {
+        } elseif ($col->getType() === PropelTypes::OBJECT) {
             $script .= "
         if (is_object(\$$variableName)) {
             \$$variableName = serialize(\$$variableName);
         }";
-        } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
+        } elseif ($col->getType() === PropelTypes::PHP_ARRAY) {
             $script .= "
         \$key = \$this->getAliasedColName($qualifiedName);
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1074,7 +1074,7 @@ class QueryBuilder extends AbstractOMBuilder
             }
 
             return \$this;
-        } elseif (\$comparison == Criteria::CONTAINS_SOME) {
+        } elseif (\$comparison === Criteria::CONTAINS_SOME) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1085,7 +1085,7 @@ class QueryBuilder extends AbstractOMBuilder
             }
 
             return \$this;
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1110,17 +1110,17 @@ class QueryBuilder extends AbstractOMBuilder
         } catch (SetColumnConverterException \$e) {
             throw new PropelException(sprintf('Value \"%s\" is not accepted in this set column', \$e->getValue()), \$e->getCode(), \$e);
         }
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             if (\${$variableName} === '0') {
                 return \$this;
             }
             \$comparison = Criteria::BINARY_ALL;
-        } elseif (\$comparison == Criteria::CONTAINS_SOME || \$comparison == Criteria::IN) {
+        } elseif (\$comparison === Criteria::CONTAINS_SOME || \$comparison === Criteria::IN) {
             if (\${$variableName} === '0') {
                 return \$this;
             }
             \$comparison = Criteria::BINARY_AND;
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             \$key = \$this->getAliasedColName($qualifiedName);
             if (\${$variableName} !== '0') {
                 \$this->add(\$key, \${$variableName}, Criteria::BINARY_NONE);
@@ -1129,7 +1129,7 @@ class QueryBuilder extends AbstractOMBuilder
 
             return \$this;
         }";
-        } elseif ($col->getType() == PropelTypes::ENUM) {
+        } elseif ($col->getType() === PropelTypes::ENUM) {
             // We do not import the column's specific enum here — generated
             // code coerces any \BackedEnum to its value, so no symbol from
             // the enum class is referenced in the query body.
@@ -1212,12 +1212,12 @@ class QueryBuilder extends AbstractOMBuilder
      */
     public function filterBy$singularPhpName(\$$variableName = null, ?string \$comparison = null)
     {
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             if (is_scalar(\$$variableName)) {
                 \$$variableName = '%| ' . \$$variableName . ' |%';
                 \$comparison = Criteria::LIKE;
             }
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             \$$variableName = '%| ' . \$$variableName . ' |%';
             \$comparison = Criteria::NOT_LIKE;
             \$key = \$this->getAliasedColName($qualifiedName);
