@@ -73,14 +73,14 @@ abstract class AggregatePost implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the nb_comments field.
      *
      * @var        int|null
      */
-    protected $nb_comments;
+    protected ?int $nb_comments = null;
 
     /**
      * @var        ObjectCollection|ChildAggregateComment[] Collection to store aggregation of ChildAggregateComment objects.

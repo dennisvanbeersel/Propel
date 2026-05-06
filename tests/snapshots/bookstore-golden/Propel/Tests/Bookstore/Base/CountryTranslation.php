@@ -68,28 +68,28 @@ abstract class CountryTranslation implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the country_code field.
      *
      * @var        string|null
      */
-    protected $country_code;
+    protected ?string $country_code = null;
 
     /**
      * The value for the language_code field.
      *
      * @var        string|null
      */
-    protected $language_code;
+    protected ?string $language_code = null;
 
     /**
      * The value for the label field.
      *
      * @var        string|null
      */
-    protected $label;
+    protected ?string $label = null;
 
     /**
      * @var        ChildCountry

@@ -72,7 +72,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * Employee ID number
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the class_key field.
@@ -80,28 +80,28 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * Note: this column has a database default value of: 0
      * @var        int
      */
-    protected $class_key;
+    protected ?int $class_key = null;
 
     /**
      * The value for the name field.
      * Employee name
      * @var        string|null
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * The value for the job_title field.
      * Employee job title
      * @var        string|null
      */
-    protected $job_title;
+    protected ?string $job_title = null;
 
     /**
      * The value for the supervisor_id field.
      * Fkey to supervisor.
      * @var        int|null
      */
-    protected $supervisor_id;
+    protected ?int $supervisor_id = null;
 
     /**
      * The value for the photo field.
@@ -115,7 +115,7 @@ abstract class BookstoreEmployee implements ActiveRecordInterface
      * This is necessary to avoid repeated lookups if $photo column is NULL in the db.
      * @var bool
      */
-    protected $photo_isLoaded = false;
+    protected bool $photo_isLoaded = false;
 
     /**
      * @var        ChildBookstoreEmployee

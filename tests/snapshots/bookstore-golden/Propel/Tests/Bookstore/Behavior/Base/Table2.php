@@ -70,14 +70,14 @@ abstract class Table2 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the created_at field.

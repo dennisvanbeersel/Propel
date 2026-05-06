@@ -75,28 +75,28 @@ abstract class ConcreteContent implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the category_id field.
      *
      * @var        int|null
      */
-    protected $category_id;
+    protected ?int $category_id = null;
 
     /**
      * The value for the descendant_class field.
      *
      * @var        string|null
      */
-    protected $descendant_class;
+    protected ?string $descendant_class = null;
 
     /**
      * @var        ChildConcreteCategory

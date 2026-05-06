@@ -71,28 +71,28 @@ abstract class Book2 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the style field.
      *
      * @var        int|null
      */
-    protected $style;
+    protected ?int $style = null;
 
     /**
      * The value for the style2 field.
      *
      * @var        int|null
      */
-    protected $style2;
+    protected ?int $style2 = null;
 
     protected $style2_converted;
 
@@ -115,14 +115,14 @@ abstract class Book2 implements ActiveRecordInterface
      *
      * @var        string|null
      */
-    protected $uuid;
+    protected ?string $uuid = null;
 
     /**
      * The value for the uuid_bin field.
      *
      * @var        string|null
      */
-    protected $uuid_bin;
+    protected ?string $uuid_bin = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

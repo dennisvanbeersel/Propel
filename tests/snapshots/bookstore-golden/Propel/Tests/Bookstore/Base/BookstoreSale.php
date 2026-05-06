@@ -72,7 +72,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the bookstore_id field.
@@ -80,21 +80,21 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * Note: this column has a database default value of: 1
      * @var        int|null
      */
-    protected $bookstore_id;
+    protected ?int $bookstore_id = null;
 
     /**
      * The value for the publisher_id field.
      *
      * @var        int|null
      */
-    protected $publisher_id;
+    protected ?int $publisher_id = null;
 
     /**
      * The value for the sale_name field.
      *
      * @var        string|null
      */
-    protected $sale_name;
+    protected ?string $sale_name = null;
 
     /**
      * The value for the discount field.
@@ -102,7 +102,7 @@ abstract class BookstoreSale implements ActiveRecordInterface
      * Note: this column has a database default value of: (expression) 10
      * @var        int|null
      */
-    protected $discount;
+    protected ?int $discount = null;
 
     /**
      * @var        ChildBookstore

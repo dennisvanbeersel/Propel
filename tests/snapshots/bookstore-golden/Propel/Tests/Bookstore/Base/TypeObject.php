@@ -72,7 +72,7 @@ abstract class TypeObject implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the details field.
@@ -107,7 +107,7 @@ abstract class TypeObject implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected $self_ref;
+    protected ?int $self_ref = null;
 
     /**
      * The value for the some_array field.

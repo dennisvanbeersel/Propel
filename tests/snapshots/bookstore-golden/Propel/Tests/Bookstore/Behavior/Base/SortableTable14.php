@@ -71,21 +71,21 @@ abstract class SortableTable14 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the style2 field.
      *
      * @var        int|null
      */
-    protected $style2;
+    protected ?int $style2 = null;
 
     protected $style2_converted;
 
@@ -94,7 +94,7 @@ abstract class SortableTable14 implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected $sortable_rank;
+    protected ?int $sortable_rank = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

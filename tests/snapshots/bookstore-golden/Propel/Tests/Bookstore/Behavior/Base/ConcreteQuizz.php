@@ -76,21 +76,21 @@ abstract class ConcreteQuizz extends ChildConcreteContent implements ActiveRecor
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the id field.
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the category_id field.
      *
      * @var        int|null
      */
-    protected $category_id;
+    protected ?int $category_id = null;
 
     /**
      * @var        ChildConcreteCategory

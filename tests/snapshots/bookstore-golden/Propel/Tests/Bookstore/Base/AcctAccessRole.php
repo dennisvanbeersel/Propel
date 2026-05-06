@@ -73,14 +73,14 @@ abstract class AcctAccessRole implements ActiveRecordInterface
      * Role ID number
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildBookstoreEmployeeAccount[] Collection to store aggregation of ChildBookstoreEmployeeAccount objects.

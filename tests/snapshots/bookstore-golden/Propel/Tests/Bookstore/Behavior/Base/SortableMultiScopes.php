@@ -69,35 +69,35 @@ abstract class SortableMultiScopes implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the category_id field.
      *
      * @var        int
      */
-    protected $category_id;
+    protected ?int $category_id = null;
 
     /**
      * The value for the sub_category_id field.
      *
      * @var        int|null
      */
-    protected $sub_category_id;
+    protected ?int $sub_category_id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the position field.
      *
      * @var        int|null
      */
-    protected $position;
+    protected ?int $position = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

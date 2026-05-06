@@ -103,42 +103,42 @@ abstract class Book implements ActiveRecordInterface
      * Book Id
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      * Book Title
      * @var        string
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the isbn field.
      * ISBN Number
      * @var        string
      */
-    protected $isbn;
+    protected ?string $isbn = null;
 
     /**
      * The value for the price field.
      * Price of the book.
      * @var        float|null
      */
-    protected $price;
+    protected ?float $price = null;
 
     /**
      * The value for the publisher_id field.
      * Foreign Key Publisher
      * @var        int|null
      */
-    protected $publisher_id;
+    protected ?int $publisher_id = null;
 
     /**
      * The value for the author_id field.
      * Foreign Key Author
      * @var        int|null
      */
-    protected $author_id;
+    protected ?int $author_id = null;
 
     /**
      * @var        ChildPublisher

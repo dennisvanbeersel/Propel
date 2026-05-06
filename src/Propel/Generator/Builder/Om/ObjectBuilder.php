@@ -655,9 +655,32 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     protected function addColumnAttributeDeclaration(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
-        $script .= "
+        $phpType = $column->getPhpType();
+
+        // Temporal columns store DateTime objects at runtime even though their
+        // declared phpType is 'string'. LOB / BLOB-style columns can hold streams.
+        // Both must remain untyped to preserve the storage contract.
+        if ($column->isTemporalType() || $column->isLobType()) {
+            $typeDeclaration = null;
+        } else {
+            $typeDeclaration = match ($phpType) {
+                'int', 'integer' => 'int',
+                'float', 'double' => 'float',
+                'bool', 'boolean' => 'bool',
+                'string' => 'string',
+                default => null,
+            };
+        }
+
+        if ($typeDeclaration !== null) {
+            $script .= "
+    protected ?" . $typeDeclaration . ' $' . $clo . " = null;
+";
+        } else {
+            $script .= "
     protected \$" . $clo . ";
 ";
+        }
     }
 
     /**
@@ -693,7 +716,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     {
         $clo = $column->getLowercasedName();
         $script .= "
-    protected \$" . $clo . "_isLoaded = false;
+    protected bool \$" . $clo . "_isLoaded = false;
 ";
     }
 

@@ -74,14 +74,14 @@ abstract class ReaderFavorite implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $book_id;
+    protected ?int $book_id = null;
 
     /**
      * The value for the reader_id field.
      *
      * @var        int
      */
-    protected $reader_id;
+    protected ?int $reader_id = null;
 
     /**
      * @var        ChildBook

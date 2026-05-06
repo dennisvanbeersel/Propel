@@ -70,28 +70,28 @@ abstract class CompositeEssay implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the first_essay_id field.
      * Book Id
      * @var        int|null
      */
-    protected $first_essay_id;
+    protected ?int $first_essay_id = null;
 
     /**
      * The value for the second_essay_id field.
      * Book Id
      * @var        int|null
      */
-    protected $second_essay_id;
+    protected ?int $second_essay_id = null;
 
     /**
      * @var        ChildCompositeEssay

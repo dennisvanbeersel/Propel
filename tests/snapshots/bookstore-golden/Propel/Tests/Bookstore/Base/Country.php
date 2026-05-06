@@ -74,14 +74,14 @@ abstract class Country implements ActiveRecordInterface
      *
      * @var        string
      */
-    protected $code;
+    protected ?string $code = null;
 
     /**
      * The value for the capital field.
      *
      * @var        string|null
      */
-    protected $capital;
+    protected ?string $capital = null;
 
     /**
      * @var        ObjectCollection|ChildContest[] Collection to store aggregation of ChildContest objects.

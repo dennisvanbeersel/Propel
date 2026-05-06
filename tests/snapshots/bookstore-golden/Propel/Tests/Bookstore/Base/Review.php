@@ -72,14 +72,14 @@ abstract class Review implements ActiveRecordInterface
      * Review Id
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the reviewed_by field.
      * Reviewer Name
      * @var        string
      */
-    protected $reviewed_by;
+    protected ?string $reviewed_by = null;
 
     /**
      * The value for the review_date field.
@@ -94,21 +94,21 @@ abstract class Review implements ActiveRecordInterface
      * Does reviewer recommend book?
      * @var        bool
      */
-    protected $recommended;
+    protected ?bool $recommended = null;
 
     /**
      * The value for the status field.
      * The status of this review.
      * @var        string|null
      */
-    protected $status;
+    protected ?string $status = null;
 
     /**
      * The value for the book_id field.
      * Book ID for this review
      * @var        int|null
      */
-    protected $book_id;
+    protected ?int $book_id = null;
 
     /**
      * @var        ChildBook

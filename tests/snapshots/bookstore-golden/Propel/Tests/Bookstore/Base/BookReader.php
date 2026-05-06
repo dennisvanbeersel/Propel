@@ -76,14 +76,14 @@ abstract class BookReader implements ActiveRecordInterface
      * Book reader ID number
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildBookOpinion[] Collection to store aggregation of ChildBookOpinion objects.

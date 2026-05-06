@@ -79,14 +79,14 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Primary key for the account ...
      * @var        int
      */
-    protected $employee_id;
+    protected ?int $employee_id = null;
 
     /**
      * The value for the login field.
      *
      * @var        string|null
      */
-    protected $login;
+    protected ?string $login = null;
 
     /**
      * The value for the password field.
@@ -94,7 +94,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: '\'@\'\'34"'
      * @var        string|null
      */
-    protected $password;
+    protected ?string $password = null;
 
     /**
      * The value for the enabled field.
@@ -102,7 +102,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: true
      * @var        bool|null
      */
-    protected $enabled;
+    protected ?bool $enabled = null;
 
     /**
      * The value for the not_enabled field.
@@ -110,7 +110,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: false
      * @var        bool|null
      */
-    protected $not_enabled;
+    protected ?bool $not_enabled = null;
 
     /**
      * The value for the created field.
@@ -133,7 +133,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected $role_id;
+    protected ?int $role_id = null;
 
     /**
      * The value for the authenticator field.
@@ -141,7 +141,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: (expression) 'Password'
      * @var        string|null
      */
-    protected $authenticator;
+    protected ?string $authenticator = null;
 
     /**
      * @var        ChildBookstoreEmployee

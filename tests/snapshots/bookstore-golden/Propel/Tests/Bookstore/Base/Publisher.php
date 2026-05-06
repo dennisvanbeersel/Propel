@@ -76,7 +76,7 @@ abstract class Publisher implements ActiveRecordInterface
      * Publisher Id
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the name field.
@@ -84,7 +84,7 @@ abstract class Publisher implements ActiveRecordInterface
      * Note: this column has a database default value of: 'Penguin'
      * @var        string
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildBook[] Collection to store aggregation of ChildBook objects.

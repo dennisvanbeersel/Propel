@@ -73,21 +73,21 @@ abstract class AggregatePoll implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the total_score field.
      *
      * @var        int|null
      */
-    protected $total_score;
+    protected ?int $total_score = null;
 
     /**
      * The value for the nb_votes field.
      *
      * @var        int|null
      */
-    protected $nb_votes;
+    protected ?int $nb_votes = null;
 
     /**
      * @var        ObjectCollection|ChildAggregateItem[] Collection to store aggregation of ChildAggregateItem objects.

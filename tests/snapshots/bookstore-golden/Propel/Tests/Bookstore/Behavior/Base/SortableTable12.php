@@ -69,28 +69,28 @@ abstract class SortableTable12 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the position field.
      *
      * @var        int|null
      */
-    protected $position;
+    protected ?int $position = null;
 
     /**
      * The value for the my_scope_column field.
      *
      * @var        int|null
      */
-    protected $my_scope_column;
+    protected ?int $my_scope_column = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

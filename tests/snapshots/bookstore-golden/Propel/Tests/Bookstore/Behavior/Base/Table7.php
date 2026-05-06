@@ -68,14 +68,14 @@ abstract class Table7 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $foo;
+    protected ?int $foo = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

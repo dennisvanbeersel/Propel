@@ -68,21 +68,21 @@ abstract class Table13 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected $title;
+    protected ?string $title = null;
 
     /**
      * The value for the slug field.
      *
      * @var        string|null
      */
-    protected $slug;
+    protected ?string $slug = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

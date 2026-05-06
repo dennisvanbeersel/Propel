@@ -73,14 +73,14 @@ abstract class Man implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the wife_id field.
      *
      * @var        int|null
      */
-    protected $wife_id;
+    protected ?int $wife_id = null;
 
     /**
      * @var        ChildWoman

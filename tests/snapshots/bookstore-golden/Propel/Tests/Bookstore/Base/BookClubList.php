@@ -80,21 +80,21 @@ abstract class BookClubList implements ActiveRecordInterface
      * Unique ID for a school reading list.
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the group_leader field.
      * The name of the teacher in charge of summer reading.
      * @var        string
      */
-    protected $group_leader;
+    protected ?string $group_leader = null;
 
     /**
      * The value for the theme field.
      * The theme, if applicable, for the reading list.
      * @var        string|null
      */
-    protected $theme;
+    protected ?string $theme = null;
 
     /**
      * The value for the created_at field.

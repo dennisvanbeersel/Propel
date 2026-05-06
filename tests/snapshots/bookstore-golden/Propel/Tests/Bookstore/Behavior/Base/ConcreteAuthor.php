@@ -76,14 +76,14 @@ abstract class ConcreteAuthor implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected $id;
+    protected ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected $name;
+    protected ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildConcreteArticle[] Collection to store aggregation of ChildConcreteArticle objects.
