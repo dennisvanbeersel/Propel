@@ -346,8 +346,12 @@ Every phase's exit checklist:
 - [ ] Generated-code lint parity green.
 - [ ] Golden-file diff reviewed.
 - [ ] Phase plan updated with retrospective notes.
+- [ ] **Review rounds completed per §4.13; all reviewer reports committed under `docs/reviews/`.**
+- [ ] **Surgical-test battery (§4.14) executed; every test type's report committed.**
+- [ ] **All MUST-FIX review findings closed; all SHOULD-FIX either closed or waived with documented reasoning in `docs/reviews/<phase>-waivers.md`.**
+- [ ] **Iteration cycles consumed within budget (§4.15); any over-budget escalations resolved.**
 
-A phase isn't "done" until all 11 boxes are checked.
+A phase isn't "done" until all 15 boxes are checked.
 
 ### 4.10 Performance targets (numerical)
 
@@ -373,6 +377,123 @@ Baselines captured in Phase A. Phase E + F + G must each show a measurable impro
 
 PDO connection drop mid-transaction, statement-cache eviction during prepared call, deadlock retry boundedness. Tests live under `tests/ChaosTests/`. Gate: Phase E exit.
 
+### 4.13 Review Team & Protocol (mandatory deliverable per phase)
+
+Every phase ships through a **multi-reviewer protocol**, not a self-merge. Reviews are dispatched as critical-review subagents using the `superpowers:requesting-code-review` skill; reports are markdown files committed alongside the code.
+
+#### 4.13.1 Standing review team (5 reviewers — every phase, no exception)
+
+| Reviewer role | Lens / charter |
+|---|---|
+| **Architecture & SOLID reviewer** | Target architecture honesty, interface integrity, SPI contract correctness, DRY/SOLID/SRP violations, module boundary leaks, dependency direction. |
+| **BC & migration realism reviewer** | Tier 1/2 surface drift, deprecation runway correctness, signature-diff gate output, schema XSD additivity, config alias preservation, real-consumer impact assessment. |
+| **Quality & rigor reviewer** | Baseline drawdown actually achieved (not just promised), PHPUnit fail-flags green, coverage delta verified, mutation score on touched files, Deptrac green, generated-code lint parity, golden-file diff sanity. |
+| **Performance & PHP runtime reviewer** | Benchmark numbers vs targets (§4.10), JIT-friendliness, opcache compatibility, memory profile, hot-path overhead, PHP 8.4 feature usage correctness. |
+| **Ambition & capability reviewer** | What did the phase claim to deliver vs what landed; capability gaps vs Doctrine 3 / Cycle ORM; out-of-scope creep into in-scope; under-delivered features. |
+
+#### 4.13.2 Phase-specific specialist reviewers (in addition to standing 5)
+
+| Phase | Specialist(s) |
+|---|---|
+| **A** | Tooling & CI specialist (Infection/Deptrac/coverage wiring correctness) |
+| **B** | Code generator specialist (template safety, generated-code idiom correctness) |
+| **B'** | Code generator specialist + Architecture reviewer second pass |
+| **C** | DBA specialist (MySQL 8 + PG 14 + MariaDB 10.5 DDL correctness, INFORMATION_SCHEMA coverage), Schema-migration safety reviewer |
+| **D** | Behavior author / third-party-ecosystem reviewer (would real Behaviors break?), Code generator specialist |
+| **E** | SQL & concurrency specialist (transaction nesting, prepared-statement cache invariants, replica routing correctness, lag handling), Security reviewer (injection/DoS audit) |
+| **F** | Compiler/parser specialist (`replaceNames` tokenizer correctness, fuzzing coverage), Security reviewer |
+| **G** | PHP 8.4 internals specialist (lazy object semantics, asymmetric visibility BC implications, property hook ordering), Performance reviewer second pass |
+| **H** | Database operations / SRE reviewer (migration rollback safety, drift detection, dry-run preview correctness) |
+| **I** | Observability specialist (telemetry interface stability, OpenTelemetry conventions, span semantics) |
+| **J** | Long-running PHP runtime specialist (RoadRunner/FrankenPHP/Swoole semantics, fiber-safety, leak detection methodology) |
+
+#### 4.13.3 Review rounds — risk-tiered cadence
+
+**LOW-RISK phases (A, D, H, I):** 2 rounds.
+**HIGH-RISK phases (B, B', C, E, F, G, J):** 3 rounds.
+
+| Round | Timing | Purpose | Reviewers engaged |
+|---|---|---|---|
+| **1 — Mid-phase architecture review** | After ~30% of phase tasks complete; before any large refactor lands | Validate target architecture decisions, SPI shapes, BC tier classifications, naming. Catches direction-wrong work before it propagates. | Architecture + BC + relevant specialist(s) — 3–4 reviewers |
+| **2 — End-phase pre-merge review** | All tasks complete; quality gates green; ready to merge | Full review pass on the integrated change. MUST-FIX findings block merge. | All 5 standing + all phase specialists |
+| **3 — Post-merge canary review (HIGH-RISK only)** | 7 days after merge to integration branch; ecosystem advisory CI has run; consumer-smoke ran for a week | Validate no real-world regressions surfaced. If severity-1 regressions appear, trigger rollback procedure. | Performance + Quality + BC reviewers — 3 reviewers |
+
+#### 4.13.4 Reviewer charter
+
+Every reviewer report:
+
+1. **Tagged findings:** each finding labeled `MUST-FIX` (blocks merge), `SHOULD-FIX` (response required: fix or waiver), or `NICE` (advisory).
+2. **Cited:** every finding references file:line in the codebase.
+3. **Verifiable:** every finding states how to reproduce / observe it.
+4. **Committed:** report saved to `docs/reviews/<phase-letter>-round-<n>-<reviewer-role>.md`. Filename convention is part of the contract.
+5. **Adversarial by construction:** reviewers are dispatched with explicit "find weaknesses, don't be diplomatic" framing. Performative agreement is itself a review failure.
+
+The maintainer (or designated phase owner) writes a single `docs/reviews/<phase>-summary.md` consolidating all reviewer reports, MUST-FIX status, and waivers.
+
+### 4.14 Surgical Test Battery (mandatory deliverable per phase)
+
+"Tests pass" is the floor. Every phase ships **deep, targeted tests** scoped to what the phase touched. Phase plans enumerate which test types apply; the umbrella requires ALL applicable types are exercised.
+
+| Test type | What it does | Phases requiring it |
+|---|---|---|
+| **Property-based tests (PBT)** via `eris` | Generate randomized inputs satisfying invariants; assert round-trip / equivalence properties. Tests added in `tests/PropertyTests/`. | All phases that change a transformation: B, B', C, F, G |
+| **Mutation testing** via Infection on touched files | MSI threshold ≥75 (Phase E/F/G/J) or ≥65 (others). Mutation report committed to `docs/reviews/<phase>-mutation.json`. | All phases |
+| **Differential test against pre-phase baseline** | Run current and pre-phase build side-by-side on identical inputs; assert behavior parity for unchanged surface. Catches accidental BC drift. | All phases (smaller scope for low-risk) |
+| **Failure-injection / chaos** | PDO connection drop mid-tx, statement-cache evict during prepare, deadlock retry, fiber cancellation, replica-lag spike. Lives in `tests/ChaosTests/`. | E, J (mandatory); G (recommended) |
+| **Performance benchmarks vs §4.10 targets** | Numerical comparison; report in `docs/reviews/<phase>-bench.md`. Regressions ≥5% block merge unless waived. | All phases (regression check); E, F, G, J (must-improve) |
+| **Consumer smoke** | Run `tests/integration/consumer-smoke/` mini-project against the phase build. Tier 1 surface exercised end-to-end. | All phases |
+| **Ecosystem advisory CI** | Run 2–3 Packagist downstream packages' test suites against the phase build. Advisory (non-blocking) but required to RUN. Reports committed. | All phases (advisory); E/F/G (escalates to blocking if any project's MUST-FIX findings indicate Tier 1 break) |
+| **Fuzzing** (Phase F-specific) | Randomized SQL fragment generator feeding `replaceNames`; token-equivalence assertion. | F (mandatory); E (statement-cache key fuzzing) |
+| **Architecture conformance** via Deptrac | Layer rules from §4.5 enforced; diff reported. | All phases |
+| **Signature-diff gate** | §3.4 JSON snapshot compared; per-class diff report. | All phases that touch generated code (B, B', C, D, F, G) |
+| **Golden-file diff** | `tests/Fixtures/bookstore/build/golden/` line-by-line diff reviewed. | Same as signature-diff |
+
+Every applicable test type produces a committed artifact. "Ran the tests" is not a deliverable; **the report is the deliverable**.
+
+### 4.15 Iteration Loop
+
+Reviews and surgical tests will surface findings. Phases iterate until findings close.
+
+#### 4.15.1 Iteration triggers
+
+A finding triggers iteration if:
+
+- Tagged `MUST-FIX` by any reviewer.
+- Surgical-test report shows a regression (perf, mutation, consumer-smoke, etc.) that exceeds the phase's tolerance.
+- Signature-diff gate fails without an accompanying `@deprecated`.
+- Definition-of-Done checkbox cannot be checked.
+
+#### 4.15.2 Iteration mechanics
+
+Each iteration cycle:
+
+1. Phase owner authors a focused fix addressing the finding(s).
+2. Affected surgical tests re-run.
+3. Reviewer who flagged the finding is re-engaged in **verify mode** (single-reviewer, single-question: "is your finding now closed?"). Other reviewers do not re-review unless the fix touched their lens.
+4. Verify-mode reviewer either signs off (finding closed) or escalates (finding becomes a blocker).
+
+#### 4.15.3 Iteration budget
+
+Per phase: **3 iteration cycles per round**. Tracking lives in `docs/reviews/<phase>-iterations.md`.
+
+If a round exceeds 3 cycles without convergence:
+
+- **Maintainer escalation triggered.** Phase owner + maintainer hold a synchronous review.
+- Outcome is one of: (a) extend budget (with reasoning recorded), (b) waive specific findings (with reasoning), (c) split phase scope (some work deferred to a follow-up phase plan), or (d) abort phase and re-plan.
+
+#### 4.15.4 SHOULD-FIX waivers
+
+Findings tagged `SHOULD-FIX` may be waived rather than fixed, but only with:
+
+- A documented reason in `docs/reviews/<phase>-waivers.md` (cited by line, with rationale).
+- Confirmation from the reviewer who raised the finding (or maintainer override on dispute).
+- An issue filed for follow-up if the deferred work is bounded; or a permanent disposition note if it's a wontfix.
+
+Waiver patterns to refuse:
+- "Out of scope" without naming where the work IS in scope.
+- "Will fix later" without a tracking issue.
+- "Reviewer is wrong" without technical refutation cited to file:line.
+
 ---
 
 ## 5. Phases
@@ -392,6 +513,22 @@ Each has its own implementation plan drafted just-in-time. Phase B has one commi
 | **H** | **CLI/Manager polish + migration tooling overhaul** | 8.3 | Medium | M | `#[AsCommand]` everywhere. `SymfonyStyle` for output. MigrationManager: `migration_name`, `batch`, `checksum` columns; dry-run with SQL preview; squashing; baselines; drift detection (runtime checksum compare); separate data vs structural migrations. Fix silent-table-create-on-error (`MigrationManager.php:166-194`). Bigger than v1 framing — risk bumped to Medium. |
 | **I** | **Observability (TelemetryInterface + adapters)** | 8.3 | Low | M | New phase forced by review. Defines `TelemetryInterface` (§2.5). Default `NoOpTelemetry` ships in core. `propel/telemetry-otel` and `propel/telemetry-prometheus` adapter packages. Hook points: query span lifecycle, prepared-cache hit/miss, transaction depth, hydration duration. Phase E's `LoggingConnection` consumes the interface. |
 | **J** | **Worker-mode / long-running-process safety (RoadRunner/FrankenPHP/Swoole)** | 8.4 | Medium | M | New phase forced by review. Request-scoped instance-pool reset hook, fiber-safe transaction context binding, connection lifecycle hooks (`onWorkerStart`, `onRequestStart`, `onRequestEnd`), assert-no-leaked-state in test mode. Sequenced post-G because PHP 8.4 Fibers + lazy objects are the cleanest substrate. |
+
+### 5.0 Review-and-test protocol per phase
+
+Every phase is governed by §4.13 (review team), §4.14 (surgical tests), §4.15 (iteration loop). Cadence is risk-tiered:
+
+- **2-round cadence (LOW-RISK):** Phases A, D, H, I.
+- **3-round cadence (HIGH-RISK):** Phases B, B', C, E, F, G, J.
+
+Specialists (in addition to the 5 standing reviewers) per phase are enumerated in §4.13.2. Surgical-test types per phase per §4.14.
+
+A phase merge is conditional on:
+1. All review-round reports committed under `docs/reviews/<phase-letter>-round-<n>-<role>.md`.
+2. All surgical-test reports committed and within tolerance.
+3. All MUST-FIX closed; SHOULD-FIX closed or waived per §4.15.4.
+4. Iteration cycles within budget per §4.15.3.
+5. Definition-of-Done (§4.9) all 15 boxes checked.
 
 ### 5.1 Sequencing rules
 
@@ -608,6 +745,8 @@ Ships as a separate Composer package; tagged in lockstep with 4.0 release.
 
 ## 11. Critical changes from v1 (for reviewers)
 
+### v2 (post first critical-review pass)
+
 1. **§1.1 Version map** added. 2.x LTS, 3.0 rewrite, 4.0 PHP-8.4 + removals.
 2. **§2 Target Architecture** added. Connection chain post-E, Criteria split post-F, Builder template strategy, DI/facade decision, TelemetryInterface.
 3. **§3 BC tiers** corrected: enumerated generated-code surface (`useXxxQuery`, `XxxQuery::create`, magic dispatch); fixed Criteria constant count (~38, not 31); fixed `ActiveRecordInterface` "single method, sacred" wording; introduced `ObjectBuilderApi` Tier 2 facade; flipped `: static` to `: self`; alias-then-kill `DebugPDO`/`PropelPDO`; concretized signature-diff gate (snapshot format, allowlist, update process); fixed `trigger_deprecation` package name to `maturix/propel`; deferred `#[\Deprecated]` to 4.0/PHP-8.4; pinned XSD hosting; added Tier 2 entries for `Criterion`/`PropelException`/`Util` classes.
@@ -616,3 +755,11 @@ Ships as a separate Composer package; tagged in lockstep with 4.0 release.
 6. **§6 Lists** corrected: Sortable 2,011 LOC (not 965); NestedSet 3,036 LOC (not 2,900); `DebugPDO`/`PropelPDO` moved from kill-in-A to alias-deprecate-kill-4.0.
 7. **§8 Release Engineering** added. SemVer policy, CHANGELOG, UPGRADE docs, deprecation telemetry, Rector ruleset.
 8. **§1.3 Out of scope** expanded: explicit scope-outs for multi-tenancy, governance, JSON shape DSL.
+
+### v2.1 (review/test/iteration framework as first-class deliverables)
+
+9. **§4.13 Review Team & Protocol** added. 5 standing reviewers (architecture, BC realism, quality/rigor, performance, ambition) + per-phase specialists (DBA, security, SQL/concurrency, PHP 8.4 internals, observability, etc.). 2-round cadence for low-risk phases; 3-round for high-risk. Reviewer reports are a phase deliverable, committed under `docs/reviews/`.
+10. **§4.14 Surgical Test Battery** added. 11 test types enumerated (PBT, mutation, differential, chaos, benchmarks, consumer-smoke, ecosystem advisory, fuzzing, architecture conformance, signature-diff, golden-file). Every applicable type produces a committed report; the report IS the deliverable.
+11. **§4.15 Iteration Loop** added. MUST-FIX vs SHOULD-FIX vs NICE finding tags. 3-cycle iteration budget per round; over-budget escalates to maintainer review. Waiver discipline (no "out of scope" without where, no "fix later" without tracking issue).
+12. **§4.9 Definition of Done** extended from 11 to 15 checkboxes; review and surgical-test deliverables are now exit-blocking.
+13. **§5.0** added: cross-reference establishing the review-and-test protocol applies to every phase.
