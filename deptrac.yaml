@@ -1,0 +1,25 @@
+imports:
+    - deptrac-baseline.yaml
+
+parameters:
+    paths:
+        - ./src
+    layers:
+        -   name: Common
+            collectors:
+                -   type: classLike
+                    value: ^Propel\\Common\\.*$
+        -   name: Generator
+            collectors:
+                -   type: classLike
+                    value: ^Propel\\Generator\\.*$
+        -   name: Runtime
+            collectors:
+                -   type: classLike
+                    value: ^Propel\\Runtime\\.*$
+    ruleset:
+        Common: []
+        Generator:
+            - Common
+        Runtime:
+            - Common
