@@ -425,7 +425,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [first_score_at] column value.
      *
      *
-     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param string|null $format The date/time format string (date()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.
@@ -447,7 +447,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      * Get the [optionally formatted] temporal [last_score_at] column value.
      *
      *
-     * @param string|null $format The date/time format string (either date()-style or strftime()-style).
+     * @param string|null $format The date/time format string (date()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
      * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.

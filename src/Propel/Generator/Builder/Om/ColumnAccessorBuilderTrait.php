@@ -74,7 +74,7 @@ trait ColumnAccessorBuilderTrait
      * Get the [optionally formatted] temporal [$clo] column value.
      * {$column->getDescription()}
      *
-     * @param string|null \$format The date/time format string (either date()-style or strftime()-style).
+     * @param string|null \$format The date/time format string (date()-style).
      *   If format is NULL, then the raw $dateTimeClass object will be returned.
      *
      * @return string|{$dateTimeClass}{$orNull} Formatted date/time value as string or $dateTimeClass object (if format is NULL){$descriptionReturnValueNull}{$descriptionReturnMysqlInvalidDate}.
