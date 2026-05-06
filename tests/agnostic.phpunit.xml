@@ -25,6 +25,14 @@
         </testsuite>
     </testsuites>
 
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;baselineFile=tests/deprecations.allowlist.json&amp;generateBaseline=false"/>
+    </php>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+    </extensions>
+
     <groups>
         <exclude>
             <group>database</group>

@@ -38,7 +38,12 @@
         <env name="DB" value="pgsql"/>
         <env name="DB_USER" value="postgres"/>
         <env name="DB_NAME" value="postgres"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;baselineFile=tests/deprecations.allowlist.json&amp;generateBaseline=false"/>
     </php>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+    </extensions>
 
     <source>
         <include>

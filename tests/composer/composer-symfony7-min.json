@@ -34,7 +34,8 @@
         "psalm/phar": "^5.0 || ^6.0",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/extension-installer": "^1.4"
+        "phpstan/extension-installer": "^1.4",
+        "symfony/phpunit-bridge": "^7.2"
     },
     "autoload": {
         "psr-4": {
