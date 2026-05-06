@@ -19,8 +19,6 @@ use Propel\Generator\Exception\BuildException;
 use Propel\Generator\Exception\EngineException;
 use Propel\Generator\Model\Database;
 use Propel\Generator\Model\Schema;
-use RuntimeException;
-use XSLTProcessor;
 
 /**
  * An abstract base Propel manager to perform work related to the XML schema
@@ -76,13 +74,6 @@ abstract class AbstractManager
      * @var mixed
      */
     protected $xsd;
-
-    /**
-     * XSL file to use to normalize (or otherwise transform) schema before validation.
-     *
-     * @var mixed
-     */
-    protected $xsl;
 
     /**
      * Gets list of all used xml schemas
@@ -254,19 +245,6 @@ abstract class AbstractManager
     }
 
     /**
-     * Sets the normalization XSLT to use to transform datamodel schema.xml
-     * file(s) before validation and parsing.
-     *
-     * @param mixed $xsl
-     *
-     * @return void
-     */
-    public function setXsl($xsl): void
-    {
-        $this->xsl = $xsl;
-    }
-
-    /**
      * Sets the current target database encoding.
      *
      * @param string $encoding Target database encoding
@@ -295,7 +273,6 @@ abstract class AbstractManager
      * class.
      *
      * @throws \Propel\Generator\Exception\EngineException
-     * @throws \RuntimeException
      * @throws \Propel\Generator\Exception\BuildException
      *
      * @return void
@@ -316,26 +293,6 @@ abstract class AbstractManager
             $dom->load($dmFilename);
 
             $this->includeExternalSchemas($dom, $schema->getPath());
-
-            // normalize (or transform) the XML document using XSLT
-            if ($this->getGeneratorConfig()->get()['generator']['schema']['transform'] && $this->xsl) {
-                $this->log('Transforming ' . $dmFilename . ' using stylesheet ' . $this->xsl->getPath());
-
-                if (!class_exists('\XSLTProcessor')) {
-                    $this->log('Could not perform XLST transformation. Make sure PHP has been compiled/configured to support XSLT.');
-                } else {
-                    // normalize the document using normalizer stylesheet
-                    $xslDom = new DOMDocument('1.0', 'UTF-8');
-                    $xslDom->load($this->xsl->getAbsolutePath());
-                    $xsl = new XSLTProcessor();
-                    $xsl->importStyleSheet($xslDom);
-                    $dom = $xsl->transformToDoc($dom);
-
-                    if ($dom === false) {
-                        throw new RuntimeException('XSLTProcessor transformation to a DOMDocument failed.');
-                    }
-                }
-            }
 
             // validate the XML document using XSD schema
             if ($this->validate && $this->xsd) {
