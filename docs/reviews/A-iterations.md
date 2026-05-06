@@ -25,7 +25,49 @@ Per umbrella spec §4.15.3: iteration cycles are tracked here. Budget is 3 per r
 
 ## Round 2 (end-phase pre-merge, after Tasks A.14–A.42)
 
-_Pending phase completion._
+### Cycle 1 — Round 2 fix sweep
+
+**Triggered by:** 4 MUST-FIX + 1 SHOULD-FIX findings from
+`A-round-2-summary.md` (consolidated single-pass adversarial review).
+
+**Resolution commits:**
+
+- `63a80ed1f` fix(deptrac): restore RuntimeInternal layer per A.4 plan
+  — closes MUST-FIX-A1.
+- `aa7ce1a29` fix(xsd): restore legacy datatype enumeration values for
+  additivity (BU_DATE/BU_TIMESTAMP/BOOLEAN_EMU/PHP_ARRAY)
+  — closes MUST-FIX-B1.
+- `3b6d23687` fix(tests): unblock Infection's initial test run
+  (StandardServiceContainerTest tearDown reset, DatabaseMapTest fresh
+  per-test DatabaseMap, agnostic.phpunit.xml executionOrder="default")
+  — closes MUST-FIX-B2 / MUST-FIX-Q1.
+- `ebfc7ee63` docs(reviews): close Round 2 MUST-FIX-CI1 (W6 waiver) and
+  DoD #11 retrospective
+  — closes MUST-FIX-CI1 (via waiver) and DoD #11.
+
+**SHOULD-FIX-B1** — DebugPDO/PropelPDO deprecation tests already exist in
+`tests/Propel/Tests/Runtime/Connection/DeprecatedConnectionWrappersTest.php`
+(both `expectUserDeprecationMessage`-driven). No new test needed; the
+deprecation gate is non-inert.
+
+**Findings status:**
+
+- 4/4 MUST-FIX → closed in this cycle (3 source fixes + 1 waiver).
+- 1/1 SHOULD-FIX (B1) → already closed in previous work; verified.
+- DoD #11 retrospective → closed.
+
+**Quality stack final state (post-cycle):**
+
+- `composer test:agnostic`: 2413 tests / 5176 assertions / 21 skipped, GREEN.
+- `composer stan`: 0 errors.
+- `composer psalm`: 0 errors (1621-line baseline holds).
+- `composer cs-check`: clean.
+- `composer deptrac`: 0 violations / 233 baselined skips / 0 warnings.
+- `vendor/bin/infection --filter=Map/RelationMap.php --threads=1
+   --min-msi=0 --min-covered-msi=0 --no-progress`: completes; MSI 83%,
+  Covered MSI 91%.
+
+**Cycles remaining in Round 2 budget:** 2 of 3 unused. Cycle 1 sufficient.
 
 ---
 
