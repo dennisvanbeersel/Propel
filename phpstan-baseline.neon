@@ -307,36 +307,6 @@ parameters:
 			path: src/Propel/Runtime/ActiveQuery/SqlBuilder/SelectQuerySqlBuilder.php
 
 		-
-			message: '#^Call to an undefined method object\:\:getAncestors\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php
-
-		-
-			message: '#^Call to an undefined method object\:\:getFirstChild\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php
-
-		-
-			message: '#^Call to an undefined method object\:\:getNextSibling\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php
-
-		-
-			message: '#^Call to an undefined method object\:\:hasChildren\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php
-
-		-
-			message: '#^Call to an undefined method object\:\:hasNextSibling\(\)\.$#'
-			identifier: method.notFound
-			count: 1
-			path: src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php
-
-		-
 			message: '#^Call to an undefined method Propel\\Runtime\\Connection\\ConnectionInterface\:\:sqliteCreateFunction\(\)\.$#'
 			identifier: method.notFound
 			count: 1

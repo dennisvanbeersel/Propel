@@ -21,12 +21,18 @@ use RecursiveIterator;
  */
 class NestedSetRecursiveIterator implements RecursiveIterator
 {
+    /**
+     * @var \Propel\Runtime\ActiveRecord\NestedSetNodeInterface
+     */
     protected object $topNode;
 
+    /**
+     * @var \Propel\Runtime\ActiveRecord\NestedSetNodeInterface|null
+     */
     protected ?object $curNode = null;
 
     /**
-     * @param object $node
+     * @param \Propel\Runtime\ActiveRecord\NestedSetNodeInterface $node
      */
     public function __construct(object $node)
     {
