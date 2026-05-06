@@ -13,6 +13,7 @@ namespace Propel\Generator\Platform;
 use Propel\Common\Util\SetColumnConverter;
 use Propel\Generator\Config\GeneratorConfigInterface;
 use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\Database;
 use Propel\Generator\Model\Diff\ColumnDiff;
@@ -1376,6 +1377,60 @@ ALTER TABLE %s ADD
     public function supportsVarcharWithoutSize(): bool
     {
         return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support invisible columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support CHECK constraints.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — emit nothing for CHECK; throw if asked.
+     *
+     * Concrete platforms (MySQL, PG) override this. SQLite overrides to throw with
+     * the frozen-feature message.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @throws \Propel\Generator\Exception\EngineException always — the default platform doesn't support CHECK
+     *
+     * @return string
+     */
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        throw new EngineException(sprintf(
+            'Platform "%s" does not support CHECK constraints (CHECK "%s").',
+            static::class,
+            $cc->getName(),
+        ));
     }
 
     /**

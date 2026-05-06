@@ -13,6 +13,7 @@ namespace Propel\Generator\Platform;
 use PDO;
 use Propel\Generator\Config\GeneratorConfigInterface;
 use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\Database;
 use Propel\Generator\Model\Diff\ColumnDiff;
@@ -335,6 +336,11 @@ SET FOREIGN_KEY_CHECKS = 1;
             }
         }
 
+        // Phase C (umbrella §6.4): table-level CHECK constraints inline in CREATE TABLE.
+        foreach ($table->getCheckConstraints() as $checkConstraint) {
+            $lines[] = $this->getCheckConstraintDDL($checkConstraint);
+        }
+
         $vendorSpecific = $table->getVendorInfoForType('mysql');
         if ($vendorSpecific->hasParameter('Type')) {
             $mysqlTableType = $vendorSpecific->getParameter('Type');
@@ -514,9 +520,26 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
             }
         }
 
-        $autoIncrement = $col->getAutoIncrementString();
-        if ($autoIncrement) {
-            $ddl[] = $autoIncrement;
+        // Phase C (umbrella §6.4): generated column — emit GENERATED ALWAYS AS (expr) {VIRTUAL|STORED}
+        // before AUTO_INCREMENT / INVISIBLE / COMMENT. AUTO_INCREMENT and a generation expression
+        // are mutually exclusive on MySQL, so the autoIncrement branch is skipped when the column
+        // is generated (the user error is rejected upstream during model load if both are set).
+        if ($col->isGenerated()) {
+            $ddl[] = sprintf(
+                'GENERATED ALWAYS AS (%s) %s',
+                (string)$col->getGenerationExpression(),
+                strtoupper((string)$col->getGenerationKind()),
+            );
+        } else {
+            $autoIncrement = $col->getAutoIncrementString();
+            if ($autoIncrement) {
+                $ddl[] = $autoIncrement;
+            }
+        }
+
+        // Phase C (umbrella §6.4): INVISIBLE keyword (MySQL 8.0.23+ / MariaDB 10.3+).
+        if ($col->isInvisible()) {
+            $ddl[] = 'INVISIBLE';
         }
 
         if ($col->getDescription()) {
@@ -524,6 +547,58 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
         }
 
         return implode(' ', $ddl);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL/MariaDB supports VIRTUAL and STORED generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8.0.23+ / MariaDB 10.3+ support INVISIBLE columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8.0.16+ / MariaDB 10.5+ enforce CHECK constraints.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8 / MariaDB 10.5 CHECK constraint DDL.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @return string
+     */
+    #[\Override]
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        $name = $this->quoteIdentifier($cc->getName());
+        $ddl = sprintf('CONSTRAINT %s CHECK (%s)', $name, $cc->getExpression());
+        if (!$cc->isEnforced()) {
+            $ddl .= ' NOT ENFORCED';
+        }
+
+        return $ddl;
     }
 
     /**

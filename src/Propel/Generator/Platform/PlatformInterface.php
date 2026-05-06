@@ -240,6 +240,30 @@ interface PlatformInterface
     public function supportsVarcharWithoutSize(): bool;
 
     /**
+     * Phase C (umbrella §6.4): does this platform emit GENERATED columns (virtual/stored)?
+     * MySQL/MariaDB and PostgreSQL return true; SQLite false (frozen-feature stance).
+     *
+     * @return bool
+     */
+    public function supportsGeneratedColumns(): bool;
+
+    /**
+     * Phase C (umbrella §6.4): does this platform emit INVISIBLE columns?
+     * MySQL 8 / MariaDB 10.3+ return true; PostgreSQL false; SQLite false.
+     *
+     * @return bool
+     */
+    public function supportsInvisibleColumns(): bool;
+
+    /**
+     * Phase C (umbrella §6.4): does this platform emit CHECK constraints?
+     * MySQL 8.0.16+, MariaDB 10.5+, PostgreSQL all true; SQLite false (frozen).
+     *
+     * @return bool
+     */
+    public function supportsCheckConstraints(): bool;
+
+    /**
      * Returns the boolean value for the RDBMS.
      *
      * This value should match the boolean value that is set
