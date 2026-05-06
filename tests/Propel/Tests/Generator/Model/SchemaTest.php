@@ -42,21 +42,21 @@ class SchemaTest extends ModelTestCase
         $database1
             ->expects($this->any())
             ->method('getTables')
-            ->will($this->returnValue([$booksTable]));
+            ->willReturn([$booksTable]);
 
         $database2 = $this->getDatabaseMock('bookstore');
         $database2
             ->expects($this->any())
             ->method('getTables')
-            ->will($this->returnValue([
+            ->willReturn([
                 $booksTable,
                 $this->getTableMock('authors'),
-            ]));
+            ]);
         $database2
             ->expects($this->any())
             ->method('getTable')
             ->with($this->equalTo('books'))
-            ->will($this->returnValue($booksTable));
+            ->willReturn($booksTable);
 
         $subSchema1 = new Schema($this->getPlatformMock());
         $subSchema1->addDatabase($database1);
@@ -83,15 +83,15 @@ class SchemaTest extends ModelTestCase
         $database
             ->expects($this->any())
             ->method('countTables')
-            ->will($this->returnValue(count($tables)));
+            ->willReturn(count($tables));
         $database
             ->expects($this->any())
             ->method('getTables')
-            ->will($this->returnValue($tables));
+            ->willReturn($tables);
         $database
             ->expects($this->any())
             ->method('getBehaviors')
-            ->will($this->returnValue([$behavior]));
+            ->willReturn([$behavior]);
 
         $subSchema1 = new Schema($this->getPlatformMock());
         $subSchema1->addDatabase($database);
@@ -176,7 +176,7 @@ class SchemaTest extends ModelTestCase
             ->expects($this->any())
             ->method('getConfiguredPlatform')
             ->with($this->equalTo(null), $this->equalTo('bookstore'))
-            ->will($this->returnValue($this->getPlatformMock()));
+            ->willReturn($this->getPlatformMock());
 
         $schema = new Schema($this->getPlatformMock());
         $schema->setGeneratorConfig($config);

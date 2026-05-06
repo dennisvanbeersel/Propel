@@ -61,7 +61,7 @@ class MigrationManagerTest extends TestCase
         $migrationManager
             ->expects($this->any())
             ->method('getMigrationTimestamps')
-            ->will($this->returnValue($migrationTimestamps));
+            ->willReturn($migrationTimestamps);
 
         // make sure there is no other table named migration
         $migrationManager->getAdapterConnection('migration')->query('DROP TABLE IF EXISTS migration');

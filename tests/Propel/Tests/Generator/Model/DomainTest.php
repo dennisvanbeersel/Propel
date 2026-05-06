@@ -41,7 +41,7 @@ class DomainTest extends ModelTestCase
         $platform
             ->expects($this->any())
             ->method('getDomainForType')
-            ->will($this->returnValue(new Domain('BOOLEAN')));
+            ->willReturn(new Domain('BOOLEAN'));
 
         $domain = new Domain();
         $domain->setDatabase($this->getDatabaseMock('bookstore', [
@@ -120,7 +120,7 @@ class DomainTest extends ModelTestCase
         $value
             ->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue('foo'));
+            ->willReturn('foo');
 
         $domain = new Domain('VARCHAR');
         $domain->setDefaultValue($value);
@@ -138,7 +138,7 @@ class DomainTest extends ModelTestCase
         $value
             ->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue($booleanAsString));
+            ->willReturn($booleanAsString);
 
         $domain = new Domain($mappingType);
         $domain->setDefaultValue($value);
@@ -173,7 +173,7 @@ class DomainTest extends ModelTestCase
         $value
             ->expects($this->once())
             ->method('isExpression')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $domain = new Domain();
         $domain->setDefaultValue($value);

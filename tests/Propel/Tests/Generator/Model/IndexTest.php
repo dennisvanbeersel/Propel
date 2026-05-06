@@ -55,7 +55,7 @@ class IndexTest extends ModelTestCase
         $database
             ->expects($this->any())
             ->method('getMaxColumnNameLength')
-            ->will($this->returnValue($maxColumnNameLength));
+            ->willReturn($maxColumnNameLength);
 
         $table = $this->getTableMock($tableName, [
             'common_name' => $tableName,

@@ -78,7 +78,7 @@ class TableTest extends ModelTestCase
         $database
             ->expects($this->once())
             ->method('getGeneratorConfig')
-            ->will($this->returnValue($config));
+            ->willReturn($config);
 
         $table = new Table('');
         $table->setDatabase($database);
@@ -99,7 +99,7 @@ class TableTest extends ModelTestCase
             ->expects($this->once())
             ->method('getBuildProperty')
             ->with('propel.foo.bar')
-            ->will($this->returnValue('baz'));
+            ->willReturn('baz');
 
         $table->setDatabase($database);
         $this->assertSame('baz', $table->getBuildProperty('propel.foo.bar'));
@@ -114,12 +114,12 @@ class TableTest extends ModelTestCase
         $behavior
             ->expects($this->once())
             ->method('isTableModified')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $behavior
             ->expects($this->once())
             ->method('getTableModifier')
-            ->will($this->returnValue($behavior));
+            ->willReturn($behavior);
 
         $behavior
             ->expects($this->once())
@@ -208,7 +208,7 @@ class TableTest extends ModelTestCase
         $database
             ->expects($supportsSchemas ? $this->once() : $this->never())
             ->method('getSchemaDelimiter')
-            ->will($this->returnValue('.'));
+            ->willReturn('.');
 
         $table = new Table('books');
         $table->setSchema($schemaName);
@@ -283,7 +283,7 @@ class TableTest extends ModelTestCase
         $database
             ->expects($this->once())
             ->method('getDefaultStringFormat')
-            ->will($this->returnValue('XML'));
+            ->willReturn('XML');
 
         $table = new Table('');
         $table->setDatabase($database);
@@ -337,7 +337,7 @@ class TableTest extends ModelTestCase
         $column
             ->expects($this->any())
             ->method('isEnumeratedClasses')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $children[] = $this->getMockBuilder('Propel\Generator\Model\Inheritance')->getMock();
         $children[] = $this->getMockBuilder('Propel\Generator\Model\Inheritance')->getMock();
@@ -345,7 +345,7 @@ class TableTest extends ModelTestCase
         $column
             ->expects($this->any())
             ->method('getChildren')
-            ->will($this->returnValue($children));
+            ->willReturn($children);
 
         $table = new Table('books');
         $table->addColumn($column);
@@ -367,7 +367,7 @@ class TableTest extends ModelTestCase
         $column
             ->expects($this->any())
             ->method('isEnumeratedClasses')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $table = new Table('books');
         $table->addColumn($column);
@@ -520,12 +520,12 @@ class TableTest extends ModelTestCase
         $column1
             ->expects($this->any())
             ->method('isValueSetType')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $column2
             ->expects($this->any())
             ->method('isValueSetType')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $table = new Table('books');
 
@@ -927,7 +927,7 @@ class TableTest extends ModelTestCase
         $database
             ->expects($this->once())
             ->method('getBaseClass')
-            ->will($this->returnValue('BaseObject'));
+            ->willReturn('BaseObject');
 
         $table = new Table('');
         $table->setDatabase($database);
@@ -1066,32 +1066,32 @@ class TableTest extends ModelTestCase
         $column
             ->expects($this->any())
             ->method('isPrimaryKey')
-            ->will($this->returnValue($options['primary']));
+            ->willReturn($options['primary']);
 
         $column
             ->expects($this->any())
             ->method('isAutoIncrement')
-            ->will($this->returnValue($options['auto_increment']));
+            ->willReturn($options['auto_increment']);
 
         $column
             ->expects($this->any())
             ->method('isInheritance')
-            ->will($this->returnValue($options['inheritance']));
+            ->willReturn($options['inheritance']);
 
         $column
             ->expects($this->any())
             ->method('isLazyLoad')
-            ->will($this->returnValue($options['lazy']));
+            ->willReturn($options['lazy']);
 
         $column
             ->expects($this->any())
             ->method('getPhpName')
-            ->will($this->returnValue($options['phpName']));
+            ->willReturn($options['phpName']);
 
         $column
             ->expects($this->any())
             ->method('requiresTransactionInPostgres')
-            ->will($this->returnValue($options['pg_transaction']));
+            ->willReturn($options['pg_transaction']);
 
         return $column;
     }

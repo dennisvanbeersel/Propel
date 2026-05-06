@@ -52,24 +52,24 @@ class ForeignKeyTest extends ModelTestCase
             ->expects($this->any())
             ->method('getTable')
             ->with($this->equalTo('authors'))
-            ->will($this->returnValue($foreignTable));
+            ->willReturn($foreignTable);
 
         $foreignTable
             ->expects($this->once())
             ->method('getPrimaryKey')
-            ->will($this->returnValue([$idColumn]));
+            ->willReturn([$idColumn]);
 
         $foreignTable
             ->expects($this->any())
             ->method('getColumn')
             ->with($this->equalTo('id'))
-            ->will($this->returnValue($idColumn));
+            ->willReturn($idColumn);
 
         $localTable
             ->expects($this->any())
             ->method('getColumn')
             ->with($this->equalTo('author_id'))
-            ->will($this->returnValue($authorIdColumn));
+            ->willReturn($authorIdColumn);
 
         $fk = new ForeignKey();
         $fk->setTable($localTable);
@@ -108,24 +108,24 @@ class ForeignKeyTest extends ModelTestCase
             ->expects($this->any())
             ->method('getTable')
             ->with($this->equalTo('bookstore_employee_account'))
-            ->will($this->returnValue($foreignTable));
+            ->willReturn($foreignTable);
 
         $foreignTable
             ->expects($this->any())
             ->method('getPrimaryKey')
-            ->will($this->returnValue([$idColumn, $secondaryColumn]));
+            ->willReturn([$idColumn, $secondaryColumn]);
 
         $foreignTable
             ->expects($this->any())
             ->method('getColumn')
             ->with($this->equalTo('login'))
-            ->will($this->returnValue($loginColumn));
+            ->willReturn($loginColumn);
 
         $localTable
             ->expects($this->any())
             ->method('getColumn')
             ->with($this->equalTo('uid'))
-            ->will($this->returnValue($uidColumn));
+            ->willReturn($uidColumn);
 
         $fk = new ForeignKey();
         $fk->setTable($localTable);
@@ -149,14 +149,14 @@ class ForeignKeyTest extends ModelTestCase
         $column
             ->expects($this->once())
             ->method('isNotNull')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $table = $this->getTableMock('books');
         $table
             ->expects($this->once())
             ->method('getColumn')
             ->with($this->equalTo('author_id'))
-            ->will($this->returnValue($column));
+            ->willReturn($column);
 
         $fk = new ForeignKey();
         $fk->setTable($table);
@@ -174,14 +174,14 @@ class ForeignKeyTest extends ModelTestCase
         $column
             ->expects($this->once())
             ->method('isNotNull')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $table = $this->getTableMock('books');
         $table
             ->expects($this->once())
             ->method('getColumn')
             ->with($this->equalTo('author_id'))
-            ->will($this->returnValue($column));
+            ->willReturn($column);
 
         $fk = new ForeignKey();
         $fk->setTable($table);
@@ -208,7 +208,7 @@ class ForeignKeyTest extends ModelTestCase
             ->expects($this->any())
             ->method('getTable')
             ->with($this->equalTo('authors'))
-            ->will($this->returnValue($foreignTable));
+            ->willReturn($foreignTable);
 
         $inversedFk = new ForeignKey();
         $inversedFk->addReference('id', 'author_id');
@@ -217,7 +217,7 @@ class ForeignKeyTest extends ModelTestCase
         $foreignTable
             ->expects($this->any())
             ->method('getForeignKeys')
-            ->will($this->returnValue([]));
+            ->willReturn([]);
 
         $fk = new ForeignKey();
         $fk->setTable($localTable);
@@ -248,7 +248,7 @@ class ForeignKeyTest extends ModelTestCase
             ->expects($this->any())
             ->method('getTable')
             ->with($this->equalTo('bookstore.authors'))
-            ->will($this->returnValue($foreignTable));
+            ->willReturn($foreignTable);
 
         $inversedFk = new ForeignKey();
         $inversedFk->addReference('id', 'author_id');
@@ -259,7 +259,7 @@ class ForeignKeyTest extends ModelTestCase
         $foreignTable
             ->expects($this->any())
             ->method('getForeignKeys')
-            ->will($this->returnValue([$inversedFk]));
+            ->willReturn([$inversedFk]);
 
         $fk = new ForeignKey();
         $fk->setTable($localTable);
@@ -286,7 +286,7 @@ class ForeignKeyTest extends ModelTestCase
             ->expects($this->any())
             ->method('getColumn')
             ->with($this->equalTo('author_id'))
-            ->will($this->returnValue($column));
+            ->willReturn($column);
 
         $fk = new ForeignKey();
         $fk->setTable($table);
@@ -307,7 +307,7 @@ class ForeignKeyTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getPrimaryKey')
-            ->will($this->returnValue($pks));
+            ->willReturn($pks);
 
         $fk = new ForeignKey();
         $fk->setTable($table);
@@ -330,7 +330,7 @@ class ForeignKeyTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getPrimaryKey')
-            ->will($this->returnValue($pks));
+            ->willReturn($pks);
 
         $fk = new ForeignKey();
         $fk->setTable($table);
@@ -355,7 +355,7 @@ class ForeignKeyTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getForeignKeys')
-            ->will($this->returnValue($fks));
+            ->willReturn($fks);
 
         $fk->setTable($table);
 
@@ -468,7 +468,7 @@ class ForeignKeyTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getSchema')
-            ->will($this->returnValue('books'));
+            ->willReturn('books');
 
         $fk = new ForeignKey();
         $fk->setTable($table);
