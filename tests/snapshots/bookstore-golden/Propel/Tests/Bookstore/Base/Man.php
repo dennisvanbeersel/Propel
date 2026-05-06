@@ -210,7 +210,7 @@ abstract class Man implements ActiveRecordInterface
      * @param mixed $obj The object to compare to.
      * @return bool Whether equal to the object specified.
      */
-    public function equals($obj): bool
+    public function equals(mixed $obj): bool
     {
         if (!$obj instanceof static) {
             return false;
@@ -256,7 +256,7 @@ abstract class Man implements ActiveRecordInterface
      *
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function getVirtualColumn(string $name)
+    public function getVirtualColumn(string $name): mixed
     {
         if (!$this->hasVirtualColumn($name)) {
             throw new PropelException(sprintf('Cannot get value of nonexistent virtual column `%s`.', $name));
@@ -273,7 +273,7 @@ abstract class Man implements ActiveRecordInterface
      *
      * @return $this The current object, for fluid interface
      */
-    public function setVirtualColumn(string $name, $value)
+    public function setVirtualColumn(string $name, mixed $value): self
     {
         $this->virtualColumns[$name] = $value;
 
@@ -318,21 +318,44 @@ abstract class Man implements ActiveRecordInterface
      * Clean up internal collections prior to serializing
      * Avoids recursive loops that turn into segmentation faults when serializing
      *
-     * @return array<string>
+     * @return array<string, mixed>
      */
-    public function __sleep(): array
+    public function __serialize(): array
     {
         $this->clearAllReferences();
 
         $cls = new \ReflectionClass($this);
-        $propertyNames = [];
+        $data = [];
         $serializableProperties = array_diff($cls->getProperties(), $cls->getProperties(\ReflectionProperty::IS_STATIC));
 
-        foreach($serializableProperties as $property) {
-            $propertyNames[] = $property->getName();
+        foreach ($serializableProperties as $property) {
+            $property->setAccessible(true);
+            $name = $property->getName();
+            $data[$name] = $property->isInitialized($this) ? $property->getValue($this) : null;
         }
 
-        return $propertyNames;
+        return $data;
+    }
+
+    /**
+     * Restore object state after unserializing.
+     *
+     * @param array<string, mixed> $data
+     *
+     * @return void
+     */
+    public function __unserialize(array $data): void
+    {
+        $cls = new \ReflectionClass($this);
+
+        foreach ($data as $name => $value) {
+            if (!$cls->hasProperty($name)) {
+                continue;
+            }
+            $property = $cls->getProperty($name);
+            $property->setAccessible(true);
+            $property->setValue($this, $value);
+        }
     }
 
     /**
