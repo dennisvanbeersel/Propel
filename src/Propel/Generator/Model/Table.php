@@ -67,6 +67,14 @@ class Table extends ScopedMappingModel implements IdMethod
     private array $unices = [];
 
     /**
+     * Phase C (umbrella §6.4): SQL CHECK constraints attached to the table.
+     * Column-scoped <check> elements are flattened into this list at load time.
+     *
+     * @var array<\Propel\Generator\Model\CheckConstraint>
+     */
+    private array $checkConstraints = [];
+
+    /**
      * @var array<\Propel\Generator\Model\IdMethodParameter>
      */
     private array $idMethodParameters = [];
@@ -1129,6 +1137,50 @@ class Table extends ScopedMappingModel implements IdMethod
         $unik->loadMapping($unique);
 
         return $this->addUnique($unik);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): adds a CHECK constraint to this table.
+     *
+     * Accepts either a CheckConstraint instance or an attribute array (matching
+     * the <check> XML element). Column-scoped <check> elements are flattened
+     * here so the table holds a single canonical list.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint|array $check
+     *
+     * @throws \Propel\Generator\Exception\InvalidArgumentException when a duplicate name is added
+     *
+     * @return \Propel\Generator\Model\CheckConstraint
+     */
+    public function addCheckConstraint($check): CheckConstraint
+    {
+        if ($check instanceof CheckConstraint) {
+            $check->setTable($this);
+            $name = $check->getName();
+            foreach ($this->checkConstraints as $existing) {
+                if ($existing->getName() === $name) {
+                    throw new InvalidArgumentException(sprintf('CHECK constraint "%s" already exists on table "%s".', $name, $this->getCommonName() ?: 'unknown'));
+                }
+            }
+            $this->checkConstraints[] = $check;
+
+            return $check;
+        }
+
+        $cc = new CheckConstraint();
+        $cc->loadMapping($check);
+
+        return $this->addCheckConstraint($cc);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): returns the flat list of CHECK constraints.
+     *
+     * @return array<\Propel\Generator\Model\CheckConstraint>
+     */
+    public function getCheckConstraints(): array
+    {
+        return $this->checkConstraints;
     }
 
     /**

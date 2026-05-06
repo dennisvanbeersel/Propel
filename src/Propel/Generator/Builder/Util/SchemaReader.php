@@ -272,6 +272,11 @@ class SchemaReader
                     $this->currUnique->loadMapping($attributes);
 
                     break;
+                case 'check':
+                    // Phase C (umbrella §6.4): table-scoped CHECK constraint.
+                    $this->currTable->addCheckConstraint($attributes);
+
+                    break;
                 case 'vendor':
                     $this->currVendorObject = $this->currTable->addVendorInfo($attributes);
 
@@ -291,6 +296,12 @@ class SchemaReader
             switch ($tagName) {
                 case 'inheritance':
                     $this->currColumn->addInheritance($attributes);
+
+                    break;
+                case 'check':
+                    // Phase C (umbrella §6.4): column-scoped CHECK constraint is sugar.
+                    // Stored on the parent Table; the column carries no CHECK list of its own.
+                    $this->currTable->addCheckConstraint($attributes);
 
                     break;
                 case 'vendor':
