@@ -18,7 +18,7 @@ namespace Propel\Generator\Builder\Om;
  *
  * @author Hans Lellelid <hans@xmpl.org>
  */
-class InterfaceBuilder extends AbstractObjectBuilder
+class InterfaceBuilder extends AbstractOMBuilder
 {
     /**
      * Returns the name of the current class being built.
@@ -28,7 +28,7 @@ class InterfaceBuilder extends AbstractObjectBuilder
     #[\Override]
     public function getUnprefixedClassName(): string
     {
-        return ClassTools::classname($this->getInterface());
+        return (string)ClassTools::classname($this->getTable()->getInterface());
     }
 
     /**

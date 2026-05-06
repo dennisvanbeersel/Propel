@@ -79,7 +79,7 @@ abstract class DataModelBuilder
     /**
      * TableMap builder class for current table.
      */
-    protected ?TableMapBuilder $tablemapBuilder = null;
+    private ?TableMapBuilder $tableMapBuilder = null;
 
     /**
      * Stub Interface builder class for current table.
@@ -196,13 +196,13 @@ abstract class DataModelBuilder
      */
     public function getTableMapBuilder(): TableMapBuilder
     {
-        if ($this->tablemapBuilder === null) {
+        if ($this->tableMapBuilder === null) {
             /** @var \Propel\Generator\Builder\Om\TableMapBuilder $builder */
             $builder = $this->getGeneratorConfig()->getConfiguredBuilder($this->getTable(), 'tablemap');
-            $this->tablemapBuilder = $builder;
+            $this->tableMapBuilder = $builder;
         }
 
-        return $this->tablemapBuilder;
+        return $this->tableMapBuilder;
     }
 
     /**
