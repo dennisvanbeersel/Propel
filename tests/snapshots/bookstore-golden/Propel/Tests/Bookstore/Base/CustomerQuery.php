@@ -100,7 +100,7 @@ abstract class CustomerQuery extends ModelCriteria
      *
      * @return ChildCustomerQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildCustomerQuery) {
             return $criteria;

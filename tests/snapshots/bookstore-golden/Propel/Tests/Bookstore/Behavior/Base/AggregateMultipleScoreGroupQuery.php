@@ -142,7 +142,7 @@ abstract class AggregateMultipleScoreGroupQuery extends ModelCriteria
      *
      * @return ChildAggregateMultipleScoreGroupQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildAggregateMultipleScoreGroupQuery) {
             return $criteria;

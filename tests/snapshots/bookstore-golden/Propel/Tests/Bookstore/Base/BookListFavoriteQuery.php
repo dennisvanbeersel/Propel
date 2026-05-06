@@ -106,7 +106,7 @@ abstract class BookListFavoriteQuery extends ModelCriteria
      *
      * @return ChildBookListFavoriteQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildBookListFavoriteQuery) {
             return $criteria;

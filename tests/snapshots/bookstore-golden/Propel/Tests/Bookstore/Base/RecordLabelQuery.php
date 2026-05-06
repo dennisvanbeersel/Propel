@@ -100,7 +100,7 @@ abstract class RecordLabelQuery extends ModelCriteria
      *
      * @return ChildRecordLabelQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildRecordLabelQuery) {
             return $criteria;

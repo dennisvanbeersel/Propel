@@ -94,7 +94,7 @@ abstract class Table6Query extends ModelCriteria
      *
      * @return ChildTable6Query
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildTable6Query) {
             return $criteria;

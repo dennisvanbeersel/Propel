@@ -144,7 +144,7 @@ abstract class BookstoreQuery extends ModelCriteria
      *
      * @return ChildBookstoreQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildBookstoreQuery) {
             return $criteria;

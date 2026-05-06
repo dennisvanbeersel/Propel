@@ -148,7 +148,7 @@ abstract class EssayQuery extends ModelCriteria
      *
      * @return ChildEssayQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildEssayQuery) {
             return $criteria;

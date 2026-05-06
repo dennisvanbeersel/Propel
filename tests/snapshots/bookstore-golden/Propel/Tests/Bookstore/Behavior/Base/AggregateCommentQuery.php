@@ -94,7 +94,7 @@ abstract class AggregateCommentQuery extends ModelCriteria
      *
      * @return ChildAggregateCommentQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildAggregateCommentQuery) {
             return $criteria;

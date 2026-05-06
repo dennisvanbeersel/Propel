@@ -86,7 +86,7 @@ abstract class SortableTable11Query extends ModelCriteria
      *
      * @return ChildSortableTable11Query
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildSortableTable11Query) {
             return $criteria;

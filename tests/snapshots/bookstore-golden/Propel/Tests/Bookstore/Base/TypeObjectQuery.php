@@ -122,7 +122,7 @@ abstract class TypeObjectQuery extends ModelCriteria
      *
      * @return ChildTypeObjectQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildTypeObjectQuery) {
             return $criteria;

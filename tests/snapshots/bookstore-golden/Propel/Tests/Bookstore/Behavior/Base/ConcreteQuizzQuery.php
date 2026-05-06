@@ -111,7 +111,7 @@ abstract class ConcreteQuizzQuery extends ChildConcreteContentQuery
      *
      * @return ChildConcreteQuizzQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildConcreteQuizzQuery) {
             return $criteria;

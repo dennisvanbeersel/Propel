@@ -100,7 +100,7 @@ abstract class AcctAuditLogQuery extends ModelCriteria
      *
      * @return ChildAcctAuditLogQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildAcctAuditLogQuery) {
             return $criteria;

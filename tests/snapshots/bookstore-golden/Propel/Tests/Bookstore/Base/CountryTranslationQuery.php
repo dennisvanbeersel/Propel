@@ -106,7 +106,7 @@ abstract class CountryTranslationQuery extends ModelCriteria
      *
      * @return ChildCountryTranslationQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildCountryTranslationQuery) {
             return $criteria;

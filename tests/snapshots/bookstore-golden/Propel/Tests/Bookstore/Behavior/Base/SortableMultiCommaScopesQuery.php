@@ -98,7 +98,7 @@ abstract class SortableMultiCommaScopesQuery extends ModelCriteria
      *
      * @return ChildSortableMultiCommaScopesQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildSortableMultiCommaScopesQuery) {
             return $criteria;

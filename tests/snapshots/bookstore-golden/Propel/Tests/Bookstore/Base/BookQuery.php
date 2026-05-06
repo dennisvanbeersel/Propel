@@ -220,7 +220,7 @@ abstract class BookQuery extends ModelCriteria
      *
      * @return ChildBookQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildBookQuery) {
             return $criteria;

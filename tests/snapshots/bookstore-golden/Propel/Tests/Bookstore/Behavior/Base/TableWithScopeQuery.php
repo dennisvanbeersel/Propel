@@ -92,7 +92,7 @@ abstract class TableWithScopeQuery extends ModelCriteria
      *
      * @return ChildTableWithScopeQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildTableWithScopeQuery) {
             return $criteria;

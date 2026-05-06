@@ -194,7 +194,7 @@ class " . $this->getUnqualifiedClassName() . ' extends ' . $baseClassName . "
      *
      * @return " . $classname . "
      */
-    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): Criteria
+    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): static
     {
         if (\$criteria instanceof " . $classname . ") {
             return \$criteria;

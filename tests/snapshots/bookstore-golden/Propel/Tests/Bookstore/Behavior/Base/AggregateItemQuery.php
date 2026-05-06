@@ -100,7 +100,7 @@ abstract class AggregateItemQuery extends ModelCriteria
      *
      * @return ChildAggregateItemQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildAggregateItemQuery) {
             return $criteria;

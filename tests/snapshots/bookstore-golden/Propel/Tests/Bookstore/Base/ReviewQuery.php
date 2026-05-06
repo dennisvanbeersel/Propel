@@ -120,7 +120,7 @@ abstract class ReviewQuery extends ModelCriteria
      *
      * @return ChildReviewQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildReviewQuery) {
             return $criteria;

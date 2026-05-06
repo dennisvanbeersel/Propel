@@ -149,7 +149,7 @@ abstract class ConcreteArticleQuery extends ChildConcreteContentQuery
      *
      * @return ChildConcreteArticleQuery
      */
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         if ($criteria instanceof ChildConcreteArticleQuery) {
             return $criteria;

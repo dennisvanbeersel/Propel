@@ -461,8 +461,13 @@ class QueryBuilder extends AbstractOMBuilder
      */
     protected function addFactoryOpen(string &$script): void
     {
+        // EXCEPTION TO THE `: self` RULE applied elsewhere on generated setters.
+        // `create()` is a static factory; LSP issues that bite instance methods
+        // do not apply because static methods are dispatched per-class. Using
+        // `: static` lets a user subclass of the generated query return its
+        // own type without redeclaring the method.
         $script .= "
-    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): Criteria
+    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): static
     {";
     }
 
