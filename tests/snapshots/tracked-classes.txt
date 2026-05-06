@@ -78,6 +78,9 @@ Propel\Runtime\Util\UuidConverter
 # migration tooling, third-party generators) that read/write the schema model.
 Propel\Generator\Model\CheckConstraint
 
+# Phase C (umbrella §6.4) — Runtime SPI for the PG JSONB operator helper.
+Propel\Runtime\ActiveQuery\Operator\JsonbOperator
+
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
 Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
