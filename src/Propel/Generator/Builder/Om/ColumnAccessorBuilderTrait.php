@@ -109,17 +109,12 @@ trait ColumnAccessorBuilderTrait
      */
     protected function getTemporalTypeDefaultFormatConfigKey(Column $column): ?string
     {
-        switch ($column->getType()) {
-            case PropelTypes::DATE:
-                return 'generator.dateTime.defaultDateFormat';
-            case PropelTypes::TIME:
-                return 'generator.dateTime.defaultTimeFormat';
-            case PropelTypes::TIMESTAMP:
-            case PropelTypes::DATETIME:
-                return 'generator.dateTime.defaultTimeStampFormat';
-            default:
-                return null;
-        }
+        return match ($column->getType()) {
+            PropelTypes::DATE => 'generator.dateTime.defaultDateFormat',
+            PropelTypes::TIME => 'generator.dateTime.defaultTimeFormat',
+            PropelTypes::TIMESTAMP, PropelTypes::DATETIME => 'generator.dateTime.defaultTimeStampFormat',
+            default => null,
+        };
     }
 
     /**

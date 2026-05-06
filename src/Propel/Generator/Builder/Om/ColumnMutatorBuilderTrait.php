@@ -320,18 +320,11 @@ trait ColumnMutatorBuilderTrait
                 || (\$dt->format($fmt) === $defaultValue) // or the entered value matches the default
                  ) {";
         } else {
-            switch ($col->getType()) {
-                case 'DATE':
-                    $format = 'Y-m-d';
-
-                    break;
-                case 'TIME':
-                    $format = 'H:i:s.u';
-
-                    break;
-                default:
-                    $format = 'Y-m-d H:i:s.u';
-            }
+            $format = match ($col->getType()) {
+                PropelTypes::DATE => 'Y-m-d',
+                PropelTypes::TIME => 'H:i:s.u',
+                default => 'Y-m-d H:i:s.u',
+            };
             $script .= "
             if (\$this->{$clo} === null || \$dt === null || \$dt->format(\"$format\") !== \$this->{$clo}->format(\"$format\")) {";
         }
