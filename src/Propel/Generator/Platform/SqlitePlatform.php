@@ -12,6 +12,8 @@ namespace Propel\Generator\Platform;
 
 use PDO;
 use Propel\Generator\Config\GeneratorConfigInterface;
+use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\ColumnDefaultValue;
 use Propel\Generator\Model\Database;
@@ -508,11 +510,34 @@ PRAGMA foreign_keys = ON;
     /**
      * @param \Propel\Generator\Model\Column $col
      *
+     * @throws \Propel\Generator\Exception\EngineException when the column requests a feature SQLite is frozen on
+     *
      * @return string
      */
     #[\Override]
     public function getColumnDDL(Column $col): string
     {
+        // Phase C (umbrella §1.2): SQLite is frozen — generated/invisible/JSONB
+        // are MySQL/PG-only. Surface a clear, actionable error.
+        if ($col->isGenerated()) {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: generated columns are MySQL/PG-only (column "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+        if ($col->isInvisible()) {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: INVISIBLE columns are MySQL-only (column "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+        if ($col->getType() === 'JSONB') {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: JSONB is PG-only (column "%s"). Use type="JSON" or migrate to PostgreSQL. See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+
         if ($col->isAutoIncrement()) {
             $col->setType('INTEGER');
             $col->setDomainForType('INTEGER');
@@ -531,6 +556,62 @@ PRAGMA foreign_keys = ON;
         }
 
         return parent::getColumnDDL($col);
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite rejects CHECK constraint emission.
+     *
+     * SQLite parses CHECK at table creation only — no ALTER ADD CHECK exists.
+     * To keep the schema model uniform across platforms, Phase C declines to
+     * emit CHECK on SQLite and asks users to switch to MySQL/PG for CHECK
+     * coverage. SQLite remains frozen at its pre-Phase-C feature set.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @throws \Propel\Generator\Exception\EngineException always — frozen-feature stance
+     *
+     * @return string
+     */
+    #[\Override]
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        throw new EngineException(sprintf(
+            'SQLite is frozen in Propel 3.x: CHECK constraints are MySQL/PG-only (CHECK "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+            $cc->getName(),
+        ));
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no INVISIBLE.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no CHECK emission.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return false;
     }
 
     /**
