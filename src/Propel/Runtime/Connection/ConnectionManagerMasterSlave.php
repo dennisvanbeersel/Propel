@@ -13,14 +13,30 @@ namespace Propel\Runtime\Connection;
 /**
  * Manager for master/slave connection to a datasource.
  *
- * @deprecated Use ConnectionManagerPrimaryReplica instead.
+ * @deprecated since 3.0, will be removed in 4.0. Use {@see ConnectionManagerPrimaryReplica} instead.
  */
 class ConnectionManagerMasterSlave extends ConnectionManagerPrimaryReplica
 {
     /**
+     * @param string $name The datasource name associated to this connection
+     */
+    public function __construct(string $name)
+    {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is deprecated, use "%s" instead.',
+            self::class,
+            ConnectionManagerPrimaryReplica::class,
+        );
+
+        parent::__construct($name);
+    }
+
+    /**
      * For replication, whether to always force the use of a master connection.
      *
-     * @deprecated Use isForcePrimaryConnection() instead.
+     * @deprecated since 3.0, use isForcePrimaryConnection() instead.
      *
      * @return bool
      */
@@ -32,7 +48,7 @@ class ConnectionManagerMasterSlave extends ConnectionManagerPrimaryReplica
     /**
      * For replication, set whether to always force the use of a master connection.
      *
-     * @deprecated Use setForcePrimaryConnection() instead.
+     * @deprecated since 3.0, use setForcePrimaryConnection() instead.
      *
      * @param bool $isForceMasterConnection
      *
