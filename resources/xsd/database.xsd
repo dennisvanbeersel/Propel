@@ -52,6 +52,13 @@
             <xs:enumeration value="ARRAY"/>
             <xs:enumeration value="ENUM"/>
             <xs:enumeration value="SET"/>
+            <!-- Deprecated legacy types preserved per umbrella spec §3.7 (additivity).
+                 PropelTypes resolves these via deprecation forwarding; XSD must still
+                 validate schemas that declare them. -->
+            <xs:enumeration value="BU_DATE"/>
+            <xs:enumeration value="BU_TIMESTAMP"/>
+            <xs:enumeration value="BOOLEAN_EMU"/>
+            <xs:enumeration value="PHP_ARRAY"/>
         </xs:restriction>
     </xs:simpleType>
 
