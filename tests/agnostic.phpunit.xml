@@ -19,9 +19,14 @@
         <testsuite name="propel2">
             <directory>Propel/Tests/</directory>
             <exclude>Propel/Tests/PropertyTests/</exclude>
+            <exclude>Propel/Tests/ChaosTests/</exclude>
+            <exclude>Propel/Tests/Benchmark/</exclude>
         </testsuite>
         <testsuite name="property">
             <directory>Propel/Tests/PropertyTests/</directory>
+        </testsuite>
+        <testsuite name="chaos">
+            <directory>Propel/Tests/ChaosTests/</directory>
         </testsuite>
     </testsuites>
 

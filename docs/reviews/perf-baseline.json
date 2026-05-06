@@ -1,0 +1,13 @@
+{
+    "captured_at": "2026-05-06T11:02:17Z",
+    "php_version": "8.4.14",
+    "benchmarks": {
+        "criteria_build_filter_chain_1k": {
+            "iterations": 5,
+            "mean_ns": 39818816.8,
+            "min_ns": 39623833,
+            "max_ns": 40056250,
+            "memory_peak_bytes": 0
+        }
+    }
+}

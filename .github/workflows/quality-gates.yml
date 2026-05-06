@@ -116,3 +116,30 @@ jobs:
       - name: Composer install
         run: composer install --no-progress --prefer-dist
       - run: composer deptrac
+
+  golden-diff:
+    name: "Generated bookstore matches golden fixture"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Build bookstore fixture
+        run: bash tests/bin/setup.sqlite.sh
+      - name: Refresh golden into /tmp (don't touch committed dir)
+        run: |
+          mkdir -p /tmp/golden-current
+          cp -r tests/Fixtures/bookstore/build/classes/* /tmp/golden-current/
+          find /tmp/golden-current -type f -exec chmod 644 {} +
+      - name: Diff against committed golden
+        run: |
+          if ! diff -ru tests/snapshots/bookstore-golden /tmp/golden-current; then
+            echo "::error::Generated bookstore drift — run 'php tools/regen-golden.php' and commit the regenerated tree alongside your generator change. Per umbrella spec §4.7."
+            exit 1
+          fi
+          echo "✓ Golden bookstore tree stable."
