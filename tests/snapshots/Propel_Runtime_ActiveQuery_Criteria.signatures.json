@@ -3,6 +3,10 @@
     "kind": "class",
     "isAbstract": false,
     "isFinal": false,
+    "extends": null,
+    "implements": [
+        "Stringable"
+    ],
     "methods": [
         {
             "name": "doReplaceNameInExpression",
@@ -1940,6 +1944,7 @@
             "returnType": null
         }
     ],
+    "phpDocMethods": [],
     "properties": [
         {
             "name": "replacedColumns",

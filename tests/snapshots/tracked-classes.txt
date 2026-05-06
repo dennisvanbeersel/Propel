@@ -1,36 +1,96 @@
-# Tier 1 frozen public API surface (umbrella spec §3.1).
-# Snapshots in this directory are JSON dumps of method signatures + public
-# properties + class constants. The CI gate (.github/workflows/quality-gates.yml
-# job: signature-diff) regenerates and diffs against committed snapshots; any
-# drift fails the gate unless paired with @deprecated annotations.
+# Tier 1 frozen public API surface (umbrella spec §3.1) plus Tier 2 deprecation-runway
+# extension surfaces (§3.2). Snapshots in this directory are JSON dumps of method
+# signatures + extends/implements + properties + class constants + @method PHPDoc
+# methods. The CI gate (.github/workflows/quality-gates.yml job: signature-diff)
+# regenerates and diffs against committed snapshots; any drift fails the gate
+# unless paired with @deprecated annotations in the same diff.
+#
+# Generated bookstore Base classes are tracked separately by lint-generated +
+# golden-file diff (see .github/workflows/quality-gates.yml).
 
-# Runtime ActiveQuery
+# ============================================================
+# Tier 1 — runtime-class surface (frozen)
+# ============================================================
+
+# ActiveQuery
 Propel\Runtime\ActiveQuery\Criteria
 Propel\Runtime\ActiveQuery\ModelCriteria
 
-# ActiveRecord interface (Tier 1, §3.1: must remain stable)
+# ActiveRecord interface (sacred per §3.1)
 Propel\Runtime\ActiveRecord\ActiveRecordInterface
 
 # Map metadata
 Propel\Runtime\Map\TableMap
 
-# Static facade (Tier 1)
+# Static facade
 Propel\Runtime\Propel
 
-# Connection contract
+# Connection contract (mirrors PDO; loose params)
 Propel\Runtime\Connection\ConnectionInterface
 
-# Adapter contract (Tier 2 — runway required, but tracked here for visibility)
+# ============================================================
+# Tier 2 — extension surfaces (deprecation runway required)
+# ============================================================
+
+# Adapter contracts (custom adapters in user codebases)
 Propel\Runtime\Adapter\AdapterInterface
 Propel\Runtime\Adapter\SqlAdapterInterface
 
-# Collection extension surfaces (Tier 2)
+# Collection extension surface
 Propel\Runtime\Collection\Collection
 Propel\Runtime\Collection\ObjectCollection
 Propel\Runtime\Collection\ArrayCollection
+Propel\Runtime\Collection\OnDemandCollection
 
-# Formatter base (Tier 2)
+# Formatter base
 Propel\Runtime\Formatter\AbstractFormatter
 
-# Service container interface (Tier 2)
+# Service container interface (DI bridges)
 Propel\Runtime\ServiceContainer\ServiceContainerInterface
+
+# Connection management (Tier 2 — wrapped by profiling extensions)
+Propel\Runtime\Connection\ConnectionManagerInterface
+Propel\Runtime\Connection\ConnectionManagerSingle
+Propel\Runtime\Connection\ConnectionManagerPrimaryReplica
+Propel\Runtime\Connection\ConnectionWrapper
+Propel\Runtime\Connection\StatementWrapper
+
+# Exception hierarchy (caught by user code)
+Propel\Runtime\Exception\ExceptionInterface
+Propel\Runtime\Exception\PropelException
+Propel\Runtime\Exception\BadMethodCallException
+Propel\Runtime\Exception\ClassNotFoundException
+Propel\Runtime\Exception\EntityNotFoundException
+Propel\Runtime\Exception\FileNotFoundException
+Propel\Runtime\Exception\InvalidArgumentException
+Propel\Runtime\Exception\LogicException
+Propel\Runtime\Exception\RuntimeException
+Propel\Runtime\Exception\UnexpectedValueException
+
+# Util classes returned by Tier 1 methods (e.g., paginate())
+Propel\Runtime\Util\PropelDateTime
+Propel\Runtime\Util\PropelModelPager
+Propel\Runtime\Util\Profiler
+Propel\Runtime\Util\PropelConditionalProxy
+Propel\Runtime\Util\UuidConverter
+
+# Criterion extension surface (19 classes; user-extension via getNewCriterion())
+Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
+Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
+Propel\Runtime\ActiveQuery\Criterion\AbstractModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\BasicCriterion
+Propel\Runtime\ActiveQuery\Criterion\BasicModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\BinaryCriterion
+Propel\Runtime\ActiveQuery\Criterion\BinaryModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\ColumnToQueryOperatorCriterion
+Propel\Runtime\ActiveQuery\Criterion\CriterionFactory
+Propel\Runtime\ActiveQuery\Criterion\CustomCriterion
+Propel\Runtime\ActiveQuery\Criterion\ExistsCriterion
+Propel\Runtime\ActiveQuery\Criterion\ExistsQueryCriterion
+Propel\Runtime\ActiveQuery\Criterion\InCriterion
+Propel\Runtime\ActiveQuery\Criterion\InModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\LikeCriterion
+Propel\Runtime\ActiveQuery\Criterion\LikeModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\RawCriterion
+Propel\Runtime\ActiveQuery\Criterion\RawModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\SeveralModelCriterion

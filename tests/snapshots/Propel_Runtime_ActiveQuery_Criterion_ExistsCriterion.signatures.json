@@ -1,0 +1,55 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\ExistsCriterion",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\ExistsQueryCriterion",
+    "implements": [],
+    "methods": [
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "outerQuery",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "existsQuery",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "typeOfExists",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "relationMap",
+                    "type": "?Propel\\Runtime\\Map\\RelationMap",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

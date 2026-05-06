@@ -56,7 +56,10 @@ foreach ($classes as $class) {
         'kind' => $ref->isInterface() ? 'interface' : ($ref->isTrait() ? 'trait' : 'class'),
         'isAbstract' => $ref->isAbstract(),
         'isFinal' => $ref->isFinal(),
+        'extends' => extractExtends($ref),
+        'implements' => extractImplements($ref),
         'methods' => extractMethods($ref),
+        'phpDocMethods' => extractPhpDocMethods($ref),
         'properties' => extractProperties($ref),
         'constants' => extractConstants($ref),
     ];
@@ -75,6 +78,45 @@ if ($failures !== []) {
 }
 
 exit(0);
+
+function extractExtends(ReflectionClass $ref): ?string
+{
+    $parent = $ref->getParentClass();
+
+    return $parent !== false ? $parent->getName() : null;
+}
+
+function extractImplements(ReflectionClass $ref): array
+{
+    // Only DIRECT interfaces — getInterfaceNames() returns transitive too.
+    // We want to detect drops of directly-implemented contracts (e.g., A.27 drops Serializable).
+    $names = $ref->getInterfaceNames();
+    $parent = $ref->getParentClass();
+    $parentInterfaces = $parent !== false ? $parent->getInterfaceNames() : [];
+    $direct = array_values(array_diff($names, $parentInterfaces));
+    sort($direct);
+
+    return $direct;
+}
+
+function extractPhpDocMethods(ReflectionClass $ref): array
+{
+    // Spec §3.1: ActiveRecordInterface contract includes @method PHPDoc (e.g., @method toArray()).
+    // PHP's Reflection cannot see these, so parse the docblock manually.
+    $doc = $ref->getDocComment();
+    if ($doc === false) {
+        return [];
+    }
+    $methods = [];
+    if (preg_match_all('/^\s*\*\s*@method\s+(?<sig>[^\r\n]+?)\s*$/m', $doc, $matches)) {
+        foreach ($matches['sig'] as $sig) {
+            $methods[] = trim($sig);
+        }
+    }
+    sort($methods);
+
+    return $methods;
+}
 
 function extractMethods(ReflectionClass $ref): array
 {

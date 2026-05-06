@@ -48,25 +48,33 @@ foreach ($files as $file) {
 
 exit($failed ? 1 : 0);
 
+/**
+ * Both countLines() and countLinesAtRef() count newlines via substr_count to keep
+ * the comparison apples-to-apples. fgets()-based counting differs from substr_count
+ * by 1 on files lacking a trailing newline — Round 1 reviewer caught this asymmetry.
+ */
 function countLines(string $path): int
 {
-    $count = 0;
-    $fp = fopen($path, 'r');
-    if ($fp === false) {
+    $contents = file_get_contents($path);
+    if ($contents === false) {
         return 0;
     }
-    while (fgets($fp) !== false) {
-        $count++;
-    }
-    fclose($fp);
 
-    return $count;
+    return substr_count($contents, "\n");
 }
 
 function countLinesAtRef(string $path, string $ref): ?int
 {
+    // Verify the ref actually resolves; otherwise the silent shell_exec failure
+    // below would let a typo'd merge-base sail through with a passing exit code.
+    $refExists = shell_exec(sprintf('git rev-parse --verify %s 2>/dev/null', escapeshellarg($ref . '^{commit}')));
+    if ($refExists === null || trim((string) $refExists) === '') {
+        fwrite(STDERR, sprintf("  ! merge base ref '%s' does not resolve — refusing to silently pass\n", $ref));
+        exit(2);
+    }
+
     $output = shell_exec(sprintf('git show %s:%s 2>/dev/null', escapeshellarg($ref), escapeshellarg($path)));
-    if ($output === null || $output === false) {
+    if ($output === null || $output === false || $output === '') {
         return null;
     }
 

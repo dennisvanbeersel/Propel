@@ -1,4 +1,1 @@
-{
-    "deprecations": [],
-    "_comment": "Symfony PHPUnit bridge deprecation allowlist. Phase A baseline: no user deprecations triggered yet. Subsequent tasks (A.25 PropelTypes, A.28 DebugPDO, A.29 slaves/master config) will add entries. Regenerate via: SYMFONY_DEPRECATIONS_HELPER='max[self]=999999&baselineFile=tests/deprecations.allowlist.json&generateBaseline=true' vendor/bin/phpunit -c tests/agnostic.phpunit.xml --no-coverage"
-}
+[]

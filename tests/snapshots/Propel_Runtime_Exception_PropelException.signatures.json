@@ -1,0 +1,14 @@
+{
+    "class": "Propel\\Runtime\\Exception\\PropelException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Exception",
+    "implements": [
+        "Propel\\Runtime\\Exception\\ExceptionInterface"
+    ],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

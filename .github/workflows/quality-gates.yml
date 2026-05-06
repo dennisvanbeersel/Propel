@@ -90,16 +90,17 @@ jobs:
           coverage: none
       - name: Composer install
         run: composer install --no-progress --prefer-dist
-      - name: Regenerate bookstore fixture
+      - name: Build bookstore fixture (real build script, not a phpunit filter)
+        run: bash tests/bin/setup.sqlite.sh
+      - name: Verify build directory exists (fail loudly if regen produced nothing)
         run: |
-          # Best-effort: run the existing bookstore build path. Failures here
-          # surface generator-side regressions which the lint step then catches.
-          vendor/bin/phpunit -c tests/agnostic.phpunit.xml --filter=BookstoreBuildTest --no-coverage || true
+          if [ ! -d tests/Fixtures/bookstore/build/classes ] || [ -z "$(find tests/Fixtures/bookstore/build/classes -name '*.php' -print -quit)" ]; then
+            echo "::error::tests/Fixtures/bookstore/build/classes/ is empty after setup.sqlite.sh — generator broken"
+            exit 1
+          fi
       - name: phpcs against generated bookstore
-        if: hashFiles('tests/Fixtures/bookstore/build/classes/**/*.php') != ''
         run: vendor/bin/phpcs --standard=phpcs.xml tests/Fixtures/bookstore/build/classes/
       - name: phpstan against generated bookstore
-        if: hashFiles('tests/Fixtures/bookstore/build/classes/**/*.php') != ''
         run: vendor/bin/phpstan analyze --level=7 tests/Fixtures/bookstore/build/classes/ --no-progress
 
   deptrac:

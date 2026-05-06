@@ -3,6 +3,8 @@
     "kind": "interface",
     "isAbstract": true,
     "isFinal": false,
+    "extends": null,
+    "implements": [],
     "methods": [
         {
             "name": "beginTransaction",
@@ -272,6 +274,7 @@
             "returnType": null
         }
     ],
+    "phpDocMethods": [],
     "properties": [],
     "constants": []
 }

@@ -1,47 +1,139 @@
 {
-    "class": "Propel\\Runtime\\Collection\\ArrayCollection",
+    "class": "Propel\\Runtime\\Connection\\ConnectionManagerPrimaryReplica",
     "kind": "class",
     "isAbstract": false,
     "isFinal": false,
-    "extends": "Propel\\Runtime\\Collection\\Collection",
-    "implements": [],
+    "extends": null,
+    "implements": [
+        "Propel\\Runtime\\Connection\\ConnectionManagerInterface"
+    ],
     "methods": [
         {
-            "name": "getWorkerObject",
-            "visibility": "protected",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface"
-        },
-        {
-            "name": "delete",
+            "name": "__construct",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "con",
-                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "closeConnections",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "getName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getReadConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "adapter",
+                    "type": "?Propel\\Runtime\\Adapter\\AdapterInterface",
                     "default": "NULL",
                     "byRef": false,
                     "variadic": false,
                     "nullable": true
                 }
             ],
-            "returnType": "void"
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
         },
         {
-            "name": "fromArray",
+            "name": "getWriteConnection",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "arr",
+                    "name": "adapter",
+                    "type": "?Propel\\Runtime\\Adapter\\AdapterInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+        },
+        {
+            "name": "isForcePrimaryConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setForcePrimaryConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "isForceMasterConnection",
+                    "type": "bool",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setReadConfiguration",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "configuration",
                     "type": "array",
                     "default": null,
                     "byRef": false,
@@ -52,118 +144,22 @@
             "returnType": "void"
         },
         {
-            "name": "getArrayCopy",
+            "name": "setWriteConfiguration",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "keyColumn",
-                    "type": "?string",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "usePrefix",
-                    "type": "bool",
-                    "default": "false",
+                    "name": "configuration",
+                    "type": "array",
+                    "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
-                }
-            ],
-            "returnType": "array"
-        },
-        {
-            "name": "getPrimaryKeys",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "usePrefix",
-                    "type": "bool",
-                    "default": "true",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "array"
-        },
-        {
-            "name": "save",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "con",
-                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
                 }
             ],
             "returnType": "void"
-        },
-        {
-            "name": "toArray",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "keyColumn",
-                    "type": "?string",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "usePrefix",
-                    "type": "bool",
-                    "default": "false",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "array"
-        },
-        {
-            "name": "toKeyValue",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "keyColumn",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "valueColumn",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "array"
         }
     ],
     "phpDocMethods": [],

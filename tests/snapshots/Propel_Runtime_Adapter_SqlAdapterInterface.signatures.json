@@ -3,6 +3,10 @@
     "kind": "interface",
     "isAbstract": true,
     "isFinal": false,
+    "extends": null,
+    "implements": [
+        "Propel\\Runtime\\Adapter\\AdapterInterface"
+    ],
     "methods": [
         {
             "name": "applyLimit",
@@ -314,6 +318,7 @@
             "returnType": "Propel\\Runtime\\ActiveQuery\\Criteria"
         }
     ],
+    "phpDocMethods": [],
     "properties": [],
     "constants": []
 }

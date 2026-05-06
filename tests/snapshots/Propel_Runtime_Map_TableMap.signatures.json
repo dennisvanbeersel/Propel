@@ -3,6 +3,8 @@
     "kind": "class",
     "isAbstract": false,
     "isFinal": false,
+    "extends": null,
+    "implements": [],
     "methods": [
         {
             "name": "getColumnOrValue",
@@ -1069,6 +1071,10 @@
             ],
             "returnType": null
         }
+    ],
+    "phpDocMethods": [
+        "static string getOMClass(array $row, int $column, bool $withPrefix = true)",
+        "static string|null getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = \\Propel\\Runtime\\Map\\TableMap::TYPE_NUM): ?string;getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM)"
     ],
     "properties": [],
     "constants": [

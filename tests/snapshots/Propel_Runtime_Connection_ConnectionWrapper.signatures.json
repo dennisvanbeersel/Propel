@@ -1,30 +1,239 @@
 {
-    "class": "Propel\\Runtime\\Collection\\Collection",
+    "class": "Propel\\Runtime\\Connection\\ConnectionWrapper",
     "kind": "class",
     "isAbstract": false,
     "isFinal": false,
     "extends": null,
     "implements": [
-        "ArrayAccess",
-        "Countable",
-        "IteratorAggregate",
-        "Serializable",
-        "Stringable",
-        "Traversable"
+        "Propel\\Runtime\\Connection\\ConnectionInterface",
+        "Psr\\Log\\LoggerAwareInterface"
     ],
     "methods": [
         {
-            "name": "createPluralizer",
+            "name": "createStatementWrapper",
             "visibility": "protected",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
-            "parameters": [],
-            "returnType": "Propel\\Common\\Pluralizer\\PluralizerInterface"
+            "parameters": [
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\StatementWrapper"
         },
         {
-            "name": "getPluralModelName",
+            "name": "isLogEnabledForMethod",
             "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "methodName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "setNestedTransactionCount",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "v",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "__call",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "method",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "args",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "connection",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "beginTransaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "callUserFunctionWithLogging",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "callback",
+                    "type": "callable",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "args",
+                    "type": "?array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "sqlForLog",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "clearStatementCache",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "commit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "exec",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "forceRollBack",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "getAttribute",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "attribute",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "data",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "getLastExecutedQuery",
+            "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
@@ -32,16 +241,327 @@
             "returnType": "string"
         },
         {
-            "name": "getPluralizer",
-            "visibility": "protected",
+            "name": "getLogMethods",
+            "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [],
-            "returnType": "Propel\\Common\\Pluralizer\\PluralizerInterface"
+            "returnType": "array"
         },
         {
-            "name": "__call",
+            "name": "getLogger",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Psr\\Log\\LoggerInterface"
+        },
+        {
+            "name": "getName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getNestedTransactionCount",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getQueryCount",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getSingleDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "data",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "getWrappedConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?Propel\\Runtime\\Connection\\ConnectionInterface"
+        },
+        {
+            "name": "inTransaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "incrementQueryCount",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "isCommitable",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isInDebugMode",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isInTransaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "lastInsertId",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "log",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "msg",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "prepare",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "driverOptions",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "query",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "args",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": true,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "quote",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "string",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "parameterType",
+                    "type": "int",
+                    "default": "2",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "rollBack",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setAttribute",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "attribute",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "setLastExecutedQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "query",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setLogMethods",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "logMethods",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setLogger",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "logger",
+                    "type": "Psr\\Log\\LoggerInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setName",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -54,83 +574,30 @@
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
-                },
-                {
-                    "name": "params",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "__clone",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": null
-        },
-        {
-            "name": "__construct",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "data",
-                    "type": "array",
-                    "default": "array (\n)",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "__serialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "array"
-        },
-        {
-            "name": "__toString",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "__unserialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "data",
-                    "type": "array",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
                 }
             ],
             "returnType": "void"
         },
         {
-            "name": "append",
+            "name": "transaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "callable",
+                    "type": "callable",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "useDebug",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -138,551 +605,8 @@
             "parameters": [
                 {
                     "name": "value",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "clear",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "void"
-        },
-        {
-            "name": "contains",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "element",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "bool"
-        },
-        {
-            "name": "count",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "int"
-        },
-        {
-            "name": "diff",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "collection",
-                    "type": "Propel\\Runtime\\Collection\\Collection",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "self"
-        },
-        {
-            "name": "exchangeArray",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "input",
-                    "type": "array",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "exportTo",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "parser",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "usePrefix",
-                    "type": "bool",
+                    "type": "?bool",
                     "default": "true",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "includeLazyLoadColumns",
-                    "type": "bool",
-                    "default": "true",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "keyType",
-                    "type": "string",
-                    "default": "Propel\\Runtime\\Map\\TableMap::TYPE_PHPNAME",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "string"
-        },
-        {
-            "name": "get",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "key",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "getArrayCopy",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "array"
-        },
-        {
-            "name": "getData",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "array"
-        },
-        {
-            "name": "getFirst",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": null
-        },
-        {
-            "name": "getFormatter",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "Propel\\Runtime\\Formatter\\AbstractFormatter"
-        },
-        {
-            "name": "getFullyQualifiedModel",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "getIterator",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "Traversable"
-        },
-        {
-            "name": "getLast",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": null
-        },
-        {
-            "name": "getModel",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "getTableMapClass",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "getWriteConnection",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
-        },
-        {
-            "name": "hashCode",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "importFrom",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "parser",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "data",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "isEmpty",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "bool"
-        },
-        {
-            "name": "offsetExists",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "offset",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "bool"
-        },
-        {
-            "name": "offsetGet",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "offset",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "offsetSet",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "offset",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "value",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "offsetUnset",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "offset",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "pop",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": null
-        },
-        {
-            "name": "prepend",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "value",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "int"
-        },
-        {
-            "name": "push",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "value",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "remove",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "key",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "search",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "element",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "serialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "?string"
-        },
-        {
-            "name": "set",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "key",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "value",
-                    "type": null,
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "setData",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "data",
-                    "type": "array",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "setFormatter",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "formatter",
-                    "type": "Propel\\Runtime\\Formatter\\AbstractFormatter",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "setModel",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "model",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "shift",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": null
-        },
-        {
-            "name": "unserialize",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "data",
-                    "type": null,
-                    "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": true
@@ -691,16 +615,19 @@
             "returnType": "void"
         }
     ],
-    "phpDocMethods": [
-        "\\Propel\\Runtime\\Collection\\Collection fromCSV(string $data) Populate the collection from a CSV string",
-        "\\Propel\\Runtime\\Collection\\Collection fromJSON(string $data) Populate the collection from a JSON string",
-        "\\Propel\\Runtime\\Collection\\Collection fromXML(string $data) Populate the collection from an XML string",
-        "\\Propel\\Runtime\\Collection\\Collection fromYAML(string $data) Populate the collection from a YAML string",
-        "string toCSV(bool $usePrefix = true, bool $includeLazyLoadColumns = true) Export the collection to a CSV string",
-        "string toJSON(bool $usePrefix = true, bool $includeLazyLoadColumns = true) Export the collection to a JSON string",
-        "string toXML(bool $usePrefix = true, bool $includeLazyLoadColumns = true) Export the collection to an XML string",
-        "string toYAML(bool $usePrefix = true, bool $includeLazyLoadColumns = true) Export the collection to a YAML string"
+    "phpDocMethods": [],
+    "properties": [
+        {
+            "name": "useDebugMode",
+            "type": "bool",
+            "isStatic": true,
+            "isReadonly": false
+        }
     ],
-    "properties": [],
-    "constants": []
+    "constants": [
+        {
+            "name": "PROPEL_ATTR_CACHE_PREPARES",
+            "value": "-1"
+        }
+    ]
 }

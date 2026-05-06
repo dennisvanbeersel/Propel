@@ -1,30 +1,64 @@
 {
-    "class": "Propel\\Runtime\\Adapter\\AdapterInterface",
-    "kind": "interface",
-    "isAbstract": true,
+    "class": "Propel\\Runtime\\Util\\Profiler",
+    "kind": "class",
+    "isAbstract": false,
     "isFinal": false,
     "extends": null,
     "implements": [],
     "methods": [
         {
-            "name": "concatString",
+            "name": "__construct",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "s1",
+                    "name": "slowThreshold",
+                    "type": "float",
+                    "default": "0.1",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "innerGlue",
                     "type": "string",
+                    "default": "': '",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "outerGlue",
+                    "type": "string",
+                    "default": "' | '",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "formatDuration",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "duration",
+                    "type": "float",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
                 },
                 {
-                    "name": "s2",
-                    "type": "string",
-                    "default": null,
+                    "name": "precision",
+                    "type": "int",
+                    "default": "3",
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
@@ -33,14 +67,14 @@
             "returnType": "string"
         },
         {
-            "name": "formatTemporalValue",
+            "name": "formatMemory",
             "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
+            "isStatic": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "value",
+                    "name": "bytes",
                     "type": null,
                     "default": null,
                     "byRef": false,
@@ -48,9 +82,9 @@
                     "nullable": true
                 },
                 {
-                    "name": "cMap",
-                    "type": "Propel\\Runtime\\Map\\ColumnMap",
-                    "default": null,
+                    "name": "precision",
+                    "type": "int",
+                    "default": "3",
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
@@ -59,14 +93,40 @@
             "returnType": "string"
         },
         {
-            "name": "getConnection",
+            "name": "getConfiguration",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getProfile",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getProfileBetween",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "params",
+                    "name": "startSnapshot",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "endSnapshot",
                     "type": "array",
                     "default": null,
                     "byRef": false,
@@ -74,195 +134,71 @@
                     "nullable": false
                 }
             ],
-            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+            "returnType": "string"
         },
         {
-            "name": "getDateFormatter",
+            "name": "getSnapshot",
             "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
+            "isStatic": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [],
-            "returnType": "string"
+            "returnType": "array"
         },
         {
-            "name": "getGroupBy",
+            "name": "isSlow",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "criteria",
-                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "string"
-        },
-        {
-            "name": "getId",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "con",
-                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "name",
-                    "type": "?string",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "getStringDelimiter",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "getTimeFormatter",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "getTimestampFormatter",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "string"
-        },
-        {
-            "name": "ignoreCaseInOrderBy",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "in",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "string"
-        },
-        {
-            "name": "isGetIdAfterInsert",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [],
             "returnType": "bool"
         },
         {
-            "name": "isGetIdBeforeInsert",
+            "name": "setConfiguration",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "bool"
-        },
-        {
-            "name": "quote",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "text",
-                    "type": "string",
+                    "name": "profilerConfiguration",
+                    "type": "array",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
                 }
             ],
-            "returnType": "string"
+            "returnType": "void"
         },
         {
-            "name": "quoteIdentifier",
+            "name": "setDetails",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "text",
-                    "type": "string",
+                    "name": "details",
+                    "type": "array",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
                 }
             ],
-            "returnType": "string"
+            "returnType": "void"
         },
         {
-            "name": "quoteIdentifierTable",
+            "name": "setInnerGlue",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "table",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "string"
-        },
-        {
-            "name": "setCharset",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "con",
-                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "charset",
+                    "name": "innerGlue",
                     "type": "string",
                     "default": null,
                     "byRef": false,
@@ -273,14 +209,14 @@
             "returnType": "void"
         },
         {
-            "name": "strLength",
+            "name": "setOuterGlue",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "s",
+                    "name": "outerGlue",
                     "type": "string",
                     "default": null,
                     "byRef": false,
@@ -288,35 +224,54 @@
                     "nullable": false
                 }
             ],
-            "returnType": "string"
+            "returnType": "void"
         },
         {
-            "name": "subString",
+            "name": "setSlowThreshold",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "s",
-                    "type": "string",
+                    "name": "slowThreshold",
+                    "type": "float",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
-                },
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "start",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "toPrecision",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
                 {
-                    "name": "pos",
-                    "type": "int",
+                    "name": "number",
+                    "type": null,
                     "default": null,
                     "byRef": false,
                     "variadic": false,
-                    "nullable": false
+                    "nullable": true
                 },
                 {
-                    "name": "len",
+                    "name": "significantFigures",
                     "type": "int",
-                    "default": null,
+                    "default": "3",
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
@@ -327,18 +282,5 @@
     ],
     "phpDocMethods": [],
     "properties": [],
-    "constants": [
-        {
-            "name": "ID_METHOD_AUTOINCREMENT",
-            "value": "1"
-        },
-        {
-            "name": "ID_METHOD_NONE",
-            "value": "0"
-        },
-        {
-            "name": "ID_METHOD_SEQUENCE",
-            "value": "2"
-        }
-    ]
+    "constants": []
 }

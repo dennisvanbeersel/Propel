@@ -3,6 +3,8 @@
     "kind": "class",
     "isAbstract": false,
     "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
+    "implements": [],
     "methods": [
         {
             "name": "createEntityNotFoundException",
@@ -2214,6 +2216,11 @@
             ],
             "returnType": null
         }
+    ],
+    "phpDocMethods": [
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria innerJoin($relation) Adds a INNER JOIN clause to the query",
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria leftJoin($relation) Adds a LEFT JOIN clause to the query",
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria rightJoin($relation) Adds a RIGHT JOIN clause to the query"
     ],
     "properties": [],
     "constants": [

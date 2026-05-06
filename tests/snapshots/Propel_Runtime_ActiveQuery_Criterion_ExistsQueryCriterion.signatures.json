@@ -1,0 +1,75 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\ExistsQueryCriterion",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractInnerQueryCriterion",
+    "implements": [],
+    "methods": [
+        {
+            "name": "initForRelation",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "outerQuery",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "relation",
+                    "type": "Propel\\Runtime\\Map\\RelationMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "processInnerQuery",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criteria"
+        },
+        {
+            "name": "resolveOperator",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "operatorDeclaration",
+                    "type": "?string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "string"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": [
+        {
+            "name": "TYPE_EXISTS",
+            "value": "'EXISTS'"
+        },
+        {
+            "name": "TYPE_NOT_EXISTS",
+            "value": "'NOT EXISTS'"
+        }
+    ]
+}

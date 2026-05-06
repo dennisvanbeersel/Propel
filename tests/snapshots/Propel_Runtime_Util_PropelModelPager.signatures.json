@@ -1,28 +1,76 @@
 {
-    "class": "Propel\\Runtime\\Formatter\\AbstractFormatter",
+    "class": "Propel\\Runtime\\Util\\PropelModelPager",
     "kind": "class",
-    "isAbstract": true,
+    "isAbstract": false,
     "isFinal": false,
     "extends": null,
-    "implements": [],
+    "implements": [
+        "Countable",
+        "IteratorAggregate",
+        "Traversable"
+    ],
     "methods": [
         {
-            "name": "getCollection",
+            "name": "setLastPage",
             "visibility": "protected",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
-            "parameters": [],
-            "returnType": null
+            "parameters": [
+                {
+                    "name": "page",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
         },
         {
-            "name": "isWithOneToMany",
+            "name": "setNbResults",
             "visibility": "protected",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
-            "parameters": [],
-            "returnType": "bool"
+            "parameters": [
+                {
+                    "name": "nb",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "__call",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
         },
         {
             "name": "__construct",
@@ -32,186 +80,179 @@
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "criteria",
-                    "type": "?Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                },
-                {
-                    "name": "dataFetcher",
-                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "checkInit",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "void"
-        },
-        {
-            "name": "format",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "dataFetcher",
-                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "formatOne",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": true,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "dataFetcher",
-                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "formatRecord",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "record",
-                    "type": "?Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": null
-        },
-        {
-            "name": "getAsColumns",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "array"
-        },
-        {
-            "name": "getClass",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "?string"
-        },
-        {
-            "name": "getCollectionClassName",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "?string"
-        },
-        {
-            "name": "getDataFetcher",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
-        },
-        {
-            "name": "getDbName",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "?string"
-        },
-        {
-            "name": "getSingleObjectFromRow",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "row",
-                    "type": "array",
+                    "name": "query",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
                 },
                 {
-                    "name": "class",
-                    "type": "string",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "col",
+                    "name": "maxPerPage",
                     "type": "int",
-                    "default": "0",
-                    "byRef": true,
+                    "default": "10",
+                    "byRef": false,
                     "variadic": false,
                     "nullable": false
                 }
             ],
-            "returnType": "Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface"
+            "returnType": null
         },
         {
-            "name": "getTableMap",
+            "name": "count",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [],
-            "returnType": "Propel\\Runtime\\Map\\TableMap"
+            "returnType": "int"
         },
         {
-            "name": "getWith",
+            "name": "getCurrentMaxLink",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getFirstIndex",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getFirstPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getIterator",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Traversable"
+        },
+        {
+            "name": "getLastIndex",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getLastPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getLinks",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "nbLinks",
+                    "type": "int",
+                    "default": "5",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
             "returnType": "array"
         },
         {
-            "name": "hasLimit",
+            "name": "getMaxPerPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getMaxRecordLimit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getNbResults",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getNextPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getPreviousPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "int"
+        },
+        {
+            "name": "getQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\ModelCriteria"
+        },
+        {
+            "name": "getResults",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\Collection\\Collection"
+        },
+        {
+            "name": "haveToPaginate",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -227,61 +268,53 @@
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "criteria",
-                    "type": "Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "dataFetcher",
-                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
                     "default": "NULL",
                     "byRef": false,
                     "variadic": false,
                     "nullable": true
                 }
             ],
-            "returnType": null
+            "returnType": "void"
         },
         {
-            "name": "isObjectFormatter",
+            "name": "isEmpty",
             "visibility": "public",
             "isStatic": false,
-            "isAbstract": true,
+            "isAbstract": false,
             "isFinal": false,
             "parameters": [],
             "returnType": "bool"
         },
         {
-            "name": "setAsColumns",
+            "name": "isFirstPage",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
-            "parameters": [
-                {
-                    "name": "asColumns",
-                    "type": "array",
-                    "default": "array (\n)",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
+            "parameters": [],
+            "returnType": "bool"
         },
         {
-            "name": "setClass",
+            "name": "isLastPage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setMaxPerPage",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "class",
-                    "type": "string",
+                    "name": "max",
+                    "type": "int",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
@@ -291,15 +324,15 @@
             "returnType": "void"
         },
         {
-            "name": "setDataFetcher",
+            "name": "setMaxRecordLimit",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "dataFetcher",
-                    "type": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "name": "limit",
+                    "type": "int",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
@@ -309,15 +342,15 @@
             "returnType": "void"
         },
         {
-            "name": "setDbName",
+            "name": "setPage",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "dbName",
-                    "type": "string",
+                    "name": "page",
+                    "type": "int",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
@@ -327,34 +360,16 @@
             "returnType": "void"
         },
         {
-            "name": "setHasLimit",
+            "name": "setQuery",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "hasLimit",
-                    "type": "bool",
-                    "default": "false",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "setWith",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "withs",
-                    "type": "array",
-                    "default": "array (\n)",
+                    "name": "query",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
                     "byRef": false,
                     "variadic": false,
                     "nullable": false
