@@ -59,6 +59,13 @@
             <xs:enumeration value="BU_TIMESTAMP"/>
             <xs:enumeration value="BOOLEAN_EMU"/>
             <xs:enumeration value="PHP_ARRAY"/>
+            <!-- Phase C additions (umbrella §6.4): native JSON / network / fulltext-search types.
+                 Native on PostgreSQL; mapped to compatible types on MySQL/SQLite per Domain. -->
+            <xs:enumeration value="JSON"/>
+            <xs:enumeration value="JSONB"/>
+            <xs:enumeration value="INET"/>
+            <xs:enumeration value="CIDR"/>
+            <xs:enumeration value="TSVECTOR"/>
         </xs:restriction>
     </xs:simpleType>
 

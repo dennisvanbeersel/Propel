@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Phase C fixture (Task C.1.1): exercises JSON, JSONB, INET, CIDR, TSVECTOR.
+    Validates against resources/xsd/database.xsd post-additivity addition.
+-->
+<database name="phase_c_types" defaultIdMethod="native">
+    <table name="event_log">
+        <column name="id" type="INTEGER" primaryKey="true" autoIncrement="true"/>
+        <column name="payload_mysql" type="JSON"/>
+        <column name="payload_pg" type="JSONB"/>
+        <column name="source_ip" type="INET"/>
+        <column name="source_subnet" type="CIDR"/>
+        <column name="search_vector" type="TSVECTOR"/>
+    </table>
+</database>
