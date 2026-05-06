@@ -8,20 +8,22 @@
     xmlns="https://getpsalm.org/schema/config"
     xsi:schemaLocation="https://getpsalm.org/schema/config vendor/vimeo/psalm/config.xsd"
     autoloader="autoload.php.dist"
-    errorBaseline="psalm-baseline.xml"
+    errorBaseline="/tmp/psalm-current.xml"
 >
     <projectFiles>
         <directory name="src/Propel/"/>
     </projectFiles>
 
     <issueHandlers>
+        <!-- Per umbrella spec §4.1, global suppressions are removed one-per-phase.
+             Phase A.33 dropped ImplementedReturnTypeMismatch (was a type-system
+             off-switch). Phase B-G drop the rest. -->
         <RedundantConditionGivenDocblockType errorLevel="suppress"/>
         <DocblockTypeContradiction errorLevel="suppress"/>
         <MissingClosureParamType errorLevel="suppress"/>
         <MissingClosureReturnType errorLevel="suppress"/>
         <PropertyNotSetInConstructor errorLevel="suppress"/>
         <UnresolvableInclude errorLevel="suppress"/>
-        <ImplementedReturnTypeMismatch errorLevel="suppress"/>
         <ImplicitToStringCast errorLevel="suppress"/>
         <UndefinedMagicMethod errorLevel="suppress"/>
     </issueHandlers>
