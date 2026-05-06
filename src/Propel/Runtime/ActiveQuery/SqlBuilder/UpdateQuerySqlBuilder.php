@@ -143,11 +143,11 @@ class UpdateQuerySqlBuilder extends AbstractSqlQueryBuilder
 
     /**
      * @param array<string> $qualifiedTableColumnNames
-     * @param array<mixed>|null $params
+     * @param array<mixed> $params
      *
      * @return string|null
      */
-    protected function buildWhereClause(array $qualifiedTableColumnNames, ?array &$params): ?string
+    protected function buildWhereClause(array $qualifiedTableColumnNames, array &$params): ?string
     {
         if (!$qualifiedTableColumnNames) {
             return null;
