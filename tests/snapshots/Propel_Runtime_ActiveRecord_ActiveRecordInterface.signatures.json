@@ -1,0 +1,19 @@
+{
+    "class": "Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface",
+    "kind": "interface",
+    "isAbstract": true,
+    "isFinal": false,
+    "methods": [
+        {
+            "name": "isPrimaryKeyNull",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        }
+    ],
+    "properties": [],
+    "constants": []
+}

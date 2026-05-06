@@ -1,0 +1,36 @@
+# Tier 1 frozen public API surface (umbrella spec §3.1).
+# Snapshots in this directory are JSON dumps of method signatures + public
+# properties + class constants. The CI gate (.github/workflows/quality-gates.yml
+# job: signature-diff) regenerates and diffs against committed snapshots; any
+# drift fails the gate unless paired with @deprecated annotations.
+
+# Runtime ActiveQuery
+Propel\Runtime\ActiveQuery\Criteria
+Propel\Runtime\ActiveQuery\ModelCriteria
+
+# ActiveRecord interface (Tier 1, §3.1: must remain stable)
+Propel\Runtime\ActiveRecord\ActiveRecordInterface
+
+# Map metadata
+Propel\Runtime\Map\TableMap
+
+# Static facade (Tier 1)
+Propel\Runtime\Propel
+
+# Connection contract
+Propel\Runtime\Connection\ConnectionInterface
+
+# Adapter contract (Tier 2 — runway required, but tracked here for visibility)
+Propel\Runtime\Adapter\AdapterInterface
+Propel\Runtime\Adapter\SqlAdapterInterface
+
+# Collection extension surfaces (Tier 2)
+Propel\Runtime\Collection\Collection
+Propel\Runtime\Collection\ObjectCollection
+Propel\Runtime\Collection\ArrayCollection
+
+# Formatter base (Tier 2)
+Propel\Runtime\Formatter\AbstractFormatter
+
+# Service container interface (Tier 2)
+Propel\Runtime\ServiceContainer\ServiceContainerInterface

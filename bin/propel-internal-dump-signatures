@@ -1,0 +1,161 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+/**
+ * Dump method signatures + public properties + class constants of tracked classes
+ * to JSON snapshots for the BC signature-diff gate (umbrella spec §3.4).
+ *
+ * Usage:
+ *   bin/propel-internal-dump-signatures [tracked-classes.txt] [output-dir]
+ *
+ * Defaults:
+ *   tracked-classes.txt → tests/snapshots/tracked-classes.txt
+ *   output-dir          → tests/snapshots/
+ *
+ * Per spec §3.4: format is JSON; ordering is alphabetical by (visibility, name)
+ * for determinism; locale-independent; reproducible across PHP version matrix.
+ */
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$repoRoot = dirname(__DIR__);
+$classesFile = $argv[1] ?? $repoRoot . '/tests/snapshots/tracked-classes.txt';
+$outputDir = $argv[2] ?? $repoRoot . '/tests/snapshots';
+
+if (!is_file($classesFile)) {
+    fwrite(STDERR, "Tracked classes file not found: {$classesFile}\n");
+    exit(1);
+}
+
+if (!is_dir($outputDir)) {
+    mkdir($outputDir, 0755, true);
+}
+
+$lines = file($classesFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+$classes = [];
+foreach ($lines as $line) {
+    $line = trim($line);
+    if ($line === '' || str_starts_with($line, '#')) {
+        continue;
+    }
+    $classes[] = $line;
+}
+
+$failures = [];
+foreach ($classes as $class) {
+    if (!class_exists($class) && !interface_exists($class) && !trait_exists($class)) {
+        $failures[] = $class;
+        continue;
+    }
+
+    $ref = new ReflectionClass($class);
+    $snapshot = [
+        'class' => $ref->getName(),
+        'kind' => $ref->isInterface() ? 'interface' : ($ref->isTrait() ? 'trait' : 'class'),
+        'isAbstract' => $ref->isAbstract(),
+        'isFinal' => $ref->isFinal(),
+        'methods' => extractMethods($ref),
+        'properties' => extractProperties($ref),
+        'constants' => extractConstants($ref),
+    ];
+
+    $filename = $outputDir . '/' . str_replace('\\', '_', $ref->getName()) . '.signatures.json';
+    file_put_contents(
+        $filename,
+        json_encode($snapshot, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
+    );
+    fwrite(STDOUT, "Wrote {$filename}\n");
+}
+
+if ($failures !== []) {
+    fwrite(STDERR, "Classes not found: " . implode(', ', $failures) . "\n");
+    exit(2);
+}
+
+exit(0);
+
+function extractMethods(ReflectionClass $ref): array
+{
+    $methods = [];
+    foreach ($ref->getMethods() as $m) {
+        if ($m->getDeclaringClass()->getName() !== $ref->getName()) {
+            continue;
+        }
+        $params = [];
+        foreach ($m->getParameters() as $p) {
+            $default = null;
+            if ($p->isDefaultValueAvailable()) {
+                $default = $p->isDefaultValueConstant()
+                    ? $p->getDefaultValueConstantName()
+                    : var_export($p->getDefaultValue(), true);
+            }
+            $params[] = [
+                'name' => $p->getName(),
+                'type' => $p->hasType() ? (string) $p->getType() : null,
+                'default' => $default,
+                'byRef' => $p->isPassedByReference(),
+                'variadic' => $p->isVariadic(),
+                'nullable' => $p->allowsNull(),
+            ];
+        }
+        $methods[] = [
+            'name' => $m->getName(),
+            'visibility' => $m->isPublic() ? 'public' : ($m->isProtected() ? 'protected' : 'private'),
+            'isStatic' => $m->isStatic(),
+            'isAbstract' => $m->isAbstract(),
+            'isFinal' => $m->isFinal(),
+            'parameters' => $params,
+            'returnType' => $m->hasReturnType() ? (string) $m->getReturnType() : null,
+        ];
+    }
+    usort(
+        $methods,
+        static fn (array $a, array $b): int => [$a['visibility'], $a['name']] <=> [$b['visibility'], $b['name']],
+    );
+
+    return $methods;
+}
+
+function extractProperties(ReflectionClass $ref): array
+{
+    $properties = [];
+    foreach ($ref->getProperties() as $p) {
+        if ($p->getDeclaringClass()->getName() !== $ref->getName() || !$p->isPublic()) {
+            continue;
+        }
+        $properties[] = [
+            'name' => $p->getName(),
+            'type' => $p->hasType() ? (string) $p->getType() : null,
+            'isStatic' => $p->isStatic(),
+            'isReadonly' => $p->isReadOnly(),
+        ];
+    }
+    usort(
+        $properties,
+        static fn (array $a, array $b): int => $a['name'] <=> $b['name'],
+    );
+
+    return $properties;
+}
+
+function extractConstants(ReflectionClass $ref): array
+{
+    $constants = [];
+    foreach ($ref->getReflectionConstants() as $c) {
+        if ($c->getDeclaringClass()->getName() !== $ref->getName() || !$c->isPublic()) {
+            continue;
+        }
+        $constants[] = [
+            'name' => $c->getName(),
+            'value' => var_export($c->getValue(), true),
+        ];
+    }
+    usort(
+        $constants,
+        static fn (array $a, array $b): int => $a['name'] <=> $b['name'],
+    );
+
+    return $constants;
+}
