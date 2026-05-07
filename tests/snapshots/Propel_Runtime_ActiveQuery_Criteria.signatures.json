@@ -9,6 +9,24 @@
     ],
     "methods": [
         {
+            "name": "looksLikeUnsafeRawSql",
+            "visibility": "private",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
             "name": "doReplaceNameInExpression",
             "visibility": "protected",
             "isStatic": false,
@@ -685,6 +703,15 @@
             "returnType": null
         },
         {
+            "name": "allowReplica",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "static"
+        },
+        {
             "name": "clear",
             "visibility": "public",
             "isStatic": false,
@@ -789,6 +816,48 @@
                 }
             ],
             "returnType": "string"
+        },
+        {
+            "name": "customCondition",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "allowRawSql",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "static"
         },
         {
             "name": "doCount",
@@ -923,6 +992,15 @@
                 }
             ],
             "returnType": "bool"
+        },
+        {
+            "name": "forcePrimary",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "static"
         },
         {
             "name": "forgeSelectQueryAlias",
@@ -1218,6 +1296,15 @@
             "isFinal": false,
             "parameters": [],
             "returnType": "?string"
+        },
+        {
+            "name": "getRoutingHint",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
         },
         {
             "name": "getSelectColumns",

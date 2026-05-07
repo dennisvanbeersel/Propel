@@ -1,12 +1,10 @@
 {
-    "class": "Propel\\Runtime\\Connection\\ConnectionManagerPrimaryReplica",
+    "class": "Propel\\Runtime\\ActiveQuery\\Plan\\WhereTree",
     "kind": "class",
     "isAbstract": false,
-    "isFinal": false,
+    "isFinal": true,
     "extends": null,
-    "implements": [
-        "Propel\\Runtime\\Connection\\ConnectionManagerInterface"
-    ],
+    "implements": [],
     "methods": [
         {
             "name": "__construct",
@@ -16,6 +14,58 @@
             "isFinal": false,
             "parameters": [
                 {
+                    "name": "criterions",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "having",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "add",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "criterion",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "get",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
                     "name": "name",
                     "type": "string",
                     "default": null,
@@ -24,64 +74,46 @@
                     "nullable": false
                 }
             ],
-            "returnType": null
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
         },
         {
-            "name": "closeConnections",
+            "name": "getCriterions",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [],
-            "returnType": "void"
+            "returnType": "array"
         },
         {
-            "name": "getName",
+            "name": "getHaving",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [],
-            "returnType": "string"
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
         },
         {
-            "name": "getReadConnection",
+            "name": "has",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "adapter",
-                    "type": "?Propel\\Runtime\\Adapter\\AdapterInterface",
-                    "default": "NULL",
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
                     "byRef": false,
                     "variadic": false,
-                    "nullable": true
+                    "nullable": false
                 }
             ],
-            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+            "returnType": "bool"
         },
         {
-            "name": "getWriteConnection",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "adapter",
-                    "type": "?Propel\\Runtime\\Adapter\\AdapterInterface",
-                    "default": "NULL",
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": true
-                }
-            ],
-            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
-        },
-        {
-            "name": "isForcePrimaryConnection",
+            "name": "isEmpty",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -90,25 +122,7 @@
             "returnType": "bool"
         },
         {
-            "name": "setForcePrimaryConnection",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [
-                {
-                    "name": "isForcePrimaryConnection",
-                    "type": "bool",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                }
-            ],
-            "returnType": "void"
-        },
-        {
-            "name": "setName",
+            "name": "remove",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
@@ -126,33 +140,33 @@
             "returnType": "void"
         },
         {
-            "name": "setReadConfiguration",
+            "name": "setHaving",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "configuration",
-                    "type": "array",
+                    "name": "having",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
-                    "nullable": false
+                    "nullable": true
                 }
             ],
             "returnType": "void"
         },
         {
-            "name": "setWriteConfiguration",
+            "name": "walk",
             "visibility": "public",
             "isStatic": false,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "configuration",
-                    "type": "array",
+                    "name": "visitor",
+                    "type": "callable",
                     "default": null,
                     "byRef": false,
                     "variadic": false,

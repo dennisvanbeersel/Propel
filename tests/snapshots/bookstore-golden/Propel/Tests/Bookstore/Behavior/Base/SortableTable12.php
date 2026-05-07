@@ -1285,7 +1285,6 @@ abstract class SortableTable12 implements ActiveRecordInterface
     {
         return $this->getPosition() == 1;
     }
-
     /**
      * Check if the object is last in the list, i.e. if its rank is the highest rank
      *

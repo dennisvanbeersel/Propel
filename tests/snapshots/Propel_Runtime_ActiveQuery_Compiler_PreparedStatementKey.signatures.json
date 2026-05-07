@@ -1,54 +1,46 @@
 {
-    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\CustomCriterion",
+    "class": "Propel\\Runtime\\ActiveQuery\\Compiler\\PreparedStatementKey",
     "kind": "class",
     "isAbstract": false,
-    "isFinal": false,
-    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+    "isFinal": true,
+    "extends": null,
     "implements": [],
     "methods": [
         {
-            "name": "appendPsForUniqueClauseTo",
-            "visibility": "protected",
-            "isStatic": false,
+            "name": "equals",
+            "visibility": "public",
+            "isStatic": true,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "sb",
+                    "name": "a",
                     "type": "string",
                     "default": null,
-                    "byRef": true,
+                    "byRef": false,
                     "variadic": false,
                     "nullable": false
                 },
                 {
-                    "name": "params",
-                    "type": "array",
+                    "name": "b",
+                    "type": "string",
                     "default": null,
-                    "byRef": true,
+                    "byRef": false,
                     "variadic": false,
                     "nullable": false
                 }
             ],
-            "returnType": "void"
+            "returnType": "bool"
         },
         {
-            "name": "__construct",
+            "name": "forSql",
             "visibility": "public",
-            "isStatic": false,
+            "isStatic": true,
             "isAbstract": false,
             "isFinal": false,
             "parameters": [
                 {
-                    "name": "outer",
-                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
-                    "default": null,
-                    "byRef": false,
-                    "variadic": false,
-                    "nullable": false
-                },
-                {
-                    "name": "value",
+                    "name": "sql",
                     "type": "string",
                     "default": null,
                     "byRef": false,
@@ -56,7 +48,7 @@
                     "nullable": false
                 },
                 {
-                    "name": "boundParams",
+                    "name": "driverOptions",
                     "type": "array",
                     "default": "array (\n)",
                     "byRef": false,
@@ -64,16 +56,7 @@
                     "nullable": false
                 }
             ],
-            "returnType": null
-        },
-        {
-            "name": "getBoundParams",
-            "visibility": "public",
-            "isStatic": false,
-            "isAbstract": false,
-            "isFinal": false,
-            "parameters": [],
-            "returnType": "array"
+            "returnType": "string"
         }
     ],
     "phpDocMethods": [],

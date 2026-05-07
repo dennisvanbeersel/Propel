@@ -1,0 +1,24 @@
+{
+    "class": "Propel\\Runtime\\Connection\\ConnectionDecoratorInterface",
+    "kind": "interface",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": null,
+    "implements": [
+        "Propel\\Runtime\\Connection\\ConnectionInterface"
+    ],
+    "methods": [
+        {
+            "name": "getInner",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

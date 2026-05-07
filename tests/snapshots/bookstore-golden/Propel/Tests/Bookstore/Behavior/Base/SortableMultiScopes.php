@@ -1356,7 +1356,6 @@ abstract class SortableMultiScopes implements ActiveRecordInterface
     {
         return $this->getPosition() == 1;
     }
-
     /**
      * Check if the object is last in the list, i.e. if its rank is the highest rank
      *

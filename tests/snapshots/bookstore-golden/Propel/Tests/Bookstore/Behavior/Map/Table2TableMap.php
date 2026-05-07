@@ -212,7 +212,7 @@ class Table2TableMap extends TableMap
     public function getBehaviors(): array
     {
         return [
-            'timestampable' => ['create_column' => 'created_at', 'update_column' => 'updated_at', 'disable_created_at' => 'false', 'disable_updated_at' => 'false'],
+            'timestampable' => ['create_column' => 'created_at', 'update_column' => 'updated_at', 'disable_created_at' => 'false', 'disable_updated_at' => 'false', 'use_native_on_update' => 'true'],
         ];
     }
 

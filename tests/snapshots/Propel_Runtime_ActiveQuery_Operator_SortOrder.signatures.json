@@ -1,0 +1,83 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Operator\\SortOrder",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": true,
+    "extends": null,
+    "implements": [
+        "BackedEnum",
+        "UnitEnum"
+    ],
+    "methods": [
+        {
+            "name": "cases",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "from",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": "string|int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "static"
+        },
+        {
+            "name": "tryFrom",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": "string|int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?static"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [
+        {
+            "name": "name",
+            "type": "string",
+            "isStatic": false,
+            "isReadonly": true
+        },
+        {
+            "name": "value",
+            "type": "string",
+            "isStatic": false,
+            "isReadonly": true
+        }
+    ],
+    "constants": [
+        {
+            "name": "Asc",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\SortOrder::Asc"
+        },
+        {
+            "name": "Desc",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\SortOrder::Desc"
+        }
+    ]
+}
