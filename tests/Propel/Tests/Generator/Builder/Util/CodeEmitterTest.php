@@ -270,4 +270,183 @@ class CodeEmitterTest extends TestCase
         $expected = "class Foo\n{\n    public function bar()\n    {\n        return 42;\n    }\n}";
         $this->assertSame($expected, $emitter->toString());
     }
+
+    /**
+     * @return void
+     */
+    public function testDocblockSingleLine(): void
+    {
+        $emitter = new CodeEmitter();
+        $emitter->docblock('Hello world.');
+
+        $this->assertSame("/**\n * Hello world.\n */", $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testDocblockMultiLineWithBlank(): void
+    {
+        $emitter = new CodeEmitter();
+        $emitter->docblock("Foo\n\nBar @return void");
+
+        $this->assertSame("/**\n * Foo\n *\n * Bar @return void\n */", $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testDocblockIndentsAtCurrentDepth(): void
+    {
+        $emitter = new CodeEmitter();
+        $b = $emitter->block();
+        $emitter->docblock('Hi.');
+        unset($b);
+
+        $this->assertSame("    /**\n     * Hi.\n     */", $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testMethodBodyEmitsSignatureAndAutoClosingBrace(): void
+    {
+        $emitter = new CodeEmitter();
+        $body = $emitter->methodBody('foo');
+        $emitter->line('return 42;');
+        unset($body);
+
+        $this->assertSame("public function foo()\n{\n    return 42;\n}", $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testMethodBodyWithFullSignature(): void
+    {
+        $emitter = new CodeEmitter();
+        $body = $emitter->methodBody(
+            'foo',
+            'protected',
+            [
+                ['name' => 'a', 'type' => 'int'],
+                ['name' => 'b', 'type' => '?string', 'default' => 'null'],
+            ],
+            'bool',
+            'Method foo.',
+            true,
+        );
+        $emitter->line('return true;');
+        unset($body);
+
+        $expected = "/**\n * Method foo.\n */\nprotected static function foo(int \$a, ?string \$b = null): bool\n{\n    return true;\n}";
+        $this->assertSame($expected, $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testMethodBodyByRefAndVariadic(): void
+    {
+        $emitter = new CodeEmitter();
+        $body = $emitter->methodBody(
+            'foo',
+            'public',
+            [
+                ['name' => 'a', 'type' => 'array', 'byRef' => true],
+                ['name' => 'rest', 'type' => 'mixed', 'variadic' => true],
+            ],
+        );
+        unset($body);
+
+        $expected = "public function foo(array &\$a, mixed ...\$rest)\n{\n}";
+        $this->assertSame($expected, $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testMethodBodyNested(): void
+    {
+        $emitter = new CodeEmitter();
+        $emitter->line('class Foo');
+        $emitter->line('{');
+        $cls = $emitter->block();
+        $body = $emitter->methodBody('bar', 'public', [], 'self');
+        $emitter->line('return $this;');
+        unset($body);
+        unset($cls);
+        $emitter->line('}');
+
+        $expected = "class Foo\n{\n    public function bar(): self\n    {\n        return \$this;\n    }\n}";
+        $this->assertSame($expected, $emitter->toString());
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpStringEscapesBackslashAndQuote(): void
+    {
+        $this->assertSame("'foo'", CodeEmitter::phpString('foo'));
+        $this->assertSame("'don\\'t'", CodeEmitter::phpString("don't"));
+        $this->assertSame("'a\\\\b'", CodeEmitter::phpString('a\\b'));
+        $this->assertSame("''", CodeEmitter::phpString(''));
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpStringPreservesNewlinesAndUnicode(): void
+    {
+        $this->assertSame("'a\nb'", CodeEmitter::phpString("a\nb"));
+        $this->assertSame("'café'", CodeEmitter::phpString('café'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpVarAcceptsBareAndPrefixed(): void
+    {
+        $this->assertSame('$foo', CodeEmitter::phpVar('foo'));
+        $this->assertSame('$foo', CodeEmitter::phpVar('$foo'));
+        $this->assertSame('$_under', CodeEmitter::phpVar('_under'));
+        $this->assertSame('$camelCase123', CodeEmitter::phpVar('camelCase123'));
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpVarRejectsInvalid(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        CodeEmitter::phpVar('1foo');
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpVarRejectsEmpty(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        CodeEmitter::phpVar('');
+    }
+
+    /**
+     * @return void
+     */
+    public function testPhpVarRejectsSpecialChars(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        CodeEmitter::phpVar('foo-bar');
+    }
+
+    /**
+     * @return void
+     */
+    public function testSqlIdentifierEscapesLikePhpString(): void
+    {
+        $this->assertSame("'users'", CodeEmitter::sqlIdentifier('users'));
+        $this->assertSame("'\"quoted\"'", CodeEmitter::sqlIdentifier('"quoted"'));
+        $this->assertSame("'`backtick`'", CodeEmitter::sqlIdentifier('`backtick`'));
+    }
 }

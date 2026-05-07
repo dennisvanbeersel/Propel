@@ -215,6 +215,178 @@ final class CodeEmitter
     }
 
     /**
+     * Emit a docblock; multi-line text is split, each line star-prefixed,
+     * delimited by docblock open/close markers indented at the current depth.
+     *
+     * @param string $text
+     *
+     * @return $this
+     */
+    public function docblock(string $text)
+    {
+        $rawLines = preg_split("/\r\n|\n|\r/", $text);
+        if ($rawLines === false) {
+            return $this;
+        }
+
+        $indentStr = str_repeat($this->indentString, $this->indent);
+        $this->lines[] = $indentStr . '/**';
+        foreach ($rawLines as $rawLine) {
+            $trimmed = rtrim($rawLine);
+            if ($trimmed === '') {
+                $this->lines[] = $indentStr . ' *';
+
+                continue;
+            }
+            $this->lines[] = $indentStr . ' * ' . $trimmed;
+        }
+        $this->lines[] = $indentStr . ' */';
+
+        return $this;
+    }
+
+    /**
+     * Emit a method signature line + open the method body block.
+     *
+     * Returns a scope that auto-closes the body on destruction (emits a
+     * trailing `}` line at the parent indent before dedenting).
+     *
+     * Each $params element shape:
+     *   - 'name' (required, without `$`): the parameter name
+     *   - 'type' (optional): typehint (e.g. `string`, `?int`, `\Foo\Bar`)
+     *   - 'default' (optional): PHP-source-formatted default expression
+     *   - 'byRef' (optional): if true, prefix with `&`
+     *   - 'variadic' (optional): if true, prefix with `...`
+     *
+     * @param string $name
+     * @param string $visibility
+     * @param array<int, array{name: string, type?: string, default?: string, byRef?: bool, variadic?: bool}> $params
+     * @param string|null $returnType
+     * @param string $docblock Pass empty string to skip.
+     * @param bool $isStatic
+     *
+     * @return \Propel\Generator\Builder\Util\CodeEmitterScope
+     */
+    public function methodBody(
+        string $name,
+        string $visibility = 'public',
+        array $params = [],
+        ?string $returnType = null,
+        string $docblock = '',
+        bool $isStatic = false
+    ): CodeEmitterScope {
+        if ($docblock !== '') {
+            $this->docblock($docblock);
+        }
+
+        $signature = $visibility;
+        if ($isStatic) {
+            $signature .= ' static';
+        }
+        $signature .= ' function ' . $name . '(';
+        $signature .= $this->formatParams($params);
+        $signature .= ')';
+        if ($returnType !== null && $returnType !== '') {
+            $signature .= ': ' . $returnType;
+        }
+
+        $this->line($signature);
+        $this->line('{');
+        $this->indent();
+
+        $emitter = $this;
+
+        return new CodeEmitterScope($this, static function () use ($emitter): void {
+            $emitter->line('}');
+        });
+    }
+
+    /**
+     * Escape a value for use as a PHP single-quoted string literal.
+     *
+     * Returns the value with single quotes around it, with embedded `'` and
+     * `\` characters backslash-escaped. Newlines are NOT converted (single
+     * quotes preserve them as-is).
+     *
+     * @param string $value
+     *
+     * @return string
+     */
+    public static function phpString(string $value): string
+    {
+        return "'" . str_replace(['\\', "'"], ['\\\\', "\\'"], $value) . "'";
+    }
+
+    /**
+     * Validate and return a PHP variable token (`$name`).
+     *
+     * Accepts either bare names (`foo`) or already-prefixed (`$foo`).
+     * Throws on invalid identifiers.
+     *
+     * @param string $name
+     *
+     * @throws \Propel\Generator\Exception\InvalidArgumentException
+     *
+     * @return string
+     */
+    public static function phpVar(string $name): string
+    {
+        $candidate = ltrim($name, '$');
+        if (preg_match('/^[A-Za-z_][A-Za-z0-9_]*$/', $candidate) !== 1) {
+            throw new InvalidArgumentException(sprintf('Invalid PHP variable name: %s', $name));
+        }
+
+        return '$' . $candidate;
+    }
+
+    /**
+     * Emit an SQL identifier as a PHP-source string literal preserving any
+     * embedded quoting characters.
+     *
+     * Same as `phpString()` but the contract is documented for SQL-identifier
+     * use sites — escaping rules are identical (single-quoted PHP literal).
+     *
+     * @param string $name
+     *
+     * @return string
+     */
+    public static function sqlIdentifier(string $name): string
+    {
+        return self::phpString($name);
+    }
+
+    /**
+     * Format a parameter list for `methodBody()`.
+     *
+     * @param array<int, array{name: string, type?: string, default?: string, byRef?: bool, variadic?: bool}> $params
+     *
+     * @return string
+     */
+    private function formatParams(array $params): string
+    {
+        $out = [];
+        foreach ($params as $p) {
+            $piece = '';
+            if (isset($p['type']) && $p['type'] !== '') {
+                $piece .= $p['type'] . ' ';
+            }
+            if (!empty($p['byRef'])) {
+                $piece .= '&';
+            }
+            if (!empty($p['variadic'])) {
+                $piece .= '...';
+            }
+            $piece .= '$' . $p['name'];
+            if (isset($p['default']) && $p['default'] !== '') {
+                $piece .= ' = ' . $p['default'];
+            }
+            $out[] = $piece;
+        }
+
+        return implode(', ', $out);
+    }
+
+    /**
      * Detect the minimum number of leading whitespace characters across all
      * non-blank lines. Used by `lines()` to strip a common leading indent.
      *
