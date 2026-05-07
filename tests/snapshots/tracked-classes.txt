@@ -88,6 +88,9 @@ Propel\Runtime\ActiveQuery\Operator\JsonbOperator
 # enums whose `value` matches the corresponding Criteria::* constant. Constants stay
 # frozen forever; enums are an additive Tier 2 surface for typed call sites.
 Propel\Runtime\ActiveQuery\Operator\Comparison
+Propel\Runtime\ActiveQuery\Operator\JoinType
+Propel\Runtime\ActiveQuery\Operator\SortOrder
+Propel\Runtime\ActiveQuery\Operator\LogicalOperator
 
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
