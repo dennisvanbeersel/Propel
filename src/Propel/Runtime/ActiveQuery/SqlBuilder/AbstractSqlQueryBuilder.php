@@ -108,7 +108,7 @@ abstract class AbstractSqlQueryBuilder
 
         $params = [];
         foreach ($columnNames as $key) {
-            if (!$values->containsKey($key)) {
+            if (!isset($values->getMap()[$key])) {
                 continue;
             }
             $crit = $values->getCriterion($key);

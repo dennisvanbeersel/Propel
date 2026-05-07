@@ -566,14 +566,6 @@ class Criteria
      */
     public function keys(): array
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::keys() is a Java-Hashtable rump and is deprecated. Use '
-            . 'array_keys($criteria->getMap()) or iterate via WhereTree::getCriterions(). '
-            . 'Removal targeted for 4.0.',
-        );
-
         return array_keys($this->map);
     }
 
@@ -586,14 +578,6 @@ class Criteria
      */
     public function containsKey(string $column): bool
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::containsKey() is a Java-Hashtable rump and is deprecated. '
-            . 'Use Criteria::hasWhereClause() or check WhereTree::has() directly. '
-            . 'Removal targeted for 4.0.',
-        );
-
         // must use array_key_exists() because the key could
         // exist but have a NULL value (that'd be valid).
         return isset($this->map[$column]);
@@ -608,14 +592,6 @@ class Criteria
      */
     public function keyContainsValue(string $column): bool
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::keyContainsValue() is a Java-Hashtable rump and is deprecated. '
-            . 'Use $criteria->hasWhereClause($col) && $criteria->getCriterion($col)->getValue() !== null '
-            . 'instead. Removal targeted for 4.0.',
-        );
-
         // must use array_key_exists() because the key could
         // exist but have a NULL value (that'd be valid).
         return isset($this->map[$column]) && $this->map[$column]->getValue() !== null;
@@ -864,14 +840,6 @@ class Criteria
      */
     public function get(string $key)
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::get() is a Java-Hashtable rump and is deprecated. Use '
-            . 'Criteria::getValue() (its existing Tier 1 alias) directly. '
-            . 'Removal targeted for 4.0.',
-        );
-
         return $this->getValue($key);
     }
 
@@ -892,13 +860,6 @@ class Criteria
      */
     public function put(string $key, $value)
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::put() is a Java-Hashtable rump and is deprecated. Use '
-            . 'Criteria::add() / addAnd() / addOr() instead. Removal targeted for 4.0.',
-        );
-
         $this->add($key, $value);
 
         return $this;
@@ -918,13 +879,6 @@ class Criteria
      */
     public function putAll($t)
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::putAll() is a Java-Hashtable rump and is deprecated. Iterate '
-            . 'and call Criteria::add() per entry. Removal targeted for 4.0.',
-        );
-
         if (is_array($t)) {
             foreach ($t as $key => $value) {
                 if ($value instanceof AbstractCriterion) {
@@ -1874,15 +1828,6 @@ class Criteria
      */
     public function size(): int
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::size() is a Java-Hashtable rump and is deprecated. Use '
-            . 'count($criteria->getMap()) for where-clause count, or '
-            . 'count($criteria->getJoins()) etc. for the relevant subset. '
-            . 'Removal targeted for 4.0.',
-        );
-
         return count($this->map);
     }
 
@@ -1896,14 +1841,6 @@ class Criteria
      */
     public function equals(self $crit): bool
     {
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'Criteria::equals() is a Java-Hashtable rump and is deprecated. Object '
-            . 'identity (===) covers most cases; use spl_object_id() or your own '
-            . 'domain comparison for value equality. Removal targeted for 4.0.',
-        );
-
         if ($this === $crit) {
             return true;
         }

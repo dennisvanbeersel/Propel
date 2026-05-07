@@ -106,7 +106,7 @@ class UpdateQuerySqlBuilder extends AbstractSqlQueryBuilder
             return $columnEquals . ':p' . $positionIndex++;
         }
 
-        $param = $this->updateValues->get($qualifiedColumnName);
+        $param = $this->updateValues->getValue($qualifiedColumnName);
         if (!is_array($param)) {
             $this->updateValues->remove($qualifiedColumnName);
 
@@ -114,7 +114,7 @@ class UpdateQuerySqlBuilder extends AbstractSqlQueryBuilder
         }
 
         if (isset($param['value'])) {
-            $this->updateValues->put($qualifiedColumnName, $param['value']);
+            $this->updateValues->add($qualifiedColumnName, $param['value']);
         }
 
         if (isset($param['raw'])) {

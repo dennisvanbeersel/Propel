@@ -1537,7 +1537,7 @@ class ModelCriteria extends BaseModelCriteria
             $class = $this->getModelName();
             /** @phpstan-var \Propel\Runtime\ActiveRecord\ActiveRecordInterface $obj */
             $obj = new $class();
-            foreach ($this->keys() as $key) {
+            foreach (array_keys($this->getMap()) as $key) {
                 if (!method_exists($obj, 'setByName')) {
                     continue;
                 }
