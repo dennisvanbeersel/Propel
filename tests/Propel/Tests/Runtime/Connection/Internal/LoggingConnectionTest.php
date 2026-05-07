@@ -236,7 +236,7 @@ class LoggingConnectionTest extends TestCase
              * @return void
              */
             #[\Override]
-            public function log($level, Stringable $message, array $context = []): void
+            public function log($level, Stringable|string $message, array $context = []): void
             {
                 $this->messages[] = (string)$message;
             }
