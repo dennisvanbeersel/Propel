@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased] — Phase D: Behaviors cleanup + CodeEmitter
+
+### Added
+
+- `Propel\Generator\Builder\Util\CodeEmitter` + `CodeEmitterScope` — Tier 3 internal template-emitter helper for indented code generation. Replaces ad-hoc `"\n    " . $code . "\n}";` string concatenation in behavior modifiers. Indented blocks via RAII scopes, method-signature emission with typed parameters and return type, expression-context escaping (string-literal, identifier, PHP variable), heredoc-block lines.
+- `tests/Propel/Tests/Generator/Builder/Util/CodeEmitterTest.php` — unit tests for indent / dedent / method body / escape helpers.
+- `tests/PropertyTests/CodeEmitter/IndentationInvariantTest.php` — black-box PBT: emitted indent depth always equals open-block count; output lints clean via `php -l`.
+
+### Changed
+
+- `Propel\Generator\Behavior\Timestampable\TimestampableBehavior::objectMethods()` — ported to `CodeEmitter` (POC consumer; byte-identical output).
+- `Propel\Generator\Behavior\Timestampable\TimestampableBehavior` — adds `use_native_on_update` parameter (default `'true'`). On MySQL/MariaDB the `update_column` is now declared with `ON UPDATE CURRENT_TIMESTAMP` at the DDL level (single source of truth, no PHP-side hook needed). On PostgreSQL and SQLite the legacy PHP-side `preUpdate` hook continues. Set `<parameter name="use_native_on_update" value="false"/>` to opt out and keep the PHP-side hook on all platforms (BC).
+
+### Deprecated
+
+- `Propel\Generator\Behavior\NestedSet\NestedSetBehavior` — Tier 2 deprecation runway (full 3.x line, removal at 4.0). The behavior triggers `trigger_deprecation('propel/propel', '3.0', ...)` once per affected schema at generation time. Generated AR / Query class methods carry an `@deprecated` header. Migrate to recursive CTEs — see `docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte` for a concrete cookbook.
+
 ## [Unreleased] — Phase C: Schema/DDL/Reverse modernization
 
 ### Added
