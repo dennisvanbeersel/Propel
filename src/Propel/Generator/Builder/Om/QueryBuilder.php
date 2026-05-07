@@ -924,9 +924,13 @@ class QueryBuilder extends AbstractOMBuilder
         return \$this;";
         } else {
             // composite primary key
+            // Phase G.2.5: emit a CustomCriterion construction directly instead of the
+            // raw-CUSTOM add() path. The hard-error in Criteria::add(...Criteria::CUSTOM)
+            // would otherwise fire on every empty-keys call against a generated query.
+            $this->declareClass('Propel\\Runtime\\ActiveQuery\\Criterion\\CustomCriterion');
             $script .= "
         if (empty(\$keys)) {
-            \$this->add(null, '1<>1', Criteria::CUSTOM);
+            \$this->add(new CustomCriterion(\$this, '1<>1'));
 
             return \$this;
         }

@@ -312,8 +312,8 @@ public function childrenOf($this->objectClassName $objectName)
 public function siblingsOf($this->objectClassName $objectName, ?ConnectionInterface \$con = null)
 {
     if ({$objectName}->isRoot()) {
-        \$this->
-            add({$this->objectClassName}::LEVEL_COL, '1<>1', Criteria::CUSTOM);
+        // Phase G.2.5: emit CustomCriterion directly — Criteria::add(...Criteria::CUSTOM) hard-errors in 4.0.
+        \$this->add(new \\Propel\\Runtime\\ActiveQuery\\Criterion\\CustomCriterion(\$this, '1<>1'));
     } else {
         \$this
             ->childrenOf({$objectName}->getParent(\$con))

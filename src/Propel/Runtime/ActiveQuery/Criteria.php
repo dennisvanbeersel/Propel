@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\ActiveQuery;
 
+use BadMethodCallException;
 use Exception;
 use Propel\Runtime\ActiveQuery\Compiler\NameResolver;
 use Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion;
@@ -917,18 +918,29 @@ class Criteria
      * @param mixed $value
      * @param string|int|null $comparison A String.
      *
+     * @throws \BadMethodCallException When `$comparison === Criteria::CUSTOM` with a non-empty `$value` (Phase G.2.5; use {@see Criteria::customCondition()}).
+     *
      * @return $this A modified Criteria object.
      */
     public function add($p1, $value = null, $comparison = null)
     {
-        if ($comparison === self::CUSTOM) {
-            trigger_deprecation(
-                'maturix/propel',
-                '3.0',
-                'Criteria::add($name, $sql, Criteria::CUSTOM) interpolates raw SQL — '
-                . 'vulnerable to injection. Use Criteria::customCondition($name, $sql, $params) '
-                . 'instead. Removal of raw CUSTOM is not currently scheduled, but new code '
-                . 'should use the parameterized form.',
+        if ($comparison === self::CUSTOM && $value !== '') {
+            // Phase G.2.5 (Propel 4.0): the raw-CUSTOM add() path interpolated arbitrary
+            // SQL into the WHERE clause and was Phase F.7's headline injection vector.
+            // Carve-out: empty-string $value is a documented no-op in CustomCriterion
+            // (returns early on empty value), so harmless legacy callsites pass through
+            // unchanged. Null $value is NOT carved out — CriterionFactory requires a
+            // string and would TypeError before reaching the CustomCriterion early-return.
+            // Generated code emits CustomCriterion construction directly post-G.2.5
+            // (see Generator/Builder/Om/QueryBuilder.php composite-PK no-match guard).
+            throw new BadMethodCallException(
+                'Criteria::add($name, $sql, Criteria::CUSTOM) was removed in Propel 4.0 — '
+                . 'the path interpolated arbitrary SQL and is unsafe. Use '
+                . 'Criteria::customCondition($name, $sql, $params) with positional `?` '
+                . 'placeholders. Run `vendor/bin/rector --rules=Propel4Migration src/` to '
+                . 'rewrite callsites mechanically. The Criteria::CUSTOM constant survives '
+                . '(internal use sites such as Join condition assembly route through '
+                . 'CriterionFactory::build() directly).',
             );
         }
 
