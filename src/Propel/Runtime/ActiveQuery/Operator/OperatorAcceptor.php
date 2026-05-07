@@ -1,12 +1,12 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * MIT License. This file is part of the Propel package.
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
+
+declare(strict_types=1);
 
 namespace Propel\Runtime\ActiveQuery\Operator;
 
@@ -23,7 +23,7 @@ namespace Propel\Runtime\ActiveQuery\Operator;
 final class OperatorAcceptor
 {
     /**
-     * @param string|\Propel\Runtime\ActiveQuery\Operator\Comparison $op
+     * @param \Propel\Runtime\ActiveQuery\Operator\Comparison|string $op
      *
      * @return string
      */
@@ -33,7 +33,7 @@ final class OperatorAcceptor
     }
 
     /**
-     * @param string|\Propel\Runtime\ActiveQuery\Operator\JoinType $op
+     * @param \Propel\Runtime\ActiveQuery\Operator\JoinType|string $op
      *
      * @return string
      */
@@ -43,7 +43,7 @@ final class OperatorAcceptor
     }
 
     /**
-     * @param string|\Propel\Runtime\ActiveQuery\Operator\SortOrder $op
+     * @param \Propel\Runtime\ActiveQuery\Operator\SortOrder|string $op
      *
      * @return string
      */
@@ -53,7 +53,7 @@ final class OperatorAcceptor
     }
 
     /**
-     * @param string|\Propel\Runtime\ActiveQuery\Operator\LogicalOperator $op
+     * @param \Propel\Runtime\ActiveQuery\Operator\LogicalOperator|string $op
      *
      * @return string
      */
