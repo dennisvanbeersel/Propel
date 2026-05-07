@@ -152,6 +152,7 @@ EOF;
             'update_column' => 'updated_on',
             'disable_created_at' => 'false',
             'disable_updated_at' => 'false',
+            'use_native_on_update' => 'true',
             'leParameterList' => [
                 ['leListItem1Value' => 'leValue1'],
                 ['leListItem2Value1' => 'leValue2.1', 'leListItem2Value2' => 'leValue2.2'],

@@ -32,6 +32,10 @@ class TimestampableBehavior extends Behavior
         'update_column' => 'updated_at',
         'disable_created_at' => 'false',
         'disable_updated_at' => 'false',
+        // Phase D (umbrella §6.3): on MySQL/MariaDB the update column is declared with
+        // ON UPDATE CURRENT_TIMESTAMP at the DDL level — single source of truth.
+        // Set 'false' to opt out and keep the legacy PHP-side preUpdate hook on all platforms.
+        'use_native_on_update' => 'true',
     ];
 
     /**
@@ -48,6 +52,41 @@ class TimestampableBehavior extends Behavior
     protected function withCreatedAt(): bool
     {
         return !$this->booleanValue($this->getParameter('disable_created_at'));
+    }
+
+    /**
+     * Phase D (umbrella §6.3): native ON UPDATE delegates the updated_at refresh
+     * to the database engine — single source of truth, no PHP-side hook needed.
+     * Only honored on MySQL/MariaDB; on PG / SQLite the legacy PHP-side preUpdate
+     * hook is used (PG has no native ON UPDATE; SQLite is frozen per umbrella §1.2).
+     *
+     * @return bool
+     */
+    protected function useNativeOnUpdate(): bool
+    {
+        return $this->booleanValue($this->getParameter('use_native_on_update'));
+    }
+
+    /**
+     * Returns true when the resolved platform supports native ON UPDATE
+     * CURRENT_TIMESTAMP at the column DDL level. MySQL and MariaDB are detected
+     * via the platform class name suffix; everything else is false.
+     *
+     * @return bool
+     */
+    protected function platformSupportsNativeOnUpdate(): bool
+    {
+        $table = $this->getTable();
+        $database = $table->getDatabase();
+        if ($database === null) {
+            return false;
+        }
+        $platform = $database->getPlatform();
+        if ($platform === null) {
+            return false;
+        }
+
+        return $platform->getDatabaseType() === 'mysql';
     }
 
     /**
@@ -72,6 +111,38 @@ class TimestampableBehavior extends Behavior
                 'type' => 'TIMESTAMP',
             ]);
         }
+
+        // Phase D: when native ON UPDATE is requested AND the platform supports it,
+        // attach a vendor parameter so the platform's getColumnDDL emits
+        // "ON UPDATE CURRENT_TIMESTAMP" inline. The PHP-side preUpdate hook then
+        // skips its setUpdatedAt emission (see preUpdate() below).
+        if (
+            $this->withUpdatedAt()
+            && $this->useNativeOnUpdate()
+            && $this->platformSupportsNativeOnUpdate()
+        ) {
+            $updateColumn = $table->getColumn($this->getParameter('update_column'));
+            $vendor = $updateColumn->getVendorInfoForType('mysql');
+            if (!$vendor->hasParameter('OnUpdate')) {
+                $vendor->setParameter('OnUpdate', 'CURRENT_TIMESTAMP');
+                // getVendorInfoForType returns a new VendorInfo when none exists
+                // for the requested type — re-attach it to the column so it persists.
+                $updateColumn->addVendorInfo($vendor);
+            }
+        }
+    }
+
+    /**
+     * Phase D: when native ON UPDATE is in effect, the database refreshes the
+     * timestamp itself — short-circuit so the same logic isn't duplicated PHP-side.
+     *
+     * @return bool
+     */
+    protected function nativeOnUpdateActive(): bool
+    {
+        return $this->withUpdatedAt()
+            && $this->useNativeOnUpdate()
+            && $this->platformSupportsNativeOnUpdate();
     }
 
     /**
@@ -106,6 +177,13 @@ class TimestampableBehavior extends Behavior
      */
     public function preUpdate(AbstractOMBuilder $builder): string
     {
+        // Phase D: when native ON UPDATE is active the database refreshes
+        // updated_at on every UPDATE — duplicating it PHP-side is wasted work
+        // and would break keepUpdateDateUnchanged() opt-out semantics.
+        if ($this->nativeOnUpdateActive()) {
+            return '';
+        }
+
         if ($this->withUpdatedAt()) {
             $updateColumn = $this->getTable()->getColumn($this->getParameter('update_column'));
 

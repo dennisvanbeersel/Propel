@@ -520,6 +520,14 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
             }
         }
 
+        // Phase D (umbrella §6.3): native ON UPDATE expression (MySQL/MariaDB).
+        // Used by TimestampableBehavior to delegate the updated_at refresh to the
+        // database — single source of truth, no PHP-side hook needed. Vendor
+        // parameter format: <vendor type="mysql"><parameter name="OnUpdate" value="CURRENT_TIMESTAMP"/></vendor>.
+        if ($colinfo->hasParameter('OnUpdate')) {
+            $ddl[] = 'ON UPDATE ' . $colinfo->getParameter('OnUpdate');
+        }
+
         // Phase C (umbrella §6.4): generated column — emit GENERATED ALWAYS AS (expr) {VIRTUAL|STORED}
         // before AUTO_INCREMENT / INVISIBLE / COMMENT. AUTO_INCREMENT and a generation expression
         // are mutually exclusive on MySQL, so the autoIncrement branch is skipped when the column
