@@ -30,6 +30,17 @@ use Psr\Log\LoggerInterface;
  * getNestedTransactionDepth() and isInTransaction() and the fact that beginTransaction()
  * will no longer throw a PDOException (or trigger an error) if a transaction is already
  * in-progress.
+ *
+ * **Deprecation (Phase E):** this class's responsibilities (nested-tx accounting,
+ * logging, prepared-statement caching) have been collapsed onto the explicit
+ * decorator chain in `Internal/`. Prefer {@see ConnectionFactory::create()} with
+ * a `decorators` configuration list (default `['transactional', 'logging', 'caching']`)
+ * and walk via {@see ConnectionDecoratorInterface::getInner()}. See
+ * docs/CONNECTION-DECORATORS.md for the migration cookbook. Removal targeted for 4.0.
+ *
+ * Class-level `@deprecated` is intentionally NOT applied yet to keep static-analysis
+ * baselines stable across Phase E; the deprecation is announced via
+ * `trigger_deprecation` in the constructor + the class-doc note here.
  */
 class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
 {
@@ -126,6 +137,15 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      */
     public function __construct(ConnectionInterface $connection)
     {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is a deprecated BC shim around the new decorator chain. Compose '
+            . 'PdoConnection/TransactionalConnection/LoggingConnection/CachingConnection via '
+            . 'ConnectionFactory::create() instead. See docs/CONNECTION-DECORATORS.md. Removal at 4.0.',
+            self::class,
+        );
+
         $this->connection = $connection;
     }
 

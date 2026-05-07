@@ -20,6 +20,12 @@ use Traversable;
  * Wraps a Statement class, providing logging.
  *
  * @implements \IteratorAggregate<int|string, mixed>
+ *
+ * **Deprecation (Phase E):** logging + cache responsibilities have moved to
+ * {@see Internal\LoggingConnection} + {@see Internal\CachingConnection}.
+ * Use prepared statements returned by `ConnectionFactory::create()` chains
+ * directly. Removal targeted for 4.0. Class-level `@deprecated` deferred until
+ * Tier 2 elimination cycle to keep static-analysis baselines stable.
  */
 class StatementWrapper implements StatementInterface, IteratorAggregate
 {
@@ -64,6 +70,16 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
      */
     public function __construct(string $sql, ConnectionWrapper $connection)
     {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is a deprecated BC shim. Logging + prepared-statement caching now '
+            . 'live on Internal\\LoggingConnection + Internal\\CachingConnection. Use the '
+            . 'StatementInterface returned by ConnectionFactory::create() chains directly. '
+            . 'Removal at 4.0.',
+            self::class,
+        );
+
         $this->connection = $connection;
         $this->sql = $sql;
     }

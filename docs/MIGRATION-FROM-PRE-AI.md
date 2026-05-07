@@ -683,6 +683,101 @@ These changed but do not affect consumer code:
 
 ---
 
+## Connection chain modernization (3.0 — Phase E)
+
+The legacy `ConnectionWrapper` (745 LOC) collapses onto a stack of single-responsibility decorators.
+
+### Before
+
+```php
+$pdo = new PdoConnection($dsn);
+$conn = new ConnectionWrapper($pdo);
+$conn->setUseDebug(true);
+$conn->setLogger($logger);
+```
+
+### After (recommended)
+
+```php
+$conn = ConnectionFactory::create([
+    'dsn' => $dsn,
+    'decorators' => ['transactional', 'logging', 'caching'],
+    'preparedStatementCacheCapacity' => 256,
+], $adapter);
+```
+
+The chain is built inner-to-outer: `PdoConnection ← TransactionalConnection ← LoggingConnection ← CachingConnection`. Optional `'profiling'` adds the histogram-emitting `ProfilingConnection`. See `docs/CONNECTION-DECORATORS.md` for the full reference.
+
+### `instanceof ConnectionWrapper` checks silently miss the new chain
+
+If your code does:
+
+```php
+if ($conn instanceof ConnectionWrapper) { /* … */ }
+```
+
+…the check is `false` for the new chain. Replacement:
+
+```php
+if ($conn instanceof ConnectionDecoratorInterface) {
+    $bare = $conn;
+    while ($bare instanceof ConnectionDecoratorInterface) {
+        $bare = $bare->getInner();
+    }
+    // $bare is the bottom-of-chain PdoConnection.
+}
+```
+
+### `ConnectionWrapper::log()` debug_backtrace removal
+
+The legacy `ConnectionWrapper::log(string $msg)` walked `debug_backtrace()` on every call to discover the caller method name. The new `LoggingConnection::log(string $msg, string $callingMethod)` takes the method name explicitly. The shim preserves the 1-arg signature so existing subclasses keep working; for the no-backtrace path, migrate to the new chain.
+
+## Replica routing (3.0 — Phase E)
+
+`<connection>` configurations now accept a `replicas` block + `routing` config:
+
+```yaml
+propel:
+  database:
+    connections:
+      bookstore:
+        adapter: mysql
+        dsn: 'mysql:host=primary;dbname=bookstore'
+        user: 'app'
+        password: 'secret'
+        decorators: ['transactional', 'logging', 'caching']
+        replicas:
+          r1:
+            dsn: 'mysql:host=replica-1;dbname=bookstore'
+            lagThresholdSeconds: 1.0
+        routing:
+          sessionConsistencyWindowSeconds: 5.0
+          replicaLagThresholdSeconds: 2.0
+          fallbackToPrimary: true
+```
+
+Per-query hints from `Criteria`:
+
+```php
+// Force a query to the primary regardless of read/write classification.
+BookQuery::create()->forcePrimary()->find($con);
+
+// Allow a query on a replica even if the session-consistency window is active.
+BookQuery::create()->allowReplica()->find($con);
+```
+
+Defaults: write SQL → primary; read with no hint → replica when one is healthy; reads within 5 seconds of a write in the same session → primary; replica failure → primary fallback.
+
+If `fallbackToPrimary: false` AND `allowReplica()` AND no replica is eligible, `ReplicaLagExceededException` is thrown.
+
+## Bounded prepared-statement cache (3.0 — Phase E)
+
+Default capacity is 256 entries (configurable via `connection.preparedStatementCacheCapacity`). Long-running CLI workers can no longer exhaust memory through unique-prepare proliferation. Eviction policy is LRU; cache key normalizes `$driverOptions` order.
+
+A consumer holding a prepared-statement reference is unaffected by eviction — PHP refcounting keeps the underlying `PDOStatement` alive.
+
+---
+
 ## Need help?
 
 - Read the umbrella spec: `docs/plans/2026-05-06-modernization-umbrella-spec.md`.
