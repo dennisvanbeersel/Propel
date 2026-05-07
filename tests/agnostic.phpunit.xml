@@ -22,12 +22,16 @@
             <exclude>Propel/Tests/PropertyTests/</exclude>
             <exclude>Propel/Tests/ChaosTests/</exclude>
             <exclude>Propel/Tests/Benchmark/</exclude>
+            <exclude>Propel/Tests/Benchmarks/</exclude>
         </testsuite>
         <testsuite name="property">
             <directory>Propel/Tests/PropertyTests/</directory>
         </testsuite>
         <testsuite name="chaos">
             <directory>Propel/Tests/ChaosTests/</directory>
+        </testsuite>
+        <testsuite name="benchmarks">
+            <directory>Propel/Tests/Benchmarks/</directory>
         </testsuite>
     </testsuites>
 

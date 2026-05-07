@@ -51,6 +51,26 @@ $logging->setLogMethods(['exec', 'prepare']);
 
 The `ConnectionWrapper` BC shim keeps the 1-arg `log(string)` signature (with `debug_backtrace`) on the deprecation runway. Consumers reading PSR-3 logs see no difference; subclasses overriding `log()` should migrate to the explicit-parameter form.
 
+## Bounded prepared-statement cache (umbrella §6.2 risk #4)
+
+The legacy `ConnectionWrapper::cachedPreparedStatements` array was unbounded — a long-running CLI worker preparing millions of unique queries could exhaust memory. `CachingConnection` wraps a `PreparedStatementLruCache` with default capacity **256** entries (configurable via `connection.preparedStatementCacheCapacity`).
+
+### Default capacity rationale
+
+A capacity-sweep bench at `tests/Propel/Tests/Benchmarks/Connection/PreparedStatementCacheCapacitySweepTest.php` runs a Zipf(α≈1.5) workload of 10 000 prepares over 200 distinct statements. Capacity 256 produces ≥ 90% hit rate (umbrella §4.10 statement-cache target) while keeping memory footprint bounded. Smaller caches (e.g. 32) drop the hit rate substantially.
+
+### Cache key
+
+`CachingConnection::buildCacheKey($sql, $driverOptions)` returns:
+- `$sql` if `$driverOptions === []`;
+- otherwise, `$sql . "\0" . serialize(ksort'd $driverOptions)`.
+
+`ksort` normalizes order so semantically-equivalent option arrays produce identical keys (Phase A bug-fix #4 preserved).
+
+### Held-reference invariant
+
+Eviction removes a cache entry but does NOT free a statement reference held by a consumer — PHP refcounting keeps the underlying `PDOStatement` alive. Formal proof: `tests/Propel/Tests/PropertyTests/Connection/PreparedStatementLruInvariantTest`.
+
 ## Telemetry stub (Phase I forward path)
 
 Both `LoggingConnection` and `ProfilingConnection` accept a `TelemetryInterface` parameter (default `NoOpTelemetry`). Each decorated call produces:
