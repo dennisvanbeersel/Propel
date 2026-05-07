@@ -1259,11 +1259,6 @@
       <code><![CDATA[setName]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Runtime/Connection/ConnectionManagerMasterSlave.php">
-    <UnusedClass>
-      <code><![CDATA[ConnectionManagerMasterSlave]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Propel/Runtime/Connection/ConnectionManagerPrimaryReplica.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[setReadConfiguration]]></code>

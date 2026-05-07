@@ -76,13 +76,13 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
     /**
      * For replication, set whether to always force the use of a primary connection.
      *
-     * @param bool $isForceMasterConnection
+     * @param bool $isForcePrimaryConnection
      *
      * @return void
      */
-    public function setForcePrimaryConnection(bool $isForceMasterConnection): void
+    public function setForcePrimaryConnection(bool $isForcePrimaryConnection): void
     {
-        $this->isForcePrimaryConnection = $isForceMasterConnection;
+        $this->isForcePrimaryConnection = $isForcePrimaryConnection;
     }
 
     /**
