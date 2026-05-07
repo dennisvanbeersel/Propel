@@ -82,15 +82,19 @@ abstract class AddClassTableQuery extends ModelCriteria
      */
     public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
-        if ($criteria instanceof ChildAddClassTableQuery) {
+        if ($criteria instanceof static) {
             return $criteria;
         }
-        $query = new ChildAddClassTableQuery();
+        if ($criteria instanceof ChildAddClassTableQuery) {
+            $query = $criteria;
+        } else {
+            $query = new static();
+            if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+            }
+        }
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
-        }
-        if ($criteria instanceof Criteria) {
-            $query->mergeWith($criteria);
         }
 
         return $query;

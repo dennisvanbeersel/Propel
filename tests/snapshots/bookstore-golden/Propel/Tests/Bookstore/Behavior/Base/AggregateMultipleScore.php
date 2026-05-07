@@ -410,7 +410,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * @param string|null $format The date/time format string (date()-style).
      *   If format is NULL, then the raw DateTime object will be returned.
      *
-     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL.
+     * @return string|DateTime|null Formatted date/time value as string or DateTime object (if format is NULL), NULL if column is NULL, and 0 if column value is 0000-00-00.
      *
      * @throws \Propel\Runtime\Exception\PropelException - if unable to parse/validate the date/time value.
      *
@@ -566,6 +566,9 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
             $this->score = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 2 + $startcol : AggregateMultipleScoreTableMap::translateFieldName('ScoredAt', TableMap::TYPE_PHPNAME, $indexType)];
+            if ($col === '0000-00-00') {
+                $col = null;
+            }
             $this->scored_at = (null !== $col) ? PropelDateTime::newInstance($col, null, 'DateTime') : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 3 + $startcol : AggregateMultipleScoreTableMap::translateFieldName('ScoreGroupId', TableMap::TYPE_PHPNAME, $indexType)];

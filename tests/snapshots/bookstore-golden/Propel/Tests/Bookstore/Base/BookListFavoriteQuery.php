@@ -108,15 +108,19 @@ abstract class BookListFavoriteQuery extends ModelCriteria
      */
     public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
-        if ($criteria instanceof ChildBookListFavoriteQuery) {
+        if ($criteria instanceof static) {
             return $criteria;
         }
-        $query = new ChildBookListFavoriteQuery();
+        if ($criteria instanceof ChildBookListFavoriteQuery) {
+            $query = $criteria;
+        } else {
+            $query = new static();
+            if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+            }
+        }
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
-        }
-        if ($criteria instanceof Criteria) {
-            $query->mergeWith($criteria);
         }
 
         return $query;

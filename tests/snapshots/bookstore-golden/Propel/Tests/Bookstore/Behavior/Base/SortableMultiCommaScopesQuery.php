@@ -100,15 +100,19 @@ abstract class SortableMultiCommaScopesQuery extends ModelCriteria
      */
     public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
-        if ($criteria instanceof ChildSortableMultiCommaScopesQuery) {
+        if ($criteria instanceof static) {
             return $criteria;
         }
-        $query = new ChildSortableMultiCommaScopesQuery();
+        if ($criteria instanceof ChildSortableMultiCommaScopesQuery) {
+            $query = $criteria;
+        } else {
+            $query = new static();
+            if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+            }
+        }
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
-        }
-        if ($criteria instanceof Criteria) {
-            $query->mergeWith($criteria);
         }
 
         return $query;

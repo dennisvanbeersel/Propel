@@ -100,15 +100,19 @@ abstract class SortableMultiScopesQuery extends ModelCriteria
      */
     public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
-        if ($criteria instanceof ChildSortableMultiScopesQuery) {
+        if ($criteria instanceof static) {
             return $criteria;
         }
-        $query = new ChildSortableMultiScopesQuery();
+        if ($criteria instanceof ChildSortableMultiScopesQuery) {
+            $query = $criteria;
+        } else {
+            $query = new static();
+            if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+            }
+        }
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
-        }
-        if ($criteria instanceof Criteria) {
-            $query->mergeWith($criteria);
         }
 
         return $query;

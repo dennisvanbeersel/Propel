@@ -128,15 +128,19 @@ abstract class BookOpinionQuery extends ModelCriteria
      */
     public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
-        if ($criteria instanceof ChildBookOpinionQuery) {
+        if ($criteria instanceof static) {
             return $criteria;
         }
-        $query = new ChildBookOpinionQuery();
+        if ($criteria instanceof ChildBookOpinionQuery) {
+            $query = $criteria;
+        } else {
+            $query = new static();
+            if ($criteria instanceof Criteria) {
+                $query->mergeWith($criteria);
+            }
+        }
         if (null !== $modelAlias) {
             $query->setModelAlias($modelAlias);
-        }
-        if ($criteria instanceof Criteria) {
-            $query->mergeWith($criteria);
         }
 
         return $query;
