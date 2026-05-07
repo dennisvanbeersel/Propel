@@ -1,0 +1,1000 @@
+ OR (Book.AuthorID,
+.5My\Cls.col"foo""bar"t1.col1 OR 
+'foo''bar'"plain"1e10)(t1.col1
+-3( = 'unclosed -  <> 
+) = ,,)
+-3'unclosedBook.AuthorIDb.title?'has Book.AuthorID inside'
+,-3) + 
+)'' = 
+1.5NULL AND )b.title;
+a.id AND  < book.yfoo.barMy\Cls.col
+'unclosed()
+, OR Acme\Sub\Cls.xAuthor.Name;
+?Book.X?.5
+(Acme\Sub\Cls.xAuthor.Name
+? > 
+'a\'b','foo''bar'a.id
+a.id <> NULL
+ AND My\Cls.col1.5 -  OR 
+ +  < Book.AuthorID'foo''bar'Book.X
+ LIKE  =  <> 1.5'a\'b'''
+1.5 AND )'unclosedfoo.bar LIKE 
+"foo""bar" = 
+1e10'foo''bar'"foo""bar"'plain'1e10
+ - ))
+1"plain"
+ AND ? + 
+t1.col1 LIKE .5NULL = 
+, < NULLfoo.bar <> 
+ > My\Cls.col > 1.5
+.5( OR  AND foo.bar)
+a.idMy\Cls.col OR  >  < 
+b.title; OR 
+foo.barfoo.bar
+'has Book.AuthorID inside'foo.bar'foo''bar''has Book.AuthorID inside'Author.Name
+'plain'Acme\Sub\Cls.x'has Book.AuthorID inside'-31.542
+1,).5,''
+;'plain')?'unclosed,
+My\Cls.colAcme\Sub\Cls.x < 
+))''
+"foo""bar"),
+'a\'b'book.y42)NULLAcme\Sub\Cls.x
+?1.5
+1.5 OR ) = 
+'foo''bar'1e10
+)b.titleAuthor.Name
+)'has Book.AuthorID inside''')
+(?(;(
+a.id1e10t1.col142
+ = ;'has Book.AuthorID inside')NULL
+;book.y)NULL''Acme\Sub\Cls.x
+ = (
+book.yfoo.bar
+'plain' OR 42'plain'Author.Name"foo""bar"
+ = 421) - (
+) AND 1e10;
+ < 'foo''bar'''?)foo.bar
+.5(?-3 AND 
+1.5 AND ;
+;Acme\Sub\Cls.x'unclosed)1'unclosed
+'a\'b'b.title1e101e10
+'has Book.AuthorID inside'; < Acme\Sub\Cls.x"plain"?
+a.idt1.col1 +  <> NULL'has Book.AuthorID inside'
+foo.bar"plain""foo""bar" AND 'has Book.AuthorID inside'
+;42)'foo''bar','has Book.AuthorID inside'
+Book.AuthorIDBook.AuthorID)
+.5 - ) = ( OR 
+ = ('has Book.AuthorID inside'
+'a\'b''foo''bar'42a.id"foo""bar"b.title
+?'has Book.AuthorID inside'1.5;1''
+"plain" AND -3 <> 
+ OR  <>  + )1,
+-3)book.y - book.y
+( AND 
+ LIKE ? = 421.5
+ OR  < a.id-3(
+My\Cls.col'foo''bar''unclosed - 
+)book.y
+, OR 'foo''bar'1Author.NameNULL
+"foo""bar"(a.id?NULL
+,)'plain'
+ AND  AND "foo""bar" > 
+.5(a.id'plain')'plain'
+('plain'1.5
+My\Cls.col'plain'
+ - '',
+;-31.5
+,1.5
+ AND foo.bar + ,
+(-3'unclosed
+Book.X.5 OR 
+1.5 + 'unclosed
+Acme\Sub\Cls.x(foo.bar
+-3 LIKE  > '',)
+ + -3) - 
+('has Book.AuthorID inside'42;
+,"foo""bar" <> 
+'foo''bar'book.y +  = Book.XAuthor.Name
+foo.bar;Author.NameMy\Cls.colBook.X
+ <  AND 
+.5NULL > "plain"1.5
+1.5t1.col1?'has Book.AuthorID inside'Book.X
+1e10(Book.X OR 'foo''bar'
+b.title1.5a.id
+'foo''bar'book.y,"plain"
+Acme\Sub\Cls.x > ''
+(?"foo""bar"Book.AuthorID''
+book.y,
+, OR Book.AuthorID'foo''bar' <> 
+-3( LIKE 
+, LIKE  OR 1My\Cls.col
+Author.Name-3'foo''bar' LIKE (
+ LIKE )
+.5'has Book.AuthorID inside'"foo""bar" = -3
+42"foo""bar"
+)("foo""bar"'has Book.AuthorID inside'(
+ AND ('unclosed'foo''bar't1.col1
+'a\'b')'has Book.AuthorID inside',;?
+.5,"foo""bar"
+) +  <> 
+;t1.col11 LIKE 
+(;,
+Book.X;
+42-3 -  <> 1
+ <> ,
+"foo""bar" =  OR 
+42,foo.bar)42book.y
+NULL''42
+Book.AuthorID < 
+t1.col1,()"foo""bar"My\Cls.col
+("plain") = , > 
+,'plain'
+''My\Cls.col
+foo.bar < foo.bar OR 
+t1.col1(''
+'foo''bar'.5 -  LIKE  AND ''
+'a\'b'.5
+,-3book.y =  LIKE ?
+a.id(My\Cls.col1e10t1.col1?
+Acme\Sub\Cls.xa.id42 = 
+book.y,.5''
+ LIKE 'plain'1e10 <> 
+Book.X, -  LIKE  = 
+,(
+)))
+'unclosedMy\Cls.col
+ + Book.AuthorIDNULL - ;42
+,,'' LIKE 'plain'
+,;
+,,1e10Author.Name
+, - ?
+NULL-3My\Cls.col)(
+;;-3Acme\Sub\Cls.x
+,'foo''bar'Book.AuthorIDfoo.bar
+?'unclosed'has Book.AuthorID inside','unclosed
+'has Book.AuthorID inside' - 'has Book.AuthorID inside';,b.title
+'plain'Acme\Sub\Cls.x
+NULL)?a.id'has Book.AuthorID inside'
+(foo.bar); OR 
+, - My\Cls.colb.title'a\'b'
+'plain''unclosed
+My\Cls.col'plain'
+'foo''bar'-3''.5
+ - .5NULL
+1.5'unclosedBook.X
+foo.bar)Acme\Sub\Cls.x?foo.bar.5
+1.5,-3
+ = 'has Book.AuthorID inside'.5 - ;
+ LIKE  <> 
+Book.X"plain",
+'a\'b')b.title(
+, - 'has Book.AuthorID inside';.5'has Book.AuthorID inside'
+1) < Book.XNULLBook.X
+1.5) AND ''
+Book.Xfoo.barAuthor.Name'a\'b' <> 'plain'
+,1e10
+'foo''bar'1.5.5
+ OR .5) >  > (
+(1Book.X)
+(t1.col1book.y
+42;42 LIKE 'has Book.AuthorID inside'
+Book.X'has Book.AuthorID inside''' OR .5
+11'plain'Author.Name OR 
+); > 'plain'
+NULL'has Book.AuthorID inside'
+ + 42 <> -3
+-3NULL
+)'has Book.AuthorID inside'(b.title"plain"
+'has Book.AuthorID inside''a\'b'"plain"Acme\Sub\Cls.x,
+)'foo''bar'
+1(.5) = 
+'plain'Book.AuthorID)
+foo.bar;
+((
+1.5''Author.Name
+1e10)(1.5
+ < ,() AND 
+Author.Name > Book.AuthorID
+(, + -3
+) AND 
+(Acme\Sub\Cls.xMy\Cls.col
+1e101"plain"1.5
+; LIKE a.id +  = 
+?,b.title
+1'plain'
+b.title())(Author.Name
+1e10NULL)Book.X1foo.bar
+;(Acme\Sub\Cls.x"foo""bar"
+.5Book.XAcme\Sub\Cls.x
+?'unclosedfoo.barb.title
+'has Book.AuthorID inside't1.col1'foo''bar' <> 
+ OR  <> 
+foo.bar,'a\'b'
+?.5'a\'b'1
+))NULL
+ < "plain"'a\'b' = ,
+('plain'
+( > ((42
+?42'foo''bar't1.col1
+)Acme\Sub\Cls.x = ) > 
+?My\Cls.col,"plain"
+ AND book.y
+?(a.idbook.y1
+.51Book.AuthorID
+NULL''
+.5 OR 1,"foo""bar"
+()("foo""bar"Book.AuthorID
+ + )1
+'has Book.AuthorID inside'''
+)1-3,.5
+(NULL"plain"Acme\Sub\Cls.x"foo""bar"
+ AND  <> 'has Book.AuthorID inside' OR t1.col1
+42(,book.y(
+)'has Book.AuthorID inside'"foo""bar"Book.AuthorID()
+?1e10
+.5My\Cls.col
+'plain'Book.AuthorIDNULL
+"plain" <  + Book.X
+.5,
+NULLb.title1Book.AuthorIDAuthor.Name)
+My\Cls.colNULL'has Book.AuthorID inside''foo''bar''unclosed"plain"
+)My\Cls.col > Book.X11
+'plain'); = 
+.5?,Acme\Sub\Cls.x"foo""bar"
+Author.Name AND ,, LIKE 
+ AND  + ?
+ + 'a\'b';Book.AuthorID
+?foo.bar) LIKE ''
+ LIKE 'foo''bar' < 'has Book.AuthorID inside'
+-3 <>  < 
+book.y1.5(,, AND 
+t1.col1 AND 
+t1.col1 > 
+ AND 'a\'b't1.col1
+(Acme\Sub\Cls.x"foo""bar"( OR  AND 
+ -  + 42
+,(1) + 
+'unclosed1.5
+,b.titleAcme\Sub\Cls.x-3
+My\Cls.colfoo.barAuthor.Name
+ AND -3''
+b.title1NULL
+t1.col1.5 LIKE  < ;,
+42?'has Book.AuthorID inside';
+'has Book.AuthorID inside'a.id1b.titlefoo.bar
+"plain" = "foo""bar"
+"foo""bar"('unclosedbook.y,
+b.title'has Book.AuthorID inside'"foo""bar"
+42 + Book.X( OR )
+1e101e10(?)
+Book.AuthorID.5 = 1.5 + 
+ = Book.AuthorID <> 
+ - 'a\'b'
+?1.5My\Cls.col
+'a\'b'"plain"(
+-3'unclosed <> )
+-3)
+1.5'a\'b'a.idBook.X - 
+b.title"plain"'plain'''t1.col1
+Acme\Sub\Cls.xBook.X;Author.Name,)
+; < 'unclosed
+;Book.AuthorID OR  -  <> 
+'a\'b'?t1.col1
+NULLNULLbook.y
+? AND 'foo''bar'
+;Author.Name"foo""bar"Book.AuthorID
+1'unclosed1e10
+t1.col1b.titlea.id(
+book.y,,My\Cls.col
+Book.AuthorIDNULL
+)),"plain"My\Cls.col'unclosed
+1.5"plain"
+1e10(,"plain"b.titlet1.col1
+Book.AuthorID = Book.AuthorID1 OR "plain"
+"foo""bar"Book.X) <> 
+1)
+;,
+,,,, > t1.col1
+-3book.ya.idMy\Cls.col
+;)NULL(,"plain"
+t1.col1)
+t1.col11e10
+421"foo""bar"
+"foo""bar";Author.Name
+ <>  AND 1e101'has Book.AuthorID inside'
+ > ,Author.Name1e10
+-3 <> .5"plain".5,
+? AND  = 
+ >  < 1.5'unclosed'unclosed,
+a.id'foo''bar'Acme\Sub\Cls.x <> ?book.y
+),
+;?My\Cls.col
+)?;a.id'unclosedbook.y
+"foo""bar" AND 1 LIKE ),
+ LIKE  OR 'a\'b' OR  LIKE 
+1 OR  - 
+'has Book.AuthorID inside''plain' LIKE 'uncloseda.id
+ < "plain""plain" AND  OR 
+b.title"plain";,
+)a.id
+(Book.X?
+'foo''bar' AND 
+'foo''bar'b.title'unclosed
+ AND a.id - foo.bar'a\'b'
+t1.col1book.y,1e10'foo''bar'a.id
+??
+-3 LIKE foo.bar
+,"foo""bar"1e10 - book.y
+-3.5 OR Author.Namebook.y
+?( - .5-3)
+Book.AuthorID - 
+book.y1
+b.title)'foo''bar'
+ = 'foo''bar' -  - 
+-3'plain'Book.AuthorIDa.id.5
+,) < b.title LIKE 
+ > ()(
+( = 
+1.5Book.AuthorID =  <> 
+NULL"plain" OR ,( - 
+))
+"plain" > foo.bar,
+.5, > 
+)t1.col1)"plain"
+ -  <> Author.Name = "foo""bar"
+)t1.col1? = 'foo''bar''foo''bar'
+1NULL?'a\'b'"plain"
+(1.5 -  < "plain"'plain'
+ = (
+1foo.bar
+'has Book.AuthorID inside','a\'b'
+ - 'foo''bar'b.title
+( OR  - 
+"foo""bar",;(?
+Acme\Sub\Cls.xt1.col1
+)1'unclosed'has Book.AuthorID inside'NULL
+;,(book.y = -3
+'foo''bar',42
+;a.id, - 'foo''bar' < 
+,'foo''bar'Book.AuthorID
+.5)
+1.5),'unclosed?
+1a.idfoo.bar1.5''''
+''Book.X;
+);NULL,; AND 
+'foo''bar'My\Cls.col?''b.title
+ = "plain"
+ -  < Book.AuthorID'a\'b'My\Cls.col
+'a\'b'1e10
+1.5'unclosed42foo.bar1e10
+b.title1.5(
+b.titlefoo.bar
+)'has Book.AuthorID inside' + Author.Name
+ > -3'foo''bar'
+421e10 <> 'foo''bar'
+ LIKE ))b.title)
+ AND )(1e10 LIKE 
+b.title1
+.5 + 
+''t1.col1Book.Xa.id
+ = .5
+ OR )1.542 > (
+foo.bart1.col1 < 
+b.titlefoo.bar42Book.X?
+'has Book.AuthorID inside''unclosed
+1.5 <>  = ?,"plain"
+"plain"'has Book.AuthorID inside',-3Book.AuthorIDt1.col1
+.51.5
+Book.X(('unclosed) = 
+Book.AuthorID)b.titleMy\Cls.col
+ + ;,"foo""bar" = ''
+,"plain"
+"foo""bar",(
+a.id - 1.5''
+My\Cls.col >  AND , LIKE 
+My\Cls.col,
+ < '' + 1) AND 
+42 < 'a\'b' <> 
+, LIKE My\Cls.col
+Acme\Sub\Cls.x?(Book.X
+'unclosed, = My\Cls.col OR  < 
+)'has Book.AuthorID inside'(Book.X
+'a\'b'421(;
+ -  AND 
+;foo.bar <>  -  OR 'unclosed
+'plain' AND t1.col1
+?(.511.5
+)'has Book.AuthorID inside',.5
+NULL'foo''bar'b.title'plain'
+.5'plain',
+t1.col1b.title1.5Acme\Sub\Cls.x"plain"
+) < Book.AuthorID
+).5
+( - (foo.bar < 
+1e10My\Cls.colNULL,
+Book.AuthorID <>  + ;"foo""bar",
+ - My\Cls.col'unclosed
+ + 42 + ,My\Cls.col
+(1e10Acme\Sub\Cls.x =  > ''
+''?My\Cls.col OR )''
+1?,,Book.AuthorIDt1.col1
+ OR ))
+Acme\Sub\Cls.x))?"foo""bar"
+ OR 42foo.bar
+('foo''bar'("plain")
+42 >  > 
+'unclosed'foo''bar''has Book.AuthorID inside'"plain"
+a.idMy\Cls.colAcme\Sub\Cls.x
+ =  > 
+,"plain" AND  - 
+foo.bar1.5'a\'b''unclosed = Acme\Sub\Cls.x
+1e10'has Book.AuthorID inside'Book.X
+Book.X-3) + ?.5
+'a\'b', +  - My\Cls.col + 
+1.5Book.X
+1e101e10 > ?''Book.AuthorID
+ <  > 'a\'b'
+'has Book.AuthorID inside'-3 LIKE -3
+ + 'a\'b'a.id
+-3(
+-3NULL,'foo''bar' AND ,
+ OR 'plain')
+ - 1.5'plain' - (
+t1.col1"plain"
+t1.col1'unclosed.5 < )
+))My\Cls.colt1.col1-3
+Book.X)
+'plain' < 
+(a.id()(NULL
+( AND )t1.col1'plain't1.col1
+"foo""bar".5-3
+'a\'b'('' OR 
+ +  OR foo.bar(
+Book.XAuthor.Name-31'foo''bar'My\Cls.col
+ = )Acme\Sub\Cls.xt1.col1
+My\Cls.col;b.title,Acme\Sub\Cls.x
+My\Cls.col'unclosed1.5'unclosed)
+a.id,.5NULL'unclosed)
+book.y,'unclosed
+ OR ,a.id
+,''
+1foo.barfoo.bar
+(, AND foo.barBook.AuthorID
+ = t1.col1
+-342
+1''
+?"foo""bar"Acme\Sub\Cls.x
+ + a.idNULL <> 
+b.title1
+Book.X + 
+,'has Book.AuthorID inside'
+?;foo.bar1.5
+ OR ;
+1e10 < )1e10,'unclosed
+(1e10
+)a.idfoo.barBook.AuthorID42?
+1.5a.id <> 'has Book.AuthorID inside'
+foo.bar("plain"
+a.id"plain"My\Cls.col1
+a.idBook.AuthorID) OR  < 
+,1.5'foo''bar'Author.Name'a\'b'1
+My\Cls.col1Author.Name''Acme\Sub\Cls.x
+Acme\Sub\Cls.x),
+b.title'' AND 
+'',)1.5?.5
+'unclosed"plain"?
+foo.barBook.AuthorIDAuthor.Namefoo.bar
+ <> a.id'unclosed42"foo""bar"
+ + a.idfoo.bar42
+),Acme\Sub\Cls.x)'a\'b'1e10
+Book.X(
+;)Book.AuthorID
+?book.yBook.AuthorID
+?)
+ AND ?
+,1.5foo.bar <  < -3
+'plain',?book.yAcme\Sub\Cls.x
+ + ()"plain"1.5)
+ = book.y)
+'unclosed + 
+NULL AND Author.Name
+1 = -3book.y = 
+foo.barBook.AuthorID?,
+a.id'plain',
+,'has Book.AuthorID inside'Acme\Sub\Cls.x
+foo.bar)My\Cls.colNULL
+1e10foo.bar(.5t1.col1
+'has Book.AuthorID inside'Author.Namebook.ybook.y <>  > 
+a.id'has Book.AuthorID inside'
+My\Cls.colBook.X
+)My\Cls.col('foo''bar'
+ > Book.X
+a.idNULL
+ - "foo""bar"1e10 < 'has Book.AuthorID inside'
+)(
+Author.Name? <> 'a\'b'
+?t1.col1Book.X
+'',, = -3
+ - 42 + 
+'plain';
+)(-3-3
+-3'unclosed1
+My\Cls.col1e10Acme\Sub\Cls.x +  + b.title
+)'has Book.AuthorID inside''unclosed1,
+ AND ()42
+.5,?
+ + , AND ,(
+;"plain"421
+ LIKE t1.col1)( < 42
+-3'foo''bar'My\Cls.col'plain''unclosed'unclosed
+book.y( = "plain"
+,-31 <> b.title OR 
+1.5Book.X
+''NULL'foo''bar' > 1.5'plain'
+book.y, LIKE  OR 
+()
+11'a\'b'( LIKE 
+'plain''has Book.AuthorID inside'Author.Name1
+Acme\Sub\Cls.xbook.y OR 'plain'Acme\Sub\Cls.x'has Book.AuthorID inside'
+ = Author.Name"plain" + b.title
+42Book.X -  > "foo""bar"
+-3-3'foo''bar'
+ > 'has Book.AuthorID inside' - ?-3
+Book.X - "foo""bar"
+'has Book.AuthorID inside',?My\Cls.col,
+'a\'b' > 1
+"foo""bar"'foo''bar'
+'has Book.AuthorID inside';
+'a\'b'1.5
+)b.title42'unclosed(
+ LIKE Book.AuthorID'foo''bar';)42
+"foo""bar";
+ OR 1e10
+NULL >  + My\Cls.col
+;Acme\Sub\Cls.x'unclosed
+?"plain"'has Book.AuthorID inside' -  + 42
+;Acme\Sub\Cls.x1e10,
+a.id > ;Book.AuthorID'a\'b''plain'
+My\Cls.col + Book.AuthorID
+Book.XBook.X"plain" > ''?
+('plain''plain' <> Book.AuthorID
+'a\'b',1e10
+'unclosed'foo''bar'1e101e10
+;)
+()(Author.Name
+?.5
+);a.id
+'unclosedBook.AuthorID +  + Book.X
+NULLbook.y?
+ - b.titlea.id = 1e10
+)Author.Name OR 
+(1.5
+NULL OR , < 1?
+b.titleNULLAcme\Sub\Cls.x1"foo""bar".5
+ - 'a\'b'.5)
+ OR  > 
+.5'plain''has Book.AuthorID inside'
+ LIKE  OR  LIKE )
+foo.barb.title
+ - NULL)
+t1.col11 AND "foo""bar"
+)( LIKE 
+NULL < 
+)'foo''bar'), AND  = 
+'plain' OR  < 'has Book.AuthorID inside'(
+book.yBook.AuthorID"foo""bar"?-3
+?'a\'b' = 1"plain"
+.5-3?) - -3
+Book.X"foo""bar" <> 
+NULLt1.col1Book.AuthorID
+My\Cls.col, < 
+?.5;(
+ LIKE ,?)
+t1.col1'plain''unclosed AND Acme\Sub\Cls.x1.5
+((-3) < 
+(,
+ < "plain"'unclosedBook.X LIKE 
+ > 1t1.col1"plain"
+;'has Book.AuthorID inside'?-342
+?1e10
+-3.5;('has Book.AuthorID inside'
+b.title"plain") > 
+'has Book.AuthorID inside' - 1.5 > ,
+"plain"1e10 AND 
+t1.col1(
+'foo''bar'My\Cls.col"foo""bar"Book.X'has Book.AuthorID inside'1
+.5 AND Book.X
+ AND )
+a.idbook.yfoo.bar,) + 
+( > My\Cls.col''
+42NULL
+'plain''foo''bar'
+Author.Name;1.5
+t1.col1'plain'
+'',(
+)Book.Xfoo.bar1.51;
+ LIKE 'a\'b'foo.barNULL,
+"plain"42?1.5
+'has Book.AuthorID inside''plain''unclosedbook.y - )
+"plain"421e101'a\'b' = 
+) <  AND  AND ;Acme\Sub\Cls.x
+Author.Name1e10)Book.AuthorID"plain"
+ AND  =  OR t1.col1
+book.y1e10)42NULL''
+;;"foo""bar" <> .5
+;1 AND ( > )
+42)1 <> 'foo''bar'
+, LIKE foo.bar'unclosed42
+b.title"foo""bar"
+?'foo''bar'
+1.5 AND .5"foo""bar")
+t1.col1 - 'a\'b' OR 
+ > "plain"-31.51e10
+42 = t1.col1"foo""bar"
+,"plain" < Author.Name
+Book.AuthorID'has Book.AuthorID inside'1
+, + 
+ <> 'foo''bar'a.id + book.y
+('plain'Author.Name
+Author.Name) > 
+1.5NULLNULL-31.542
+ - 'unclosed'unclosedNULL-3
+'unclosed - b.title > t1.col1
+(.5)?
+ < , > .5
+b.title + 'foo''bar'''1
+)?,,
+-3) - Book.X
+ - )?
+(book.y"foo""bar"( LIKE .5
+) = ) + "foo""bar" <> 
+)'plain'(
+'plain' <>  = 
+'unclosed,"foo""bar""foo""bar",
+.51)'foo''bar'book.y
+ + 'foo''bar'
+'plain'''.5Book.X
+)'plain'(1.5foo.bar
+)Author.Name = 1e10( - 
+ - ?Author.Name"foo""bar""foo""bar"
+;,
+'unclosed"plain"Book.AuthorID'unclosed
+('foo''bar'1.5NULL"plain" = 
+1.5;'foo''bar')
+'uncloseda.id"foo""bar" <> (book.y
+ OR  +  <>  > Acme\Sub\Cls.x OR 
+;42(.5
+Book.XNULL'a\'b'(
+book.yMy\Cls.col)My\Cls.colfoo.barbook.y
+; >  < Book.XAuthor.Name'plain'
+("plain"Author.Name
+42;Acme\Sub\Cls.xfoo.bar-3
+ - My\Cls.col
+,;()
+NULL LIKE 
+My\Cls.col11
+)'has Book.AuthorID inside'
+,)('has Book.AuthorID inside'(1
+ LIKE ?'unclosed()(
+)'foo''bar'
+'foo''bar''unclosed(.5"plain"
+a.id"plain"1.5 = ;)
+ <>  OR ?Acme\Sub\Cls.x1e10'a\'b'
+ AND "foo""bar"Book.AuthorID),(
+(Book.AuthorIDNULL
+)'plain';
+Book.AuthorID.5 = foo.bar'foo''bar',
+b.titleb.title)'plain')
+t1.col1)Book.AuthorID
+"plain"Book.AuthorID(
+ + 'a\'b'1.542?
+)''
+-3(a.idNULL(
+My\Cls.colNULLb.title
+)'has Book.AuthorID inside''plain',1e10
+11e1042Book.X
+ <>  +  -  + 
+1e10(Acme\Sub\Cls.x(a.id
+(book.y
+1e10'plain'''-3 OR Book.X
+Acme\Sub\Cls.xNULL)'a\'b'.5
+,)42?a.idNULL
+42 <  < My\Cls.col'a\'b'
+'foo''bar'(;),t1.col1
+ <> 'a\'b'Book.AuthorID,
+ + 1.5;b.title'unclosed
+-3; < 
+Book.X,)t1.col11
+1book.y'plain'"foo""bar")(
+ < 1e10'foo''bar'
+, - 'has Book.AuthorID inside' OR 
+ + ( = 'has Book.AuthorID inside'
+t1.col1-3 = foo.bar = 
+'foo''bar',,(42
+,t1.col1.5('foo''bar' - 
+'has Book.AuthorID inside',
+ > 'has Book.AuthorID inside't1.col1t1.col1 LIKE 
+.5) + 
+''book.y + 'foo''bar'
+'has Book.AuthorID inside'book.y;
+;-3-3.5
+'foo''bar'.5('plain'
+'foo''bar'.5?book.y
+'plain'Book.AuthorID
+"foo""bar" = b.title
+?1.5 AND Book.X(
+()
+,'has Book.AuthorID inside''a\'b'1-3
+,b.title
+)'a\'b';
+NULL).5
+ -  - Author.Name( <> My\Cls.col
+book.y(book.y'a\'b' OR )
+ > ,(,a.id42
+;'foo''bar''' + 
+1.5,(
+"plain"? - ''
+ > t1.col1 > ,NULL
+foo.barbook.y
+1.5"foo""bar"(My\Cls.colfoo.bar''
+'foo''bar'-31e10 <> 
+(book.y -  + 
+ + 'foo''bar'
+t1.col1).5?
+1'a\'b'(; LIKE )
+'unclosed -  - 'plain'
+book.y"foo""bar" < 'a\'b'Author.Nameb.title
+'uncloseda.id
+(NULL'foo''bar'book.y
+),'unclosed)"foo""bar"
+foo.barAcme\Sub\Cls.x1e10) + )
+NULL,NULL
+b.titleAcme\Sub\Cls.x = "foo""bar"
+ <> "plain" LIKE 
+42"foo""bar" = 
+( OR ,(1.5
+, <>  AND  < 
+( AND 1e10 AND )t1.col1
+,142"foo""bar" LIKE 
+My\Cls.col-3.542
+Author.Name? <  OR  LIKE 1
+,'a\'b'
+-31,
+t1.col1?
+ <  + Author.Name1e10 - 
+Book.AuthorIDBook.AuthorID'plain' OR 'plain'
+Acme\Sub\Cls.x?'unclosed
+())'unclosed( < 
+)?42'unclosedNULL
+t1.col1foo.barAcme\Sub\Cls.x1e10-3(
+ <> book.y42"plain"(
+NULL''
+?)(b.title42
+foo.barfoo.bar;Book.XNULL
+? + -3?,?
+ LIKE 'has Book.AuthorID inside';(
+Acme\Sub\Cls.x?
+; = 
+;,1 LIKE  - 
+a.idt1.col1 OR 
+,(
+NULL;t1.col1'has Book.AuthorID inside'
+('''foo''bar'))
+NULL-3
+) <>  AND Acme\Sub\Cls.x''
+1(1.5NULL
+a.id < '' <> b.title
+1e10My\Cls.col
+'unclosedt1.col1
+)'' OR  + NULL
+)My\Cls.col,'unclosedBook.AuthorIDAuthor.Name
+'plain'a.id
+-3My\Cls.col
+'unclosedt1.col1
+ AND ,''
+ LIKE  < 'plain' - "foo""bar"(
+1e10-3"plain"
+ LIKE a.id.5'plain'NULL'has Book.AuthorID inside'
+NULL(
+"plain"My\Cls.col
+a.id''
+ AND  <  LIKE ;
+;NULL
+Book.X,'unclosed1e10
+foo.barAuthor.Name OR )
+1e10('unclosedbook.y) LIKE 
+ -  > Author.Namea.idNULL42
+1e10 < 'foo''bar'42Book.X
+book.y OR (,
+,'unclosed'' + )
+42 - , = Book.AuthorID
+ + b.title.5,,My\Cls.col
+?'unclosed"plain"foo.bar -  - 
+Book.AuthorID'has Book.AuthorID inside'
+''42; + 
+'has Book.AuthorID inside'(Book.AuthorID?)(
+NULL'''has Book.AuthorID inside'
+ LIKE  AND  < 'plain''a\'b'(
+ > 1''Author.Namefoo.bar
+'a\'b' <>  -  =  LIKE 
+1e10'plain'
+'foo''bar'1.5
+'plain'1.5 <> 'a\'b'1.5;
+('plain'1
+foo.barbook.y AND 
+"plain" <> 'plain'NULL"plain"''
+ LIKE Book.AuthorID42NULL)
+ < a.id
+42book.y OR , +  + 
+-3 - book.y
+))1.5'')
+?; - 
+ - ;
+a.idAuthor.Name'has Book.AuthorID inside'
+ AND 'has Book.AuthorID inside',?
+ LIKE  + (''
+ LIKE 42Book.AuthorID,''
+( <> foo.barMy\Cls.col
+'a\'b'''
+"foo""bar" = 
+42a.id"foo""bar",'foo''bar' <> 
+1e10"plain" - 'foo''bar'
+;a.id-3
+1('unclosed(
+book.yBook.XAuthor.Name
+'unclosed;Author.Name LIKE 
+ AND 1'unclosed;Book.AuthorID
+'' = ()'plain'
+''"foo""bar" LIKE 1e10
+"foo""bar";
+, LIKE ''"plain"
+'has Book.AuthorID inside','plain' <> 
+) - 
+) <> ? <>  =  < 
+,'unclosed'unclosed = 'a\'b' <> 
+NULL AND ; OR 
+.5)Book.AuthorID"plain"))
+) + 
+Acme\Sub\Cls.x''
+;"foo""bar"
+''1,,((
+(NULLNULL LIKE 
+"foo""bar"NULL, - )Book.AuthorID
+) OR 
+(,;-31.5 LIKE 
+'',''
+My\Cls.col'foo''bar'1e10).5
+(?
+My\Cls.colMy\Cls.colfoo.bara.id - Book.X
+ <>  AND 
+,1, - Acme\Sub\Cls.x,
+'plain'.5
+Book.X-3 <> 
+1e10 -  > )
+;'foo''bar'book.y'has Book.AuthorID inside',?
+;'foo''bar'('a\'b'"foo""bar"-3
+(Acme\Sub\Cls.x - ?Acme\Sub\Cls.x
+((a.id-3
+a.idBook.AuthorID
+foo.bar - 1.5
+1.5;
+'a\'b' = ((
+'unclosed'unclosed
+)'has Book.AuthorID inside''plain'
+ LIKE "plain")
+NULL <> (1.5,
+1e10(1.5My\Cls.col"foo""bar"
+ < ) + a.id AND 'a\'b'
+( + .5'foo''bar'
+NULL = t1.col1
+ + )'a\'b'a.id <> 
+,1.5.542Acme\Sub\Cls.x(
+;t1.col1'foo''bar'
+ AND 1e10Author.Namet1.col1Book.Xt1.col1
+Author.Name'unclosed
+'a\'b'1e10''
+ = Book.AuthorID'unclosedNULL
+ < )b.titleBook.AuthorIDt1.col1'has Book.AuthorID inside'
+.5NULL
+My\Cls.col <> 
+My\Cls.col)
+?)Author.Name <> 
+'unclosed'foo''bar'Acme\Sub\Cls.x(
+)(
+Author.NameAuthor.Name'a\'b'Acme\Sub\Cls.x > 
+1.5 < 'has Book.AuthorID inside' LIKE 
+b.title)(b.title AND 
+"foo""bar")1e10
+'foo''bar' > ; - My\Cls.col
+''; > NULL
+'' OR ;'a\'b'1.5
+((1e10"foo""bar""plain")
+(,
+'has Book.AuthorID inside' AND )
+'foo''bar' AND 
+1.5 < 
+.5Author.Name)NULLAuthor.Name
+ - 42
+Book.X,"foo""bar""foo""bar"(
+.5'has Book.AuthorID inside'book.yfoo.bar1e10foo.bar
+'unclosed,t1.col1"plain""foo""bar"
+book.y''42,?(
+ AND t1.col1)
+NULLAuthor.Name42foo.bar <> 
+,,"foo""bar"'a\'b'NULL
+"plain"'unclosed > My\Cls.colNULL
+1e10NULL,
+Book.AuthorID1.5
+ < b.title''NULL,1.5
+()-3Book.X
+((,'a\'b'
+), <> ,1e10
+''NULL <> Author.Name.5
+;Acme\Sub\Cls.x,
+'a\'b' > .5
+book.y +  < foo.bar;Acme\Sub\Cls.x
+ LIKE )42, <> ,
+'a\'b'My\Cls.col,;b.title'a\'b'
+My\Cls.col"foo""bar"''"foo""bar" + 
+?'has Book.AuthorID inside'
+NULL'unclosed
+Book.X < Book.X
+142'plain'
+'has Book.AuthorID inside''a\'b'
+,, - 
+, -  > (NULL
+ AND 'a\'b' + 1e10t1.col1 - 
+'foo''bar''has Book.AuthorID inside',Book.AuthorID'foo''bar'
+book.ybook.y('plain') < 
+Book.AuthorID OR Acme\Sub\Cls.x
+'unclosed1-3;NULL1.5
+(, AND 1
+ > 42My\Cls.col'unclosed = .5
+'foo''bar''unclosed),
+book.ya.id)Acme\Sub\Cls.xfoo.bar
+,)'unclosed-3
+ <  < 'a\'b''foo''bar')
+? OR -3
+'has Book.AuthorID inside' OR  <> book.y-3'a\'b'
+'unclosed"plain"
+,'foo''bar''unclosed
+"plain"Book.AuthorIDBook.AuthorID > )1.5
+)a.idAcme\Sub\Cls.xt1.col1Author.Name
+ LIKE 'plain'foo.barNULL;
+ <>  = 'plain'1
+Acme\Sub\Cls.xBook.AuthorID
+"foo""bar"Book.AuthorID'a\'b'
+Book.AuthorID-3My\Cls.col
+'foo''bar'Book.AuthorID
+ <> .5-3( < 
+;Book.AuthorID('a\'b'
+'unclosed LIKE b.title <  > 
+'unclosedAuthor.Name1 - 'plain'"plain"
+42 - Acme\Sub\Cls.xAuthor.Name
+?"plain"
+book.y?'plain'
+;My\Cls.col?)'a\'b'
+ <  AND 'plain'Author.Name
+''( AND 
+?'has Book.AuthorID inside''foo''bar''a\'b'NULL
+t1.col1Book.AuthorID
+"foo""bar" + 1e10Book.AuthorID
+ AND ,.5"plain" OR 
+Book.AuthorID42'a\'b','has Book.AuthorID inside'
+,''My\Cls.colMy\Cls.col AND  < 
+Acme\Sub\Cls.xBook.X
+"plain" + 1.5"plain"
+foo.bar'foo''bar'
+Book.XNULLt1.col1
+.5;t1.col1NULL)
+)My\Cls.colt1.col11('plain'
+Author.Name'''a\'b'
+''-3;'unclosed"foo""bar" + 
+,)
+'unclosed LIKE (
+))
+(?"foo""bar"a.id-3
+'unclosed, + Author.Name = 
+1,My\Cls.col"foo""bar")
+1e10''.5'a\'b'NULL
+t1.col11.5NULLBook.AuthorID

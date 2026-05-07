@@ -69,23 +69,32 @@ final class NameResolver
         unset($aliases); // currently informational; resolver delegates the per-name decision to $resolveName
         $this->replacements = [];
 
-        // Build pairs of (insideString?, segment) by walking tokens. Concatenation
-        // of all segments equals the original $sql (round-trip property).
+        // Walk tokens, splitting into runs of "string-like" (passes through verbatim)
+        // and "outside-string" (joined back into one segment and regex'ed exactly as
+        // the legacy parser did). Joining is required for byte-equivalence — the
+        // legacy regex matches qualified names that span tokenizer boundaries
+        // (e.g. `5My\Cls.col` where `.5` would tokenize as a number-then-ident pair
+        // but legacy sees the whole `[\w\\]+\.\w+` run.)
         $tokens = $this->tokenizer->tokenize($sql);
         $out = '';
+        $buffer = '';
 
         foreach ($tokens as $token) {
             if ($token->type === Token::TYPE_STRING || $token->type === Token::TYPE_BACKTICK_IDENT) {
-                // Strings + backtick-quoted idents pass through verbatim — no replacement applied.
-                // (Backtick handling is the documented divergence from the legacy parser; the
-                // legacy parser treated backticks as plain chars and DID apply replacement.)
+                if ($buffer !== '') {
+                    $out .= $this->applyReplacement($buffer, $resolveName);
+                    $buffer = '';
+                }
                 $out .= $token->value;
 
                 continue;
             }
 
-            // Non-string tokens get the legacy regex pass.
-            $out .= $this->applyReplacement($token->value, $resolveName);
+            $buffer .= $token->value;
+        }
+
+        if ($buffer !== '') {
+            $out .= $this->applyReplacement($buffer, $resolveName);
         }
 
         return $out;
@@ -110,30 +119,50 @@ final class NameResolver
         $this->replacements = [];
         $tokens = $this->tokenizer->tokenize($sql);
         $out = '';
+        $buffer = '';
 
         foreach ($tokens as $token) {
             if ($token->type === Token::TYPE_STRING || $token->type === Token::TYPE_BACKTICK_IDENT) {
+                if ($buffer !== '') {
+                    $out .= $this->applyMatchesCallback($buffer, $matchesCallback);
+                    $buffer = '';
+                }
                 $out .= $token->value;
 
                 continue;
             }
 
-            $segment = $token->value;
-            $result = preg_replace_callback(
-                self::LEGACY_QUALIFIED_NAME_REGEX,
-                function (array $match) use ($matchesCallback): string {
-                    $original = $match[0];
-                    $replacement = (string)$matchesCallback($match);
-                    $this->replacements[] = [$original, $replacement];
+            $buffer .= $token->value;
+        }
 
-                    return $replacement;
-                },
-                $segment,
-            );
-            $out .= $result ?? $segment;
+        if ($buffer !== '') {
+            $out .= $this->applyMatchesCallback($buffer, $matchesCallback);
         }
 
         return $out;
+    }
+
+    /**
+     * @param string $segment
+     * @param callable $matchesCallback
+     *
+     * @return string
+     */
+    private function applyMatchesCallback(string $segment, callable $matchesCallback): string
+    {
+        $result = preg_replace_callback(
+            self::LEGACY_QUALIFIED_NAME_REGEX,
+            function (array $match) use ($matchesCallback): string {
+                $original = $match[0];
+                $replacement = (string)$matchesCallback($match);
+                $this->replacements[] = [$original, $replacement];
+
+                return $replacement;
+            },
+            $segment,
+        );
+
+        return $result ?? $segment;
     }
 
     /**
