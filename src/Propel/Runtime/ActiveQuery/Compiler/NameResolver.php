@@ -75,8 +75,10 @@ final class NameResolver
         $out = '';
 
         foreach ($tokens as $token) {
-            if ($token->type === Token::TYPE_STRING) {
-                // Strings pass through verbatim — no replacement applied.
+            if ($token->type === Token::TYPE_STRING || $token->type === Token::TYPE_BACKTICK_IDENT) {
+                // Strings + backtick-quoted idents pass through verbatim — no replacement applied.
+                // (Backtick handling is the documented divergence from the legacy parser; the
+                // legacy parser treated backticks as plain chars and DID apply replacement.)
                 $out .= $token->value;
 
                 continue;
@@ -110,7 +112,7 @@ final class NameResolver
         $out = '';
 
         foreach ($tokens as $token) {
-            if ($token->type === Token::TYPE_STRING) {
+            if ($token->type === Token::TYPE_STRING || $token->type === Token::TYPE_BACKTICK_IDENT) {
                 $out .= $token->value;
 
                 continue;
