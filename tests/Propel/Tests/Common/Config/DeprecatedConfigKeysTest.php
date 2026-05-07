@@ -13,20 +13,19 @@ namespace Propel\Tests\Common\Config;
 use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use Propel\Common\Config\PropelConfiguration;
-use Symfony\Bridge\PhpUnit\ExpectUserDeprecationMessageTrait;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 use Symfony\Component\Config\Definition\Processor;
 
 /**
  * Per umbrella spec section 6.2: legacy "slaves" / "master" connection-config
- * keys should forward to the new "replicas" / "primary" names with a
- * deprecation pointer; unsupported adapters should fail with a migration-guide
+ * keys were @deprecated in 3.0 and removed in 4.0. Using either now produces
+ * a hard InvalidConfigurationException pointing at the modern key plus the
+ * Rector ruleset. Unsupported adapters likewise fail with a migration-guide
  * message rather than a generic enum error.
  */
 #[Group('legacy')]
 class DeprecatedConfigKeysTest extends TestCase
 {
-    use ExpectUserDeprecationMessageTrait;
 
     /**
      * @return array<string, mixed>
@@ -44,13 +43,12 @@ class DeprecatedConfigKeysTest extends TestCase
         ]]);
     }
 
-    public function testSlavesKeyForwardsToReplicasAndEmitsDeprecation(): void
+    public function testSlavesKeyThrowsInPropel4(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: Configuration key "slaves" is deprecated, use "replicas" instead.',
-        );
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessageMatches('/Configuration key "slaves" was removed in Propel 4\.0.+Propel4Migration/s');
 
-        $config = $this->processConfig([
+        $this->processConfig([
             'adapter' => 'mysql',
             'dsn' => 'mysql:host=localhost;dbname=test',
             'user' => 'root',
@@ -59,20 +57,14 @@ class DeprecatedConfigKeysTest extends TestCase
                 ['dsn' => 'mysql:host=replica;dbname=test', 'user' => 'root', 'password' => ''],
             ],
         ]);
-
-        $connection = $config['database']['connections']['default'];
-        self::assertArrayHasKey('replicas', $connection);
-        self::assertArrayNotHasKey('slaves', $connection);
-        self::assertSame('mysql:host=replica;dbname=test', $connection['replicas'][0]['dsn']);
     }
 
-    public function testMasterKeyForwardsToPrimaryAndEmitsDeprecation(): void
+    public function testMasterKeyThrowsInPropel4(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: Configuration key "master" is deprecated, use "primary" (or inline dsn/user/password directly) instead.',
-        );
+        $this->expectException(InvalidConfigurationException::class);
+        $this->expectExceptionMessageMatches('/Configuration key "master" was removed in Propel 4\.0.+Propel4Migration/s');
 
-        $config = $this->processConfig([
+        $this->processConfig([
             'adapter' => 'mysql',
             'master' => [
                 'dsn' => 'mysql:host=localhost;dbname=test',
@@ -80,10 +72,6 @@ class DeprecatedConfigKeysTest extends TestCase
                 'password' => '',
             ],
         ]);
-
-        $connection = $config['database']['connections']['default'];
-        self::assertSame('mysql:host=localhost;dbname=test', $connection['dsn']);
-        self::assertArrayNotHasKey('master', $connection);
     }
 
     public function testOracleAdapterPointsAtMigrationGuide(): void

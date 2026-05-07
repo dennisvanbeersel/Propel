@@ -128,36 +128,20 @@ class PropelConfiguration implements ConfigurationInterface
                             ->fixXmlConfig('model_path')
                                 ->beforeNormalization()
                                     ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('slaves', $v))
-                                    ->then(static function (array $v): array {
-                                        trigger_deprecation(
-                                            'maturix/propel',
-                                            '3.0',
-                                            'Configuration key "slaves" is deprecated, use "replicas" instead.',
+                                    ->then(static function (): never {
+                                        throw new InvalidConfigurationException(
+                                            'Configuration key "slaves" was removed in Propel 4.0. Use "replicas" instead. '
+                                            . 'Run `vendor/bin/rector --rules=Propel4Migration` to migrate config files automatically.',
                                         );
-                                        $v['replicas'] = array_merge($v['replicas'] ?? [], $v['slaves']);
-                                        unset($v['slaves']);
-
-                                        return $v;
                                     })
                                 ->end()
                                 ->beforeNormalization()
                                     ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('master', $v))
-                                    ->then(static function (array $v): array {
-                                        trigger_deprecation(
-                                            'maturix/propel',
-                                            '3.0',
-                                            'Configuration key "master" is deprecated, use "primary" (or inline dsn/user/password directly) instead.',
+                                    ->then(static function (): never {
+                                        throw new InvalidConfigurationException(
+                                            'Configuration key "master" was removed in Propel 4.0. Use "primary" (or inline dsn/user/password directly) instead. '
+                                            . 'Run `vendor/bin/rector --rules=Propel4Migration` to migrate config files automatically.',
                                         );
-                                        if (is_array($v['master'])) {
-                                            foreach ($v['master'] as $key => $value) {
-                                                if (!array_key_exists($key, $v)) {
-                                                    $v[$key] = $value;
-                                                }
-                                            }
-                                        }
-                                        unset($v['master']);
-
-                                        return $v;
                                     })
                                 ->end()
                                 ->beforeNormalization()
