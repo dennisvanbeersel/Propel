@@ -90,6 +90,51 @@ final class NameResolver
     }
 
     /**
+     * Replace qualified column names using a regex-callback-shaped resolver, matching
+     * the legacy `preg_replace_callback("/[\w\\\]+\.\w+/", $callback)` contract used
+     * by `Criteria::replaceNames` exactly. The callback receives a `$matches` array;
+     * `$matches[0]` is the qualified name; the return value is the replacement.
+     *
+     * Use this overload when wiring an existing `[$obj, 'doReplaceNameInExpression']`
+     * style callback. For a `function (string $name): string` shape, use `resolve()`.
+     *
+     * @param string $sql
+     * @param callable $matchesCallback Legacy preg_replace_callback shape.
+     *
+     * @return string The rewritten SQL.
+     */
+    public function resolveWithMatchesCallback(string $sql, callable $matchesCallback): string
+    {
+        $this->replacements = [];
+        $tokens = $this->tokenizer->tokenize($sql);
+        $out = '';
+
+        foreach ($tokens as $token) {
+            if ($token->type === Token::TYPE_STRING) {
+                $out .= $token->value;
+
+                continue;
+            }
+
+            $segment = $token->value;
+            $result = preg_replace_callback(
+                self::LEGACY_QUALIFIED_NAME_REGEX,
+                function (array $match) use ($matchesCallback): string {
+                    $original = $match[0];
+                    $replacement = (string)$matchesCallback($match);
+                    $this->replacements[] = [$original, $replacement];
+
+                    return $replacement;
+                },
+                $segment,
+            );
+            $out .= $result ?? $segment;
+        }
+
+        return $out;
+    }
+
+    /**
      * @return list<array{string, string}> list of [original, replacement] pairs found in last resolve()
      */
     public function getReplacements(): array

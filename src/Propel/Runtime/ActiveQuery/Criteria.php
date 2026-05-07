@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Runtime\ActiveQuery;
 
 use Exception;
+use Propel\Runtime\ActiveQuery\Compiler\NameResolver;
 use Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion;
 use Propel\Runtime\ActiveQuery\Criterion\CriterionFactory;
 use Propel\Runtime\ActiveQuery\QueryExecutor\CountQueryExecutor;
@@ -2176,55 +2177,15 @@ class Criteria
         $this->replacedColumns = [];
         $this->currentAlias = '';
         $this->foundMatch = false;
-        $isAfterBackslash = false;
-        $isInString = false;
-        $stringQuotes = '';
-        $parsedString = '';
-        $stringToTransform = '';
-        $len = strlen($sql);
-        $pos = 0;
-        while ($pos < $len) {
-            $char = $sql[$pos];
-            // check flags for strings or escaper
-            switch ($char) {
-                case '\\':
-                    $isAfterBackslash = true;
 
-                    break;
-                case "'":
-                case '"':
-                    if ($isInString && $stringQuotes == $char) {
-                        if (!$isAfterBackslash) {
-                            $isInString = false;
-                        }
-                    } elseif (!$isInString) {
-                        $parsedString .= preg_replace_callback("/[\w\\\]+\.\w+/", [$this, 'doReplaceNameInExpression'], $stringToTransform);
-                        $stringToTransform = '';
-                        $stringQuotes = $char;
-                        $isInString = true;
-                    }
+        // Closure preserves access to the protected doReplaceNameInExpression()
+        // method (and its ModelCriteria override). Equivalent to the legacy
+        // [$this, 'doReplaceNameInExpression'] passed to preg_replace_callback
+        // inside this class.
+        $callback = fn (array $matches): string => $this->doReplaceNameInExpression($matches);
 
-                    break;
-            }
-
-            if ($char !== '\\') {
-                $isAfterBackslash = false;
-            }
-
-            if ($isInString) {
-                $parsedString .= $char;
-            } else {
-                $stringToTransform .= $char;
-            }
-
-            $pos++;
-        }
-
-        if ($stringToTransform) {
-            $parsedString .= preg_replace_callback("/[\w\\\]+\.\w+/", [$this, 'doReplaceNameInExpression'], $stringToTransform);
-        }
-
-        $sql = $parsedString;
+        $resolver = new NameResolver();
+        $sql = $resolver->resolveWithMatchesCallback($sql, $callback);
 
         return $this->foundMatch;
     }
