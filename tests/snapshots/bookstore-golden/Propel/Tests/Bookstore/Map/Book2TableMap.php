@@ -282,8 +282,8 @@ class Book2TableMap extends TableMap
   2 => 'poetry',
 ));
         $this->addColumn('tags', 'Tags', 'ARRAY', false, null, null);
-        $this->addColumn('uuid', 'Uuid', 'UUID_BINARY', false, 16, null);
-        $this->addColumn('uuid_bin', 'UuidBin', 'UUID_BINARY', false, 16, null);
+        $this->addColumn('uuid', 'Uuid', 'UUID_BINARY', false, null, null);
+        $this->addColumn('uuid_bin', 'UuidBin', 'UUID_BINARY', false, null, null);
     }
 
     /**

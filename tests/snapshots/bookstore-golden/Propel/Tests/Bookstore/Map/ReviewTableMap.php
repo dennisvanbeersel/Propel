@@ -214,7 +214,7 @@ class ReviewTableMap extends TableMap
         $this->addPrimaryKey('id', 'Id', 'INTEGER', true, null, null);
         $this->addColumn('reviewed_by', 'ReviewedBy', 'VARCHAR', true, 128, null);
         $this->addColumn('review_date', 'ReviewDate', 'DATE', true, null, '2001-01-01');
-        $this->addColumn('recommended', 'Recommended', 'BOOLEAN', true, 1, null);
+        $this->addColumn('recommended', 'Recommended', 'BOOLEAN', true, null, null);
         $this->addColumn('status', 'Status', 'VARCHAR', false, 8, null);
         $this->addForeignKey('book_id', 'BookId', 'INTEGER', 'book', 'id', false, null, null);
     }

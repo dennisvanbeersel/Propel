@@ -253,8 +253,8 @@ class BookstoreEmployeeAccountTableMap extends TableMap
         $this->addForeignPrimaryKey('employee_id', 'EmployeeId', 'INTEGER' , 'bookstore_employee', 'id', true, null, null);
         $this->addColumn('login', 'Login', 'VARCHAR', false, 32, null);
         $this->addColumn('password', 'Password', 'VARCHAR', false, 100, '\'@\'\'34"');
-        $this->addColumn('enabled', 'Enabled', 'BOOLEAN', false, 1, true);
-        $this->addColumn('not_enabled', 'NotEnabled', 'BOOLEAN', false, 1, false);
+        $this->addColumn('enabled', 'Enabled', 'BOOLEAN', false, null, true);
+        $this->addColumn('not_enabled', 'NotEnabled', 'BOOLEAN', false, null, false);
         $this->addColumn('created', 'Created', 'TIMESTAMP', false, null, 'CURRENT_TIMESTAMP');
         $this->addColumn('updated', 'Updated', 'TIMESTAMP', false, null, 'CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP');
         $this->addForeignKey('role_id', 'RoleId', 'INTEGER', 'acct_access_role', 'id', false, null, null);
