@@ -11,8 +11,8 @@ namespace Propel\Tests\Common\Config;
 use org\bovigo\vfs\vfsStream;
 use Propel\Common\Config\ConfigurationManager;
 use Propel\Common\Config\Exception\InvalidArgumentException;
-use Propel\Tests\TestCase;
 use Propel\Generator\Util\VfsTrait;
+use Propel\Tests\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class ConfigurationManagerTest extends TestCase
@@ -718,6 +718,13 @@ EOF;
                                 'src',
                                 'vendor',
                             ],
+                            'decorators' => ['transactional', 'logging', 'caching'],
+                            'preparedStatementCacheCapacity' => 256,
+                            'routing' => [
+                                'sessionConsistencyWindowSeconds' => 5.0,
+                                'replicaLagThresholdSeconds' => 2.0,
+                                'fallbackToPrimary' => true,
+                            ],
                         ],
                     ],
                 ],
@@ -793,6 +800,13 @@ EOF;
                 'model_paths' => [
                     'src',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
             'yoursource' => [
                 'adapter' => 'mysql',
@@ -803,6 +817,13 @@ EOF;
                 'model_paths' => [
                     'src',
                     'vendor',
+                ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
                 ],
             ],
         ];
@@ -816,6 +837,13 @@ EOF;
                 'password' => '',
                 'model_paths' => [
                     'src',
+                ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
                 ],
             ],
         ];
@@ -861,6 +889,9 @@ EOF;
 
 class TestableConfigurationManager extends ConfigurationManager
 {
+    /**
+     * @return void
+     */
     protected function process(array $extraConf = []): void
     {
     }

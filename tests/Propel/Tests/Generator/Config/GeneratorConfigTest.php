@@ -302,6 +302,13 @@ class GeneratorConfigTest extends TestCase
                     'src',
                     'vendor',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
             'yoursource' => [
                 'adapter' => 'mysql',
@@ -312,6 +319,13 @@ class GeneratorConfigTest extends TestCase
                 'model_paths' => [
                     'src',
                     'vendor',
+                ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
                 ],
             ],
         ];
@@ -336,6 +350,13 @@ class GeneratorConfigTest extends TestCase
                 'src',
                 'vendor',
             ],
+            'decorators' => ['transactional', 'logging', 'caching'],
+            'preparedStatementCacheCapacity' => 256,
+            'routing' => [
+                'sessionConsistencyWindowSeconds' => 5.0,
+                'replicaLagThresholdSeconds' => 2.0,
+                'fallbackToPrimary' => true,
+            ],
         ];
 
         $actual = $this->generatorConfig->getBuildConnection();
@@ -357,6 +378,13 @@ class GeneratorConfigTest extends TestCase
             'model_paths' => [
                 'src',
                 'vendor',
+            ],
+            'decorators' => ['transactional', 'logging', 'caching'],
+            'preparedStatementCacheCapacity' => 256,
+            'routing' => [
+                'sessionConsistencyWindowSeconds' => 5.0,
+                'replicaLagThresholdSeconds' => 2.0,
+                'fallbackToPrimary' => true,
             ],
         ];
 

@@ -41,6 +41,8 @@ use Propel\Runtime\Util\PropelConditionalProxy;
  */
 class Criteria
 {
+    use \Propel\Runtime\ActiveQuery\Routing\CriteriaRoutingHints;
+
     /**
      * @var string
      */
