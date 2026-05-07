@@ -265,6 +265,19 @@ trait ReferrerBuilderTrait
     {
         $relCol = $this->getRefFKPhpNameAffix($refFK, true);
         $collName = $this->getRefFKCollVarName($refFK);
+        $collectionClassNameExpr = $this->getClassNameFromBuilder($this->getNewTableMapBuilder($refFK->getTable())) . '::getTableMap()->getCollectionClassName()';
+        $modelFqcn = $this->getClassNameFromBuilder($this->getNewStubObjectBuilder($refFK->getTable()), true);
+
+        if ($this->getTable()->useLazyObjects()) {
+            $script .= "\n" . (new LazyRelationBuilder())->emit(
+                $relCol,
+                $collName,
+                $collectionClassNameExpr,
+                $modelFqcn,
+            ) . "\n";
+
+            return;
+        }
 
         $script .= "
     /**
@@ -285,10 +298,10 @@ trait ReferrerBuilderTrait
             return;
         }
 
-        \$collectionClassName = " . $this->getClassNameFromBuilder($this->getNewTableMapBuilder($refFK->getTable())) . "::getTableMap()->getCollectionClassName();
+        \$collectionClassName = " . $collectionClassNameExpr . ";
 
         \$this->{$collName} = new \$collectionClassName;
-        \$this->{$collName}->setModel('" . $this->getClassNameFromBuilder($this->getNewStubObjectBuilder($refFK->getTable()), true) . "');
+        \$this->{$collName}->setModel('" . $modelFqcn . "');
     }
 ";
     }
