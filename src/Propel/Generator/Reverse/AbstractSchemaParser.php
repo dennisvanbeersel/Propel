@@ -211,6 +211,46 @@ abstract class AbstractSchemaParser implements SchemaParserInterface
     }
 
     /**
+     * Phase D (umbrella §6.4 carry-forward): UUID detection heuristic for
+     * reverse-engineered columns.
+     *
+     * Heuristic per platform:
+     *   - PostgreSQL: native `uuid` data type → unambiguous match.
+     *   - MySQL / MariaDB: no native UUID type. Detect by `BINARY(16)` plus
+     *     a name or comment hint: column name matches `/(^|_)uuid$|_uuid_/i`,
+     *     or the column comment contains the literal "UUID" (case-insensitive).
+     *
+     * Caller passes the relevant fields from an INFORMATION_SCHEMA / pg_catalog
+     * row. Missing keys are treated as empty strings.
+     *
+     * @param array<string, mixed> $infoSchemaRow Expected keys (any subset):
+     *   `data_type`, `column_type`, `column_name`, `column_comment`.
+     *
+     * @return bool
+     */
+    protected function detectUuidColumn(array $infoSchemaRow): bool
+    {
+        $dataType = strtolower((string)($infoSchemaRow['data_type'] ?? ''));
+        if ($dataType === 'uuid') {
+            return true;
+        }
+
+        $columnType = strtolower((string)($infoSchemaRow['column_type'] ?? ''));
+        if ($dataType !== 'binary' || $columnType !== 'binary(16)') {
+            return false;
+        }
+
+        $name = (string)($infoSchemaRow['column_name'] ?? '');
+        if (preg_match('/(^|_)uuid$|_uuid_/i', $name) === 1) {
+            return true;
+        }
+
+        $comment = (string)($infoSchemaRow['column_comment'] ?? '');
+
+        return stripos($comment, 'UUID') !== false;
+    }
+
+    /**
      * Gets a new VendorInfo object for this platform with specified params.
      *
      * @param array $params
