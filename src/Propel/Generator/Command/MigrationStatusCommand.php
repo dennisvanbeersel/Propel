@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'migration:status', description: 'Get migration status', aliases: ['status'])]
 class MigrationStatusCommand extends AbstractCommand
 {
     /**
@@ -42,10 +43,7 @@ class MigrationStatusCommand extends AbstractCommand
             ->addOption('output-dir', null, InputOption::VALUE_REQUIRED, 'The output directory')
             ->addOption('migration-table', null, InputOption::VALUE_REQUIRED, 'Migration table name')
             ->addOption('connection', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Connection to use', [])
-            ->addOption(static::COMMAND_OPTION_LAST_VERSION, null, InputOption::VALUE_NONE, static::COMMAND_OPTION_LAST_VERSION_DESCRIPTION)
-            ->setName('migration:status')
-            ->setAliases(['status'])
-            ->setDescription('Get migration status');
+            ->addOption(static::COMMAND_OPTION_LAST_VERSION, null, InputOption::VALUE_NONE, static::COMMAND_OPTION_LAST_VERSION_DESCRIPTION);
     }
 
     /**

@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'sql:build', description: 'Build SQL files', aliases: ['build-sql'])]
 class SqlBuildCommand extends AbstractCommand
 {
     /**
@@ -38,10 +39,7 @@ class SqlBuildCommand extends AbstractCommand
             ->addOption('schema-name', null, InputOption::VALUE_REQUIRED, 'The schema name for RDBMS supporting them', '')
             //->addOption('encoding',     null, InputOption::VALUE_REQUIRED,  'The encoding to use for the database')
             ->addOption('table-prefix', null, InputOption::VALUE_REQUIRED, 'Add a prefix to all the table names in the database')
-            ->addOption('composer-dir', null, InputOption::VALUE_REQUIRED, 'Directory in which your composer.json resides', null)
-            ->setName('sql:build')
-            ->setAliases(['build-sql'])
-            ->setDescription('Build SQL files');
+            ->addOption('composer-dir', null, InputOption::VALUE_REQUIRED, 'Directory in which your composer.json resides', null);
     }
 
     /**

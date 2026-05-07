@@ -20,6 +20,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'database:reverse', description: 'Reverse-engineer a XML schema file based on given database. Uses given `connection` as name, as dsn or your `reverse.connection` configuration in propel config as connection.', aliases: ['reverse'])]
 class DatabaseReverseCommand extends AbstractCommand
 {
     /**
@@ -73,10 +74,7 @@ class DatabaseReverseCommand extends AbstractCommand
                 InputArgument::OPTIONAL,
                 'Connection name or dsn to use. Example: \'mysql:host=127.0.0.1;dbname=test;user=root;password=foobar\' (don\'t forget the quote for dsn)',
                 'default',
-            )
-            ->setName('database:reverse')
-            ->setAliases(['reverse'])
-            ->setDescription('Reverse-engineer a XML schema file based on given database. Uses given `connection` as name, as dsn or your `reverse.connection` configuration in propel config as connection.');
+            );
     }
 
     /**

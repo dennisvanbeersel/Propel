@@ -20,6 +20,7 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Filesystem\Filesystem;
 
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'config:convert', description: 'Transform the configuration to PHP code leveraging the ServiceContainer', aliases: ['convert-conf'])]
 class ConfigConvertCommand extends AbstractCommand
 {
     /**
@@ -42,10 +43,7 @@ class ConfigConvertCommand extends AbstractCommand
             ->addOption('config-dir', null, InputOption::VALUE_REQUIRED, 'The directory where the configuration file is placed.', self::DEFAULT_CONFIG_DIRECTORY)
             ->addOption('output-dir', null, InputOption::VALUE_REQUIRED, 'The output directory')
             ->addOption('output-file', null, InputOption::VALUE_REQUIRED, 'The output file', self::DEFAULT_OUTPUT_FILE)
-            ->addOption('loader-script-dir', null, InputOption::VALUE_REQUIRED, 'Target folder of the database table map loader script. Defaults to paths.loaderScriptDir', null)
-            ->setName('config:convert')
-            ->setAliases(['convert-conf'])
-            ->setDescription('Transform the configuration to PHP code leveraging the ServiceContainer');
+            ->addOption('loader-script-dir', null, InputOption::VALUE_REQUIRED, 'Target folder of the database table map loader script. Defaults to paths.loaderScriptDir', null);
     }
 
     /**

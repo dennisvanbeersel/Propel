@@ -1,0 +1,15 @@
+config:convert|convert-conf
+database:reverse|reverse
+datadictionary:export|datadictionary,md
+graphviz:generate|graphviz
+init|
+migration:create|
+migration:diff|diff
+migration:down|down
+migration:migrate|migrate
+migration:status|status
+migration:up|up
+model:build|build
+sql:build|build-sql
+sql:insert|insert-sql
+test:prepare|

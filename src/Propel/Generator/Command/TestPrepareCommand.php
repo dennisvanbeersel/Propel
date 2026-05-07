@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'test:prepare', description: 'Prepare the Propel test suite by building fixtures')]
 class TestPrepareCommand extends AbstractCommand
 {
     /**
@@ -82,9 +83,7 @@ class TestPrepareCommand extends AbstractCommand
                 new InputOption('user', 'u', InputOption::VALUE_REQUIRED, 'The database user', self::DEFAULT_DB_USER),
                 new InputOption('password', 'p', InputOption::VALUE_OPTIONAL, 'The database password', self::DEFAULT_DB_PASSWD),
                 new InputOption('exclude-database', null, InputOption::VALUE_NONE, 'Whether this should not touch database\'s schema'),
-            ])
-            ->setName('test:prepare')
-            ->setDescription('Prepare the Propel test suite by building fixtures');
+            ]);
     }
 
     /**
