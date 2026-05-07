@@ -14,6 +14,8 @@ use Exception;
 use Propel\Runtime\ActiveQuery\Compiler\NameResolver;
 use Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion;
 use Propel\Runtime\ActiveQuery\Criterion\CriterionFactory;
+use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
+use Propel\Runtime\ActiveQuery\Criterion\Exception\UnsafeCustomConditionException;
 use Propel\Runtime\ActiveQuery\QueryExecutor\CountQueryExecutor;
 use Propel\Runtime\ActiveQuery\QueryExecutor\DeleteAllQueryExecutor;
 use Propel\Runtime\ActiveQuery\QueryExecutor\DeleteQueryExecutor;
@@ -961,6 +963,17 @@ class Criteria
      */
     public function add($p1, $value = null, $comparison = null)
     {
+        if ($comparison === self::CUSTOM) {
+            trigger_deprecation(
+                'maturix/propel',
+                '3.0',
+                'Criteria::add($name, $sql, Criteria::CUSTOM) interpolates raw SQL — '
+                . 'vulnerable to injection. Use Criteria::customCondition($name, $sql, $params) '
+                . 'instead. Removal of raw CUSTOM is not currently scheduled, but new code '
+                . 'should use the parameterized form.',
+            );
+        }
+
         if ($p1 instanceof AbstractCriterion) {
             $this->map[$p1->getTable() . '.' . $p1->getColumn()] = $p1;
         } else {
@@ -1006,6 +1019,61 @@ class Criteria
         $this->namedCriterions[$name] = $this->getCriterionForCondition($p1, $value, $comparison);
 
         return $this;
+    }
+
+    /**
+     * Add a parameterized custom WHERE condition — Phase F.7 alternative to
+     * `Criteria::add($name, $sql, Criteria::CUSTOM)`.
+     *
+     * The $sql fragment uses positional `?` placeholders; $params supplies the
+     * bind values in order. Internally builds a CustomCriterion that routes
+     * through the standard prepared-statement binding pipeline used by
+     * BasicCriterion / InCriterion. Closes umbrella §6.2 risk #2.
+     *
+     * Heuristic safety check: when the SQL contains a single-quote that is NOT
+     * inside a recognized SQL token, an UnsafeCustomConditionException is
+     * thrown. The caller can opt out via $allowRawSql=true after auditing that
+     * the SQL contains no user input.
+     *
+     * @api Tier 1 additive (new method).
+     *
+     * @param string $name Condition name (e.g. 'price_in_range').
+     * @param string $sql SQL fragment with `?` placeholders for $params.
+     * @param array<int|string, mixed> $params Bind values (in $sql placeholder order).
+     * @param bool $allowRawSql When true, skips the heuristic check on $sql.
+     *
+     * @throws \Propel\Runtime\ActiveQuery\Criterion\Exception\UnsafeCustomConditionException
+     *
+     * @return static
+     */
+    public function customCondition(string $name, string $sql, array $params = [], bool $allowRawSql = false): static
+    {
+        if (!$allowRawSql && $params === [] && $this->looksLikeUnsafeRawSql($sql)) {
+            throw new UnsafeCustomConditionException(
+                'customCondition($name, $sql, $params) refuses raw SQL containing literal quotes when '
+                . 'no $params are supplied — likely interpolation hazard. Pass $params with placeholders, '
+                . 'or set $allowRawSql=true after auditing.',
+            );
+        }
+
+        $criterion = new CustomCriterion($this, $sql, array_values($params));
+        $this->namedCriterions[$name] = $criterion;
+
+        return $this;
+    }
+
+    /**
+     * Heuristic — flags SQL that contains literal single/double quotes (likely
+     * interpolated user input). Conservative: rejects all such SQL when called
+     * without $params. Bypassable via $allowRawSql=true.
+     *
+     * @param string $sql
+     *
+     * @return bool
+     */
+    private function looksLikeUnsafeRawSql(string $sql): bool
+    {
+        return str_contains($sql, "'") || str_contains($sql, '"');
     }
 
     /**
