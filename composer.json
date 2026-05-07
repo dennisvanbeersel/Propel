@@ -42,10 +42,14 @@
         "symfony/phpunit-bridge": "^7.2",
         "infection/infection": "^0.29",
         "deptrac/deptrac": "^2.0",
-        "innmind/black-box": "^6.0"
+        "innmind/black-box": "^6.0",
+        "open-telemetry/sdk": "^1.0",
+        "promphp/prometheus_client_php": "^2.10"
     },
     "suggest": {
-        "monolog/monolog": "The recommended logging library to use with Propel."
+        "monolog/monolog": "The recommended logging library to use with Propel.",
+        "open-telemetry/sdk": "Install to enable OpenTelemetry telemetry adapter (Propel\\Runtime\\Telemetry\\Otel\\OtelTelemetry).",
+        "promphp/prometheus_client_php": "Install to enable Prometheus telemetry adapter (Propel\\Runtime\\Telemetry\\Prometheus\\PrometheusTelemetry)."
     },
     "autoload": {
         "psr-4": {
