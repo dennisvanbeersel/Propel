@@ -46,6 +46,32 @@ class MigrationManager extends AbstractManager
     protected const COL_EXECUTION_DATETIME = 'execution_datetime';
 
     /**
+     * Phase H: human-readable suffix from the migration filename
+     * (e.g. PropelMigration_1234567890_add_users.php → "add_users").
+     *
+     * @var string
+     */
+    protected const COL_MIGRATION_NAME = 'migration_name';
+
+    /**
+     * Phase H: groups migrations applied in the same `migration:migrate`
+     * invocation; enables batch-aware rollback. Legacy rows backfill to
+     * batch=1; baseline rows have batch=0.
+     *
+     * @var string
+     */
+    protected const COL_BATCH = 'batch';
+
+    /**
+     * Phase H: SHA-256 hex digest over the migration file's normalized
+     * body (php_strip_whitespace output). Recorded at apply time, verified
+     * at next-run time. NULL on legacy rows + baseline rows.
+     *
+     * @var string
+     */
+    protected const COL_CHECKSUM = 'checksum';
+
+    /**
      * @var string
      */
     protected const EXECUTION_DATETIME_FORMAT = 'Y-m-d H:i:s';
@@ -288,6 +314,10 @@ class MigrationManager extends AbstractManager
 
         $table->addColumn($this->createVersionColumn($platform));
         $table->addColumn($this->createExecutionDatetimeColumn($platform));
+        // Phase H: new tables ship with the full schema from day one.
+        $table->addColumn($this->createMigrationNameColumn($platform));
+        $table->addColumn($this->createBatchColumn($platform));
+        $table->addColumn($this->createChecksumColumn($platform));
 
         // insert the table into the database
         $statements = $platform->getAddTableDDL($table);
@@ -653,6 +683,18 @@ class MigrationManager extends AbstractManager
     }
 
     /**
+     * Bring an existing migration table up to the current schema in-place.
+     *
+     * Phase A added `execution_datetime`. Phase H adds `migration_name`,
+     * `batch`, `checksum`. Each missing column is detected independently
+     * via `columnExists()` and added with `ALTER TABLE ADD COLUMN` so that
+     * existing consumer databases upgrade transparently on next migrate.
+     *
+     * Pre-existing rows are backfilled where possible:
+     *   - `migration_name` is derived from the on-disk filename suffix
+     *   - `batch` defaults to 1 (column DEFAULT)
+     *   - `checksum` is left NULL (verified-on-next-apply, not retroactive)
+     *
      * @param string $datasource
      *
      * @throws \RuntimeException
@@ -662,26 +704,93 @@ class MigrationManager extends AbstractManager
     public function modifyMigrationTableIfOutdated(string $datasource): void
     {
         $connection = $this->getAdapterConnection($datasource);
+        /** @var \Propel\Generator\Platform\DefaultPlatform $platform */
+        $platform = $this->getPlatform($datasource);
 
-        if ($this->columnExists($connection, static::COL_EXECUTION_DATETIME)) {
+        $columnSpecs = [
+            static::COL_EXECUTION_DATETIME => fn (): Column => $this->createExecutionDatetimeColumn($platform),
+            static::COL_MIGRATION_NAME => fn (): Column => $this->createMigrationNameColumn($platform),
+            static::COL_BATCH => fn (): Column => $this->createBatchColumn($platform),
+            static::COL_CHECKSUM => fn (): Column => $this->createChecksumColumn($platform),
+        ];
+
+        $addedAny = false;
+        foreach ($columnSpecs as $columnName => $factory) {
+            if ($this->columnExists($connection, $columnName)) {
+                continue;
+            }
+            $table = new Table($this->getMigrationTable());
+            $column = $factory();
+            $column->setTable($table);
+            $sql = $platform->getAddColumnDDL($column);
+            $stmt = $connection->prepare($sql);
+            if ($stmt === false) {
+                throw new RuntimeException('PdoConnection::prepare() failed and did not return statement object for execution.');
+            }
+            $stmt->execute();
+            $addedAny = true;
+        }
+
+        if ($addedAny) {
+            $this->backfillMigrationNamesIfNeeded($datasource);
+        }
+    }
+
+    /**
+     * After Phase H's column-add path, fill `migration_name` for any row
+     * that was inserted under the legacy two-column schema (`migration_name`
+     * defaults to ''; we look up the on-disk filename suffix).
+     *
+     * @param string $datasource
+     *
+     * @return void
+     */
+    protected function backfillMigrationNamesIfNeeded(string $datasource): void
+    {
+        $connection = $this->getAdapterConnection($datasource);
+        $platform = $this->getPlatform($datasource);
+
+        // Empty-string default OR NULL — both are "needs backfill". Plain
+        // SQL literal is safe across MySQL/PG/SQLite.
+        $selectSql = sprintf(
+            'SELECT %s FROM %s WHERE %s = \'\' OR %s IS NULL',
+            $platform->doQuoting(static::COL_VERSION),
+            $this->getMigrationTable(),
+            $platform->doQuoting(static::COL_MIGRATION_NAME),
+            $platform->doQuoting(static::COL_MIGRATION_NAME),
+        );
+
+        $stmt = $connection->prepare($selectSql);
+        if ($stmt === false) {
+            return;
+        }
+        $stmt->execute();
+        $rows = $stmt->fetchAll(PDO::FETCH_COLUMN);
+        if ($rows === []) {
             return;
         }
 
-        $table = new Table($this->getMigrationTable());
+        $updateSql = sprintf(
+            'UPDATE %s SET %s = ? WHERE %s = ?',
+            $this->getMigrationTable(),
+            $platform->doQuoting(static::COL_MIGRATION_NAME),
+            $platform->doQuoting(static::COL_VERSION),
+        );
 
-        $platform = $this->getPlatform($datasource);
-        $column = $this->createExecutionDatetimeColumn($platform);
-        $column->setTable($table);
-
-        /** @phpstan-var \Propel\Generator\Platform\DefaultPlatform $platform */
-        $sql = $platform->getAddColumnDDL($column);
-        $stmt = $connection->prepare($sql);
-
-        if ($stmt === false) {
-            throw new RuntimeException('PdoConnection::prepare() failed and did not return statement object for execution.');
+        foreach ($rows as $version) {
+            $timestamp = (int)$version;
+            $suffix = $this->findMigrationClassNameSuffix($timestamp);
+            if ($suffix === '') {
+                continue;
+            }
+            $update = $connection->prepare($updateSql);
+            if ($update === false) {
+                continue;
+            }
+            $update->bindValue(1, $suffix);
+            $update->bindValue(2, $timestamp, PDO::PARAM_INT);
+            $update->execute();
         }
-
-        $stmt->execute();
     }
 
     /**
@@ -752,6 +861,62 @@ class MigrationManager extends AbstractManager
     {
         $column = new Column(static::COL_EXECUTION_DATETIME);
         $column->getDomain()->copy($platform->getDomainForType('DATETIME'));
+
+        return $column;
+    }
+
+    /**
+     * Phase H: VARCHAR(255) NOT NULL DEFAULT '' — populated from the
+     * filename suffix when the migration is recorded.
+     *
+     * @param \Propel\Generator\Platform\PlatformInterface $platform
+     *
+     * @return \Propel\Generator\Model\Column
+     */
+    protected function createMigrationNameColumn(PlatformInterface $platform): Column
+    {
+        $column = new Column(static::COL_MIGRATION_NAME);
+        $column->getDomain()->copy($platform->getDomainForType('VARCHAR'));
+        $column->getDomain()->setSize(255);
+        $column->setDefaultValue('');
+        $column->setNotNull(true);
+
+        return $column;
+    }
+
+    /**
+     * Phase H: INTEGER NOT NULL DEFAULT 1 — groups migrations applied in
+     * the same `migration:migrate` invocation. Legacy rows backfill to 1;
+     * baseline rows have 0.
+     *
+     * @param \Propel\Generator\Platform\PlatformInterface $platform
+     *
+     * @return \Propel\Generator\Model\Column
+     */
+    protected function createBatchColumn(PlatformInterface $platform): Column
+    {
+        $column = new Column(static::COL_BATCH);
+        $column->getDomain()->copy($platform->getDomainForType('INTEGER'));
+        $column->setDefaultValue('1');
+        $column->setNotNull(true);
+
+        return $column;
+    }
+
+    /**
+     * Phase H: CHAR(64) NULL — SHA-256 hex digest over the migration
+     * file's normalized body, recorded at apply time. NULL on legacy +
+     * baseline rows (no recorded checksum yet).
+     *
+     * @param \Propel\Generator\Platform\PlatformInterface $platform
+     *
+     * @return \Propel\Generator\Model\Column
+     */
+    protected function createChecksumColumn(PlatformInterface $platform): Column
+    {
+        $column = new Column(static::COL_CHECKSUM);
+        $column->getDomain()->copy($platform->getDomainForType('CHAR'));
+        $column->getDomain()->setSize(64);
 
         return $column;
     }
