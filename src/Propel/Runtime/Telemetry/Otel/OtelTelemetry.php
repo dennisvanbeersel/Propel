@@ -48,6 +48,12 @@ use Throwable;
  *   - `propel.replica.routing` (counter; decision + reason labels)
  *   - `propel.identity.generation.duration` (histogram, ms; strategy label)
  *
+ * Concurrency assumption: single-fiber-per-connection. The
+ * {@see self::recordTransactionDepth()} delta computation maintains a
+ * mutable `$lastTxDepth` and is NOT safe for fiber-shared use. Phase J
+ * will revisit when worker-mode/fiber semantics land — Round 1 SHOULD-FIX
+ * O.6 (see `docs/reviews/I-round-1-architecture.md`).
+ *
  * @api Tier 2 — instantiable when `open-telemetry/sdk` ^1.0 is installed.
  */
 final class OtelTelemetry implements TelemetryInterface
@@ -155,6 +161,11 @@ final class OtelTelemetry implements TelemetryInterface
     #[\Override]
     public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
     {
+        // PHASE J: spans are NOT activated on a Context scope here; nested
+        // spans (e.g., contained queries inside a transaction) won't see the
+        // outer span as parent. Phase J's fiber-safe context binding is
+        // required for correct parent-child propagation. Tracked as Phase I
+        // Round 1 SHOULD-FIX O.3 (see docs/reviews/I-round-1-architecture.md).
         $sdkSpan = $this->tracer->spanBuilder('propel.' . $callingMethod)
             ->setSpanKind(SpanKind::KIND_CLIENT)
             ->setAttribute('db.system', 'propel')

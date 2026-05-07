@@ -65,8 +65,17 @@ interface TelemetryInterface
     /**
      * Close a span previously opened by {@see self::startQuerySpan()}.
      *
-     * @param object $span Handle returned by `startQuerySpan`. Accepted as `object` for BC with the
-     *                     Phase E stub signature; concrete implementations expect a `SpanInterface`.
+     * BC NOTE: the parameter type is `object` rather than `SpanInterface`
+     * for backward compatibility with the Phase E 2-method stub signature.
+     * Phase I Round 1 review (`docs/reviews/I-round-1-architecture.md`,
+     * finding A.3) considered narrowing this to `SpanInterface` and
+     * rejected: tightening here would be a Tier 2 SPI break with no
+     * payoff because every concrete adapter already `instanceof`-checks
+     * the handle and gracefully no-ops on a foreign one.
+     *
+     * @param object $span Handle returned by `startQuerySpan`. Concrete implementations
+     *                     expect their own `SpanInterface` subtype and silently ignore
+     *                     handles minted by a different adapter.
      * @param float $durationSeconds Duration in fractional seconds.
      * @param \Throwable|null $error Set when the operation threw.
      *
