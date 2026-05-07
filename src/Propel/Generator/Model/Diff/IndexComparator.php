@@ -93,6 +93,6 @@ class IndexComparator
         }
         $collapsed = preg_replace('/\s+/', ' ', trim($clause));
 
-        return $collapsed === null ? $clause : $collapsed;
+        return $collapsed ?? $clause;
     }
 }

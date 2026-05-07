@@ -10,6 +10,8 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\Telemetry;
 
+use Throwable;
+
 /**
  * Tier 2 SPI per umbrella spec §2.5.
  *
@@ -47,5 +49,5 @@ interface TelemetryInterface
      *
      * @return void
      */
-    public function endQuerySpan(object $span, float $durationSeconds, ?\Throwable $error = null): void;
+    public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void;
 }

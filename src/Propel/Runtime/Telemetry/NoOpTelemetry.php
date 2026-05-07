@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Runtime\Telemetry;
 
 use stdClass;
+use Throwable;
 
 /**
  * No-op default implementation of {@see TelemetryInterface}.
@@ -42,7 +43,7 @@ final class NoOpTelemetry implements TelemetryInterface
      * @return void
      */
     #[\Override]
-    public function endQuerySpan(object $span, float $durationSeconds, ?\Throwable $error = null): void
+    public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
     {
         // Intentionally empty.
     }
