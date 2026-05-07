@@ -87,6 +87,8 @@ final class ProfilingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function getQueryCount(): int
@@ -95,6 +97,8 @@ final class ProfilingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return float Cumulative profiled duration in seconds.
      */
     public function getTotalDurationSeconds(): float
@@ -105,6 +109,8 @@ final class ProfilingConnection extends AbstractConnectionDecorator
     /**
      * Returns a snapshot of histogram bucket counts.
      *
+     * @psalm-api
+     *
      * @return array<int, int>
      */
     public function getBucketCounts(): array
@@ -113,6 +119,8 @@ final class ProfilingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return array<int, float>
      */
     public function getBuckets(): array

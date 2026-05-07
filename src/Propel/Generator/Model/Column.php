@@ -1617,6 +1617,8 @@ class Column extends MappingModel
     /**
      * Phase C (umbrella §6.4): set this column as a generated column.
      *
+     * @psalm-api
+     *
      * @param string $kind 'virtual' or 'stored'
      * @param string $expression SQL expression
      *
@@ -1649,6 +1651,8 @@ class Column extends MappingModel
 
     /**
      * Phase C (umbrella §6.4): toggle INVISIBLE flag on the column.
+     *
+     * @psalm-api
      *
      * @param bool $flag
      *

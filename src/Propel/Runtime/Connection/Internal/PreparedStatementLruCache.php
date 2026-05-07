@@ -137,6 +137,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @param string $key
      *
      * @return bool
@@ -155,6 +157,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function size(): int
@@ -163,6 +167,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function capacity(): int
@@ -171,6 +177,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function hits(): int
@@ -179,6 +187,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function misses(): int
@@ -187,6 +197,8 @@ final class PreparedStatementLruCache
     }
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function evictions(): int
@@ -196,6 +208,8 @@ final class PreparedStatementLruCache
 
     /**
      * Test/telemetry-only: returns keys ordered LRU-first to MRU-last.
+     *
+     * @psalm-api
      *
      * @return array<int, string>
      */

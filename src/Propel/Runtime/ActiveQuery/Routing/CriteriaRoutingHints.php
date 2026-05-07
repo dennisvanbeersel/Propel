@@ -34,6 +34,8 @@ trait CriteriaRoutingHints
      * Forces this query to run on the primary connection regardless of
      * read/write classification or session-consistency state.
      *
+     * @psalm-api
+     *
      * @return static
      */
     public function forcePrimary(): static
@@ -47,6 +49,8 @@ trait CriteriaRoutingHints
      * Allows this query to run on a replica when otherwise eligible.
      * Overrides the session-consistency window (use with care).
      *
+     * @psalm-api
+     *
      * @return static
      */
     public function allowReplica(): static
@@ -59,6 +63,8 @@ trait CriteriaRoutingHints
     /**
      * Returns the current routing hint: `'force-primary'`,
      * `'allow-replica'`, or `'auto'`.
+     *
+     * @psalm-api
      *
      * @return string
      */

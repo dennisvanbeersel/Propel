@@ -89,6 +89,8 @@ final class CodeEmitter
      * leading common indentation is stripped first so callers can write
      * naturally indented PHP source inside the heredoc.
      *
+     * @psalm-api
+     *
      * @param string $multilineCode
      *
      * @return $this
@@ -207,6 +209,8 @@ final class CodeEmitter
     /**
      * Current indent level (read-only).
      *
+     * @psalm-api
+     *
      * @return int
      */
     public function getIndent(): int
@@ -257,6 +261,8 @@ final class CodeEmitter
      *   - 'default' (optional): PHP-source-formatted default expression
      *   - 'byRef' (optional): if true, prefix with `&`
      *   - 'variadic' (optional): if true, prefix with `...`
+     *
+     * @psalm-api
      *
      * @param string $name
      * @param string $visibility
@@ -323,6 +329,8 @@ final class CodeEmitter
      * Accepts either bare names (`foo`) or already-prefixed (`$foo`).
      * Throws on invalid identifiers.
      *
+     * @psalm-api
+     *
      * @param string $name
      *
      * @throws \Propel\Generator\Exception\InvalidArgumentException
@@ -345,6 +353,8 @@ final class CodeEmitter
      *
      * Same as `phpString()` but the contract is documented for SQL-identifier
      * use sites — escaping rules are identical (single-quoted PHP literal).
+     *
+     * @psalm-api
      *
      * @param string $name
      *

@@ -243,6 +243,8 @@ interface PlatformInterface
      * Phase C (umbrella §6.4): does this platform emit GENERATED columns (virtual/stored)?
      * MySQL/MariaDB and PostgreSQL return true; SQLite false (frozen-feature stance).
      *
+     * @psalm-api
+     *
      * @return bool
      */
     public function supportsGeneratedColumns(): bool;
@@ -251,6 +253,8 @@ interface PlatformInterface
      * Phase C (umbrella §6.4): does this platform emit INVISIBLE columns?
      * MySQL 8 / MariaDB 10.3+ return true; PostgreSQL false; SQLite false.
      *
+     * @psalm-api
+     *
      * @return bool
      */
     public function supportsInvisibleColumns(): bool;
@@ -258,6 +262,8 @@ interface PlatformInterface
     /**
      * Phase C (umbrella §6.4): does this platform emit CHECK constraints?
      * MySQL 8.0.16+, MariaDB 10.5+, PostgreSQL all true; SQLite false (frozen).
+     *
+     * @psalm-api
      *
      * @return bool
      */

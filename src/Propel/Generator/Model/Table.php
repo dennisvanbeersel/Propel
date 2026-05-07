@@ -1146,6 +1146,8 @@ class Table extends ScopedMappingModel implements IdMethod
      * the <check> XML element). Column-scoped <check> elements are flattened
      * here so the table holds a single canonical list.
      *
+     * @psalm-api
+     *
      * @param \Propel\Generator\Model\CheckConstraint|array $check
      *
      * @throws \Propel\Generator\Exception\InvalidArgumentException when a duplicate name is added

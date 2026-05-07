@@ -68,6 +68,8 @@ final class CachingConnection extends AbstractConnectionDecorator
     /**
      * Returns the underlying LRU cache for telemetry / introspection.
      *
+     * @psalm-api
+     *
      * @return \Propel\Runtime\Connection\Internal\PreparedStatementLruCache
      */
     public function getCache(): PreparedStatementLruCache
@@ -77,6 +79,8 @@ final class CachingConnection extends AbstractConnectionDecorator
 
     /**
      * Toggles statement caching on/off (Tier 2 BC: ConnectionWrapper-style).
+     *
+     * @psalm-api
      *
      * @param bool $enabled
      *
@@ -91,6 +95,8 @@ final class CachingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return bool
      */
     public function isCachePreparedStatements(): bool
@@ -100,6 +106,8 @@ final class CachingConnection extends AbstractConnectionDecorator
 
     /**
      * Drops every cache entry (BC: matches ConnectionWrapper::clearStatementCache).
+     *
+     * @psalm-api
      *
      * @return void
      */

@@ -72,6 +72,8 @@ enum JsonbOperator: string
     /**
      * Builds an SQL clause of the form: `<column> <op> <bind>`.
      *
+     * @psalm-api
+     *
      * @param string $column the qualified column reference (already quoted as needed)
      * @param self $op
      * @param string $bind the placeholder, typically a named placeholder like ":key" or "?"

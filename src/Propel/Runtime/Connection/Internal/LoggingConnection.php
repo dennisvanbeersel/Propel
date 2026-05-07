@@ -16,6 +16,7 @@ use Propel\Runtime\Telemetry\NoOpTelemetry;
 use Propel\Runtime\Telemetry\TelemetryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
+use Throwable;
 
 /**
  * Decorator owning PSR-3 logging + telemetry-stub hooks.
@@ -78,6 +79,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @param \Psr\Log\LoggerInterface $logger
      *
      * @return void
@@ -88,6 +91,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return \Psr\Log\LoggerInterface
      */
     public function getLogger(): LoggerInterface
@@ -96,6 +101,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @param array<int, string> $logMethods
      *
      * @return void
@@ -106,6 +113,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return array<int, string>
      */
     public function getLogMethods(): array
@@ -114,6 +123,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @param bool $enabled
      *
      * @return void
@@ -124,6 +135,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return bool
      */
     public function isEnabled(): bool
@@ -161,6 +174,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     /**
      * @param string $statement
      *
+     * @throws \Throwable when the inner exec fails
+     *
      * @return int
      */
     #[\Override]
@@ -172,17 +187,19 @@ final class LoggingConnection extends AbstractConnectionDecorator
 
         $span = $this->telemetry->startQuerySpan($statement, 'exec');
         $start = microtime(true);
+        $thrown = false;
         try {
             $result = $this->inner->exec($statement);
             $this->log($statement, 'exec');
 
             return $result;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            $thrown = true;
             $this->telemetry->endQuerySpan($span, microtime(true) - $start, $e);
 
             throw $e;
         } finally {
-            if (!isset($e)) {
+            if ($thrown === false) {
                 $this->telemetry->endQuerySpan($span, microtime(true) - $start);
             }
         }
@@ -191,6 +208,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
     /**
      * @param string $statement
      * @param array<int, mixed> $driverOptions
+     *
+     * @throws \Throwable when the inner prepare fails
      *
      * @return \Propel\Runtime\Connection\StatementInterface|\PDOStatement|false
      */
@@ -203,17 +222,19 @@ final class LoggingConnection extends AbstractConnectionDecorator
 
         $span = $this->telemetry->startQuerySpan($statement, 'prepare');
         $start = microtime(true);
+        $thrown = false;
         try {
             $result = $this->inner->prepare($statement, $driverOptions);
             $this->log($statement, 'prepare');
 
             return $result;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            $thrown = true;
             $this->telemetry->endQuerySpan($span, microtime(true) - $start, $e);
 
             throw $e;
         } finally {
-            if (!isset($e)) {
+            if ($thrown === false) {
                 $this->telemetry->endQuerySpan($span, microtime(true) - $start);
             }
         }
@@ -221,6 +242,8 @@ final class LoggingConnection extends AbstractConnectionDecorator
 
     /**
      * @param string $statement
+     *
+     * @throws \Throwable when the inner query fails
      *
      * @return \Propel\Runtime\DataFetcher\DataFetcherInterface|\PDOStatement|false
      */
@@ -233,17 +256,19 @@ final class LoggingConnection extends AbstractConnectionDecorator
 
         $span = $this->telemetry->startQuerySpan($statement, 'query');
         $start = microtime(true);
+        $thrown = false;
         try {
             $result = $this->inner->query($statement);
             $this->log($statement, 'query');
 
             return $result;
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
+            $thrown = true;
             $this->telemetry->endQuerySpan($span, microtime(true) - $start, $e);
 
             throw $e;
         } finally {
-            if (!isset($e)) {
+            if ($thrown === false) {
                 $this->telemetry->endQuerySpan($span, microtime(true) - $start);
             }
         }

@@ -128,6 +128,8 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
     /**
      * Sets the per-query routing hint. Cleared after the next dispatch.
      *
+     * @psalm-api
+     *
      * @param string $hint One of HINT_FORCE_PRIMARY/HINT_ALLOW_REPLICA/HINT_AUTO.
      *
      * @return void
@@ -138,6 +140,8 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return \Propel\Runtime\Connection\Routing\RoutingDecision|null
      */
     public function getLastDecision(): ?RoutingDecision
@@ -146,6 +150,8 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return \Propel\Runtime\Connection\Routing\SessionConsistencyWindow
      */
     public function getSessionWindow(): SessionConsistencyWindow
@@ -154,6 +160,8 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return \Propel\Runtime\Connection\Routing\ReplicaLagSampler
      */
     public function getLagSampler(): ReplicaLagSampler

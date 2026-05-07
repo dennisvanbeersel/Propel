@@ -118,6 +118,8 @@ class CheckConstraint extends MappingModel
      * Sets the SQL expression. The expression is emitted verbatim to the
      * database; no parsing or escaping is performed by the model.
      *
+     * @psalm-api
+     *
      * @param string $expression
      *
      * @return void
@@ -144,6 +146,8 @@ class CheckConstraint extends MappingModel
      * false; SQLite is frozen and rejects CHECK declarations entirely (see
      * Phase C Group C.3 for platform DDL emission).
      *
+     * @psalm-api
+     *
      * @param bool $enforced
      *
      * @return void
@@ -162,6 +166,8 @@ class CheckConstraint extends MappingModel
     }
 
     /**
+     * @psalm-api
+     *
      * @return \Propel\Generator\Model\Table|null
      */
     public function getTable(): ?Table
@@ -185,6 +191,8 @@ class CheckConstraint extends MappingModel
      * Two CHECK constraints are equivalent when their expressions and
      * enforcement flags match. The auto-generated name is derived from the
      * expression and is therefore not compared independently.
+     *
+     * @psalm-api
      *
      * @param self $other
      *

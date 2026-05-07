@@ -46,6 +46,8 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     private bool $isUncommitable = false;
 
     /**
+     * @psalm-api
+     *
      * @return int
      */
     public function getNestedTransactionCount(): int
@@ -62,6 +64,8 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-api
+     *
      * @return bool True iff inside a transaction AND no nested rollback has tainted it.
      */
     public function isCommitable(): bool
@@ -137,6 +141,8 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     /**
      * Rollback the whole transaction regardless of nesting level. Resets
      * `$nestedTransactionCount` to 0.
+     *
+     * @psalm-api
      *
      * @return bool
      */
