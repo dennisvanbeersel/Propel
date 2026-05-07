@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\Adapter;
 
+use PDOStatement;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Lock;
 use Propel\Runtime\Connection\StatementInterface;
@@ -122,19 +123,19 @@ interface SqlAdapterInterface extends AdapterInterface
      * $stmt->execute();
      * </code>
      *
-     * @param \Propel\Runtime\Connection\StatementInterface $stmt
+     * @param \Propel\Runtime\Connection\StatementInterface|\PDOStatement $stmt
      * @param array $params array('column' => ..., 'table' => ..., 'value' => ...)
      * @param \Propel\Runtime\Map\DatabaseMap $dbMap
      *
      * @return void
      */
-    public function bindValues(StatementInterface $stmt, array $params, DatabaseMap $dbMap): void;
+    public function bindValues(StatementInterface|PDOStatement $stmt, array $params, DatabaseMap $dbMap): void;
 
     /**
      * Binds a value to a positioned parameter in a statement,
      * given a ColumnMap object to infer the binding type.
      *
-     * @param \Propel\Runtime\Connection\StatementInterface $stmt The statement to bind
+     * @param \Propel\Runtime\Connection\StatementInterface|\PDOStatement $stmt The statement to bind
      * @param string $parameter Parameter identifier
      * @param mixed $value The value to bind
      * @param \Propel\Runtime\Map\ColumnMap $cMap The ColumnMap of the column to bind
@@ -142,7 +143,7 @@ interface SqlAdapterInterface extends AdapterInterface
      *
      * @return bool
      */
-    public function bindValue(StatementInterface $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool;
+    public function bindValue(StatementInterface|PDOStatement $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool;
 
     /**
      * Indicates if the database system can process DELETE statements with

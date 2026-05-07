@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Runtime\Adapter\Pdo;
 
 use PDO;
+use PDOStatement;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Lock;
 use Propel\Runtime\Adapter\SqlAdapterInterface;
@@ -159,7 +160,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
     /**
      * @see SqlAdapterInterface::bindValue()
      *
-     * @param \Propel\Runtime\Connection\StatementInterface $stmt
+     * @param \Propel\Runtime\Connection\StatementInterface|\PDOStatement $stmt
      * @param string $parameter
      * @param mixed $value
      * @param \Propel\Runtime\Map\ColumnMap $cMap
@@ -168,7 +169,7 @@ class MysqlAdapter extends PdoAdapter implements SqlAdapterInterface
      * @return bool
      */
     #[\Override]
-    public function bindValue(StatementInterface $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool
+    public function bindValue(StatementInterface|PDOStatement $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool
     {
         $pdoType = $cMap->getPdoType();
         // FIXME - This is a temporary hack to get around apparent bugs w/ PDO+MYSQL

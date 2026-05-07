@@ -220,7 +220,7 @@ class SqliteSchemaParser extends AbstractSchemaParser
             } else {
                 $type = $fulltype;
             }
-            $notNull = $row['notnull'];
+            $notNull = (bool)$row['notnull'];
             $default = $row['dflt_value'];
 
             $propelType = $this->getMappedPropelType(strtolower($type));

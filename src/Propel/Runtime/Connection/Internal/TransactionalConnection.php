@@ -14,6 +14,7 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Connection\Exception\RollbackException;
 use Propel\Runtime\Telemetry\NoOpTelemetry;
 use Propel\Runtime\Telemetry\TelemetryInterface;
+use Throwable;
 
 /**
  * Decorator owning nested-transaction accounting.
@@ -70,6 +71,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
      *
      * @return int
      */
+    #[\Override]
     public function getNestedTransactionCount(): int
     {
         return $this->nestedTransactionCount;
@@ -88,6 +90,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
      *
      * @return bool True iff inside a transaction AND no nested rollback has tainted it.
      */
+    #[\Override]
     public function isCommitable(): bool
     {
         return $this->isInTransaction() && !$this->isUncommitable;
@@ -159,6 +162,37 @@ final class TransactionalConnection extends AbstractConnectionDecorator
         }
 
         return $return;
+    }
+
+    /**
+     * Override AbstractConnectionDecorator's passthrough so the callable runs
+     * inside our nested-tx-aware begin/commit cycle rather than the inner
+     * PdoConnection's bare PDO begin/commit. Without this override, callers
+     * that combine an outer ->beginTransaction() with an inner ->transaction()
+     * (e.g. test setUp + AR doInsert) would fault with "active transaction".
+     *
+     * @param callable $callable
+     *
+     * @throws \Throwable Re-throws any exception the callable raises.
+     *
+     * @return mixed
+     */
+    #[\Override]
+    public function transaction(callable $callable)
+    {
+        $this->beginTransaction();
+
+        try {
+            $result = $callable();
+
+            $this->commit();
+
+            return $result;
+        } catch (Throwable $e) {
+            $this->rollBack();
+
+            throw $e;
+        }
     }
 
     /**

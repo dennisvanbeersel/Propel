@@ -108,6 +108,138 @@ abstract class AbstractConnectionDecorator implements ConnectionDecoratorInterfa
     }
 
     /**
+     * Walks the decorator chain looking for a layer (e.g. TransactionalConnection)
+     * that owns nested-transaction accounting. Returns false if no such layer exists.
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function isCommitable(): bool
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'isCommitable')) {
+            return (bool)$inner->isCommitable();
+        }
+
+        return false;
+    }
+
+    /**
+     * Chain-walking BC passthrough: defers to a TransactionalConnection layer
+     * if the chain has one, returns 0 otherwise.
+     *
+     * @psalm-api
+     *
+     * @return int
+     */
+    public function getNestedTransactionCount(): int
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'getNestedTransactionCount')) {
+            return (int)$inner->getNestedTransactionCount();
+        }
+
+        return 0;
+    }
+
+    /**
+     * Chain-walking BC passthrough: defers to a ProfilingConnection layer if
+     * the chain has one, returns 0 otherwise.
+     *
+     * @psalm-api
+     *
+     * @return int
+     */
+    public function getQueryCount(): int
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'getQueryCount')) {
+            return (int)$inner->getQueryCount();
+        }
+
+        return 0;
+    }
+
+    /**
+     * Chain-walking BC passthrough: defers to a LoggingConnection layer if the
+     * chain has one, returns an empty string otherwise.
+     *
+     * @psalm-api
+     *
+     * @return string
+     */
+    public function getLastExecutedQuery(): string
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'getLastExecutedQuery')) {
+            return (string)$inner->getLastExecutedQuery();
+        }
+
+        return '';
+    }
+
+    /**
+     * Chain-walking BC passthrough: returns the innermost wrapped connection.
+     * Mirrors the legacy `ConnectionWrapper::getWrappedConnection()` helper used
+     * by tests that need raw PDO access.
+     *
+     * @psalm-api
+     *
+     * @return \Propel\Runtime\Connection\ConnectionInterface
+     */
+    public function getWrappedConnection(): ConnectionInterface
+    {
+        $inner = $this->inner;
+        while ($inner instanceof self) {
+            $inner = $inner->getInner();
+        }
+
+        return $inner;
+    }
+
+    /**
+     * Chain-walking BC passthrough: defers to any decorator implementing
+     * `useDebug`, no-ops otherwise. Pre-Phase-E ConnectionWrapper toggled SQL
+     * logging via this method; the modern decorator chain wires logging through
+     * `LoggingConnection::setEnabled()` instead.
+     *
+     * @psalm-api
+     *
+     * @param bool|null $value
+     *
+     * @return void
+     */
+    public function useDebug(?bool $value = true): void
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'useDebug')) {
+            $inner->useDebug($value);
+        }
+    }
+
+    /**
+     * Chain-walking BC passthrough: returns true iff any decorator below this
+     * one reports debug mode (typically a LoggingConnection that is enabled).
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function isInDebugMode(): bool
+    {
+        $inner = $this->inner;
+        if (method_exists($inner, 'isInDebugMode')) {
+            return (bool)$inner->isInDebugMode();
+        }
+        if (method_exists($inner, 'isEnabled')) {
+            return (bool)$inner->isEnabled();
+        }
+
+        return false;
+    }
+
+    /**
      * @param int $attribute
      *
      * @return mixed

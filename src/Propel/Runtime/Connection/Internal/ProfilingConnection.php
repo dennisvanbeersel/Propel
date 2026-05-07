@@ -91,6 +91,7 @@ final class ProfilingConnection extends AbstractConnectionDecorator
      *
      * @return int
      */
+    #[\Override]
     public function getQueryCount(): int
     {
         return $this->queryCount;

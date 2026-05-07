@@ -657,8 +657,10 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
 
         // Temporal columns store DateTime objects at runtime even though their
         // declared phpType is 'string'. LOB / BLOB-style columns can hold streams.
-        // Both must remain untyped to preserve the storage contract.
-        if ($column->isTemporalType() || $column->isLobType()) {
+        // SET columns hold the raw bitmask string emitted by
+        // SetColumnConverter::convertToInt (which returns a string despite the
+        // name). All three must remain untyped to preserve the storage contract.
+        if ($column->isTemporalType() || $column->isLobType() || $column->isSetType()) {
             $typeDeclaration = null;
         } else {
             $typeDeclaration = match ($phpType) {

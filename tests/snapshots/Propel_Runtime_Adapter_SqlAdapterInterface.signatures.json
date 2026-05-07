@@ -85,7 +85,7 @@
             "parameters": [
                 {
                     "name": "stmt",
-                    "type": "Propel\\Runtime\\Connection\\StatementInterface",
+                    "type": "Propel\\Runtime\\Connection\\StatementInterface|PDOStatement",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
@@ -135,7 +135,7 @@
             "parameters": [
                 {
                     "name": "stmt",
-                    "type": "Propel\\Runtime\\Connection\\StatementInterface",
+                    "type": "Propel\\Runtime\\Connection\\StatementInterface|PDOStatement",
                     "default": null,
                     "byRef": false,
                     "variadic": false,

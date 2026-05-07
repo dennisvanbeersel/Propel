@@ -93,7 +93,7 @@ abstract class Book2 implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected ?int $style2 = null;
+    protected $style2;
 
     protected $style2_converted;
 

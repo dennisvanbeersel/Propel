@@ -241,7 +241,7 @@
                 },
                 {
                     "name": "defaultValue",
-                    "type": "?string",
+                    "type": null,
                     "default": "NULL",
                     "byRef": false,
                     "variadic": false,

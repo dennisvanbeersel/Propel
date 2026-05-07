@@ -482,15 +482,19 @@ class QueryBuilder extends AbstractOMBuilder
     {
         $classname = $this->getClassNameFromBuilder($this->getNewStubQueryBuilder($this->getTable()));
         $script .= "
-        if (\$criteria instanceof " . $classname . ") {
+        if (\$criteria instanceof static) {
             return \$criteria;
         }
-        \$query = new " . $classname . "();
+        if (\$criteria instanceof " . $classname . ") {
+            \$query = \$criteria;
+        } else {
+            \$query = new static();
+            if (\$criteria instanceof Criteria) {
+                \$query->mergeWith(\$criteria);
+            }
+        }
         if (null !== \$modelAlias) {
             \$query->setModelAlias(\$modelAlias);
-        }
-        if (\$criteria instanceof Criteria) {
-            \$query->mergeWith(\$criteria);
         }
 
         return \$query;";

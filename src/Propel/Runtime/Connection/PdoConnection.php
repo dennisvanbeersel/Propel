@@ -150,12 +150,17 @@ final class PdoConnection implements ConnectionInterface
     /**
      * @inheritDoc
      *
-     * @return \PDOStatement|false
+     * @return \Propel\Runtime\DataFetcher\DataFetcherInterface|false
      */
     #[\Override]
     public function query(string $statement)
     {
-        return $this->pdo->query($statement);
+        $stmt = $this->pdo->query($statement);
+        if ($stmt === false) {
+            return false;
+        }
+
+        return new PDODataFetcher($stmt);
     }
 
     /**
