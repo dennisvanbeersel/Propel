@@ -33,6 +33,7 @@ Includes:
 - `StatementWrapper`, `ConnectionWrapper`.
 - `ServiceContainerInterface`.
 - `Map\TableMap` public methods called from generated `*TableMap::initialize()`.
+- `Connection\ConnectionDecoratorInterface` (Phase E §2.1) — `getInner(): ConnectionInterface` signature is frozen for the 3.x line; method addition requires a deprecation runway; removal requires a major version bump.
 
 ## Tier 3 — Internal, free reign within SPI
 

@@ -55,6 +55,9 @@ Propel\Runtime\Connection\ConnectionManagerPrimaryReplica
 Propel\Runtime\Connection\ConnectionWrapper
 Propel\Runtime\Connection\StatementWrapper
 
+# Phase E (umbrella §2.1) — Decorator chain SPI for runtime Connection.
+Propel\Runtime\Connection\ConnectionDecoratorInterface
+
 # Exception hierarchy (caught by user code)
 Propel\Runtime\Exception\ExceptionInterface
 Propel\Runtime\Exception\PropelException
