@@ -655,6 +655,8 @@
       <code><![CDATA[getLocalValues]]></code>
       <code><![CDATA[getMappedLocalColumn]]></code>
       <code><![CDATA[getSchemaName]]></code>
+      <code><![CDATA[setDeferrable]]></code>
+      <code><![CDATA[setInitiallyDeferred]]></code>
       <code><![CDATA[setInterface]]></code>
       <code><![CDATA[setPhpName]]></code>
     </PossiblyUnusedMethod>
@@ -689,6 +691,8 @@
       <code><![CDATA[getTableName]]></code>
       <code><![CDATA[hasColumns]]></code>
       <code><![CDATA[setColumnObjects]]></code>
+      <code><![CDATA[setIndexType]]></code>
+      <code><![CDATA[setWhereClause]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/Inheritance.php">
@@ -790,6 +794,7 @@
   </file>
   <file src="src/Propel/Generator/Reverse/AbstractSchemaParser.php">
     <PossiblyUnusedMethod>
+      <code><![CDATA[detectUuidColumn]]></code>
       <code><![CDATA[getMappedNativeType]]></code>
       <code><![CDATA[hasPlatform]]></code>
     </PossiblyUnusedMethod>
