@@ -372,8 +372,9 @@ EOT;
             throw new RuntimeException('PdoConnection::query() did not return a result set as a statement object.');
         }
 
-        /** @phpstan-var string|null */
-        return $dataFetcher->fetchColumn();
+        $value = $dataFetcher->fetchColumn();
+
+        return $value === false ? null : (string)$value;
     }
 
     /**
@@ -402,8 +403,9 @@ EOT;
             throw new RuntimeException('PdoConnection::query() did not return a result set as a statement object.');
         }
 
-        /** @phpstan-var string|null */
-        return $dataFetcher->fetchColumn();
+        $value = $dataFetcher->fetchColumn();
+
+        return $value === false ? null : (string)$value;
     }
 
     /**

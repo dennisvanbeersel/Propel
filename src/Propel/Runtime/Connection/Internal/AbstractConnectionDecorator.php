@@ -72,6 +72,9 @@ abstract class AbstractConnectionDecorator implements ConnectionDecoratorInterfa
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @return bool
      */
     #[\Override]
@@ -81,6 +84,9 @@ abstract class AbstractConnectionDecorator implements ConnectionDecoratorInterfa
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @return bool
      */
     #[\Override]
@@ -90,6 +96,9 @@ abstract class AbstractConnectionDecorator implements ConnectionDecoratorInterfa
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @return bool
      */
     #[\Override]

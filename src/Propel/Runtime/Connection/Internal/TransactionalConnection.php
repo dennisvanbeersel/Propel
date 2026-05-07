@@ -97,6 +97,9 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @return bool
      */
     #[\Override]
@@ -114,6 +117,9 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @throws \Propel\Runtime\Connection\Exception\RollbackException When the
      *         outermost commit follows a nested rollback that tainted the tx.
      *
@@ -142,6 +148,9 @@ final class TransactionalConnection extends AbstractConnectionDecorator
     }
 
     /**
+     * @psalm-suppress PossiblyUnusedReturnValue ConnectionInterface contract
+     *                 — many call sites legitimately ignore the bool return.
+     *
      * @return bool
      */
     #[\Override]
