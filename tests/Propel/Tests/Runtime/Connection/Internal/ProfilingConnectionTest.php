@@ -13,9 +13,10 @@ namespace Propel\Tests\Runtime\Connection\Internal;
 use PHPUnit\Framework\TestCase;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Connection\Internal\ProfilingConnection;
+use Propel\Runtime\Telemetry\NoOpSpan;
+use Propel\Runtime\Telemetry\SpanInterface;
 use Propel\Runtime\Telemetry\TelemetryInterface;
 use RuntimeException;
-use stdClass;
 use Throwable;
 
 /**
@@ -134,14 +135,14 @@ class ProfilingConnectionTest extends TestCase
              * @param string $sql
              * @param string $callingMethod
              *
-             * @return object
+             * @return \Propel\Runtime\Telemetry\SpanInterface
              */
             #[\Override]
-            public function startQuerySpan(string $sql, string $callingMethod): object
+            public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
             {
                 $this->starts++;
 
-                return new stdClass();
+                return new NoOpSpan($sql, $callingMethod, microtime(true));
             }
 
             /**
@@ -155,6 +156,31 @@ class ProfilingConnectionTest extends TestCase
             public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
             {
                 $this->ends++;
+            }
+
+            #[\Override]
+            public function recordPreparedCacheHit(bool $hit): void
+            {
+            }
+
+            #[\Override]
+            public function recordTransactionDepth(int $depth): void
+            {
+            }
+
+            #[\Override]
+            public function recordHydrationDuration(string $class, float $microseconds): void
+            {
+            }
+
+            #[\Override]
+            public function recordReplicaRoutingDecision(string $decision, string $reason): void
+            {
+            }
+
+            #[\Override]
+            public function recordIdentityGeneration(string $strategy, float $microseconds): void
+            {
             }
         };
     }

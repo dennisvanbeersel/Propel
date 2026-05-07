@@ -10,14 +10,18 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\Telemetry;
 
-use stdClass;
 use Throwable;
 
 /**
  * No-op default implementation of {@see TelemetryInterface}.
  *
  * Phase E uses this everywhere a `TelemetryInterface` is optional. Phase I
- * replaces the default with real OpenTelemetry / Prometheus adapters.
+ * keeps it as the default for the zero-overhead path and ships real adapters
+ * (`OtelTelemetry`, `PrometheusTelemetry`) alongside.
+ *
+ * Phase I §I.1.1 promotes `startQuerySpan()`'s return type from `object` to
+ * `SpanInterface`. The narrowing is BC-safe — `SpanInterface IS-A object` —
+ * so existing decorator code continues to type-check.
  *
  * @api Tier 2 — instantiable contract for downstream noop usage.
  */
@@ -27,12 +31,12 @@ final class NoOpTelemetry implements TelemetryInterface
      * @param string $sql
      * @param string $callingMethod
      *
-     * @return object
+     * @return \Propel\Runtime\Telemetry\SpanInterface
      */
     #[\Override]
-    public function startQuerySpan(string $sql, string $callingMethod): object
+    public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
     {
-        return new stdClass();
+        return new NoOpSpan($sql, $callingMethod, microtime(true));
     }
 
     /**
@@ -44,6 +48,64 @@ final class NoOpTelemetry implements TelemetryInterface
      */
     #[\Override]
     public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
+    {
+        // Intentionally empty.
+    }
+
+    /**
+     * @param bool $hit
+     *
+     * @return void
+     */
+    #[\Override]
+    public function recordPreparedCacheHit(bool $hit): void
+    {
+        // Intentionally empty.
+    }
+
+    /**
+     * @param int $depth
+     *
+     * @return void
+     */
+    #[\Override]
+    public function recordTransactionDepth(int $depth): void
+    {
+        // Intentionally empty.
+    }
+
+    /**
+     * @param string $class
+     * @param float $microseconds
+     *
+     * @return void
+     */
+    #[\Override]
+    public function recordHydrationDuration(string $class, float $microseconds): void
+    {
+        // Intentionally empty.
+    }
+
+    /**
+     * @param string $decision
+     * @param string $reason
+     *
+     * @return void
+     */
+    #[\Override]
+    public function recordReplicaRoutingDecision(string $decision, string $reason): void
+    {
+        // Intentionally empty.
+    }
+
+    /**
+     * @param string $strategy
+     * @param float $microseconds
+     *
+     * @return void
+     */
+    #[\Override]
+    public function recordIdentityGeneration(string $strategy, float $microseconds): void
     {
         // Intentionally empty.
     }
