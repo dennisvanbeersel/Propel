@@ -16,6 +16,10 @@ use Propel\Runtime\Connection\Internal\LoggingConnection;
 use Propel\Runtime\Telemetry\NoOpTelemetry;
 use Propel\Runtime\Telemetry\TelemetryInterface;
 use Psr\Log\AbstractLogger;
+use RuntimeException;
+use stdClass;
+use Stringable;
+use Throwable;
 
 /**
  * Unit tests for {@see LoggingConnection}.
@@ -108,7 +112,7 @@ class LoggingConnectionTest extends TestCase
     public function testTelemetryHookCarriesErrorOnException(): void
     {
         $inner = $this->createMock(ConnectionInterface::class);
-        $inner->method('exec')->willThrowException(new \RuntimeException('boom'));
+        $inner->method('exec')->willThrowException(new RuntimeException('boom'));
 
         $telemetry = $this->makeRecordingTelemetry();
         $logging = new LoggingConnection($inner, null, $telemetry);
@@ -116,7 +120,7 @@ class LoggingConnectionTest extends TestCase
         $thrown = null;
         try {
             $logging->exec('BAD SQL');
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             $thrown = $e;
         }
 
@@ -160,12 +164,68 @@ class LoggingConnectionTest extends TestCase
     }
 
     /**
+     * Phase E §6.2 risk #1 follow-up: log emission paths cover prepare AND query
+     * (not just exec). Each path passes its own caller-method label.
+     *
+     * @return void
+     */
+    public function testPreparePathLogsWithExplicitMethodLabel(): void
+    {
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('prepare')->willReturn(false);
+
+        $logger = $this->makeRecordingLogger();
+        $logging = new LoggingConnection($inner, $logger);
+
+        $logging->prepare('SELECT 1 FROM t WHERE id = ?');
+        $this->assertSame(['SELECT 1 FROM t WHERE id = ?'], $logger->messages);
+    }
+
+    /**
+     * @return void
+     */
+    public function testQueryPathLogsWithExplicitMethodLabel(): void
+    {
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('query')->willReturn(false);
+
+        $logger = $this->makeRecordingLogger();
+        $logging = new LoggingConnection($inner, $logger);
+
+        $logging->query('SELECT NOW()');
+        $this->assertSame(['SELECT NOW()'], $logger->messages);
+    }
+
+    /**
+     * Telemetry hooks fire for prepare AND query, not just exec.
+     *
+     * @return void
+     */
+    public function testTelemetryHookFiresOnPrepareAndQuery(): void
+    {
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('prepare')->willReturn(false);
+        $inner->method('query')->willReturn(false);
+
+        $telemetry = $this->makeRecordingTelemetry();
+        $logging = new LoggingConnection($inner, null, $telemetry);
+
+        $logging->prepare('SELECT 1');
+        $logging->query('SELECT 2');
+
+        $this->assertSame(2, $telemetry->starts);
+        $this->assertSame(2, $telemetry->ends);
+    }
+
+    /**
      * @return object
      */
     private function makeRecordingLogger(): object
     {
         return new class extends AbstractLogger {
-            /** @var array<int, string> */
+            /**
+             * @var array<int, string>
+             */
             public array $messages = [];
 
             /**
@@ -176,7 +236,7 @@ class LoggingConnectionTest extends TestCase
              * @return void
              */
             #[\Override]
-            public function log($level, string|\Stringable $message, array $context = []): void
+            public function log($level, Stringable $message, array $context = []): void
             {
                 $this->messages[] = (string)$message;
             }
@@ -190,7 +250,9 @@ class LoggingConnectionTest extends TestCase
     {
         return new class implements TelemetryInterface {
             public int $starts = 0;
+
             public int $ends = 0;
+
             public ?\Throwable $lastError = null;
 
             /**
@@ -204,7 +266,7 @@ class LoggingConnectionTest extends TestCase
             {
                 $this->starts++;
 
-                return new \stdClass();
+                return new stdClass();
             }
 
             /**
@@ -215,7 +277,7 @@ class LoggingConnectionTest extends TestCase
              * @return void
              */
             #[\Override]
-            public function endQuerySpan(object $span, float $durationSeconds, ?\Throwable $error = null): void
+            public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
             {
                 $this->ends++;
                 $this->lastError = $error;
