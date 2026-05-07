@@ -34,6 +34,7 @@ Includes:
 - `ServiceContainerInterface`.
 - `Map\TableMap` public methods called from generated `*TableMap::initialize()`.
 - `Connection\ConnectionDecoratorInterface` (Phase E §2.1) — `getInner(): ConnectionInterface` signature is frozen for the 3.x line; method addition requires a deprecation runway; removal requires a major version bump.
+- **Phase F (umbrella §6.4) operator enums**: `ActiveQuery\Operator\Comparison`, `JoinType`, `SortOrder`, `LogicalOperator`. Backed-string enums whose `value` matches the corresponding `Criteria::*` constant. Case identifiers are frozen for the 3.x line. Removal of a case requires a deprecation runway. Addition of a case is BC-additive and goes alongside any new `Criteria::*` constant. The `Comparison::*->value === Criteria::*` contract is permanent.
 
 ## Tier 3 — Internal, free reign within SPI
 

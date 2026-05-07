@@ -84,6 +84,11 @@ Propel\Generator\Model\CheckConstraint
 # Phase C (umbrella §6.4) — Runtime SPI for the PG JSONB operator helper.
 Propel\Runtime\ActiveQuery\Operator\JsonbOperator
 
+# Phase F (umbrella §6.4) — Operator enums alongside Criteria::* constants. Backed-string
+# enums whose `value` matches the corresponding Criteria::* constant. Constants stay
+# frozen forever; enums are an additive Tier 2 surface for typed call sites.
+Propel\Runtime\ActiveQuery\Operator\Comparison
+
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
 Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
