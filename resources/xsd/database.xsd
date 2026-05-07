@@ -617,6 +617,28 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="deferrable" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase D (umbrella §6.4): PostgreSQL DEFERRABLE clause. Allowed values: DEFERRABLE, NOT DEFERRABLE. Honored by PgsqlPlatform; MySQL parses but ignores.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="DEFERRABLE"/>
+                    <xs:enumeration value="NOT DEFERRABLE"/>
+                    <xs:enumeration value="deferrable"/>
+                    <xs:enumeration value="not deferrable"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="initiallyDeferred" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase D (umbrella §6.4): PostgreSQL INITIALLY DEFERRED. Only meaningful when DEFERRABLE.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="external-schema">

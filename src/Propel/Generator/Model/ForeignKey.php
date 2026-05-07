@@ -102,6 +102,18 @@ class ForeignKey extends MappingModel
     private bool $autoNaming = false;
 
     /**
+     * Phase D (umbrella §6.4 carry-forward): PostgreSQL DEFERRABLE clause
+     * (`NOT DEFERRABLE` | `DEFERRABLE`). MySQL parses but ignores.
+     */
+    private ?string $deferrable = null;
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): PostgreSQL INITIALLY DEFERRED
+     * marker. Only meaningful when DEFERRABLE.
+     */
+    private ?bool $initiallyDeferred = null;
+
+    /**
      * Constructs a new ForeignKey object.
      *
      * @param string|null $name
@@ -133,6 +145,59 @@ class ForeignKey extends MappingModel
         $this->onUpdate = $this->normalizeFKey($this->getAttribute('onUpdate'));
         $this->onDelete = $this->normalizeFKey($this->getAttribute('onDelete'));
         $this->skipSql = $this->booleanValue($this->getAttribute('skipSql'));
+
+        // Phase D (umbrella §6.4 carry-forward): DEFERRABLE / INITIALLY DEFERRED
+        // (PG-only at the platform level; XSD additivity per umbrella §3.7).
+        $deferrable = $this->getAttribute('deferrable');
+        if ($deferrable !== null && $deferrable !== '') {
+            $this->deferrable = strtoupper($deferrable);
+        }
+        $initiallyDeferred = $this->getAttribute('initiallyDeferred');
+        if ($initiallyDeferred !== null && $initiallyDeferred !== '') {
+            $this->initiallyDeferred = $this->booleanValue($initiallyDeferred);
+        }
+    }
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): PostgreSQL DEFERRABLE clause.
+     * Returns 'DEFERRABLE' / 'NOT DEFERRABLE' / null.
+     *
+     * @return string|null
+     */
+    public function getDeferrable(): ?string
+    {
+        return $this->deferrable;
+    }
+
+    /**
+     * @param string|null $deferrable
+     *
+     * @return void
+     */
+    public function setDeferrable(?string $deferrable): void
+    {
+        $this->deferrable = $deferrable === null ? null : strtoupper($deferrable);
+    }
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): true when INITIALLY DEFERRED.
+     * Only meaningful when DEFERRABLE.
+     *
+     * @return bool|null
+     */
+    public function getInitiallyDeferred(): ?bool
+    {
+        return $this->initiallyDeferred;
+    }
+
+    /**
+     * @param bool|null $initiallyDeferred
+     *
+     * @return void
+     */
+    public function setInitiallyDeferred(?bool $initiallyDeferred): void
+    {
+        $this->initiallyDeferred = $initiallyDeferred;
     }
 
     /**
