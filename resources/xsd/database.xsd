@@ -895,6 +895,13 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="useLazyObjects" type="xs:boolean" default="false" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase G.3 (Propel 4.0, opt-in): when true, the generator emits relation initializers backed by PHP 8.4 ReflectionClass::newLazyGhost(). The collection materializes on first read instead of in init&lt;Rel&gt;(). Opt-in for 4.0; default flips on in 4.1 if the rollback criterion (≤+5% latency on 100k-row with() query) holds.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="database">
