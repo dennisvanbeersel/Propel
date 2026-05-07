@@ -20,7 +20,11 @@ use Propel\Runtime\Connection\Routing\ResolverConfig;
 use Propel\Runtime\Connection\Routing\RouteRequest;
 use Propel\Runtime\Connection\Routing\RouteResolver;
 use Propel\Runtime\Connection\Routing\SessionConsistencyWindow;
+use Propel\Runtime\Telemetry\NoOpSpan;
+use Propel\Runtime\Telemetry\SpanInterface;
+use Propel\Runtime\Telemetry\TelemetryInterface;
 use Propel\Tests\Runtime\Connection\Routing\FixedClock;
+use Throwable;
 
 /**
  * Routing-decision matrix + failure-injection tests for
@@ -224,5 +228,137 @@ class ReplicaRoutingConnectionTest extends TestCase
             sessionWindow: $window ?? new SessionConsistencyWindow($clock),
             lagSampler: $sampler,
         );
+    }
+
+    /**
+     * Phase I §I.4.3: routing decisions and replica-failure fallbacks
+     * fan out to TelemetryInterface with bounded-cardinality reason labels.
+     *
+     * @return void
+     */
+    public function testTelemetryReceivesRoutingDecisions(): void
+    {
+        $primary = $this->createMock(ConnectionInterface::class);
+        $primary->method('exec')->willReturn(0);
+        $primary->method('query')->willReturn(false);
+
+        $replica = $this->createMock(ConnectionInterface::class);
+        $replica->method('query')->willReturn(false);
+
+        $clock = new FixedClock(1_000_000);
+        $resolver = new RouteResolver($clock);
+        $sampler = new ReplicaLagSampler(10, $clock);
+        $sampler->recordSample('r1', 0.1);
+
+        $telemetry = $this->makeRecordingTelemetry();
+
+        $routing = new ReplicaRoutingConnection(
+            primary: $primary,
+            replicas: ['r1' => $replica],
+            config: new ResolverConfig(),
+            resolver: $resolver,
+            sessionWindow: new SessionConsistencyWindow($clock),
+            lagSampler: $sampler,
+            telemetry: $telemetry,
+        );
+
+        // Read SQL → replica with reason 'allowed'.
+        $routing->query('SELECT 1');
+        // Write SQL → primary with reason 'write'.
+        $routing->exec('INSERT INTO t VALUES (1)');
+        // Force-primary hint → primary with reason 'forced'.
+        $routing->setNextQueryHint(RouteRequest::HINT_FORCE_PRIMARY);
+        $routing->query('SELECT 2');
+
+        $this->assertSame(
+            [['replica', 'allowed'], ['primary', 'write'], ['primary', 'forced']],
+            $telemetry->routingDecisions,
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testTelemetryEmitsReplicaFailureOnFallback(): void
+    {
+        $primary = $this->createMock(ConnectionInterface::class);
+        $primary->method('query')->willReturn(false);
+
+        $replica = $this->createMock(ConnectionInterface::class);
+        $replica->method('query')->willThrowException(new PDOException('replica connection lost'));
+
+        $clock = new FixedClock(1_000_000);
+        $resolver = new RouteResolver($clock);
+        $sampler = new ReplicaLagSampler(10, $clock);
+        $sampler->recordSample('r1', 0.1);
+
+        $telemetry = $this->makeRecordingTelemetry();
+        $config = new ResolverConfig(fallbackToPrimary: true);
+
+        $routing = new ReplicaRoutingConnection(
+            primary: $primary,
+            replicas: ['r1' => $replica],
+            config: $config,
+            resolver: $resolver,
+            sessionWindow: new SessionConsistencyWindow($clock),
+            lagSampler: $sampler,
+            telemetry: $telemetry,
+        );
+
+        $routing->query('SELECT 1');
+
+        // First decision: replica/allowed; then fallback to primary/replica_failure.
+        $this->assertSame(
+            [['replica', 'allowed'], ['primary', 'replica_failure']],
+            $telemetry->routingDecisions,
+        );
+    }
+
+    /**
+     * @return object{routingDecisions: array<int, array{0: string, 1: string}>}
+     */
+    private function makeRecordingTelemetry(): object
+    {
+        return new class implements TelemetryInterface {
+            /** @var array<int, array{0: string, 1: string}> */
+            public array $routingDecisions = [];
+
+            #[\Override]
+            public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
+            {
+                return new NoOpSpan($sql, $callingMethod, microtime(true));
+            }
+
+            #[\Override]
+            public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
+            {
+            }
+
+            #[\Override]
+            public function recordPreparedCacheHit(bool $hit): void
+            {
+            }
+
+            #[\Override]
+            public function recordTransactionDepth(int $depth): void
+            {
+            }
+
+            #[\Override]
+            public function recordHydrationDuration(string $class, float $microseconds): void
+            {
+            }
+
+            #[\Override]
+            public function recordReplicaRoutingDecision(string $decision, string $reason): void
+            {
+                $this->routingDecisions[] = [$decision, $reason];
+            }
+
+            #[\Override]
+            public function recordIdentityGeneration(string $strategy, float $microseconds): void
+            {
+            }
+        };
     }
 }

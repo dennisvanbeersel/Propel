@@ -18,6 +18,8 @@ use Propel\Runtime\Connection\Routing\RouteRequest;
 use Propel\Runtime\Connection\Routing\RouteResolver;
 use Propel\Runtime\Connection\Routing\RoutingDecision;
 use Propel\Runtime\Connection\Routing\SessionConsistencyWindow;
+use Propel\Runtime\Telemetry\NoOpTelemetry;
+use Propel\Runtime\Telemetry\TelemetryInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\NullLogger;
 use Throwable;
@@ -88,6 +90,11 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
     private LoggerInterface $logger;
 
     /**
+     * @var \Propel\Runtime\Telemetry\TelemetryInterface
+     */
+    private TelemetryInterface $telemetry;
+
+    /**
      * @var string Hint to apply to the next query; reset after dispatch.
      */
     private string $nextHint = RouteRequest::HINT_AUTO;
@@ -105,6 +112,7 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
      * @param \Propel\Runtime\Connection\Routing\SessionConsistencyWindow|null $sessionWindow
      * @param \Propel\Runtime\Connection\Routing\ReplicaLagSampler|null $lagSampler
      * @param \Psr\Log\LoggerInterface|null $logger
+     * @param \Propel\Runtime\Telemetry\TelemetryInterface|null $telemetry Defaults to NoOpTelemetry.
      */
     public function __construct(
         ConnectionInterface $primary,
@@ -113,7 +121,8 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
         ?RouteResolver $resolver = null,
         ?SessionConsistencyWindow $sessionWindow = null,
         ?ReplicaLagSampler $lagSampler = null,
-        ?LoggerInterface $logger = null
+        ?LoggerInterface $logger = null,
+        ?TelemetryInterface $telemetry = null
     ) {
         parent::__construct($primary);
         $this->primary = $primary;
@@ -123,6 +132,7 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
         $this->sessionWindow = $sessionWindow ?? new SessionConsistencyWindow();
         $this->lagSampler = $lagSampler ?? new ReplicaLagSampler();
         $this->logger = $logger ?? new NullLogger();
+        $this->telemetry = $telemetry ?? new NoOpTelemetry();
     }
 
     /**
@@ -290,6 +300,15 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
         $this->logger->info(
             sprintf('routing: target=%s, %s', $decision->target, $decision->rationale),
         );
+        // Telemetry label cardinality control: collapse 'replica:<name>' to
+        // 'replica' for the high-level target dimension. The replica name
+        // is intentionally NOT propagated as a label — it would explode
+        // metric cardinality on deployments with many replicas.
+        $target = $decision->isPrimary() ? RoutingDecision::TARGET_PRIMARY : 'replica';
+        $this->telemetry->recordReplicaRoutingDecision(
+            $target,
+            self::shortReasonFromRationale($decision->rationale),
+        );
 
         if ($decision->isPrimary()) {
             // Special case: consumer asked for replica AND fallback is off AND
@@ -355,6 +374,7 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
             ),
             $previousMicros,
         );
+        $this->telemetry->recordReplicaRoutingDecision(RoutingDecision::TARGET_PRIMARY, 'replica_failure');
 
         return $fn($this->primary);
     }
@@ -373,6 +393,42 @@ final class ReplicaRoutingConnection extends AbstractConnectionDecorator
             $this->sessionWindow->noteWrite();
         }
         $this->nextHint = RouteRequest::HINT_AUTO;
+    }
+
+    /**
+     * Map the resolver's `reason=<key>` rationale string to a short reason
+     * vocabulary used for the telemetry label. Keeps cardinality bounded
+     * (a label space of more than ~10 values is hostile to Prometheus
+     * + Grafana dashboards).
+     *
+     * Rationale strings ({@see RouteResolver}) are always prefixed
+     * `reason=<short-key>, …`. The mapping below covers every reason the
+     * resolver can emit; an unknown reason yields `'unknown'`.
+     *
+     * @param string $rationale The decision's rationale (resolver-emitted free text).
+     *
+     * @return string One of: `write`, `forced`, `session_consistency`,
+     *                `replica_lag`, `allowed`, `unknown`.
+     */
+    private static function shortReasonFromRationale(string $rationale): string
+    {
+        if (str_starts_with($rationale, 'reason=write-op')) {
+            return 'write';
+        }
+        if (str_starts_with($rationale, 'reason=hint-force-primary')) {
+            return 'forced';
+        }
+        if (str_starts_with($rationale, 'reason=session-consistency-window')) {
+            return 'session_consistency';
+        }
+        if (str_starts_with($rationale, 'reason=all-replicas-lagging')) {
+            return 'replica_lag';
+        }
+        if (str_starts_with($rationale, 'reason=allow-replica')) {
+            return 'allowed';
+        }
+
+        return 'unknown';
     }
 
     /**

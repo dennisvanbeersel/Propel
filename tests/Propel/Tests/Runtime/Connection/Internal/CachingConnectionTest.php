@@ -15,6 +15,10 @@ use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Connection\Internal\CachingConnection;
 use Propel\Runtime\Connection\Internal\PreparedStatementLruCache;
 use Propel\Runtime\Connection\StatementInterface;
+use Propel\Runtime\Telemetry\NoOpSpan;
+use Propel\Runtime\Telemetry\SpanInterface;
+use Propel\Runtime\Telemetry\TelemetryInterface;
+use Throwable;
 
 /**
  * Unit tests for {@see CachingConnection}.
@@ -182,5 +186,75 @@ class CachingConnectionTest extends TestCase
 
         $this->assertSame(2, $caching->getCache()->size());
         $this->assertSame(1, $caching->getCache()->evictions());
+    }
+
+    /**
+     * Phase I §I.4.1: cache hits/misses fan out to TelemetryInterface.
+     *
+     * @return void
+     */
+    public function testTelemetryReceivesHitAndMissEvents(): void
+    {
+        $stmt = $this->createMock(StatementInterface::class);
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('prepare')->willReturn($stmt);
+
+        $telemetry = $this->makeRecordingTelemetry();
+        $caching = new CachingConnection($inner, null, $telemetry);
+
+        $caching->prepare('SELECT 1'); // miss
+        $caching->prepare('SELECT 1'); // hit
+        $caching->prepare('SELECT 1'); // hit
+        $caching->prepare('SELECT 2'); // miss
+
+        $this->assertSame([false, true, true, false], $telemetry->cacheHits);
+    }
+
+    /**
+     * @return object{cacheHits: array<int, bool>}
+     */
+    private function makeRecordingTelemetry(): object
+    {
+        return new class implements TelemetryInterface {
+            /** @var array<int, bool> */
+            public array $cacheHits = [];
+
+            #[\Override]
+            public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
+            {
+                return new NoOpSpan($sql, $callingMethod, microtime(true));
+            }
+
+            #[\Override]
+            public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
+            {
+            }
+
+            #[\Override]
+            public function recordPreparedCacheHit(bool $hit): void
+            {
+                $this->cacheHits[] = $hit;
+            }
+
+            #[\Override]
+            public function recordTransactionDepth(int $depth): void
+            {
+            }
+
+            #[\Override]
+            public function recordHydrationDuration(string $class, float $microseconds): void
+            {
+            }
+
+            #[\Override]
+            public function recordReplicaRoutingDecision(string $decision, string $reason): void
+            {
+            }
+
+            #[\Override]
+            public function recordIdentityGeneration(string $strategy, float $microseconds): void
+            {
+            }
+        };
     }
 }

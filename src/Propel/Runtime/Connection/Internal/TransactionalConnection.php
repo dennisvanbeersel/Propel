@@ -10,7 +10,10 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\Connection\Internal;
 
+use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Connection\Exception\RollbackException;
+use Propel\Runtime\Telemetry\NoOpTelemetry;
+use Propel\Runtime\Telemetry\TelemetryInterface;
 
 /**
  * Decorator owning nested-transaction accounting.
@@ -44,6 +47,23 @@ final class TransactionalConnection extends AbstractConnectionDecorator
      * partial-rollback.
      */
     private bool $isUncommitable = false;
+
+    /**
+     * @var \Propel\Runtime\Telemetry\TelemetryInterface
+     */
+    private TelemetryInterface $telemetry;
+
+    /**
+     * @param \Propel\Runtime\Connection\ConnectionInterface $inner
+     * @param \Propel\Runtime\Telemetry\TelemetryInterface|null $telemetry Defaults to NoOpTelemetry.
+     */
+    public function __construct(
+        ConnectionInterface $inner,
+        ?TelemetryInterface $telemetry = null
+    ) {
+        parent::__construct($inner);
+        $this->telemetry = $telemetry ?? new NoOpTelemetry();
+    }
 
     /**
      * @psalm-api
@@ -85,6 +105,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
             $this->isUncommitable = false;
         }
         $this->nestedTransactionCount++;
+        $this->telemetry->recordTransactionDepth($this->nestedTransactionCount);
 
         return $return;
     }
@@ -111,6 +132,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
             }
 
             $this->nestedTransactionCount--;
+            $this->telemetry->recordTransactionDepth($this->nestedTransactionCount);
         }
 
         return $return;
@@ -133,6 +155,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
             }
 
             $this->nestedTransactionCount--;
+            $this->telemetry->recordTransactionDepth($this->nestedTransactionCount);
         }
 
         return $return;
@@ -154,6 +177,7 @@ final class TransactionalConnection extends AbstractConnectionDecorator
             $return = $this->inner->rollBack();
             $this->nestedTransactionCount = 0;
             $this->isUncommitable = false;
+            $this->telemetry->recordTransactionDepth(0);
         }
 
         return $return;

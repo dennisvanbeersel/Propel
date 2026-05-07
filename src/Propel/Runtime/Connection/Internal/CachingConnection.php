@@ -12,6 +12,8 @@ namespace Propel\Runtime\Connection\Internal;
 
 use Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey;
 use Propel\Runtime\Connection\ConnectionInterface;
+use Propel\Runtime\Telemetry\NoOpTelemetry;
+use Propel\Runtime\Telemetry\TelemetryInterface;
 
 /**
  * Decorator owning the bounded prepared-statement LRU cache.
@@ -50,6 +52,11 @@ final class CachingConnection extends AbstractConnectionDecorator
     private PreparedStatementLruCache $cache;
 
     /**
+     * @var \Propel\Runtime\Telemetry\TelemetryInterface
+     */
+    private TelemetryInterface $telemetry;
+
+    /**
      * @var bool
      */
     private bool $enabled = true;
@@ -57,13 +64,16 @@ final class CachingConnection extends AbstractConnectionDecorator
     /**
      * @param \Propel\Runtime\Connection\ConnectionInterface $inner
      * @param \Propel\Runtime\Connection\Internal\PreparedStatementLruCache|null $cache
+     * @param \Propel\Runtime\Telemetry\TelemetryInterface|null $telemetry Defaults to NoOpTelemetry.
      */
     public function __construct(
         ConnectionInterface $inner,
-        ?PreparedStatementLruCache $cache = null
+        ?PreparedStatementLruCache $cache = null,
+        ?TelemetryInterface $telemetry = null
     ) {
         parent::__construct($inner);
         $this->cache = $cache ?? new PreparedStatementLruCache();
+        $this->telemetry = $telemetry ?? new NoOpTelemetry();
     }
 
     /**
@@ -150,9 +160,12 @@ final class CachingConnection extends AbstractConnectionDecorator
         $key = self::buildCacheKey($statement, $driverOptions);
         $cached = $this->cache->get($key);
         if ($cached !== null) {
+            $this->telemetry->recordPreparedCacheHit(true);
+
             return $cached;
         }
 
+        $this->telemetry->recordPreparedCacheHit(false);
         $stmt = $this->inner->prepare($statement, $driverOptions);
         if ($stmt !== false) {
             $this->cache->put($key, $stmt);

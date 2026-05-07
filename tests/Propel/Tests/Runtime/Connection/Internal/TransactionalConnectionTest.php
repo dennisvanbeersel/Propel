@@ -14,6 +14,10 @@ use PHPUnit\Framework\TestCase;
 use Propel\Runtime\Connection\ConnectionInterface;
 use Propel\Runtime\Connection\Exception\RollbackException;
 use Propel\Runtime\Connection\Internal\TransactionalConnection;
+use Propel\Runtime\Telemetry\NoOpSpan;
+use Propel\Runtime\Telemetry\SpanInterface;
+use Propel\Runtime\Telemetry\TelemetryInterface;
+use Throwable;
 
 /**
  * Unit tests for {@see TransactionalConnection}.
@@ -179,5 +183,93 @@ class TransactionalConnectionTest extends TestCase
         $tx->rollBack();
         $this->assertFalse($tx->isCommitable());
         // After the outermost path completes the wrapper resets counter; isCommitable depends only on count + flag.
+    }
+
+    /**
+     * Phase I §I.4.2: each begin/commit/rollback emits the new depth on TelemetryInterface.
+     *
+     * @return void
+     */
+    public function testTelemetryReceivesDepthOnNestedTxCycle(): void
+    {
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('beginTransaction')->willReturn(true);
+        $inner->method('commit')->willReturn(true);
+        $inner->method('rollBack')->willReturn(true);
+        $inner->method('inTransaction')->willReturn(true);
+
+        $telemetry = $this->makeRecordingTelemetry();
+        $tx = new TransactionalConnection($inner, $telemetry);
+
+        $tx->beginTransaction();    // 1
+        $tx->beginTransaction();    // 2
+        $tx->beginTransaction();    // 3
+        $tx->commit();              // 2
+        $tx->rollBack();            // 1 (taints — but depth still goes 1 → 0)
+        $tx->forceRollBack();       // 0
+
+        $this->assertSame([1, 2, 3, 2, 1, 0], $telemetry->depths);
+    }
+
+    /**
+     * Default ctor without telemetry uses NoOp; verifies wiring is optional.
+     *
+     * @return void
+     */
+    public function testTelemetryDefaultsToNoOp(): void
+    {
+        $inner = $this->createMock(ConnectionInterface::class);
+        $inner->method('beginTransaction')->willReturn(true);
+        $tx = new TransactionalConnection($inner);
+        $tx->beginTransaction();
+        $this->assertSame(1, $tx->getNestedTransactionCount());
+    }
+
+    /**
+     * @return object{depths: array<int, int>}
+     */
+    private function makeRecordingTelemetry(): object
+    {
+        return new class implements TelemetryInterface {
+            /** @var array<int, int> */
+            public array $depths = [];
+
+            #[\Override]
+            public function startQuerySpan(string $sql, string $callingMethod): SpanInterface
+            {
+                return new NoOpSpan($sql, $callingMethod, microtime(true));
+            }
+
+            #[\Override]
+            public function endQuerySpan(object $span, float $durationSeconds, ?Throwable $error = null): void
+            {
+            }
+
+            #[\Override]
+            public function recordPreparedCacheHit(bool $hit): void
+            {
+            }
+
+            #[\Override]
+            public function recordTransactionDepth(int $depth): void
+            {
+                $this->depths[] = $depth;
+            }
+
+            #[\Override]
+            public function recordHydrationDuration(string $class, float $microseconds): void
+            {
+            }
+
+            #[\Override]
+            public function recordReplicaRoutingDecision(string $decision, string $reason): void
+            {
+            }
+
+            #[\Override]
+            public function recordIdentityGeneration(string $strategy, float $microseconds): void
+            {
+            }
+        };
     }
 }
