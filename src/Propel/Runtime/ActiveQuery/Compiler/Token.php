@@ -15,6 +15,8 @@ namespace Propel\Runtime\ActiveQuery\Compiler;
  *
  * Tier 3. The `$type` is a string union (not a separate enum) for
  * a single integer-cmp branch in the inner loop — performance rationale.
+ *
+ * @psalm-api
  */
 final readonly class Token
 {
@@ -67,6 +69,8 @@ final readonly class Token
      * @param string $type One of the Token::TYPE_* constants.
      * @param string $value Source-text slice for this token.
      * @param int $offset Byte offset in the original SQL.
+     *
+     * @psalm-api
      */
     public function __construct(
         public string $type,

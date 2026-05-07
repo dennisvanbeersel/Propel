@@ -63,6 +63,8 @@ final class NameResolver
      *        regex replacement itself; kept for API symmetry.
      *
      * @return string The rewritten SQL.
+     *
+     * @psalm-api
      */
     public function resolve(string $sql, callable $resolveName, array $aliases = []): string
     {
@@ -167,6 +169,8 @@ final class NameResolver
 
     /**
      * @return list<array{string, string}> list of [original, replacement] pairs found in last resolve()
+     *
+     * @psalm-api
      */
     public function getReplacements(): array
     {

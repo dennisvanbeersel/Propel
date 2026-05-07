@@ -14,6 +14,8 @@ use Propel\Runtime\Adapter\AdapterInterface;
 
 /**
  * Manager for primary/replica connection to a datasource.
+ *
+ * @psalm-api
  */
 class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
 {

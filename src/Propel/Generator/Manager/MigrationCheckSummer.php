@@ -24,6 +24,8 @@ use RuntimeException;
  *   - `verify(string $expectedHex, string $filePath): bool` — true if equal
  *     or if `$expectedHex` is empty / wrong length (legacy / baseline rows).
  *   - `ALGORITHM` const — pinned to "sha256" (HEX_LENGTH = 64).
+ *
+ * @psalm-api
  */
 final class MigrationCheckSummer
 {

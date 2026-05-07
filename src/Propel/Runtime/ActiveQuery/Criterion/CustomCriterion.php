@@ -48,6 +48,8 @@ class CustomCriterion extends AbstractCriterion
 
     /**
      * @return list<mixed>
+     *
+     * @psalm-api
      */
     public function getBoundParams(): array
     {

@@ -589,6 +589,8 @@ class Criteria
      * @param string $column [table.]column
      *
      * @return bool True if this Criteria object contain the specified key and a value for that key
+     *
+     * @psalm-api
      */
     public function keyContainsValue(string $column): bool
     {
@@ -837,6 +839,8 @@ class Criteria
      * @param string $key An Object.
      *
      * @return mixed The value within the Criterion (not the Criterion object).
+     *
+     * @psalm-api
      */
     public function get(string $key)
     {
@@ -1825,6 +1829,8 @@ class Criteria
      * Returns the size (count) of this criteria.
      *
      * @return int
+     *
+     * @psalm-api
      */
     public function size(): int
     {
