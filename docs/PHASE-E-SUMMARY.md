@@ -92,3 +92,11 @@ PASS-WITH-WAIVERS. Scope: see deferrals below.
 Phase F (Criteria split + enums + typed Criterion DSL) is HIGH-RISK and the spec's biggest ambition for `Criteria`. Phase G (PHP 8.4 lazy objects + asymmetric visibility) is the 4.0-major-bump phase. Phase H is CLI/migration polish; Phase I is observability (TelemetryInterface real adapters); Phase J is worker-mode/async.
 
 Per Phase E's PreparedStatementKey SPI deferral, Phase F should pick up that contract (umbrella §2.2 says E and F coordinate on cache-key shape).
+
+### Phase F follow-up: PreparedStatementKey SPI adopted
+
+Phase F.3 closes the inversion noted above. The cache-key shape Phase E.4
+settled inline at `CachingConnection::buildCacheKey()` is now published as
+a Tier 2 SPI at `Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey`.
+`CachingConnection::buildCacheKey()` delegates to `PreparedStatementKey::forSql()`
+— same key bytes, no behavior change at the cache-hit-rate level.
