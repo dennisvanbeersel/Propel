@@ -20,6 +20,13 @@ use Propel\Generator\Model\Table;
 /**
  * Keeps an aggregate column updated with related table
  *
+ * Future bridge: where the platform supports native generated columns
+ * (Phase C delivered <column generated="stored" expression="..."/>),
+ * AggregateColumn can compile to a native generated column instead of
+ * PHP-side recompute on save. Tracked for a future phase (D' or H);
+ * see docs/MIGRATION-FROM-PRE-AI.md#capability-roadmap. Phase D
+ * documents the bridge intent; implementation is out of scope.
+ *
  * @author François Zaninotto
  */
 class AggregateColumnBehavior extends Behavior

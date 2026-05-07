@@ -592,6 +592,82 @@ If your codebase is large and a full migration in one cycle is infeasible, the d
 
 ---
 
+## Timestampable: native ON UPDATE CURRENT_TIMESTAMP
+
+**Status:** Propel 3.0 changes the default `Timestampable` behavior so MySQL / MariaDB schemas declare `update_column` with `ON UPDATE CURRENT_TIMESTAMP` at the DDL level. PostgreSQL and SQLite continue to use the legacy PHP-side `preUpdate` hook (PG has no native `ON UPDATE`; SQLite is frozen per umbrella §1.2).
+
+### What changed
+
+Before (3.x and earlier):
+```sql
+-- MySQL DDL
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP;
+-- PHP-side hook on every save:
+$this->setUpdatedAt(PropelDateTime::createHighPrecision(...));
+```
+
+After (3.0+, default):
+```sql
+-- MySQL DDL
+updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
+-- preUpdate() emits no setUpdatedAt body; the engine refreshes it.
+```
+
+### Why
+
+- Single source of truth — the database is the authority on "now".
+- Raw-SQL `UPDATE`s that bypass Propel's save path now correctly bump `updated_at`. Previously they silently didn't.
+- Less code in the generated `preUpdate()` body.
+
+### Migration impact
+
+1. **Raw-SQL `UPDATE`s.** If your app does direct `UPDATE` on tables with `Timestampable`, those previously left `updated_at` stale. Under the new default they auto-refresh — usually desired but technically a behavior change. Audit: `git grep -rE 'UPDATE [a-z_]+ SET' your-app/`.
+
+2. **Custom `BEFORE UPDATE` triggers.** If you have a custom trigger setting `updated_at`, the new column-level default fights with it (the trigger wins, but the engine logs a redundant write). Opt out:
+   ```xml
+   <behavior name="timestampable">
+       <parameter name="use_native_on_update" value="false"/>
+   </behavior>
+   ```
+
+3. **`migration:diff` impact.** First migration run after upgrade WILL produce a `MODIFY COLUMN updated_at ... ON UPDATE CURRENT_TIMESTAMP` for every previously-Timestampable table. Review the migration before applying — you may want to apply it during a maintenance window since `MODIFY COLUMN` rewrites the column metadata (fast on InnoDB metadata-only changes, but check the table size / load).
+
+4. **`keepUpdateDateUnchanged()` semantics.** This generated helper sets the column as "modified" so its current value is preserved. Under native ON UPDATE the engine refreshes the column regardless — `keepUpdateDateUnchanged()` no longer works on MySQL/MariaDB by default. If you need to bypass the auto-update, opt out of native (parameter `use_native_on_update="false"`).
+
+### Per-platform behavior summary
+
+| Platform | Default behavior | Opt-out behavior |
+|---|---|---|
+| MySQL 8.0+ | DDL `ON UPDATE CURRENT_TIMESTAMP` | PHP-side preUpdate hook |
+| MariaDB 10.5+ | DDL `ON UPDATE CURRENT_TIMESTAMP` | PHP-side preUpdate hook |
+| PostgreSQL 14+ | PHP-side preUpdate hook (no native equivalent) | PHP-side preUpdate hook |
+| SQLite | PHP-side preUpdate hook (frozen) | PHP-side preUpdate hook |
+
+PG users wanting DB-side enforcement can install a `BEFORE UPDATE` trigger:
+```sql
+CREATE OR REPLACE FUNCTION set_updated_at() RETURNS TRIGGER AS $$
+BEGIN NEW.updated_at = CURRENT_TIMESTAMP; RETURN NEW; END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trg_post_updated_at BEFORE UPDATE ON post
+FOR EACH ROW EXECUTE FUNCTION set_updated_at();
+```
+… and then opt-out of the PHP-side hook. Trigger management is operator-managed (Propel does not emit it).
+
+---
+
+## Capability roadmap
+
+### AggregateColumn / AggregateMultipleColumns future bridge
+
+`AggregateColumnBehavior` and `AggregateMultipleColumnsBehavior` currently maintain a denormalized aggregate column via PHP-side `preSave` / `preDelete` hooks on the related table. This works on every platform but pays a per-save round-trip.
+
+Phase C delivered native generated columns at the schema layer (`<column generated="virtual|stored" expression="..."/>`). A future cycle (Phase D' or H, no fixed milestone) will add an `<behavior name="aggregate_column" use_native_generated="true">` opt-in that compiles eligible aggregates to `GENERATED ALWAYS AS (...) STORED`. Eligibility is bounded by the platform's generated-column expression rules (no subqueries on MySQL, limited on MariaDB; PG / SQLite less restrictive but stored-only / virtual-only respectively).
+
+This is documented intent — no implementation in Propel 3.0. Track via the `aggregate-column-native-bridge` issue label. Until then, AggregateColumn behavior stays on the PHP-side path with no change.
+
+---
+
 ## Internal changes (Tier 3 — not BC, listed for awareness)
 
 These changed but do not affect consumer code:
