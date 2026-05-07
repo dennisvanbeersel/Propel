@@ -90,6 +90,26 @@ class TimestampableBehavior extends Behavior
     }
 
     /**
+     * Native `ON UPDATE CURRENT_TIMESTAMP` only makes sense on temporal columns
+     * (TIMESTAMP/DATETIME). Schemas that opt into the legacy integer-epoch
+     * pattern (`type="INTEGER"` storing `time()`) must keep the PHP-side
+     * preUpdate hook, since the database has no temporal value to refresh.
+     *
+     * @return bool
+     */
+    protected function updateColumnIsNativeCompatible(): bool
+    {
+        $table = $this->getTable();
+        if (!$table->hasColumn($this->getParameter('update_column'))) {
+            return false;
+        }
+
+        $type = strtoupper($table->getColumn($this->getParameter('update_column'))->getType());
+
+        return $type === 'TIMESTAMP' || $type === 'DATETIME';
+    }
+
+    /**
      * Add the create_column and update_columns to the current table
      *
      * @return void
@@ -120,6 +140,7 @@ class TimestampableBehavior extends Behavior
             $this->withUpdatedAt()
             && $this->useNativeOnUpdate()
             && $this->platformSupportsNativeOnUpdate()
+            && $this->updateColumnIsNativeCompatible()
         ) {
             $updateColumn = $table->getColumn($this->getParameter('update_column'));
             $vendor = $updateColumn->getVendorInfoForType('mysql');
@@ -142,7 +163,8 @@ class TimestampableBehavior extends Behavior
     {
         return $this->withUpdatedAt()
             && $this->useNativeOnUpdate()
-            && $this->platformSupportsNativeOnUpdate();
+            && $this->platformSupportsNativeOnUpdate()
+            && $this->updateColumnIsNativeCompatible();
     }
 
     /**

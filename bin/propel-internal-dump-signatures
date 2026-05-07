@@ -29,11 +29,16 @@ if (!is_file($classesFile)) {
     exit(1);
 }
 
-if (!is_dir($outputDir)) {
-    mkdir($outputDir, 0755, true);
+if (!is_dir($outputDir) && !mkdir($outputDir, 0755, true) && !is_dir($outputDir)) {
+    fwrite(STDERR, "Cannot create output directory: {$outputDir}\n");
+    exit(1);
 }
 
-$lines = file($classesFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) ?: [];
+$lines = file($classesFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+if ($lines === false) {
+    fwrite(STDERR, "Cannot read tracked classes file: {$classesFile}\n");
+    exit(1);
+}
 $classes = [];
 foreach ($lines as $line) {
     $line = trim($line);
@@ -64,11 +69,24 @@ foreach ($classes as $class) {
         'constants' => extractConstants($ref),
     ];
 
-    $filename = $outputDir . '/' . str_replace('\\', '_', $ref->getName()) . '.signatures.json';
-    file_put_contents(
-        $filename,
-        json_encode($snapshot, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES) . "\n",
-    );
+    $className = $ref->getName();
+    if (str_contains($className, '_')) {
+        // Underscores in class names break the `\` → `_` filename scheme:
+        // `Foo\Bar_Baz` and `Foo_Bar\Baz` would both flatten to
+        // `Foo_Bar_Baz.signatures.json`, silently overwriting one another.
+        fwrite(STDERR, "Tracked class name contains underscore (filename-scheme collision risk): {$className}\n");
+        exit(1);
+    }
+    $filename = $outputDir . '/' . str_replace('\\', '_', $className) . '.signatures.json';
+    $json = json_encode($snapshot, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+    if ($json === false) {
+        fwrite(STDERR, "Cannot encode signature snapshot for {$className}: " . json_last_error_msg() . "\n");
+        exit(1);
+    }
+    if (file_put_contents($filename, $json . "\n") === false) {
+        fwrite(STDERR, "Cannot write signature snapshot: {$filename}\n");
+        exit(1);
+    }
     fwrite(STDOUT, "Wrote {$filename}\n");
 }
 

@@ -49,7 +49,8 @@ jobs:
           for current in /tmp/sig-current/*.signatures.json; do
             base=$(basename "$current")
             if [ ! -f "tests/snapshots/$base" ]; then
-              echo "::warning::New tracked class with no committed snapshot: $base — committing as new entry."
+              echo "::error::New tracked class with no committed snapshot: $base — commit the generated snapshot alongside tracked-classes.txt."
+              fail=1
             fi
           done
           if [ $fail -eq 0 ]; then

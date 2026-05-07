@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Rector\Rule;
 
 use PhpParser\Node;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\ArrayItem;
 use PhpParser\Node\Scalar\String_;
 use Rector\Rector\AbstractRector;
@@ -58,8 +59,37 @@ final class SlavesToReplicasConfigRector extends AbstractRector
         if ($node->key->value !== 'slaves') {
             return null;
         }
+        if (!self::isPropelConnectionConfigArrayItem($node)) {
+            return null;
+        }
         $node->key = new String_('replicas');
 
         return $node;
+    }
+
+    /**
+     * Heuristic: only rewrite when the surrounding Array_ also contains a
+     * Propel-shaped sibling key (`adapter`, `dsn`, `master`, `primary`).
+     * That excludes unrelated business arrays whose owner happens to use
+     * `slaves` as a domain key.
+     */
+    private static function isPropelConnectionConfigArrayItem(ArrayItem $node): bool
+    {
+        /** @var Node|null $parent */
+        $parent = $node->getAttribute('parent');
+        if (!$parent instanceof Array_) {
+            return false;
+        }
+
+        foreach ($parent->items as $sibling) {
+            if (!$sibling instanceof ArrayItem || !$sibling->key instanceof String_) {
+                continue;
+            }
+            if (in_array($sibling->key->value, ['adapter', 'dsn', 'master', 'primary'], true)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
