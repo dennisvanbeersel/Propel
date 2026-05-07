@@ -586,11 +586,11 @@ class Criteria
     /**
      * Does this Criteria object contain the specified key and does it have a value set for the key
      *
+     * @psalm-api
+     *
      * @param string $column [table.]column
      *
      * @return bool True if this Criteria object contain the specified key and a value for that key
-     *
-     * @psalm-api
      */
     public function keyContainsValue(string $column): bool
     {
@@ -836,11 +836,11 @@ class Criteria
     /**
      * An alias to getValue() -- exposing a Hashtable-like interface.
      *
+     * @psalm-api
+     *
      * @param string $key An Object.
      *
      * @return mixed The value within the Criterion (not the Criterion object).
-     *
-     * @psalm-api
      */
     public function get(string $key)
     {
@@ -1828,9 +1828,9 @@ class Criteria
     /**
      * Returns the size (count) of this criteria.
      *
-     * @return int
-     *
      * @psalm-api
+     *
+     * @return int
      */
     public function size(): int
     {

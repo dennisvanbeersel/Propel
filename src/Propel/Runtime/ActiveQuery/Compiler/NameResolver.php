@@ -57,14 +57,14 @@ final class NameResolver
      * The $resolveName callable signature is `function (string $name): string` — it
      * receives the matched qualified name and returns the replacement.
      *
+     * @psalm-api
+     *
      * @param string $sql
      * @param callable $resolveName Per-match replacement callable.
      * @param array<string, string> $aliases Reserved for future routing — not used by the
      *        regex replacement itself; kept for API symmetry.
      *
      * @return string The rewritten SQL.
-     *
-     * @psalm-api
      */
     public function resolve(string $sql, callable $resolveName, array $aliases = []): string
     {
@@ -168,9 +168,9 @@ final class NameResolver
     }
 
     /**
-     * @return list<array{string, string}> list of [original, replacement] pairs found in last resolve()
-     *
      * @psalm-api
+     *
+     * @return list<array{string, string}> list of [original, replacement] pairs found in last resolve()
      */
     public function getReplacements(): array
     {

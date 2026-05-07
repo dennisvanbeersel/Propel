@@ -66,11 +66,11 @@ final readonly class Token
     public const TYPE_PUNCT = 'PUNCT';
 
     /**
+     * @psalm-api
+     *
      * @param string $type One of the Token::TYPE_* constants.
      * @param string $value Source-text slice for this token.
      * @param int $offset Byte offset in the original SQL.
-     *
-     * @psalm-api
      */
     public function __construct(
         public string $type,
