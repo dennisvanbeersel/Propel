@@ -16,7 +16,7 @@ jobs:
           fetch-depth: 0
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: json, libxml, pdo, pdo_sqlite
           coverage: none
       - name: Composer install
@@ -85,7 +85,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: json, libxml, pdo, pdo_sqlite
           coverage: none
       - name: Composer install
@@ -110,7 +110,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: json, libxml, pdo
           coverage: none
       - name: Composer install
@@ -124,7 +124,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: json, libxml, dom
           coverage: none
       - name: XSD additivity sweep
@@ -137,7 +137,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: json, libxml, pdo, pdo_sqlite
           coverage: none
       - name: Composer install
