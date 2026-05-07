@@ -71,6 +71,32 @@ A capacity-sweep bench at `tests/Propel/Tests/Benchmarks/Connection/PreparedStat
 
 Eviction removes a cache entry but does NOT free a statement reference held by a consumer — PHP refcounting keeps the underlying `PDOStatement` alive. Formal proof: `tests/Propel/Tests/PropertyTests/Connection/PreparedStatementLruInvariantTest`.
 
+## Profiling (umbrella §2.1 — replaces ProfilerConnectionWrapper)
+
+`ProfilingConnection` decorates `prepare`/`exec`/`query` with `microtime`-bracketed timing and emits per-call durations to:
+
+1. an in-memory query-count + total-duration accumulator (introspectable via `getQueryCount()` / `getTotalDurationSeconds()`);
+2. a histogram of per-bucket counts (default buckets: `[0.001, 0.01, 0.1, 1.0]` seconds + `+∞` tail);
+3. the injected `TelemetryInterface` (default `NoOpTelemetry`).
+
+### Enabling
+
+In `propel.yaml`:
+
+```yaml
+propel:
+  database:
+    bookstore:
+      connection:
+        decorators: ['transactional', 'logging', 'caching', 'profiling']
+```
+
+The legacy `ConnectionFactory::$useProfilerConnection` static keeps working: when truthy, it injects `'profiling'` into the chain unless an explicit `decorators` list is configured. The static is deprecation-tagged for removal in 4.0; use the explicit list for per-datasource control.
+
+### Replaces
+
+The 135-LOC `ProfilerConnectionWrapper` + 75-LOC `ProfilerStatementWrapper` collapse into one decorator. Per-statement profiling (fetch/fetchAll duration) is deferred to Phase I when telemetry adapters land.
+
 ## Telemetry stub (Phase I forward path)
 
 Both `LoggingConnection` and `ProfilingConnection` accept a `TelemetryInterface` parameter (default `NoOpTelemetry`). Each decorated call produces:
