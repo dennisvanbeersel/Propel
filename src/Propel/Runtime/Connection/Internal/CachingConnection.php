@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Propel\Runtime\Connection\Internal;
 
+use Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey;
 use Propel\Runtime\Connection\ConnectionInterface;
 
 /**
@@ -118,8 +119,10 @@ final class CachingConnection extends AbstractConnectionDecorator
 
     /**
      * Stable cache key including driver options (Phase A bug-fix #4 preserved).
-     * `ksort` normalizes `$driverOptions` order so semantically-equivalent
-     * arrays produce identical keys.
+     *
+     * Phase F.3: delegates to {@see PreparedStatementKey::forSql()} — same
+     * shape, published as a Tier 2 SPI so third-party decorators that build
+     * their own caches can reuse the canonical key derivation.
      *
      * @param string $sql
      * @param array<int|string, mixed> $driverOptions
@@ -128,13 +131,7 @@ final class CachingConnection extends AbstractConnectionDecorator
      */
     public static function buildCacheKey(string $sql, array $driverOptions): string
     {
-        if ($driverOptions === []) {
-            return $sql;
-        }
-
-        ksort($driverOptions);
-
-        return $sql . "\0" . serialize($driverOptions);
+        return PreparedStatementKey::forSql($sql, $driverOptions);
     }
 
     /**

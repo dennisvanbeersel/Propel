@@ -92,6 +92,10 @@ Propel\Runtime\ActiveQuery\Operator\JoinType
 Propel\Runtime\ActiveQuery\Operator\SortOrder
 Propel\Runtime\ActiveQuery\Operator\LogicalOperator
 
+# Phase F (umbrella §2.2) — Tier 2 SPI for prepared-statement cache key derivation.
+# Adopted from Phase E.4's CachingConnection::buildCacheKey shape.
+Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey
+
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
 Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
