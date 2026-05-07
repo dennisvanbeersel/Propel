@@ -8,33 +8,23 @@
 
 namespace Propel\Tests\Generator\Builder\Om;
 
-use GeneratedObjectDateColumnTypeEntity;
-
 use DateTimeImmutable;
+use GeneratedObjectDateColumnTypeEntity;
 use PDO;
-use PHPUnit\Framework\Exception;
-use PHPUnit\Framework\InvalidArgumentException;
-use PHPUnit\Framework\MockObject\ClassAlreadyExistsException;
-use PHPUnit\Framework\MockObject\ClassIsFinalException;
-use PHPUnit\Framework\MockObject\DuplicateMethodException;
-use PHPUnit\Framework\MockObject\InvalidMethodNameException;
-use PHPUnit\Framework\MockObject\OriginalConstructorInvocationRequiredException;
-use PHPUnit\Framework\MockObject\ReflectionException;
-use PHPUnit\Framework\MockObject\RuntimeException;
-use PHPUnit\Framework\MockObject\UnknownTypeException;
-use PHPUnit\Framework\MockObject\IncompatibleReturnValueException;
 use Propel\Generator\Util\QuickBuilder;
 use Propel\Runtime\Connection\ConnectionInterface;
-use Propel\Runtime\Connection\PdoConnection;
 use Propel\Runtime\Connection\StatementInterface;
 use Propel\Runtime\Connection\StatementWrapper;
 use Propel\Tests\TestCase;
 
 class GeneratedObjectDateColumnTypeTest extends TestCase
 {
+    /**
+     * @return void
+     */
     public function setUp(): void
     {
-        if (!\class_exists('GeneratedObjectDateColumnTypeEntity')) {
+        if (!class_exists('GeneratedObjectDateColumnTypeEntity')) {
             $schema = <<<'XML'
 <database name="generated_object_date_column_type">
     <table name="generated_object_date_column_type_entity">
@@ -47,12 +37,15 @@ XML;
         }
     }
 
+    /**
+     * @return void
+     */
     public function testInsertDateColumn(): void
     {
-        assert(\class_exists(GeneratedObjectDateColumnTypeEntity::class));
+        assert(class_exists(GeneratedObjectDateColumnTypeEntity::class));
         $entity = new GeneratedObjectDateColumnTypeEntity();
-        $this->assertTrue(\method_exists($entity, 'setDatecolumn'));
-        $this->assertTrue(\method_exists($entity, 'save'));
+        $this->assertTrue(method_exists($entity, 'setDatecolumn'));
+        $this->assertTrue(method_exists($entity, 'save'));
         $dateValue = new DateTimeImmutable('2021-06-25 12:26');
         $entity->setDatecolumn($dateValue);
 
@@ -62,6 +55,7 @@ XML;
             ->method('bindValue')
             ->willReturnCallback(function ($param, $value, $type) use (&$bindValueCalls) {
                 $bindValueCalls[] = [$param, $value, $type];
+
                 return true;
             });
 
@@ -73,8 +67,9 @@ XML;
                 $this->assertEquals(
                     'INSERT INTO generated_object_date_column_type_entity '
                     . '(id, datecolumn) VALUES (:p0, :p1)',
-                    $sql
+                    $sql,
                 );
+
                 return $insertStatement;
             });
         $entity->save($con);
@@ -86,28 +81,45 @@ XML;
     }
 
     /**
-     * @return ConnectionInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @return \Propel\Runtime\Connection\ConnectionInterface|\PHPUnit\Framework\MockObject\MockObject
      */
     private function createMockConnection(): ConnectionInterface
     {
-        $con = $this->createPartialMock(PdoConnection::class, [
-            'prepare',
-            'transaction',
-            'lastInsertId',
-        ]);
+        // PdoConnection became `final` in Phase E; use the interface for mocking.
+        $con = $this->getMockBuilder(ConnectionInterface::class)
+            ->onlyMethods([
+                'prepare',
+                'transaction',
+                'lastInsertId',
+                'beginTransaction',
+                'commit',
+                'rollBack',
+                'inTransaction',
+                'getAttribute',
+                'setAttribute',
+                'exec',
+                'query',
+                'quote',
+                'setName',
+                'getName',
+                'getDataFetcher',
+                'getSingleDataFetcher',
+            ])
+            ->getMock();
         $con
             ->method('transaction')
             ->willReturnCallback(function ($callable) {
-                return \call_user_func($callable);
+                return call_user_func($callable);
             });
         $con
             ->method('lastInsertId')
             ->willReturn(2);
+
         return $con;
     }
 
     /**
-     * @return StatementInterface&\PHPUnit\Framework\MockObject\MockObject
+     * @return \Propel\Runtime\Connection\StatementInterface&\PHPUnit\Framework\MockObject\MockObject
      */
     private function createMockInsertStatement(): StatementInterface
     {
@@ -118,6 +130,7 @@ XML;
         $insertStatement
             ->method('execute')
             ->willReturn(true);
+
         return $insertStatement;
     }
 }
