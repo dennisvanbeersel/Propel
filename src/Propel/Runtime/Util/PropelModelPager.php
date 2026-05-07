@@ -442,6 +442,7 @@ class PropelModelPager implements IteratorAggregate, Countable
     /**
      * @return \Propel\Runtime\Collection\CollectionIterator|\Traversable
      */
+    #[\Override]
     public function getIterator(): Traversable
     {
         return $this->getResults()->getIterator();
@@ -454,6 +455,7 @@ class PropelModelPager implements IteratorAggregate, Countable
      *
      * @return int
      */
+    #[\Override]
     public function count(): int
     {
         return count($this->getResults());

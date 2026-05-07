@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Generator\Platform;
 
 use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\ColumnDefaultValue;
 use Propel\Generator\Model\Database;
@@ -40,6 +41,7 @@ class PgsqlPlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     protected function initializeTypeMap(): void
     {
         parent::initializeTypeMap();
@@ -64,11 +66,19 @@ class PgsqlPlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::DATETIME, 'TIMESTAMP'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID, 'uuid'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BYTEA'));
+
+        // Phase C (umbrella §6.4): native PostgreSQL types.
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'JSON'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'JSONB'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'INET'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'CIDR'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TSVECTOR'));
     }
 
     /**
      * @return string
      */
+    #[\Override]
     public function getNativeIdMethod(): string
     {
         return PlatformInterface::SERIAL;
@@ -77,6 +87,7 @@ class PgsqlPlatform extends DefaultPlatform
     /**
      * @return string
      */
+    #[\Override]
     public function getAutoIncrement(): string
     {
         return '';
@@ -85,6 +96,7 @@ class PgsqlPlatform extends DefaultPlatform
     /**
      * @return array<int>
      */
+    #[\Override]
     public function getDefaultTypeSizes(): array
     {
         return [
@@ -100,6 +112,7 @@ class PgsqlPlatform extends DefaultPlatform
     /**
      * @return int
      */
+    #[\Override]
     public function getMaxColumnNameLength(): int
     {
         return 63;
@@ -110,6 +123,7 @@ class PgsqlPlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getBooleanString($value): string
     {
         // parent method does the checking for allows string
@@ -122,6 +136,7 @@ class PgsqlPlatform extends DefaultPlatform
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsNativeDeleteTrigger(): bool
     {
         return true;
@@ -135,6 +150,7 @@ class PgsqlPlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getSequenceName(Table $table): string
     {
         $result = null;
@@ -286,6 +302,7 @@ SET search_path TO public;
      *
      * @return string
      */
+    #[\Override]
     public function getAddTablesDDL(Database $database): string
     {
         $ret = $this->getAddSchemasDDL($database);
@@ -316,6 +333,7 @@ SET search_path TO public;
      *
      * @return string
      */
+    #[\Override]
     public function getForeignKeyDDL(ForeignKey $fk): string
     {
         $script = parent::getForeignKeyDDL($fk);
@@ -334,6 +352,7 @@ SET search_path TO public;
     /**
      * @return string
      */
+    #[\Override]
     public function getBeginDDL(): string
     {
         return "
@@ -344,6 +363,7 @@ BEGIN;
     /**
      * @return string
      */
+    #[\Override]
     public function getEndDDL(): string
     {
         return "
@@ -354,6 +374,7 @@ COMMIT;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getAddForeignKeysDDL(Table $table): string
     {
         $ret = '';
@@ -369,6 +390,7 @@ COMMIT;
      *
      * @return string
      */
+    #[\Override]
     public function getAddTableDDL(Table $table): string
     {
         $ret = $this->getUseSchemaDDL($table);
@@ -386,6 +408,11 @@ COMMIT;
 
         foreach ($table->getUnices() as $unique) {
             $lines[] = $this->getUniqueDDL($unique);
+        }
+
+        // Phase C (umbrella §6.4): table-level CHECK constraints inline in CREATE TABLE.
+        foreach ($table->getCheckConstraints() as $checkConstraint) {
+            $lines[] = $this->getCheckConstraintDDL($checkConstraint);
         }
 
         $sep = ",
@@ -461,6 +488,7 @@ COMMENT ON COLUMN %s.%s IS %s;
      *
      * @return string
      */
+    #[\Override]
     public function getDropTableDDL(Table $table): string
     {
         $ret = $this->getUseSchemaDDL($table);
@@ -479,6 +507,7 @@ DROP TABLE IF EXISTS %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getPrimaryKeyName(Table $table): string
     {
         $tableName = $table->getCommonName();
@@ -491,6 +520,7 @@ DROP TABLE IF EXISTS %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getColumnDDL(Column $col): string
     {
         $domain = $col->getDomain();
@@ -498,7 +528,11 @@ DROP TABLE IF EXISTS %s CASCADE;
         $ddl = [$this->quoteIdentifier($col->getName())];
         $sqlType = $domain->getSqlType();
         $table = $col->getTable();
-        if ($col->isAutoIncrement() && $table && $table->getIdMethodParameters() == null) {
+        $useLegacySerial = $this->isLegacySerialRequested($col);
+        // Phase C (umbrella §6.4): default to PG IDENTITY for new auto-increment PKs.
+        // The legacy 'serial' / 'bigserial' emission stays available behind
+        // <vendor type="pgsql"><parameter name="legacy-serial" value="true"/></vendor>.
+        if ($col->isAutoIncrement() && $table && $table->getIdMethodParameters() == null && $useLegacySerial) {
             $sqlType = $col->getType() === PropelTypes::BIGINT ? 'bigserial' : 'serial';
         }
         if ($this->hasSize($sqlType) && $col->isDefaultSqlType($this)) {
@@ -525,9 +559,17 @@ DROP TABLE IF EXISTS %s CASCADE;
             );
         }
 
-        $default = $this->getColumnDefaultValueDDL($col);
-        if ($default) {
-            $ddl[] = $default;
+        // Phase C (umbrella §6.4): IDENTITY replaces the DEFAULT nextval()-shaped autoincrement
+        // when not using legacy-serial. Generated columns get GENERATED ALWAYS AS (expr) STORED;
+        // PG has no VIRTUAL — emit STORED with a deprecation note for "virtual" requests.
+        $isIdentity = $col->isAutoIncrement() && !$useLegacySerial && $table && $table->getIdMethodParameters() == null;
+        $isGenerated = $col->isGenerated();
+
+        if (!$isIdentity && !$isGenerated) {
+            $default = $this->getColumnDefaultValueDDL($col);
+            if ($default) {
+                $ddl[] = $default;
+            }
         }
 
         $notNull = $this->getNullString($col->isNotNull());
@@ -535,12 +577,104 @@ DROP TABLE IF EXISTS %s CASCADE;
             $ddl[] = $notNull;
         }
 
-        $autoIncrement = $col->getAutoIncrementString();
-        if ($autoIncrement) {
-            $ddl[] = $autoIncrement;
+        if ($isGenerated) {
+            $kind = $col->getGenerationKind();
+            if ($kind === 'virtual') {
+                if (function_exists('trigger_deprecation')) {
+                    trigger_deprecation('propel/propel', '3.0', 'PostgreSQL has no virtual generated columns; emitting STORED for column "%s".', $col->getName());
+                }
+            }
+            $ddl[] = sprintf('GENERATED ALWAYS AS (%s) STORED', (string)$col->getGenerationExpression());
+        } elseif ($isIdentity) {
+            $ddl[] = 'GENERATED BY DEFAULT AS IDENTITY';
+        } else {
+            $autoIncrement = $col->getAutoIncrementString();
+            if ($autoIncrement) {
+                $ddl[] = $autoIncrement;
+            }
         }
 
         return implode(' ', $ddl);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): vendor-parameter check for the legacy serial emission flag.
+     *
+     * @param \Propel\Generator\Model\Column $col
+     *
+     * @return bool
+     */
+    private function isLegacySerialRequested(Column $col): bool
+    {
+        $vendor = $col->getVendorInfoForType('pgsql');
+        if (!$vendor->hasParameter('legacy-serial')) {
+            return false;
+        }
+        $val = strtolower((string)$vendor->getParameter('legacy-serial'));
+        if (in_array($val, ['true', '1', 'yes'], true)) {
+            if (function_exists('trigger_deprecation')) {
+                trigger_deprecation('propel/propel', '3.0', 'legacy-serial vendor flag — migrate to IDENTITY before 4.0 (column "%s").', $col->getName());
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): PG supports STORED generated columns (no VIRTUAL).
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): PG has no INVISIBLE column concept.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): PG enforces CHECK constraints.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): PG CHECK constraint DDL.
+     *
+     * Maps `enforced=false` to NOT VALID (semantics differ slightly from MySQL's NOT ENFORCED;
+     * PG's NOT VALID skips validation of pre-existing rows but enforces on future writes).
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @return string
+     */
+    #[\Override]
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        $name = $this->quoteIdentifier($cc->getName());
+        $ddl = sprintf('CONSTRAINT %s CHECK (%s)', $name, $cc->getExpression());
+        if (!$cc->isEnforced()) {
+            $ddl .= ' NOT VALID';
+        }
+
+        return $ddl;
     }
 
     /**
@@ -548,6 +682,7 @@ DROP TABLE IF EXISTS %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getUniqueDDL(Unique $unique): string
     {
         return sprintf(
@@ -563,6 +698,7 @@ DROP TABLE IF EXISTS %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getRenameTableDDL(string $fromTableName, string $toTableName): string
     {
         $pos = strpos($toTableName, '.');
@@ -586,6 +722,7 @@ ALTER TABLE %s RENAME TO %s;
      *
      * @return bool
      */
+    #[\Override]
     public function supportsSchemas(): bool
     {
         return true;
@@ -596,6 +733,7 @@ ALTER TABLE %s RENAME TO %s;
      *
      * @return bool
      */
+    #[\Override]
     public function hasSize(string $sqlType): bool
     {
         return !in_array(strtoupper($sqlType), ['BYTEA', 'TEXT', 'DOUBLE PRECISION'], true);
@@ -604,6 +742,7 @@ ALTER TABLE %s RENAME TO %s;
     /**
      * @return bool
      */
+    #[\Override]
     public function hasStreamBlobImpl(): bool
     {
         return true;
@@ -612,6 +751,7 @@ ALTER TABLE %s RENAME TO %s;
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsVarcharWithoutSize(): bool
     {
         return true;
@@ -622,6 +762,7 @@ ALTER TABLE %s RENAME TO %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyTableDDL(TableDiff $tableDiff): string
     {
         $ret = parent::getModifyTableDDL($tableDiff);
@@ -646,6 +787,7 @@ ALTER TABLE %s RENAME TO %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnDDL(ColumnDiff $columnDiff): string
     {
         $ret = '';
@@ -833,6 +975,7 @@ DROP SEQUENCE %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnsDDL(array $columnDiffs): string
     {
         $ret = '';
@@ -854,6 +997,7 @@ DROP SEQUENCE %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnsDDL(array $columns): string
     {
         $ret = '';
@@ -875,6 +1019,7 @@ DROP SEQUENCE %s CASCADE;
      *
      * @return string
      */
+    #[\Override]
     public function getDropIndexDDL(Index $index): string
     {
         if ($index instanceof Unique) {
@@ -907,6 +1052,7 @@ ALTER TABLE %s DROP CONSTRAINT %s;
      *
      * @return string
      */
+    #[\Override]
     public function getIdentifierPhp(
         string $columnValueMutator,
         string $connectionVariableName = '$con',
@@ -936,6 +1082,7 @@ ALTER TABLE %s DROP CONSTRAINT %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddIndexDDL(Index $index): string
     {
         if (!$index->isUnique()) {

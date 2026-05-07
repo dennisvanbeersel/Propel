@@ -1,0 +1,81 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\RawCriterion",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+    "implements": [],
+    "methods": [
+        {
+            "name": "appendPsForUniqueClauseTo",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sb",
+                    "type": "string",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "outer",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "column",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    "default": "PDO::PARAM_STR",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

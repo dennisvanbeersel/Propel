@@ -12,9 +12,7 @@ use Propel\Runtime\Connection\ConnectionWrapper;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 use Exception;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class StatementWrapperTest extends BookstoreTestBase
 {
     /**

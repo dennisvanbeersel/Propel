@@ -19,9 +19,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Tests the exceptions thrown by the TableMap classes.
  *
  * @see BookstoreDataPopulator
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class TableMapExceptionsTest extends BookstoreTestBase
 {
     /**

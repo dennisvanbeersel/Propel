@@ -240,6 +240,36 @@ interface PlatformInterface
     public function supportsVarcharWithoutSize(): bool;
 
     /**
+     * Phase C (umbrella §6.4): does this platform emit GENERATED columns (virtual/stored)?
+     * MySQL/MariaDB and PostgreSQL return true; SQLite false (frozen-feature stance).
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function supportsGeneratedColumns(): bool;
+
+    /**
+     * Phase C (umbrella §6.4): does this platform emit INVISIBLE columns?
+     * MySQL 8 / MariaDB 10.3+ return true; PostgreSQL false; SQLite false.
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function supportsInvisibleColumns(): bool;
+
+    /**
+     * Phase C (umbrella §6.4): does this platform emit CHECK constraints?
+     * MySQL 8.0.16+, MariaDB 10.5+, PostgreSQL all true; SQLite false (frozen).
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function supportsCheckConstraints(): bool;
+
+    /**
      * Returns the boolean value for the RDBMS.
      *
      * This value should match the boolean value that is set
@@ -357,4 +387,19 @@ interface PlatformInterface
      * @return string Quoted identifier.
      */
     public function quoteIdentifier(string $text): string;
+
+    /**
+     * Returns the platform's "invalid date" sentinel string for the given temporal
+     * column type, or null if the platform does not have one.
+     *
+     * Used by ObjectBuilder/ColumnAccessorBuilderTrait to emit MySQL-aware
+     * temporal accessors that treat e.g. `0000-00-00 00:00:00` as a hydration
+     * sentinel rather than a real value.
+     *
+     * @param string $columnType A {@see \Propel\Generator\Model\PropelTypes} constant
+     *                           (DATE / DATETIME / TIMESTAMP / TIME).
+     *
+     * @return string|null
+     */
+    public function getInvalidDateString(string $columnType): ?string;
 }

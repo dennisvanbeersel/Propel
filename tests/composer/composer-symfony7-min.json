@@ -20,7 +20,8 @@
         "symfony/filesystem": "^7.2",
         "symfony/finder": "^7.2",
         "symfony/translation": "^7.2",
-        "symfony/validator": "^7.2"
+        "symfony/validator": "^7.2",
+        "symfony/deprecation-contracts": "^3.5"
     },
     "require-dev": {
         "ext-pdo": "*",
@@ -33,7 +34,11 @@
         "psalm/phar": "^5.0 || ^6.0",
         "mikey179/vfsstream": "^1.6",
         "phpstan/phpstan-deprecation-rules": "^2.0",
-        "phpstan/extension-installer": "^1.4"
+        "phpstan/extension-installer": "^1.4",
+        "symfony/phpunit-bridge": "^7.2",
+        "infection/infection": "^0.29",
+        "deptrac/deptrac": "^2.0",
+        "innmind/black-box": "^6.0"
     },
     "autoload": {
         "psr-4": {
@@ -49,7 +54,8 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
-            "phpstan/extension-installer": true
+            "phpstan/extension-installer": true,
+            "infection/extension-installer": true
         }
     }
 }

@@ -8,9 +8,7 @@
 
 namespace Propel\Tests\Generator\Migration;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class IndexTest extends MigrationTestCase
 {
     /**
@@ -136,10 +134,9 @@ class IndexTest extends MigrationTestCase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testChangeSize()
     {
         $originXml = '

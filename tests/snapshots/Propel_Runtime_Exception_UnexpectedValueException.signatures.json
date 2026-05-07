@@ -1,0 +1,14 @@
+{
+    "class": "Propel\\Runtime\\Exception\\UnexpectedValueException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "UnexpectedValueException",
+    "implements": [
+        "Propel\\Runtime\\Exception\\ExceptionInterface"
+    ],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

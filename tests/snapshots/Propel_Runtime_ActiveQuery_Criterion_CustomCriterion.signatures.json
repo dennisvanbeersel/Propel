@@ -1,0 +1,82 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\CustomCriterion",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+    "implements": [],
+    "methods": [
+        {
+            "name": "appendPsForUniqueClauseTo",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sb",
+                    "type": "string",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "outer",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "boundParams",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getBoundParams",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

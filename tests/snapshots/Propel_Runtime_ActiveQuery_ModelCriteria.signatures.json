@@ -1,0 +1,2244 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
+    "implements": [],
+    "methods": [
+        {
+            "name": "createEntityNotFoundException",
+            "visibility": "private",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Exception"
+        },
+        {
+            "name": "basePostDelete",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "affectedRows",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "basePostUpdate",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "affectedRows",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "basePreDelete",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "basePreSelect",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "basePreUpdate",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "values",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "forceIndividualSaves",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "convertValueForColumn",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "colMap",
+                    "type": "Propel\\Runtime\\Map\\ColumnMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "doReplaceNameInExpression",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "matches",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "getColumnFromName",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "failSilently",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "array"
+        },
+        {
+            "name": "getColumnFromSubQuery",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "failSilently",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "array"
+        },
+        {
+            "name": "getCriterionForClause",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "clause",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "bindingType",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
+        },
+        {
+            "name": "getCriterionForConditions",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditions",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "operator",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
+        },
+        {
+            "name": "getRealColumnName",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "postDelete",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "affectedRows",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "postUpdate",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "affectedRows",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "preDelete",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "preSelect",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "preUpdate",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "values",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "forceIndividualSaves",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?int"
+        },
+        {
+            "name": "resolveSelectAll",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "useAbstractInnerQueryCriterion",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "abstractInnerQueryCriterionClass",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "modelAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "queryClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "operatorDeclaration",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "__call",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "arguments",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "__clone",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "addJoinCondition",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "clause",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "operator",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "bindingType",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addJoinObject",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "join",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Join",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addRelationSelectColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relation",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addSelectColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addSelectQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "subQueryCriteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "alias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "addAliasAndSelectColumns",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addSelfSelectColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "force",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addSelfSelectColumnsFromTableMapClass",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "tableMapClassName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "alias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addUsingAlias",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "operator",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "clear",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "condition",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditionName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "clause",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "bindingType",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "configureSelectColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "count",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "createSelectSql",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "delete",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "deleteAll",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "distinct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "doCount",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "doSelect",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "doUpdate",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "updateValues",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "forceIndividualSaves",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "endUse",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?self"
+        },
+        {
+            "name": "exists",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "filterBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "comparison",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "filterByArray",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditions",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "find",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findByArray",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditions",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findOne",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findOneBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findOneByArray",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditions",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findOneOrCreate",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findPk",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "key",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "findPks",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "keys",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getAliasedColName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "colName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "getClassAndAlias",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "array"
+        },
+        {
+            "name": "getModelJoinByTableName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "tableName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\ModelJoin"
+        },
+        {
+            "name": "getParams",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getPreviousJoin",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\Join"
+        },
+        {
+            "name": "getPrimaryCriteria",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?self"
+        },
+        {
+            "name": "getRelationName",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relation",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "getSelect",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "groupBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "groupByClass",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "having",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "clause",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "bindingType",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "isKeepQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isSelfColumnsSelected",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isWithOneToMany",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "join",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relation",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "joinType",
+                    "type": "string",
+                    "default": "Propel\\Runtime\\ActiveQuery\\Criteria::INNER_JOIN",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "joinWith",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relation",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "joinType",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "keepQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "isKeepQuery",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "limit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "limit",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "mergeWith",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "operator",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "offset",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "offset",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "orderBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "order",
+                    "type": "string",
+                    "default": "Propel\\Runtime\\ActiveQuery\\Criteria::ASC",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "paginate",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "page",
+                    "type": "int",
+                    "default": "1",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "maxPerPage",
+                    "type": "int",
+                    "default": "10",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Util\\PropelModelPager"
+        },
+        {
+            "name": "removeSelfSelectColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "force",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "requireOne",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "requireOneBy",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "requireOneByArray",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "conditions",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "requirePk",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "key",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "select",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnArray",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "setJoinCondition",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "condition",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "setPreviousJoin",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "previousJoin",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Join",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "setPrimaryCriteria",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "previousJoin",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Join",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "update",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "values",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "forceIndividualSaves",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "useExistsQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "modelAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "queryClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": "Propel\\Runtime\\ActiveQuery\\Criterion\\ExistsQueryCriterion::TYPE_EXISTS",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "useInQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "modelAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "queryClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": "Propel\\Runtime\\ActiveQuery\\Criteria::IN",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "useNotExistsQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "modelAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "queryClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "useNotInQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "modelAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "queryClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "useQuery",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relationName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "secondaryCriteriaClass",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "self"
+        },
+        {
+            "name": "where",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "clause",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "bindingType",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "whereExists",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "existsQueryCriteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "operator",
+                    "type": "string",
+                    "default": "Propel\\Runtime\\ActiveQuery\\Criterion\\ExistsQueryCriterion::TYPE_EXISTS",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "whereNotExists",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "existsQueryCriteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\ModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "with",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "relation",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "withColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "clause",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        }
+    ],
+    "phpDocMethods": [
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria innerJoin($relation) Adds a INNER JOIN clause to the query",
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria leftJoin($relation) Adds a LEFT JOIN clause to the query",
+        "\\Propel\\Runtime\\ActiveQuery\\ModelCriteria rightJoin($relation) Adds a RIGHT JOIN clause to the query"
+    ],
+    "properties": [],
+    "constants": [
+        {
+            "name": "FORMAT_ARRAY",
+            "value": "'\\\\Propel\\\\Runtime\\\\Formatter\\\\ArrayFormatter'"
+        },
+        {
+            "name": "FORMAT_OBJECT",
+            "value": "'\\\\Propel\\\\Runtime\\\\Formatter\\\\ObjectFormatter'"
+        },
+        {
+            "name": "FORMAT_ON_DEMAND",
+            "value": "'\\\\Propel\\\\Runtime\\\\Formatter\\\\OnDemandFormatter'"
+        },
+        {
+            "name": "FORMAT_STATEMENT",
+            "value": "'\\\\Propel\\\\Runtime\\\\Formatter\\\\StatementFormatter'"
+        }
+    ]
+}

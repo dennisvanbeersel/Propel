@@ -18,9 +18,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for ActiveRecord serialization.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ActiveRecordSerializeTest extends BookstoreTestBase
 {
     /**

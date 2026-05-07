@@ -14,6 +14,7 @@ use InvalidArgumentException;
 use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
+use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 /**
  * Class PropelConfiguration
@@ -27,6 +28,7 @@ class PropelConfiguration implements ConfigurationInterface
      *
      * @return \Symfony\Component\Config\Definition\Builder\TreeBuilder The tree builder
      */
+    #[\Override]
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('propel');
@@ -122,7 +124,35 @@ class PropelConfiguration implements ConfigurationInterface
                             ->normalizeKeys(false)
                             ->prototype('array')
                             ->fixXmlConfig('slave')
+                            ->fixXmlConfig('replica')
                             ->fixXmlConfig('model_path')
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('slaves', $v))
+                                    ->then(static function (): never {
+                                        throw new InvalidConfigurationException(
+                                            'Configuration key "slaves" was removed in Propel 4.0. Use "replicas" instead. '
+                                            . 'Run `vendor/bin/rector --rules=Propel4Migration` to migrate config files automatically.',
+                                        );
+                                    })
+                                ->end()
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && array_key_exists('master', $v))
+                                    ->then(static function (): never {
+                                        throw new InvalidConfigurationException(
+                                            'Configuration key "master" was removed in Propel 4.0. Use "primary" (or inline dsn/user/password directly) instead. '
+                                            . 'Run `vendor/bin/rector --rules=Propel4Migration` to migrate config files automatically.',
+                                        );
+                                    })
+                                ->end()
+                                ->beforeNormalization()
+                                    ->ifTrue(static fn ($v) => is_array($v) && isset($v['adapter']) && in_array($v['adapter'], ['oracle', 'mssql', 'sqlsrv'], true))
+                                    ->then(static function (array $v): array {
+                                        throw new InvalidConfigurationException(sprintf(
+                                            'Adapter "%s" is not supported. Propel 3 supports mysql, pgsql and sqlite. See docs/MIGRATION-FROM-PRE-AI.md for migration guidance.',
+                                            $v['adapter'],
+                                        ));
+                                    })
+                                ->end()
                                 ->children()
                                     ->scalarNode('classname')->defaultValue('\Propel\Runtime\Connection\ConnectionWrapper')->end()
                                     ->enumNode('adapter')
@@ -162,13 +192,27 @@ class PropelConfiguration implements ConfigurationInterface
                                         ->defaultValue(['src', 'vendor'])
                                         ->prototype('scalar')->end()
                                     ->end()
-                                    ->arrayNode('slaves')
+                                    ->arrayNode('replicas')
                                         ->prototype('array')
                                             ->children()
                                                 ->scalarNode('dsn')->end()
                                                 ->scalarNode('user')->end()
                                                 ->scalarNode('password')->end()
+                                                ->floatNode('lagThresholdSeconds')->defaultValue(2.0)->end()
                                             ->end()
+                                        ->end()
+                                    ->end()
+                                    ->arrayNode('decorators')
+                                        ->defaultValue(['transactional', 'logging', 'caching'])
+                                        ->prototype('scalar')->end()
+                                    ->end()
+                                    ->integerNode('preparedStatementCacheCapacity')->min(1)->defaultValue(256)->end()
+                                    ->arrayNode('routing')
+                                        ->addDefaultsIfNotSet()
+                                        ->children()
+                                            ->floatNode('sessionConsistencyWindowSeconds')->defaultValue(5.0)->end()
+                                            ->floatNode('replicaLagThresholdSeconds')->defaultValue(2.0)->end()
+                                            ->booleanNode('fallbackToPrimary')->defaultTrue()->end()
                                         ->end()
                                     ->end()
                                 ->end()
@@ -402,6 +446,7 @@ class PropelConfiguration implements ConfigurationInterface
                                         ->scalarNode('queryinheritancestub')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\ExtensionQueryInheritanceBuilder')->end()
                                         ->scalarNode('tablemap')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\TableMapBuilder')->end()
                                         ->scalarNode('interface')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\InterfaceBuilder')->end()
+                                        ->scalarNode('enum')->cannotBeEmpty()->defaultValue('\Propel\Generator\Builder\Om\EnumBuilder')->end()
                                         ->scalarNode('datasql')->cannotBeEmpty()->end()
                                     ->end()
                                 ->end()

@@ -127,6 +127,7 @@ class Database extends ScopedMappingModel
     /**
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         parent::setupObject();
@@ -646,6 +647,7 @@ class Database extends ScopedMappingModel
      *
      * @return void
      */
+    #[\Override]
     public function setSchema(?string $schema): void
     {
         $oldSchema = $this->schema;
@@ -771,6 +773,7 @@ class Database extends ScopedMappingModel
      *
      * @return \Propel\Generator\Config\GeneratorConfigInterface|null
      */
+    #[\Override]
     public function getGeneratorConfig(): ?GeneratorConfigInterface
     {
         if ($this->parentSchema !== null) {
@@ -789,6 +792,7 @@ class Database extends ScopedMappingModel
      *
      * @return string
      */
+    #[\Override]
     public function getBuildProperty(string $name): string
     {
         $config = $this->getGeneratorConfig();
@@ -881,6 +885,7 @@ class Database extends ScopedMappingModel
      *
      * @return void
      */
+    #[\Override]
     protected function registerBehavior(Behavior $behavior): void
     {
         $behavior->setDatabase($this);

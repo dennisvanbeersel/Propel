@@ -17,9 +17,8 @@ use RechercheNature;
 
 /**
  * This test proves the bug described in https://github.com/propelorm/Propel2/issues/989.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue989Test extends TestCase
 {
     /**

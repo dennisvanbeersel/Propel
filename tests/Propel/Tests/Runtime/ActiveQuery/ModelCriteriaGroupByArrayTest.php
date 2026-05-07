@@ -14,18 +14,15 @@ use Propel\Tests\Bookstore\AuthorQuery;
 use Propel\Tests\Bookstore\Book;
 use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ModelCriteriaGroupByArrayTest extends BookstoreEmptyTestBase
 {
     /**
-     * @dataProvider dataForTestException
      *
      * @param mixed $groupBy
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataForTestException')]
     public function testGroupByArrayThrowException($groupBy)
     {
         $this->expectException(PropelException::class);

@@ -1,0 +1,14 @@
+{
+    "class": "Propel\\Runtime\\Exception\\BadMethodCallException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "BadMethodCallException",
+    "implements": [
+        "Propel\\Runtime\\Exception\\ExceptionInterface"
+    ],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

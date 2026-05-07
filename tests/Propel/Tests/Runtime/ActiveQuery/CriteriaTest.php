@@ -26,9 +26,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  *
  * @author Christopher Elkins <celkins@scardini.com>
  * @author Sam Joseph <sam@neurogrid.com>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class CriteriaTest extends BookstoreTestBase
 {
     /**
@@ -69,7 +68,7 @@ class CriteriaTest extends BookstoreTestBase
         $this->c->add($table . '.' . $column, $value);
 
         // Verify that the key exists
-        $this->assertTrue($this->c->containsKey($table . '.' . $column));
+        $this->assertArrayHasKey($table . '.' . $column, $this->c->getMap());
 
         // Verify that what we get out is what we put in
         $this->assertTrue($this->c->getValue($table . '.' . $column) === $value);
@@ -90,7 +89,7 @@ class CriteriaTest extends BookstoreTestBase
         $this->c->add($table . '.' . $column, $value);
 
         // Verify that the key exists
-        $this->assertTrue($this->c->containsKey($table . '.' . $column));
+        $this->assertArrayHasKey($table . '.' . $column, $this->c->getMap());
 
         // Verify that what we get out is what we put in
         $this->assertTrue($this->c->getValue($table . '.' . $column) === $value);
@@ -972,10 +971,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testHavingAlias()
     {
         $c = new Criteria();
@@ -1014,10 +1012,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testHavingAliasRaw()
     {
         $c = new Criteria();
@@ -1147,7 +1144,7 @@ class CriteriaTest extends BookstoreTestBase
         $c2 = clone $c1;
         $c2->addAnd('tbl.COL1', 'bar', Criteria::EQUAL);
         $nbCrit = 0;
-        foreach ($c1->keys() as $key) {
+        foreach (array_keys($c1->getMap()) as $key) {
             foreach ($c1->getCriterion($key)->getAttachedCriterion() as $criterion) {
                 $nbCrit++;
             }
@@ -1229,10 +1226,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider dataLimit
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataLimit')]
     public function testLimit($limit, $expected)
     {
         $c = new Criteria();
@@ -1302,10 +1298,9 @@ class CriteriaTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider dataOffset
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('dataOffset')]
     public function testOffset($offset, $expected)
     {
         $c = new Criteria();

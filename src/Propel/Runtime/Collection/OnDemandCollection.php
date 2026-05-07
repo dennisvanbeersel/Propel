@@ -110,6 +110,7 @@ class OnDemandCollection extends Collection
     /**
      * @return \Propel\Runtime\Collection\OnDemandIterator|\Propel\Runtime\Collection\IteratorInterface
      */
+    #[\Override]
     public function getIterator(): Traversable
     {
         return $this->lastIterator;
@@ -124,6 +125,7 @@ class OnDemandCollection extends Collection
      *
      * @return bool
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         throw new PropelException('The On Demand Collection does not allow access by offset');
@@ -138,8 +140,8 @@ class OnDemandCollection extends Collection
      *
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
-    public function &offsetGet($offset)
+    #[\Override]
+    public function offsetGet($offset): mixed
     {
         throw new PropelException('The On Demand Collection does not allow access by offset');
     }
@@ -152,6 +154,7 @@ class OnDemandCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         throw new ReadOnlyModelException('The On Demand Collection is read only');
@@ -164,6 +167,7 @@ class OnDemandCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         throw new ReadOnlyModelException('The On Demand Collection is read only');
@@ -202,6 +206,7 @@ class OnDemandCollection extends Collection
      *
      * @return int Number of results
      */
+    #[\Override]
     public function count(): int
     {
         return $this->getIterator()->count();
@@ -216,6 +221,7 @@ class OnDemandCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function append($value): void
     {
         throw new ReadOnlyModelException('The On Demand Collection is read only');
@@ -228,6 +234,7 @@ class OnDemandCollection extends Collection
      *
      * @return int
      */
+    #[\Override]
     public function prepend($value): int
     {
         throw new ReadOnlyModelException('The On Demand Collection is read only');
@@ -240,6 +247,7 @@ class OnDemandCollection extends Collection
      *
      * @return void
      */
+    #[\Override]
     public function exchangeArray(array $input): void
     {
         throw new ReadOnlyModelException('The On Demand Collection is read only');
@@ -250,6 +258,7 @@ class OnDemandCollection extends Collection
      *
      * @return array
      */
+    #[\Override]
     public function getArrayCopy(): array
     {
         throw new PropelException('The On Demand Collection does not allow access by offset');
@@ -260,6 +269,7 @@ class OnDemandCollection extends Collection
      *
      * @throws \Propel\Runtime\Exception\PropelException
      */
+    #[\Override]
     public function exportTo($parser, bool $usePrefix = true, bool $includeLazyLoadColumns = true, string $keyType = TableMap::TYPE_PHPNAME): string
     {
         throw new PropelException('A OnDemandCollection cannot be exported.');

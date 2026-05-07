@@ -24,9 +24,8 @@ use Propel\Runtime\Collection\ArrayCollection;
  * Test class for PropelQuery
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PropelQueryTest extends BookstoreTestBase
 {
     /**
@@ -194,9 +193,7 @@ class PropelQueryTest extends BookstoreTestBase
         $this->assertNotNull($result);
     }
 
-    /**
-     * @dataProvider findMethodsProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('findMethodsProvider')]
     public function testReturnTypeOfFind(string $findMethodName, $findMethodArg)
     {
         $queryTypes = [

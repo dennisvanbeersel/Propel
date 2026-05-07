@@ -14,7 +14,11 @@
       <column name="average_rating" phpName="AverageRating" type="float" size="2" scale="2" description="The post rating in percentage"/>
       <column name="price_without_decimal_places" phpName="PriceWithoutDecimalPlaces" type="DECIMAL" size="10" scale="0" description="The Price without decimal places"/>
       <column name="created_at" phpName="CreatedAt" type="TIMESTAMP"/>
-      <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP"/>
+      <column name="updated_at" phpName="UpdatedAt" type="TIMESTAMP">
+        <vendor type="mysql">
+          <parameter name="OnUpdate" value="CURRENT_TIMESTAMP"/>
+        </vendor>
+      </column>
       <column name="slug" phpName="Slug" type="VARCHAR" size="255"/>
       <foreign-key foreignTable="blog_author" name="fk_post_has_author" phpName="Author" refPhpName="Posts" defaultJoin="Criteria::LEFT_JOIN" onDelete="CASCADE">
         <reference local="author_id" foreign="id"/>
@@ -36,6 +40,7 @@
         <parameter name="update_column" value="updated_at"/>
         <parameter name="disable_created_at" value="false"/>
         <parameter name="disable_updated_at" value="false"/>
+        <parameter name="use_native_on_update" value="true"/>
       </behavior>
       <behavior name="sluggable">
         <parameter name="slug_column" value="slug"/>

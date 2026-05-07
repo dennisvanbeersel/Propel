@@ -14,9 +14,7 @@ use Propel\Tests\Bookstore\Book;
 use Propel\Tests\Bookstore\Map\BookTableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Ticket520Test extends BookstoreTestBase
 {
     /**

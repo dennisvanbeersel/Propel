@@ -22,9 +22,8 @@ use Propel\Tests\TestCaseFixtures;
  * This test makes sure that DateTime as Primary Key can be inserted without a failure. It also covers that
  * the toArray() method of the ObjectCollection returns a valid array when a Date(time) object is used as a Primary Key.
  * For more information see https://github.com/propelorm/Propel2/issues/646
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue646Test extends TestCaseFixtures
 {
     /**

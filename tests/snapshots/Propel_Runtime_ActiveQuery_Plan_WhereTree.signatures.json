@@ -1,0 +1,182 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Plan\\WhereTree",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": true,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criterions",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "having",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "add",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "criterion",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "get",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
+        },
+        {
+            "name": "getCriterions",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getHaving",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
+        },
+        {
+            "name": "has",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "isEmpty",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "remove",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setHaving",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "having",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "walk",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "visitor",
+                    "type": "callable",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

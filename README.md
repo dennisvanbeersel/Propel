@@ -15,11 +15,21 @@ Propel2 is an open-source Object-Relational Mapping (ORM) for PHP.
 - **PHP 8.3+** with `strict_types` declarations throughout
 - **PDO** with drivers for your database of choice
 
+### Compatibility Matrix
+
+| Propel | PHP | MySQL | MariaDB | PostgreSQL | Symfony |
+|---|---|---|---|---|---|
+| 2.x (LTS, security only) | 8.3 | 5.7+ | 10.4+ | 12+ | 7.0+ |
+| **3.0 (current)** | 8.3 | 8.0+ | 10.5+ | 14+ | 7.2+ |
+| 4.0 (planned) | 8.4 | 8.0+ | 10.5+ | 14+ | 7.2+ |
+
 ### Supported Databases
 
-- MySQL / MariaDB
-- PostgreSQL
-- SQLite
+- MySQL 8.0+ / MariaDB 10.5+
+- PostgreSQL 14+
+- SQLite (kept for tests + small projects; frozen at existing feature surface)
+
+Oracle, SQL Server (mssql/sqlsrv) are unsupported. See [docs/MIGRATION-FROM-PRE-AI.md](docs/MIGRATION-FROM-PRE-AI.md) if upgrading from a Propel project that used those.
 
 ### Symfony Components (^7.0)
 

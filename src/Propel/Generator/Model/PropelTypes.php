@@ -179,6 +179,35 @@ class PropelTypes
     public const JSON = 'JSON';
 
     /**
+     * Phase C (umbrella §6.4): native PostgreSQL JSONB.
+     * Maps to JSON on MySQL with deprecation note (MySQL has no JSONB).
+     *
+     * @var string
+     */
+    public const JSONB = 'JSONB';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL INET.
+     *
+     * @var string
+     */
+    public const INET = 'INET';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL CIDR.
+     *
+     * @var string
+     */
+    public const CIDR = 'CIDR';
+
+    /**
+     * Phase C (umbrella §6.4): native PostgreSQL TSVECTOR.
+     *
+     * @var string
+     */
+    public const TSVECTOR = 'TSVECTOR';
+
+    /**
      * @var string
      */
     public const CHAR_NATIVE_TYPE = 'string';
@@ -231,17 +260,17 @@ class PropelTypes
     /**
      * @var string
      */
-    public const REAL_NATIVE_TYPE = 'double';
+    public const REAL_NATIVE_TYPE = 'float';
 
     /**
      * @var string
      */
-    public const FLOAT_NATIVE_TYPE = 'double';
+    public const FLOAT_NATIVE_TYPE = 'float';
 
     /**
      * @var string
      */
-    public const DOUBLE_NATIVE_TYPE = 'double';
+    public const DOUBLE_NATIVE_TYPE = 'float';
 
     /**
      * @var string
@@ -296,12 +325,12 @@ class PropelTypes
     /**
      * @var string
      */
-    public const BOOLEAN_NATIVE_TYPE = 'boolean';
+    public const BOOLEAN_NATIVE_TYPE = 'bool';
 
     /**
      * @var string
      */
-    public const BOOLEAN_EMU_NATIVE_TYPE = 'boolean';
+    public const BOOLEAN_EMU_NATIVE_TYPE = 'bool';
 
     /**
      * @var string
@@ -388,6 +417,11 @@ class PropelTypes
         self::BU_TIMESTAMP,
         self::SET,
         self::JSON,
+        // Phase C (umbrella §6.4)
+        self::JSONB,
+        self::INET,
+        self::CIDR,
+        self::TSVECTOR,
         self::UUID,
         self::UUID_BINARY,
     ];
@@ -429,6 +463,11 @@ class PropelTypes
         self::SET => self::SET_NATIVE_TYPE,
         self::GEOMETRY => self::GEOMETRY_NATIVE_TYPE,
         self::JSON => self::JSON_TYPE,
+        // Phase C (umbrella §6.4): all five new types are PHP-string-backed.
+        self::JSONB => self::JSON_TYPE,
+        self::INET => self::JSON_TYPE,
+        self::CIDR => self::JSON_TYPE,
+        self::TSVECTOR => self::JSON_TYPE,
         self::UUID => self::UUID_NATIVE_TYPE,
         self::UUID_BINARY => self::UUID_NATIVE_TYPE,
     ];
@@ -475,6 +514,11 @@ class PropelTypes
         self::BU_DATE => PDO::PARAM_STR,
         self::BU_TIMESTAMP => PDO::PARAM_STR,
         self::JSON => PDO::PARAM_STR,
+        // Phase C (umbrella §6.4): all five new types bind as strings on PDO.
+        self::JSONB => PDO::PARAM_STR,
+        self::INET => PDO::PARAM_STR,
+        self::CIDR => PDO::PARAM_STR,
+        self::TSVECTOR => PDO::PARAM_STR,
         self::UUID => PDO::PARAM_STR,
         self::UUID_BINARY => PDO::PARAM_LOB,
     ];
@@ -491,6 +535,20 @@ class PropelTypes
     ];
 
     /**
+     * Mapping types that are deprecated for removal in 4.0, and the
+     * recommended replacement to surface via trigger_deprecation().
+     *
+     * @var array<string, string>
+     */
+    private const DEPRECATED_TYPE_REPLACEMENTS = [
+        self::BU_DATE => self::TIMESTAMP,
+        self::BU_TIMESTAMP => self::TIMESTAMP,
+        self::BOOLEAN_EMU => self::BOOLEAN,
+        self::OBJECT => 'JSON or app-layer storage',
+        self::PHP_ARRAY => self::JSON,
+    ];
+
+    /**
      * Returns the native PHP type which corresponds to the
      * mapping type provided. Use in the base object class generation.
      *
@@ -500,6 +558,8 @@ class PropelTypes
      */
     public static function getPhpNative(string $mappingType): string
     {
+        self::triggerDeprecationIfDeprecated($mappingType);
+
         return self::$mappingToPHPNativeMap[$mappingType];
     }
 
@@ -512,6 +572,8 @@ class PropelTypes
      */
     public static function getPDOType(string $type): int
     {
+        self::triggerDeprecationIfDeprecated($type);
+
         return self::$mappingTypeToPDOTypeMap[$type];
     }
 
@@ -524,7 +586,31 @@ class PropelTypes
      */
     public static function getPdoTypeString(string $type): string
     {
+        self::triggerDeprecationIfDeprecated($type);
+
         return self::$pdoTypeNames[self::$mappingTypeToPDOTypeMap[$type]];
+    }
+
+    /**
+     * Emits a deprecation notice when the given mapping type has been scheduled
+     * for removal in 4.0. No-op for non-deprecated types.
+     *
+     * @param string $type
+     *
+     * @return void
+     */
+    private static function triggerDeprecationIfDeprecated(string $type): void
+    {
+        if (!isset(self::DEPRECATED_TYPE_REPLACEMENTS[$type])) {
+            return;
+        }
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'PropelType "%s" is deprecated and will be removed in 4.0; use %s instead.',
+            $type,
+            self::DEPRECATED_TYPE_REPLACEMENTS[$type],
+        );
     }
 
     /**
@@ -650,7 +736,7 @@ class PropelTypes
      */
     public static function isPhpPrimitiveType(string $phpType): bool
     {
-        return in_array($phpType, ['boolean', 'int', 'double', 'float', 'string'], true);
+        return in_array($phpType, ['bool', 'boolean', 'int', 'double', 'float', 'string'], true);
     }
 
     /**
@@ -662,7 +748,7 @@ class PropelTypes
      */
     public static function isPhpPrimitiveNumericType(string $phpType): bool
     {
-        return in_array($phpType, ['boolean', 'int', 'double', 'float'], true);
+        return in_array($phpType, ['bool', 'boolean', 'int', 'double', 'float'], true);
     }
 
     /**

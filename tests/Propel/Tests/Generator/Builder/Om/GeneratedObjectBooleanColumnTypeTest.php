@@ -80,10 +80,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForSetter
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForSetter')]
     public function testSetterBooleanValue($value, $expected)
     {
         $e = new ComplexColumnTypeEntity4();

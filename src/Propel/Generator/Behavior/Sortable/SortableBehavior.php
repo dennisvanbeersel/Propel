@@ -55,6 +55,7 @@ class SortableBehavior extends Behavior
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $table = $this->getTable();
@@ -87,6 +88,7 @@ class SortableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Sortable\SortableBehaviorObjectBuilderModifier
      */
+    #[\Override]
     public function getObjectBuilderModifier()
     {
         if ($this->objectBuilderModifier === null) {
@@ -99,6 +101,7 @@ class SortableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Sortable\SortableBehaviorQueryBuilderModifier
      */
+    #[\Override]
     public function getQueryBuilderModifier()
     {
         if ($this->queryBuilderModifier === null) {
@@ -111,6 +114,7 @@ class SortableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Sortable\SortableBehaviorTableMapBuilderModifier
      */
+    #[\Override]
     public function getTableMapBuilderModifier()
     {
         if ($this->tableMapBuilderModifier === null) {
@@ -206,6 +210,7 @@ class SortableBehavior extends Behavior
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function addParameter(array $parameter): void
     {
         if ($parameter['name'] === 'scope_column') {

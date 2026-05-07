@@ -12,17 +12,27 @@ use PDO;
 use Propel\Runtime\Adapter\Pdo\SqliteAdapter;
 use Propel\Runtime\Connection\ConnectionFactory;
 use Propel\Runtime\Connection\ConnectionWrapper;
+use Propel\Runtime\Connection\Exception\ConnectionDecoratorException;
+use Propel\Runtime\Connection\Internal\CachingConnection;
+use Propel\Runtime\Connection\Internal\LoggingConnection;
+use Propel\Runtime\Connection\Internal\ProfilingConnection;
+use Propel\Runtime\Connection\Internal\ReplicaRoutingConnection;
+use Propel\Runtime\Connection\Internal\TransactionalConnection;
+use Propel\Runtime\Connection\ProfilerConnectionWrapper;
 use Propel\Runtime\Exception\InvalidArgumentException;
 use Propel\Tests\Helpers\BaseTestCase;
-use Propel\Runtime\Connection\ProfilerConnectionWrapper;
 
 class ConnectionFactoryTest extends BaseTestCase
 {
+    /**
+     * @return void
+     */
     public function tearDown(): void
     {
         ConnectionFactory::$useProfilerConnection = false;
         parent::tearDown();
     }
+
     /**
      * @return void
      */
@@ -108,7 +118,7 @@ class ConnectionFactoryTest extends BaseTestCase
 
         $con = ConnectionFactory::create(['dsn' => 'sqlite::memory:', 'attributes' => ['ATTR_CAE' => PDO::CASE_LOWER]], new SqliteAdapter());
     }
-    
+
     /**
      * @return void
      */
@@ -118,6 +128,108 @@ class ConnectionFactoryTest extends BaseTestCase
         $config = ['dsn' => 'sqlite::memory:', 'classname' => ConnectionWrapper::class];
         $con = ConnectionFactory::create($config, new SqliteAdapter());
         $this->assertInstanceOf(ProfilerConnectionWrapper::class, $con);
+    }
+
+    /**
+     * @return void
+     */
+    public function testExplicitDecoratorListBuildsChain()
+    {
+        $con = ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => ['transactional', 'logging', 'caching'],
+            ],
+            new SqliteAdapter(),
+        );
+
+        $this->assertInstanceOf(CachingConnection::class, $con);
+        // Walk the chain: caching -> logging -> transactional -> pdo.
+        $logging = $con->getInner();
+        $this->assertInstanceOf(LoggingConnection::class, $logging);
+        $tx = $logging->getInner();
+        $this->assertInstanceOf(TransactionalConnection::class, $tx);
+    }
+
+    /**
+     * @return void
+     */
+    public function testProfilingDecoratorIncludedWhenRequested()
+    {
+        $con = ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => ['transactional', 'logging', 'caching', 'profiling'],
+            ],
+            new SqliteAdapter(),
+        );
+
+        $this->assertInstanceOf(ProfilingConnection::class, $con);
+    }
+
+    /**
+     * @return void
+     */
+    public function testEmptyDecoratorListYieldsBareConnection()
+    {
+        $con = ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => [],
+            ],
+            new SqliteAdapter(),
+        );
+
+        $this->assertInstanceOf('Propel\Runtime\Connection\PdoConnection', $con);
+    }
+
+    /**
+     * @return void
+     */
+    public function testMisorderedDecoratorListThrows()
+    {
+        $this->expectException(ConnectionDecoratorException::class);
+        ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => ['caching', 'transactional'],
+            ],
+            new SqliteAdapter(),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testUnknownDecoratorThrows()
+    {
+        $this->expectException(ConnectionDecoratorException::class);
+        ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => ['transactional', 'mystery'],
+            ],
+            new SqliteAdapter(),
+        );
+    }
+
+    /**
+     * @return void
+     */
+    public function testReplicasConfiguredWrapsInRoutingConnection()
+    {
+        $con = ConnectionFactory::create(
+            [
+                'dsn' => 'sqlite::memory:',
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'replicas' => [
+                    'r1' => ['dsn' => 'sqlite::memory:'],
+                ],
+            ],
+            new SqliteAdapter(),
+        );
+
+        $this->assertInstanceOf(ReplicaRoutingConnection::class, $con);
     }
 }
 

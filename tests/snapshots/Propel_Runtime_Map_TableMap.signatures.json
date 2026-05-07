@@ -1,0 +1,1102 @@
+{
+    "class": "Propel\\Runtime\\Map\\TableMap",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "getColumnOrValue",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "table",
+                    "type": "Propel\\Runtime\\Map\\TableMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getNormalizedColumnName",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "dbMap",
+                    "type": "?Propel\\Runtime\\Map\\DatabaseMap",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "addColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "isNotNull",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "size",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "defaultValue",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "pk",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fkTable",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "fkColumn",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "addConfiguredColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "cmap",
+                    "type": "Propel\\Runtime\\Map\\ColumnMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "addForeignKey",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fkTable",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fkColumn",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "isNotNull",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "size",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "defaultValue",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "addForeignPrimaryKey",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fkTable",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fkColumn",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "isNotNull",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "size",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "defaultValue",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "addPrimaryKey",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "columnName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "isNotNull",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "size",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "defaultValue",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "addRelation",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "tablePhpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "joinConditionMapping",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "onDelete",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "onUpdate",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "pluralName",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "polymorphic",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\RelationMap"
+        },
+        {
+            "name": "buildRelations",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "extractPrimaryKey",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?array"
+        },
+        {
+            "name": "findColumnByName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "getBehaviors",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getClassName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getClassNameOrFail",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getCollectionClassName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "normalize",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "getColumnByPhpName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "getColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getDatabaseMap",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\Map\\DatabaseMap"
+        },
+        {
+            "name": "getFieldnamesForClass",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "classname",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "type",
+                    "type": "string",
+                    "default": "self::TYPE_PHPNAME",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getForeignKeys",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getNameOrFail",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getPackage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getPhpName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getPhpNameOrFail",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getPrimaryKeyMethodInfo",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "getPrimaryKeys",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getPrimaryStringColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?Propel\\Runtime\\Map\\ColumnMap"
+        },
+        {
+            "name": "getRelation",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\RelationMap"
+        },
+        {
+            "name": "getRelations",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "hasColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "normalize",
+                    "type": "bool",
+                    "default": "true",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "hasColumnByPhpName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "phpName",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "hasPrimaryStringColumn",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "hasRelation",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "initialize",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "isCrossRef",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isIdentifierQuotingEnabled",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isSingleTableInheritance",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "isUseIdGenerator",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setClassName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "classname",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setDatabaseMap",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "dbMap",
+                    "type": "Propel\\Runtime\\Map\\DatabaseMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setIdentifierQuoting",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "identifierQuoting",
+                    "type": "bool",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setIsCrossRef",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "isCrossRef",
+                    "type": "bool",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setPackage",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "package",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setPhpName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "phpName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setPrimaryKeyMethodInfo",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "pkInfo",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setSingleTableInheritance",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "bit",
+                    "type": "bool",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setUseIdGenerator",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "bit",
+                    "type": "bool",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "translateFieldnameForClass",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "classname",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fieldname",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fromType",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "toType",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        }
+    ],
+    "phpDocMethods": [
+        "static string getOMClass(array $row, int $column, bool $withPrefix = true)",
+        "static string|null getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = \\Propel\\Runtime\\Map\\TableMap::TYPE_NUM): ?string;getPrimaryKeyHashFromRow(array $row, int $offset = 0, string $indexType = TableMap::TYPE_NUM)"
+    ],
+    "properties": [],
+    "constants": [
+        {
+            "name": "TYPE_CAMELNAME",
+            "value": "'camelName'"
+        },
+        {
+            "name": "TYPE_COLNAME",
+            "value": "'colName'"
+        },
+        {
+            "name": "TYPE_FIELDNAME",
+            "value": "'fieldName'"
+        },
+        {
+            "name": "TYPE_NUM",
+            "value": "'num'"
+        },
+        {
+            "name": "TYPE_PHPNAME",
+            "value": "'phpName'"
+        }
+    ]
+}

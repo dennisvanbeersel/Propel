@@ -7,7 +7,7 @@ propel:
     connections:
       bookstore:
         adapter: ##DATABASE_VENDOR##
-        classname: \Propel\Runtime\Connection\DebugPDO
+        classname: \Propel\Runtime\Connection\ConnectionWrapper
         dsn: ##DATABASE_URL##
         user: ##DATABASE_USER##
         password: ##DATABASE_PASSWORD##
@@ -20,7 +20,7 @@ propel:
           charset: utf8
       bookstore-cms:
         adapter: ##DATABASE_VENDOR##
-        classname: \Propel\Runtime\Connection\DebugPDO
+        classname: \Propel\Runtime\Connection\ConnectionWrapper
         dsn: ##DATABASE_URL##
         user: ##DATABASE_USER##
         password: ##DATABASE_PASSWORD##
@@ -33,7 +33,7 @@ propel:
           charset: utf8
       bookstore-behavior:
         adapter: ##DATABASE_VENDOR##
-        classname: \Propel\Runtime\Connection\DebugPDO
+        classname: \Propel\Runtime\Connection\ConnectionWrapper
         dsn: ##DATABASE_URL##
         user: ##DATABASE_USER##
         password: ##DATABASE_PASSWORD##

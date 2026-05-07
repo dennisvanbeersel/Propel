@@ -13,6 +13,7 @@ namespace Propel\Generator\Platform;
 use Propel\Common\Util\SetColumnConverter;
 use Propel\Generator\Config\GeneratorConfigInterface;
 use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\Database;
 use Propel\Generator\Model\Diff\ColumnDiff;
@@ -81,6 +82,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return void
      */
+    #[\Override]
     public function setConnection(?ConnectionInterface $con = null): void
     {
         $this->con = $con;
@@ -91,6 +93,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface|null
      */
+    #[\Override]
     public function getConnection(): ?ConnectionInterface
     {
         return $this->con;
@@ -99,6 +102,7 @@ class DefaultPlatform implements PlatformInterface
     /**
      * @return bool
      */
+    #[\Override]
     public function isIdentifierQuotingEnabled(): bool
     {
         return $this->identifierQuoting;
@@ -109,6 +113,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return void
      */
+    #[\Override]
     public function setIdentifierQuoting(bool $enabled): void
     {
         $this->identifierQuoting = $enabled;
@@ -121,6 +126,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return void
      */
+    #[\Override]
     public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void
     {
     }
@@ -170,6 +176,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return string
      */
+    #[\Override]
     public function getDatabaseType(): string
     {
         $reflectionClass = new ReflectionClass($this);
@@ -184,6 +191,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return int The max column length
      */
+    #[\Override]
     public function getMaxColumnNameLength(): int
     {
         return 64;
@@ -194,6 +202,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return string
      */
+    #[\Override]
     public function getSchemaDelimiter(): string
     {
         return '.';
@@ -204,6 +213,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return string The native IdMethod (PlatformInterface:IDENTITY, PlatformInterface::SEQUENCE).
      */
+    #[\Override]
     public function getNativeIdMethod(): string
     {
         return PlatformInterface::IDENTITY;
@@ -226,6 +236,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return \Propel\Generator\Model\Domain
      */
+    #[\Override]
     public function getDomainForType(string $propelType): Domain
     {
         if (!isset($this->schemaDomainMap[$propelType])) {
@@ -242,6 +253,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return string
      */
+    #[\Override]
     public function getNullString(bool $notNull): string
     {
         return $notNull ? 'NOT NULL' : '';
@@ -252,6 +264,7 @@ class DefaultPlatform implements PlatformInterface
      *
      * @return string
      */
+    #[\Override]
     public function getAutoIncrement(): string
     {
         return 'IDENTITY';
@@ -359,6 +372,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getAddTableDDL(Table $table): string
     {
         $tableDescription = $table->hasDescription() ? $this->getCommentLineDDL($table->getDescription()) : '';
@@ -402,6 +416,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getColumnDDL(Column $col): string
     {
         $domain = $col->getDomain();
@@ -442,6 +457,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getColumnDefaultValueDDL(Column $col): string
     {
         $default = '';
@@ -494,6 +510,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getColumnListDDL(array $columns, string $delimiter = ','): string
     {
         $list = [];
@@ -526,6 +543,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getPrimaryKeyDDL(Table $table): string
     {
         if ($table->hasPrimaryKey()) {
@@ -1213,6 +1231,7 @@ ALTER TABLE %s ADD
      *
      * @return bool True if the type has a size attribute
      */
+    #[\Override]
     public function hasSize(string $sqlType): bool
     {
         return true;
@@ -1225,6 +1244,7 @@ ALTER TABLE %s ADD
      *
      * @return bool True if the type has a scale attribute
      */
+    #[\Override]
     public function hasScale(string $sqlType): bool
     {
         return true;
@@ -1237,6 +1257,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function quote(string $text): string
     {
         $con = $this->getConnection();
@@ -1270,6 +1291,7 @@ ALTER TABLE %s ADD
      *
      * @return string Quoted identifier.
      */
+    #[\Override]
     public function quoteIdentifier(string $text): string
     {
         return $this->isIdentifierQuotingEnabled() ? $this->doQuoting($text) : $text;
@@ -1278,6 +1300,7 @@ ALTER TABLE %s ADD
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function doQuoting(string $text): string
     {
         return '"' . strtr($text, ['.' => '"."']) . '"';
@@ -1288,6 +1311,7 @@ ALTER TABLE %s ADD
      *
      * @return bool
      */
+    #[\Override]
     public function supportsNativeDeleteTrigger(): bool
     {
         return false;
@@ -1298,6 +1322,7 @@ ALTER TABLE %s ADD
      *
      * @return bool
      */
+    #[\Override]
     public function supportsInsertNullPk(): bool
     {
         return true;
@@ -1306,6 +1331,7 @@ ALTER TABLE %s ADD
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsIndexSize(): bool
     {
         return false;
@@ -1316,6 +1342,7 @@ ALTER TABLE %s ADD
      *
      * @return bool
      */
+    #[\Override]
     public function hasStreamBlobImpl(): bool
     {
         return false;
@@ -1326,6 +1353,7 @@ ALTER TABLE %s ADD
      *
      * @return bool
      */
+    #[\Override]
     public function supportsSchemas(): bool
     {
         return false;
@@ -1336,6 +1364,7 @@ ALTER TABLE %s ADD
      *
      * @return bool
      */
+    #[\Override]
     public function supportsMigrations(): bool
     {
         return true;
@@ -1344,9 +1373,64 @@ ALTER TABLE %s ADD
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsVarcharWithoutSize(): bool
     {
         return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support invisible columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — platform does not support CHECK constraints.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): default — emit nothing for CHECK; throw if asked.
+     *
+     * Concrete platforms (MySQL, PG) override this. SQLite overrides to throw with
+     * the frozen-feature message.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @throws \Propel\Generator\Exception\EngineException always — the default platform doesn't support CHECK
+     *
+     * @return string
+     */
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        throw new EngineException(sprintf(
+            'Platform "%s" does not support CHECK constraints (CHECK "%s").',
+            static::class,
+            $cc->getName(),
+        ));
     }
 
     /**
@@ -1362,6 +1446,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getBooleanString($value): string
     {
         if ($value === true || $value === 1) {
@@ -1408,6 +1493,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getTimestampFormatter(): string
     {
         return 'Y-m-d H:i:s.u';
@@ -1418,6 +1504,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getTimeFormatter(): string
     {
         return 'H:i:s.u';
@@ -1428,6 +1515,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getDateFormatter(): string
     {
         return 'Y-m-d';
@@ -1438,6 +1526,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnDeleteBehavior(): string
     {
         return ForeignKey::NONE;
@@ -1448,6 +1537,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnUpdateBehavior(): string
     {
         return ForeignKey::NONE;
@@ -1465,6 +1555,7 @@ ALTER TABLE %s ADD
      *
      * @return string
      */
+    #[\Override]
     public function getColumnBindingPHP(Column $column, string $identifier, string $columnValueAccessor, string $tab = '            '): string
     {
         $script = '';
@@ -1559,6 +1650,7 @@ if (is_resource($columnValueAccessor)) {
      *
      * @return void
      */
+    #[\Override]
     public function normalizeTable(Table $table): void
     {
         if ($table->hasForeignKeys()) {
@@ -1587,5 +1679,17 @@ if (is_resource($columnValueAccessor)) {
                 }
             }
         }
+    }
+
+    /**
+     * Most platforms have no concept of an "invalid date" sentinel — only
+     * MySQL ships zero-date placeholders by default.
+     *
+     * @inheritDoc
+     */
+    #[\Override]
+    public function getInvalidDateString(string $columnType): ?string
+    {
+        return null;
     }
 }

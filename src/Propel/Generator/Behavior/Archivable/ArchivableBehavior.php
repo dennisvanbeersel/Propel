@@ -67,6 +67,7 @@ class ArchivableBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyDatabase(): void
     {
         foreach ($this->getDatabase()->getTables() as $table) {
@@ -84,6 +85,7 @@ class ArchivableBehavior extends Behavior
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         if ($this->getParameter('archive_class') && $this->getParameter('archive_table')) {
@@ -433,6 +435,7 @@ class ArchivableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Archivable\ArchivableBehaviorObjectBuilderModifier
      */
+    #[\Override]
     public function getObjectBuilderModifier()
     {
         if ($this->objectBuilderModifier === null) {
@@ -445,6 +448,7 @@ class ArchivableBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\Archivable\ArchivableBehaviorQueryBuilderModifier
      */
+    #[\Override]
     public function getQueryBuilderModifier()
     {
         if ($this->queryBuilderModifier === null) {

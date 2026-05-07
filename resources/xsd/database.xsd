@@ -52,6 +52,20 @@
             <xs:enumeration value="ARRAY"/>
             <xs:enumeration value="ENUM"/>
             <xs:enumeration value="SET"/>
+            <!-- Deprecated legacy types preserved per umbrella spec §3.7 (additivity).
+                 PropelTypes resolves these via deprecation forwarding; XSD must still
+                 validate schemas that declare them. -->
+            <xs:enumeration value="BU_DATE"/>
+            <xs:enumeration value="BU_TIMESTAMP"/>
+            <xs:enumeration value="BOOLEAN_EMU"/>
+            <xs:enumeration value="PHP_ARRAY"/>
+            <!-- Phase C additions (umbrella §6.4): native JSON / network / fulltext-search types.
+                 Native on PostgreSQL; mapped to compatible types on MySQL/SQLite per Domain. -->
+            <xs:enumeration value="JSON"/>
+            <xs:enumeration value="JSONB"/>
+            <xs:enumeration value="INET"/>
+            <xs:enumeration value="CIDR"/>
+            <xs:enumeration value="TSVECTOR"/>
         </xs:restriction>
     </xs:simpleType>
 
@@ -311,9 +325,46 @@
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>
 
+    <xs:complexType name="checkConstraint">
+        <xs:annotation>
+            <xs:documentation xml:lang="en">
+                Phase C: SQL CHECK constraint. May be declared at table scope (multi-column expressions) or column scope (sugar; the expression typically references the parent column).
+                Enforced semantics: MySQL 8.0.16+ / MariaDB 10.5+ honor 'enforced=false' as NOT ENFORCED. PostgreSQL maps 'enforced=false' to NOT VALID with a deprecation note (semantics differ slightly). SQLite is frozen and rejects CHECK declarations entirely.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute name="name" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Optional constraint name. If omitted, an auto-name is generated as 'ck_' + table_name + '_' + hash(expression)[:8].
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="expression" type="xs:string" use="required">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    The SQL expression for the CHECK constraint. Emitted verbatim to the database.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="enforced" type="xs:boolean" use="optional" default="true">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Whether the CHECK constraint is enforced. Default true. Setting to false maps to NOT ENFORCED (MySQL/MariaDB) or NOT VALID (PostgreSQL).
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+    </xs:complexType>
+
     <xs:complexType name="column">
         <xs:choice maxOccurs="unbounded">
             <xs:element name="inheritance" type="inheritance" minOccurs="0" maxOccurs="unbounded"/>
+            <xs:element name="check" type="checkConstraint" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Phase C: column-scoped CHECK constraint (sugar). The constraint is stored on the parent Table; the expression typically references this column. See checkConstraint complexType.
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
             <xs:element ref="vendor" minOccurs="0" maxOccurs="unbounded"/>
         </xs:choice>
         <xs:attribute name="name" type="column_name" use="required">
@@ -473,6 +524,34 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="generated" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: marks this column as a database-side generated column. Values: 'virtual' (computed on read; MySQL/MariaDB only) or 'stored' (persisted at write; MySQL/MariaDB and PostgreSQL).
+                    If 'generated' is present, 'expression' MUST also be present. Validation is enforced at model-load time (XSD 1.0 cannot express conditional presence).
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="virtual"/>
+                    <xs:enumeration value="stored"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="expression" type="xs:string" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: SQL expression for a generated column. Must be paired with a 'generated' value. The expression is emitted verbatim to the database; it is not validated by the schema loader.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="invisible" type="xs:boolean" use="optional" default="false">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase C: marks the column as INVISIBLE (MySQL 8.0.23+ / MariaDB 10.3+). Hidden from SELECT * but selectable explicitly. Cannot be combined with primaryKey="true" — MySQL/MariaDB reject INVISIBLE primary keys.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="foreign-key">
@@ -538,6 +617,28 @@
                 </xs:documentation>
             </xs:annotation>
         </xs:attribute>
+        <xs:attribute name="deferrable" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase D (umbrella §6.4): PostgreSQL DEFERRABLE clause. Allowed values: DEFERRABLE, NOT DEFERRABLE. Honored by PgsqlPlatform; MySQL parses but ignores.
+                </xs:documentation>
+            </xs:annotation>
+            <xs:simpleType>
+                <xs:restriction base="xs:string">
+                    <xs:enumeration value="DEFERRABLE"/>
+                    <xs:enumeration value="NOT DEFERRABLE"/>
+                    <xs:enumeration value="deferrable"/>
+                    <xs:enumeration value="not deferrable"/>
+                </xs:restriction>
+            </xs:simpleType>
+        </xs:attribute>
+        <xs:attribute name="initiallyDeferred" type="xs:boolean" use="optional">
+            <xs:annotation>
+                <xs:documentation xml:lang="en">
+                    Phase D (umbrella §6.4): PostgreSQL INITIALLY DEFERRED. Only meaningful when DEFERRABLE.
+                </xs:documentation>
+            </xs:annotation>
+        </xs:attribute>
     </xs:complexType>
 
     <xs:complexType name="external-schema">
@@ -590,6 +691,14 @@
                 <xs:annotation>
                     <xs:documentation xml:lang="en">
                         A unique index on one or several columns of the current table
+                    </xs:documentation>
+                </xs:annotation>
+            </xs:element>
+
+            <xs:element name="check" type="checkConstraint" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">
+                        Phase C: SQL CHECK constraint at table scope. Allows multi-column expressions. See checkConstraint complexType.
                     </xs:documentation>
                 </xs:annotation>
             </xs:element>

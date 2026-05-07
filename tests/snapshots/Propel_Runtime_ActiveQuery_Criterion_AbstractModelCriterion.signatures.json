@@ -1,0 +1,90 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractModelCriterion",
+    "kind": "class",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion",
+    "implements": [],
+    "methods": [
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "outer",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "clause",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "column",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "tableAlias",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "equals",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "obj",
+                    "type": "?object",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "getClause",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

@@ -21,12 +21,18 @@ use RecursiveIterator;
  */
 class NestedSetRecursiveIterator implements RecursiveIterator
 {
+    /**
+     * @var \Propel\Runtime\ActiveRecord\NestedSetNodeInterface
+     */
     protected object $topNode;
 
+    /**
+     * @var \Propel\Runtime\ActiveRecord\NestedSetNodeInterface|null
+     */
     protected ?object $curNode = null;
 
     /**
-     * @param object $node
+     * @param \Propel\Runtime\ActiveRecord\NestedSetNodeInterface $node
      */
     public function __construct(object $node)
     {
@@ -37,6 +43,7 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     /**
      * @return void
      */
+    #[\Override]
     public function rewind(): void
     {
         $this->curNode = $this->topNode;
@@ -45,28 +52,25 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     /**
      * @return bool
      */
+    #[\Override]
     public function valid(): bool
     {
         return $this->curNode !== null;
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
-    public function current()
+    #[\Override]
+    public function current(): mixed
     {
         return $this->curNode;
     }
 
     /**
-     * @psalm-suppress ReservedWord
-     *
      * @return string
      */
-    #[\ReturnTypeWillChange]
+    #[\Override]
     public function key(): string
     {
         $method = method_exists($this->curNode, 'getPath') ? 'getPath' : 'getAncestors';
@@ -81,6 +85,7 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     /**
      * @return void
      */
+    #[\Override]
     public function next(): void
     {
         $nextNode = null;
@@ -104,6 +109,7 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     /**
      * @return bool
      */
+    #[\Override]
     public function hasChildren(): bool
     {
         return $this->curNode->hasChildren();
@@ -112,6 +118,7 @@ class NestedSetRecursiveIterator implements RecursiveIterator
     /**
      * @return \Propel\Runtime\ActiveRecord\NestedSetRecursiveIterator|\RecursiveIterator<int|string, mixed>|null
      */
+    #[\Override]
     public function getChildren(): ?RecursiveIterator
     {
         $method = method_exists($this->curNode, 'retrieveFirstChild') ? 'retrieveFirstChild' : 'getFirstChild';

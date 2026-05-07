@@ -283,15 +283,15 @@ class ConfigurationManager
     }
 
     /**
-     * Remove empty `slaves` array from configured connections.
+     * Remove empty `replicas` array from configured connections.
      *
      * @return void
      */
     private function cleanupSlaveConnections(): void
     {
         foreach ($this->config['database']['connections'] as $name => $connection) {
-            if ($connection['slaves'] === []) {
-                unset($this->config['database']['connections'][$name]['slaves']);
+            if (($connection['replicas'] ?? null) === []) {
+                unset($this->config['database']['connections'][$name]['replicas']);
             }
         }
     }

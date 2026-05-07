@@ -14,9 +14,8 @@ use Propel\Tests\TestCase;
 
 /**
  * Regression test for https://github.com/propelorm/Propel2/issues/1420
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue1420Test extends TestCase
 {
     protected function setUp(): void

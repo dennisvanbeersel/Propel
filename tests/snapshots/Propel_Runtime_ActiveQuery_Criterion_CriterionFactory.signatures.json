@@ -1,0 +1,97 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Criterion\\CriterionFactory",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "buildCriterionWithCriteria",
+            "visibility": "protected",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "comparison",
+                    "type": "?string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "innerQuery",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractInnerQueryCriterion"
+        },
+        {
+            "name": "build",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "comparison",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criterion\\AbstractCriterion"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

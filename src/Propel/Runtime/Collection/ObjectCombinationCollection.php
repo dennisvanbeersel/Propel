@@ -26,6 +26,7 @@ class ObjectCombinationCollection extends ObjectCollection
      *
      * @return array The list of the primary keys of the collection
      */
+    #[\Override]
     public function getPrimaryKeys(bool $usePrefix = true): array
     {
         $ret = [];
@@ -45,6 +46,7 @@ class ObjectCombinationCollection extends ObjectCollection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function push($value): void
     {
         parent::push(func_get_args());
@@ -70,6 +72,7 @@ class ObjectCombinationCollection extends ObjectCollection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function search($element)
     {
         $hashes = [];
@@ -109,6 +112,7 @@ class ObjectCombinationCollection extends ObjectCollection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function removeObject($element): void
     {
         $pos = $this->search(...func_get_args());
@@ -120,6 +124,7 @@ class ObjectCombinationCollection extends ObjectCollection
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function contains($element): bool
     {
         return $this->search(...func_get_args()) !== false;

@@ -11,10 +11,8 @@ namespace Propel\Tests\Generator\Migration;
 use Propel\Generator\Exception\BuildException;
 use Propel\Tests\Helpers\CheckMysql8Trait;
 
-/**
- * @group mysql
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('mysql')]
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class MysqlMigrateUuidColumnTest extends MigrationTestCase
 {
     use CheckMysql8Trait;
@@ -34,15 +32,14 @@ class MysqlMigrateUuidColumnTest extends MigrationTestCase
     }
 
     /**
-     * @dataProvider migrationDataProvider
      *
      * @param string $description
      * @param string $fromColumns
      * @param string $toColumns
      * @param array|null $values
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('migrationDataProvider')]
     public function testMigrations(string $description, string $fromColumns, string $toColumns, ?array $values)
     {
         $this->applyWithFail($description . ' - failed to apply initial schema', $fromColumns, false);

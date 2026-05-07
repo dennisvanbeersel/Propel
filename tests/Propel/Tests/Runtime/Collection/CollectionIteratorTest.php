@@ -12,9 +12,7 @@ use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\CollectionIterator;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class CollectionIteratorTest extends BookstoreTestBase
 {
     /**

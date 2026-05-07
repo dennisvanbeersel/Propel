@@ -1,0 +1,387 @@
+{
+    "class": "Propel\\Runtime\\Formatter\\AbstractFormatter",
+    "kind": "class",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "getCollection",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": null
+        },
+        {
+            "name": "getReflectionClass",
+            "visibility": "protected",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "ReflectionClass"
+        },
+        {
+            "name": "isWithOneToMany",
+            "visibility": "protected",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "__construct",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "dataFetcher",
+                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "checkInit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "format",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "dataFetcher",
+                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "formatOne",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "dataFetcher",
+                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "formatRecord",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "record",
+                    "type": "?Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getAsColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "getClass",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getCollectionClassName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "getDbName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getSingleObjectFromRow",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "row",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "col",
+                    "type": "int",
+                    "default": "0",
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveRecord\\ActiveRecordInterface"
+        },
+        {
+            "name": "getTableMap",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\Map\\TableMap"
+        },
+        {
+            "name": "getWith",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "hasLimit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "init",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\BaseModelCriteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "dataFetcher",
+                    "type": "?Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "isObjectFormatter",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setAsColumns",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "asColumns",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setClass",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "class",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "dataFetcher",
+                    "type": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setDbName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "dbName",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setHasLimit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "hasLimit",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "setWith",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "withs",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

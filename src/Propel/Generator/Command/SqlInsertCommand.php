@@ -18,26 +18,26 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'sql:insert', description: 'Insert SQL statements', aliases: ['insert-sql'])]
 class SqlInsertCommand extends AbstractCommand
 {
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
 
         $this
             ->addOption('sql-dir', null, InputOption::VALUE_REQUIRED, 'The SQL files directory')
-            ->addOption('connection', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Connection to use. Example: \'bookstore=mysql:host=127.0.0.1;dbname=test;user=root;password=foobar\' where "bookstore" is your propel database name (used in your schema.xml)')
-            ->setName('sql:insert')
-            ->setAliases(['insert-sql'])
-            ->setDescription('Insert SQL statements');
+            ->addOption('connection', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Connection to use. Example: \'bookstore=mysql:host=127.0.0.1;dbname=test;user=root;password=foobar\' where "bookstore" is your propel database name (used in your schema.xml)');
     }
 
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $manager = new SqlManager();

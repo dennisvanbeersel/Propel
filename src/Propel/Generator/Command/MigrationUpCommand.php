@@ -21,11 +21,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'migration:up', description: 'Execute migrations up', aliases: ['up'])]
 class MigrationUpCommand extends AbstractCommand
 {
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
@@ -35,10 +37,7 @@ class MigrationUpCommand extends AbstractCommand
             ->addOption('migration-table', null, InputOption::VALUE_REQUIRED, 'Migration table name')
             ->addOption('connection', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Connection to use', [])
             ->addOption('fake', null, InputOption::VALUE_NONE, 'Does not touch the actual schema, but marks next migration as executed.')
-            ->addOption('force', null, InputOption::VALUE_NONE, 'Continues with the migration even when errors occur.')
-            ->setName('migration:up')
-            ->setAliases(['up'])
-            ->setDescription('Execute migrations up');
+            ->addOption('force', null, InputOption::VALUE_NONE, 'Continues with the migration even when errors occur.');
     }
 
     /**
@@ -46,6 +45,7 @@ class MigrationUpCommand extends AbstractCommand
      *
      * @throws \Propel\Runtime\Exception\RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

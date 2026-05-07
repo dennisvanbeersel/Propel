@@ -1,0 +1,26 @@
+{
+    "$schema": "vendor/infection/infection/resources/schema.json",
+    "source": {
+        "directories": [
+            "src/Propel/Runtime/Connection",
+            "src/Propel/Runtime/ActiveQuery",
+            "src/Propel/Runtime/ActiveRecord",
+            "src/Propel/Runtime/Map",
+            "src/Propel/Runtime/Adapter"
+        ]
+    },
+    "timeout": 30,
+    "logs": {
+        "text": "docs/reviews/infection.log",
+        "json": "docs/reviews/infection.json",
+        "summary": "docs/reviews/infection-summary.log"
+    },
+    "minMsi": 65,
+    "minCoveredMsi": 75,
+    "phpUnit": {
+        "configDir": "tests",
+        "customPath": "vendor/bin/phpunit"
+    },
+    "testFramework": "phpunit",
+    "testFrameworkOptions": "--no-coverage"
+}

@@ -79,9 +79,8 @@ use ReflectionMethod;
  * method for the exact contents of the database.
  *
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectTest extends BookstoreTestBase
 {
     /**
@@ -1272,10 +1271,9 @@ EOF;
     }
 
     /**
-     * @dataProvider conditionsForTestVisibility
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestVisibility')]
     public function testMethodVisibility($method)
     {
         $cv = new Country();
@@ -1285,10 +1283,9 @@ EOF;
     }
 
     /**
-     * @dataProvider conditionsForTestReadOnly
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('conditionsForTestReadOnly')]
     public function testReadOnly($method)
     {
         $cv = new Country();

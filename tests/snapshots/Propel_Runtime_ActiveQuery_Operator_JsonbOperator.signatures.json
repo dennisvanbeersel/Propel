@@ -1,0 +1,138 @@
+{
+    "class": "Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": true,
+    "extends": null,
+    "implements": [
+        "BackedEnum",
+        "UnitEnum"
+    ],
+    "methods": [
+        {
+            "name": "buildClause",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "column",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "op",
+                    "type": "self",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "bind",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "cases",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "array"
+        },
+        {
+            "name": "from",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": "string|int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "static"
+        },
+        {
+            "name": "toSql",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "tryFrom",
+            "visibility": "public",
+            "isStatic": true,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "value",
+                    "type": "string|int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "?static"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [
+        {
+            "name": "name",
+            "type": "string",
+            "isStatic": false,
+            "isReadonly": true
+        },
+        {
+            "name": "value",
+            "type": "string",
+            "isStatic": false,
+            "isReadonly": true
+        }
+    ],
+    "constants": [
+        {
+            "name": "ContainsAll",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator::ContainsAll"
+        },
+        {
+            "name": "ContainsAny",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator::ContainsAny"
+        },
+        {
+            "name": "ContainsKey",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator::ContainsKey"
+        },
+        {
+            "name": "JsonbContainedBy",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator::JsonbContainedBy"
+        },
+        {
+            "name": "JsonbContains",
+            "value": "\\Propel\\Runtime\\ActiveQuery\\Operator\\JsonbOperator::JsonbContains"
+        }
+    ]
+}

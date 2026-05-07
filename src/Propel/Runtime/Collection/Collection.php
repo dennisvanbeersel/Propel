@@ -23,7 +23,6 @@ use Propel\Runtime\Formatter\AbstractFormatter;
 use Propel\Runtime\Map\TableMap;
 use Propel\Runtime\Parser\AbstractParser;
 use Propel\Runtime\Propel;
-use Serializable;
 use Traversable;
 
 /**
@@ -45,7 +44,7 @@ use Traversable;
  * @implements \ArrayAccess<int|string, mixed>
  * @implements \IteratorAggregate<int|string, mixed>
  */
-class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializable
+class Collection implements ArrayAccess, IteratorAggregate, Countable
 {
     protected string $model = '';
 
@@ -69,21 +68,27 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
     }
 
     /**
-     * @return array
+     * @return array<string, mixed>
      */
     public function __serialize(): array
     {
-        return [$this->serialize()];
+        return [
+            'data' => $this->getArrayCopy(),
+            'model' => $this->model,
+            'fullyQualifiedModel' => $this->fullyQualifiedModel,
+        ];
     }
 
     /**
-     * @param array $data
+     * @param array<string, mixed> $data
      *
      * @return void
      */
     public function __unserialize(array $data): void
     {
-        $this->unserialize($data[0]);
+        $this->exchangeArray($data['data']);
+        $this->model = $data['model'];
+        $this->fullyQualifiedModel = $data['fullyQualifiedModel'];
     }
 
     /**
@@ -101,6 +106,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
      *
      * @return bool
      */
+    #[\Override]
     public function offsetExists($offset): bool
     {
         return isset($this->data[$offset]);
@@ -113,14 +119,10 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
      *
      * @return mixed
      */
-    #[\ReturnTypeWillChange]
-    public function &offsetGet($offset)
+    #[\Override]
+    public function offsetGet($offset): mixed
     {
-        if (isset($this->data[$offset])) {
-            return $this->data[$offset];
-        }
-
-        return null;
+        return $this->data[$offset] ?? null;
     }
 
     /**
@@ -129,6 +131,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
      *
      * @return void
      */
+    #[\Override]
     public function offsetSet($offset, $value): void
     {
         if ($offset === null) {
@@ -143,6 +146,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
      *
      * @return void
      */
+    #[\Override]
     public function offsetUnset($offset): void
     {
         unset($this->data[$offset]);
@@ -191,6 +195,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
     /**
      * @return \Propel\Runtime\Collection\CollectionIterator|\Propel\Runtime\Collection\IteratorInterface
      */
+    #[\Override]
     public function getIterator(): Traversable
     {
         return new CollectionIterator($this);
@@ -201,6 +206,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
      *
      * @return int
      */
+    #[\Override]
     public function count(): int
     {
         return count($this->data);
@@ -417,37 +423,6 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable, Serializa
         }
 
         return $diff;
-    }
-
-    // Serializable interface
-
-    /**
-     * @return string|null
-     */
-    #[\ReturnTypeWillChange]
-    public function serialize(): ?string
-    {
-        $repr = [
-            'data' => $this->getArrayCopy(),
-            'model' => $this->model,
-            'fullyQualifiedModel' => $this->fullyQualifiedModel,
-        ];
-
-        return serialize($repr);
-    }
-
-    /**
-     * @param string $data
-     *
-     * @return void
-     */
-    #[\ReturnTypeWillChange]
-    public function unserialize($data): void
-    {
-        $repr = unserialize($data, ['allowed_classes' => true]);
-        $this->exchangeArray($repr['data']);
-        $this->model = $repr['model'];
-        $this->fullyQualifiedModel = $repr['fullyQualifiedModel'];
     }
 
     // Propel collection methods

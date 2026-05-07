@@ -47,32 +47,32 @@ abstract class ModelTestCase extends TestCase
         $behavior
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         $behavior
             ->expects($this->any())
             ->method('getId')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         $behavior
             ->expects($this->any())
             ->method('getAdditionalBuilders')
-            ->will($this->returnValue($options['additional_builders']));
+            ->willReturn($options['additional_builders']);
 
         $behavior
             ->expects($this->any())
             ->method('hasAdditionalBuilders')
-            ->will($this->returnValue(count($options['additional_builders']) > 0));
+            ->willReturn(count($options['additional_builders']) > 0);
 
         $behavior
             ->expects($this->any())
             ->method('isTableModified')
-            ->will($this->returnValue($options['is_table_modified']));
+            ->willReturn($options['is_table_modified']);
 
         $behavior
             ->expects($this->any())
             ->method('getTableModificationOrder')
-            ->will($this->returnValue($options['modification_order']));
+            ->willReturn($options['modification_order']);
 
         return $behavior;
     }
@@ -104,27 +104,27 @@ abstract class ModelTestCase extends TestCase
         $fk
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturnCallback(static fn () => $name);
 
         $fk
             ->expects($this->any())
             ->method('getTable')
-            ->will($this->returnValue($options['table']));
+            ->willReturnCallback(static fn () => $options['table']);
 
         $fk
             ->expects($this->any())
             ->method('getForeignTableName')
-            ->will($this->returnValue($options['foreign_table_name']));
+            ->willReturn($options['foreign_table_name']);
 
         $fk
             ->expects($this->any())
             ->method('getLocalColumns')
-            ->will($this->returnValue($options['local_columns']));
+            ->willReturn($options['local_columns']);
 
         $fk
             ->expects($this->any())
             ->method('getOtherFks')
-            ->will($this->returnValue($options['other_fks']));
+            ->willReturn($options['other_fks']);
 
         return $fk;
     }
@@ -155,7 +155,7 @@ abstract class ModelTestCase extends TestCase
         $index
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         return $index;
     }
@@ -180,7 +180,7 @@ abstract class ModelTestCase extends TestCase
         $unique
             ->expects($this->once())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         return $unique;
     }
@@ -208,11 +208,11 @@ abstract class ModelTestCase extends TestCase
         $schema
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturnCallback(static fn () => $name);
         $schema
             ->expects($this->any())
             ->method('getGeneratorConfig')
-            ->will($this->returnValue($options['generator_config']));
+            ->willReturnCallback(static fn () => $options['generator_config']);
 
         return $schema;
     }
@@ -242,17 +242,17 @@ abstract class ModelTestCase extends TestCase
         $platform
             ->expects($this->any())
             ->method('supportsSchemas')
-            ->will($this->returnValue($supportsSchemas));
+            ->willReturn($supportsSchemas);
 
         $platform
             ->expects($this->any())
             ->method('getSchemaDelimiter')
-            ->will($this->returnValue($schemaDelimiter));
+            ->willReturn($schemaDelimiter);
 
         $platform
             ->expects($this->any())
             ->method('getMaxColumnNameLength')
-            ->will($this->returnValue($options['max_column_name_length']));
+            ->willReturnCallback(static fn () => $options['max_column_name_length']);
 
         return $platform;
     }
@@ -279,7 +279,7 @@ abstract class ModelTestCase extends TestCase
         $domain
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         return $domain;
     }
@@ -315,47 +315,47 @@ abstract class ModelTestCase extends TestCase
         $table
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         $table
             ->expects($this->any())
             ->method('getCommonName')
-            ->will($this->returnValue($options['common_name']));
+            ->willReturn($options['common_name']);
 
         $table
             ->expects($this->any())
             ->method('getPhpName')
-            ->will($this->returnValue($options['php_name']));
+            ->willReturn($options['php_name']);
 
         $table
             ->expects($this->any())
             ->method('getPlatform')
-            ->will($this->returnValue($options['platform']));
+            ->willReturn($options['platform']);
 
         $table
             ->expects($this->any())
             ->method('getNamespace')
-            ->will($this->returnValue($options['namespace']));
+            ->willReturn($options['namespace']);
 
         $table
             ->expects($this->any())
             ->method('getBehaviors')
-            ->will($this->returnValue($options['behaviors']));
+            ->willReturn($options['behaviors']);
 
         $table
             ->expects($this->any())
             ->method('getIndices')
-            ->will($this->returnValue($options['indices']));
+            ->willReturn($options['indices']);
 
         $table
             ->expects($this->any())
             ->method('getUnices')
-            ->will($this->returnValue($options['unices']));
+            ->willReturn($options['unices']);
 
         $table
             ->expects($this->any())
             ->method('getDatabase')
-            ->will($this->returnValue($options['database']));
+            ->willReturn($options['database']);
 
         return $table;
     }
@@ -383,11 +383,11 @@ abstract class ModelTestCase extends TestCase
         $database
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
         $database
             ->expects($this->any())
             ->method('getPlatform')
-            ->will($this->returnValue($options['platform']));
+            ->willReturn($options['platform']);
 
         return $database;
     }
@@ -416,12 +416,12 @@ abstract class ModelTestCase extends TestCase
         $column
             ->expects($this->any())
             ->method('getName')
-            ->will($this->returnValue($name));
+            ->willReturn($name);
 
         $column
             ->expects($this->any())
             ->method('getSize')
-            ->will($this->returnValue($options['size']));
+            ->willReturn($options['size']);
 
         return $column;
     }

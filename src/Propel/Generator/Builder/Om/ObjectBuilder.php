@@ -18,7 +18,6 @@ use Propel\Generator\Model\Column;
 use Propel\Generator\Model\IdMethod;
 use Propel\Generator\Model\PropelTypes;
 use Propel\Generator\Model\Table;
-use Propel\Generator\Platform\MysqlPlatform;
 use Propel\Generator\Platform\PlatformInterface;
 use Propel\Runtime\Exception\PropelException;
 
@@ -38,10 +37,106 @@ class ObjectBuilder extends AbstractObjectBuilder
     use ReferrerBuilderTrait;
 
     /**
+     * Adds the getter methods for the column values.
+     *
+     * @param string $script The script will be modified in this method.
+     *
+     * @return void
+     */
+    protected function addColumnAccessorMethods(string &$script): void
+    {
+        $table = $this->getTable();
+
+        foreach ($table->getColumns() as $col) {
+            $type = $col->getType();
+            // if they're not using the DateTime class then we will generate "compatibility" accessor method
+            if (
+                $type === PropelTypes::DATE
+                || $type === PropelTypes::DATETIME
+                || $type === PropelTypes::TIME
+                || $type === PropelTypes::TIMESTAMP
+            ) {
+                $this->addTemporalAccessor($script, $col);
+            } elseif ($type === PropelTypes::OBJECT) {
+                $this->addObjectAccessor($script, $col);
+            } elseif ($type === PropelTypes::PHP_ARRAY) {
+                $this->addArrayAccessor($script, $col);
+                if ($col->isNamePlural()) {
+                    $this->addHasArrayElement($script, $col);
+                }
+            } elseif ($type === PropelTypes::JSON) {
+                $this->addJsonAccessor($script, $col);
+            } elseif ($col->isEnumType()) {
+                $this->addEnumAccessor($script, $col);
+            } elseif ($col->isSetType()) {
+                $this->addSetAccessor($script, $col);
+                if ($col->isNamePlural()) {
+                    $this->addHasArrayElement($script, $col);
+                }
+            } elseif ($col->isBooleanType()) {
+                $this->addDefaultAccessor($script, $col);
+                $this->addBooleanAccessor($script, $col);
+            } else {
+                $this->addDefaultAccessor($script, $col);
+            }
+
+            if ($col->isLazyLoad()) {
+                $this->addLazyLoader($script, $col);
+            }
+        }
+    }
+
+    /**
+     * Adds the mutator (setter) methods for setting column values.
+     *
+     * @param string $script The script will be modified in this method.
+     *
+     * @return void
+     */
+    protected function addColumnMutatorMethods(string &$script): void
+    {
+        foreach ($this->getTable()->getColumns() as $col) {
+            if ($col->getType() === PropelTypes::OBJECT) {
+                $this->addObjectMutator($script, $col);
+            } elseif ($col->isLobType()) {
+                $this->addLobMutator($script, $col);
+            } elseif (
+                $col->getType() === PropelTypes::DATE
+                || $col->getType() === PropelTypes::DATETIME
+                || $col->getType() === PropelTypes::TIME
+                || $col->getType() === PropelTypes::TIMESTAMP
+            ) {
+                $this->addTemporalMutator($script, $col);
+            } elseif ($col->getType() === PropelTypes::PHP_ARRAY) {
+                $this->addArrayMutator($script, $col);
+                if ($col->isNamePlural()) {
+                    $this->addAddArrayElement($script, $col);
+                    $this->addRemoveArrayElement($script, $col);
+                }
+            } elseif ($col->getType() === PropelTypes::JSON) {
+                $this->addJsonMutator($script, $col);
+            } elseif ($col->isEnumType()) {
+                $this->addEnumMutator($script, $col);
+            } elseif ($col->isSetType()) {
+                $this->addSetMutator($script, $col);
+                if ($col->isNamePlural()) {
+                    $this->addAddArrayElement($script, $col);
+                    $this->addRemoveArrayElement($script, $col);
+                }
+            } elseif ($col->isBooleanType()) {
+                $this->addBooleanMutator($script, $col);
+            } else {
+                $this->addDefaultMutator($script, $col);
+            }
+        }
+    }
+
+    /**
      * Returns the package for the base object classes.
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return parent::getPackage() . '.Base';
@@ -54,6 +149,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();
@@ -83,6 +179,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getStubObjectBuilder()->getUnprefixedClassName();
@@ -100,6 +197,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function validateModel(): void
     {
         parent::validateModel();
@@ -126,9 +224,10 @@ class ObjectBuilder extends AbstractObjectBuilder
         }
 
         // Check foreign keys to see if there are any foreign keys that
-        // are also matched with an inversed referencing foreign key
-        // (this is currently unsupported behavior)
-        // see: http://propel.phpdb.org/trac/ticket/549
+        // are also matched with an inversed referencing foreign key.
+        // Propel does not support such 1:1 relations defined in both
+        // directions because each side would generate a setter that
+        // re-syncs the other, producing infinite recursion at runtime.
 
         foreach ($table->getForeignKeys() as $fk) {
             if ($fk->isMatchedByInverseFK()) {
@@ -175,10 +274,8 @@ class ObjectBuilder extends AbstractObjectBuilder
         if ($column->isTemporalType()) {
             $fmt = $this->getTemporalFormatter($column);
             try {
-                if (
-                    !($this->getPlatform() instanceof MysqlPlatform &&
-                    ($val === '0000-00-00 00:00:00' || $val === '0000-00-00'))
-                ) {
+                $invalidDate = $this->getPlatform()?->getInvalidDateString($column->getType());
+                if ($invalidDate === null || $val !== $invalidDate) {
                     // while technically this is not a default value of NULL,
                     // this seems to be closest in meaning.
                     $defDt = new DateTime($val);
@@ -234,6 +331,7 @@ class ObjectBuilder extends AbstractObjectBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -292,6 +390,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $this->declareClassFromBuilder($this->getStubObjectBuilder());
@@ -411,6 +510,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "
@@ -553,9 +653,34 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     protected function addColumnAttributeDeclaration(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
-        $script .= "
+        $phpType = $column->getPhpType();
+
+        // Temporal columns store DateTime objects at runtime even though their
+        // declared phpType is 'string'. LOB / BLOB-style columns can hold streams.
+        // SET columns hold the raw bitmask string emitted by
+        // SetColumnConverter::convertToInt (which returns a string despite the
+        // name). All three must remain untyped to preserve the storage contract.
+        if ($column->isTemporalType() || $column->isLobType() || $column->isSetType()) {
+            $typeDeclaration = null;
+        } else {
+            $typeDeclaration = match ($phpType) {
+                'int', 'integer' => 'int',
+                'float', 'double' => 'float',
+                'bool', 'boolean' => 'bool',
+                'string' => 'string',
+                default => null,
+            };
+        }
+
+        if ($typeDeclaration !== null) {
+            $script .= "
+    protected ?" . $typeDeclaration . ' $' . $clo . " = null;
+";
+        } else {
+            $script .= "
     protected \$" . $clo . ";
 ";
+        }
     }
 
     /**
@@ -591,7 +716,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     {
         $clo = $column->getLowercasedName();
         $script .= "
-    protected \$" . $clo . "_isLoaded = false;
+    protected bool \$" . $clo . "_isLoaded = false;
 ";
     }
 
@@ -819,7 +944,8 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     {
         $table = $this->getTable();
         // FIXME - Apply support for PHP default expressions here
-        // see: http://propel.phpdb.org/trac/ticket/378
+        // (only literal default values are honoured; arbitrary PHP expressions
+        // declared via defaultExpr are not yet evaluated when applying defaults).
 
         $colsWithDefaults = [];
         foreach ($table->getColumns() as $column) {
@@ -1247,18 +1373,8 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             }";
                 } elseif ($col->isTemporalType()) {
                     $dateTimeClass = $this->getDateTimeClass($col);
-                    $handleMysqlDate = false;
-                    if ($this->getPlatform() instanceof MysqlPlatform) {
-                        if (in_array($col->getType(), [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
-                            $handleMysqlDate = true;
-                            $mysqlInvalidDateString = '0000-00-00 00:00:00';
-                        } elseif ($col->getType() === PropelTypes::DATE) {
-                            $handleMysqlDate = true;
-                            $mysqlInvalidDateString = '0000-00-00';
-                        }
-                        // 00:00:00 is a valid time, so no need to check for that.
-                    }
-                    if ($handleMysqlDate) {
+                    $mysqlInvalidDateString = $this->getPlatform()?->getInvalidDateString($col->getType());
+                    if ($mysqlInvalidDateString !== null) {
                         $script .= "
             if (\$col === '$mysqlInvalidDateString') {
                 \$col = null;
@@ -1749,7 +1865,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
     protected function addGetByNameBody(string &$script): void
     {
         $script .= "
-        \$pos = " . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
+        \$pos = (int)" . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
         \$field = \$this->getByPosition(\$pos);";
     }
 
@@ -1890,7 +2006,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
      */
     public function setByName(string \$name, \$value, string \$type = TableMap::$defaultKeyType)
     {
-        \$pos = " . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
+        \$pos = (int)" . $this->getTableMapClassName() . "::translateFieldName(\$name, \$type, TableMap::TYPE_NUM);
 
         \$this->setByPosition(\$pos, \$value);
 
@@ -2368,10 +2484,9 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             $this->addGetPrimaryKeySinglePK($script);
         } elseif (count($pkeys) > 1) {
             $this->addGetPrimaryKeyMultiPK($script);
-        } else {
-            // no primary key -- this is deprecated, since we don't *need* this method anymore
-            $this->addGetPrimaryKeyNoPK($script);
         }
+        // Tables with no primary key emit no getPrimaryKey() method —
+        // ActiveRecord no longer requires one.
     }
 
     /**
@@ -2426,33 +2541,6 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         $script .= "
 
         return \$pks;
-    }
-";
-    }
-
-    /**
-     * Adds the getPrimaryKey() method for objects that have no primary key.
-     * This "feature" is deprecated, since the getPrimaryKey() method is not required
-     * by the Persistent interface (or used by the templates). Hence, this method is also
-     * deprecated.
-     *
-     * @deprecated Not needed anymore.
-     *
-     * @param string $script The script will be modified in this method.
-     *
-     * @return void
-     */
-    protected function addGetPrimaryKeyNoPK(string &$script): void
-    {
-        $script .= "
-    /**
-     * Returns NULL since this table doesn't have a primary key.
-     * This method exists only for BC and is deprecated!
-     * @return null
-     */
-    public function getPrimaryKey()
-    {
-        return null;
     }
 ";
     }
@@ -2750,66 +2838,6 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         \$this->setNew(false);
     }
 ";
-
-        return $script;
-    }
-
-    /**
-     * @return string
-     */
-    protected function addDoInsertBodyStandard(): string
-    {
-        return "
-        \$pk = \$criteria->doInsert(\$con);";
-    }
-
-    /**
-     * @return string
-     */
-    protected function addDoInsertBodyWithIdMethod(): string
-    {
-        $table = $this->getTable();
-        $script = '';
-        foreach ($table->getPrimaryKey() as $col) {
-            if (!$col->isAutoIncrement()) {
-                continue;
-            }
-            $colConst = $this->getColumnConstant($col);
-            if (!$table->isAllowPkInsert()) {
-                $script .= "
-        if (\$criteria->keyContainsValue($colConst) ) {
-            throw new PropelException('Cannot insert a value for auto-increment primary key (' . $colConst . ')');
-        }";
-                if (!$this->getPlatform()->supportsInsertNullPk()) {
-                    $script .= "
-        // remove pkey col since this table uses auto-increment and passing a null value for it is not valid
-        \$criteria->remove($colConst);";
-                }
-            } elseif (!$this->getPlatform()->supportsInsertNullPk()) {
-                $script .= "
-        // remove pkey col if it is null since this table does not accept that
-        if (\$criteria->containsKey($colConst) && !\$criteria->keyContainsValue($colConst) ) {
-            \$criteria->remove($colConst);
-        }";
-            }
-        }
-
-        $script .= $this->addDoInsertBodyStandard();
-
-        foreach ($table->getPrimaryKey() as $col) {
-            if (!$col->isAutoIncrement()) {
-                continue;
-            }
-            if ($table->isAllowPkInsert()) {
-                $script .= "
-        if (\$pk !== null) {
-            \$this->set" . $col->getPhpName() . "(\$pk);  //[IMV] update autoincrement primary key
-        }";
-            } else {
-                $script .= "
-        \$this->set" . $col->getPhpName() . '($pk);  //[IMV] update autoincrement primary key';
-            }
-        }
 
         return $script;
     }
@@ -3420,8 +3448,9 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         if (\$makeNew) {
             \$copyObj->setNew(true);";
 
-        // Note: we're no longer resetting non-autoincrement primary keys to default values
-        // due to: http://propel.phpdb.org/trac/ticket/618
+        // Note: we no longer reset non-autoincrement primary keys to default
+        // values when copying — doing so silently dropped intentional PK
+        // assignments and broke schemas with composite or natural keys.
         foreach ($autoIncCols as $col) {
             $coldefval = $col->getPhpDefaultValue();
             $coldefval = var_export($coldefval, true);

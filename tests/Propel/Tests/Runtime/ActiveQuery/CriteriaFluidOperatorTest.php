@@ -15,9 +15,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for Criteria fluid operators.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class CriteriaFluidOperatorTest extends BookstoreTestBase
 {
     /**

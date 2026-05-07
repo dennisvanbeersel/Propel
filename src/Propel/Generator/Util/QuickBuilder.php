@@ -475,6 +475,18 @@ class QuickBuilder
             $script .= $this->fixNamespaceDeclarations($class);
         }
 
+        // Emit a backed-enum class for each ENUM column so generated model
+        // code that references the enum can resolve the symbol at runtime.
+        foreach ($table->getColumns() as $enumCol) {
+            if (!$enumCol->isEnumType() || $enumCol->getValueSet() === []) {
+                continue;
+            }
+            /** @var \Propel\Generator\Builder\Om\EnumBuilder $enumBuilder */
+            $enumBuilder = $this->getConfig()->getConfiguredBuilder($table, 'enum');
+            $enumBuilder->setColumn($enumCol);
+            $script .= $this->fixNamespaceDeclarations($enumBuilder->build());
+        }
+
         $column = $table->getChildrenColumn();
         if ($column && $column->isEnumeratedClasses()) {
             foreach ($column->getChildren() as $child) {
@@ -512,6 +524,15 @@ class QuickBuilder
         }
 
         $script = str_replace('<?php', '', $script);
+        // The combined script is concatenated and prefixed with a single
+        // `<?php` opener at the consumer (see buildClassesToPhysical /
+        // buildClassesToVirtual). Each generated file emits its own
+        // `declare(strict_types=1);` statement, but PHP only allows that
+        // declaration as the very first statement of a file. Strip the
+        // per-file declarations here so the concatenated output stays
+        // syntactically valid; strict_types in the combined sandbox file is
+        // not required for QuickBuilder's runtime tests.
+        $script = preg_replace('/^\s*declare\s*\(\s*strict_types\s*=\s*1\s*\)\s*;\s*$/m', '', $script);
 
         return $script;
     }

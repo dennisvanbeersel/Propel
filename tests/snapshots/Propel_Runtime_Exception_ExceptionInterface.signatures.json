@@ -1,0 +1,12 @@
+{
+    "class": "Propel\\Runtime\\Exception\\ExceptionInterface",
+    "kind": "interface",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

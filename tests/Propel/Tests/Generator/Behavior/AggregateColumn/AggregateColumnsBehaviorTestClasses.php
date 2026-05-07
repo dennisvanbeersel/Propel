@@ -58,7 +58,7 @@ class TestableComment extends AggregateComment
 
 class TestableAggregateCommentQuery extends AggregateCommentQuery
 {
-    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): Criteria
+    public static function create(?string $modelAlias = null, ?Criteria $criteria = null): static
     {
         return new TestableAggregateCommentQuery();
     }

@@ -18,9 +18,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for OnDemandIterator.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class OnDemandIteratorTest extends BookstoreEmptyTestBase
 {
     /**

@@ -30,6 +30,17 @@ use Psr\Log\LoggerInterface;
  * getNestedTransactionDepth() and isInTransaction() and the fact that beginTransaction()
  * will no longer throw a PDOException (or trigger an error) if a transaction is already
  * in-progress.
+ *
+ * **Deprecation (Phase E):** this class's responsibilities (nested-tx accounting,
+ * logging, prepared-statement caching) have been collapsed onto the explicit
+ * decorator chain in `Internal/`. Prefer {@see ConnectionFactory::create()} with
+ * a `decorators` configuration list (default `['transactional', 'logging', 'caching']`)
+ * and walk via {@see ConnectionDecoratorInterface::getInner()}. See
+ * docs/CONNECTION-DECORATORS.md for the migration cookbook. Removal targeted for 4.0.
+ *
+ * Class-level `@deprecated` is intentionally NOT applied yet to keep static-analysis
+ * baselines stable across Phase E; the deprecation is announced via
+ * `trigger_deprecation` in the constructor + the class-doc note here.
  */
 class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
 {
@@ -126,6 +137,15 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      */
     public function __construct(ConnectionInterface $connection)
     {
+        trigger_deprecation(
+            'maturix/propel',
+            '3.0',
+            'Class "%s" is a deprecated BC shim around the new decorator chain. Compose '
+            . 'PdoConnection/TransactionalConnection/LoggingConnection/CachingConnection via '
+            . 'ConnectionFactory::create() instead. See docs/CONNECTION-DECORATORS.md. Removal at 4.0.',
+            self::class,
+        );
+
         $this->connection = $connection;
     }
 
@@ -134,6 +154,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return void
      */
+    #[\Override]
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -142,6 +163,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @return string|null The datasource name associated to this connection
      */
+    #[\Override]
     public function getName(): ?string
     {
         return $this->name;
@@ -204,6 +226,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function beginTransaction(): bool
     {
         $return = true;
@@ -227,6 +250,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function commit(): bool
     {
         $return = true;
@@ -256,6 +280,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool Whether operation was successful.
      */
+    #[\Override]
     public function rollBack(): bool
     {
         $return = true;
@@ -309,6 +334,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool TRUE if a transaction is currently active, and FALSE if not.
      */
+    #[\Override]
     public function inTransaction(): bool
     {
         return $this->connection->inTransaction();
@@ -323,6 +349,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      * @return mixed A successful call returns the value of the requested attribute.
      *               An unsuccessful call returns null.
      */
+    #[\Override]
     public function getAttribute(int $attribute)
     {
         switch ($attribute) {
@@ -343,6 +370,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return bool
      */
+    #[\Override]
     public function setAttribute($attribute, $value): bool
     {
         if (is_string($attribute)) {
@@ -378,7 +406,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * Overrides PDO::prepare() in order to:
      *  - Add logging and query counting if logging is true.
-     *  - Add query caching support if the PropelPDO::PROPEL_ATTR_CACHE_PREPARES was set to true.
+     *  - Add query caching support if the ConnectionWrapper::PROPEL_ATTR_CACHE_PREPARES was set to true.
      *
      * @param string $statement This must be a valid SQL statement for the target database server.
      * @param array $driverOptions One $array or more key => value pairs to set attribute values
@@ -386,15 +414,23 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return \Propel\Runtime\Connection\StatementInterface|false
      */
+    #[\Override]
     public function prepare(string $statement, array $driverOptions = [])
     {
-        if ($this->isCachePreparedStatements && isset($this->cachedPreparedStatements[$statement])) {
-            $statementWrapper = $this->cachedPreparedStatements[$statement];
+        // Cache key must include $driverOptions: two prepares of the same SQL
+        // with different cursor types / fetch modes / etc. yield semantically
+        // different statements. Previously the cache silently returned the
+        // first one for ANY $driverOptions value, masking subtle bugs. Use
+        // a NUL-byte separator + serialize for a stable + collision-free key.
+        $cacheKey = $driverOptions === [] ? $statement : $statement . "\0" . serialize($driverOptions);
+
+        if ($this->isCachePreparedStatements && isset($this->cachedPreparedStatements[$cacheKey])) {
+            $statementWrapper = $this->cachedPreparedStatements[$cacheKey];
         } else {
             $statementWrapper = $this->createStatementWrapper($statement);
             $statementWrapper->prepare($driverOptions);
             if ($this->isCachePreparedStatements) {
-                $this->cachedPreparedStatements[$statement] = $statementWrapper;
+                $this->cachedPreparedStatements[$cacheKey] = $statementWrapper;
             }
         }
 
@@ -408,6 +444,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function exec($statement): int
     {
         if ($this->isInDebugMode()) {
@@ -434,6 +471,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return \Propel\Runtime\DataFetcher\DataFetcherInterface
      */
+    #[\Override]
     public function query(string $statement, ...$args): DataFetcherInterface
     {
         $statementWrapper = $this->createStatementWrapper($statement);
@@ -496,6 +534,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *                SQL statement. Returns FALSE if the driver does not support
      *                quoting in this way.
      */
+    #[\Override]
     public function quote(string $string, int $parameterType = 2): string
     {
         return $this->connection->quote($string, $parameterType);
@@ -504,6 +543,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getSingleDataFetcher($data): DataFetcherInterface
     {
         return $this->connection->getSingleDataFetcher($data);
@@ -512,6 +552,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getDataFetcher($data): DataFetcherInterface
     {
         return $this->connection->getDataFetcher($data);
@@ -546,6 +587,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *                a string representing the last value retrieved from the specified
      *                sequence object.
      */
+    #[\Override]
     public function lastInsertId(?string $name = null)
     {
         return $this->connection->lastInsertId($name);
@@ -562,10 +604,9 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     }
 
     /**
-     * Returns the number of queries this DebugPDO instance has performed on the database connection.
+     * Returns the number of queries this connection has performed on the database server.
      *
-     * When using DebugPDOStatement as the statement class, any queries by DebugPDOStatement instances
-     * are counted as well.
+     * Counts all queries logged through the connection wrapper.
      *
      * @return int
      */
@@ -575,7 +616,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     }
 
     /**
-     * Increments the number of queries performed by this DebugPDO instance.
+     * Increments the number of queries performed by this connection.
      *
      * Returns the original number of queries (ie the value of $this->queryCount before calling this method).
      *
@@ -659,6 +700,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * @return void
      */
+    #[\Override]
     public function setLogger(LoggerInterface $logger): void
     {
         $this->logger = $logger;

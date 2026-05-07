@@ -34,6 +34,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getPackage(): string
     {
         return parent::getPackage() . '.Base';
@@ -44,6 +45,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string|null
      */
+    #[\Override]
     public function getNamespace(): ?string
     {
         $namespace = parent::getNamespace();
@@ -59,6 +61,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return string
      */
+    #[\Override]
     public function getUnprefixedClassName(): string
     {
         return $this->getStubQueryBuilder()->getUnprefixedClassName();
@@ -91,6 +94,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassOpen(string &$script): void
     {
         $table = $this->getTable();
@@ -163,6 +167,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassBody(string &$script): void
     {
         $table = $this->getTable();
@@ -324,6 +329,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return void
      */
+    #[\Override]
     protected function addClassClose(string &$script): void
     {
         $script .= "
@@ -455,8 +461,13 @@ class QueryBuilder extends AbstractOMBuilder
      */
     protected function addFactoryOpen(string &$script): void
     {
+        // EXCEPTION TO THE `: self` RULE applied elsewhere on generated setters.
+        // `create()` is a static factory; LSP issues that bite instance methods
+        // do not apply because static methods are dispatched per-class. Using
+        // `: static` lets a user subclass of the generated query return its
+        // own type without redeclaring the method.
         $script .= "
-    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): Criteria
+    public static function create(?string \$modelAlias = null, ?Criteria \$criteria = null): static
     {";
     }
 
@@ -471,15 +482,19 @@ class QueryBuilder extends AbstractOMBuilder
     {
         $classname = $this->getClassNameFromBuilder($this->getNewStubQueryBuilder($this->getTable()));
         $script .= "
-        if (\$criteria instanceof " . $classname . ") {
+        if (\$criteria instanceof static) {
             return \$criteria;
         }
-        \$query = new " . $classname . "();
+        if (\$criteria instanceof " . $classname . ") {
+            \$query = \$criteria;
+        } else {
+            \$query = new static();
+            if (\$criteria instanceof Criteria) {
+                \$query->mergeWith(\$criteria);
+            }
+        }
         if (null !== \$modelAlias) {
             \$query->setModelAlias(\$modelAlias);
-        }
-        if (\$criteria instanceof Criteria) {
-            \$query->mergeWith(\$criteria);
         }
 
         return \$query;";
@@ -993,7 +1008,7 @@ class QueryBuilder extends AbstractOMBuilder
      *              Use scalar values for equality.
      *              Use array values for in_array() equivalent.
      *              Use associative array('min' => \$minValue, 'max' => \$maxValue) for intervals.";
-        } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
+        } elseif ($col->getType() === PropelTypes::PHP_ARRAY) {
             $script .= "
      * @param array \$$variableName The values to use as filter.";
         } elseif ($col->isTextType()) {
@@ -1049,15 +1064,15 @@ class QueryBuilder extends AbstractOMBuilder
                 \$comparison = Criteria::IN;
             }
         }";
-        } elseif ($col->getType() == PropelTypes::OBJECT) {
+        } elseif ($col->getType() === PropelTypes::OBJECT) {
             $script .= "
         if (is_object(\$$variableName)) {
             \$$variableName = serialize(\$$variableName);
         }";
-        } elseif ($col->getType() == PropelTypes::PHP_ARRAY) {
+        } elseif ($col->getType() === PropelTypes::PHP_ARRAY) {
             $script .= "
         \$key = \$this->getAliasedColName($qualifiedName);
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1068,7 +1083,7 @@ class QueryBuilder extends AbstractOMBuilder
             }
 
             return \$this;
-        } elseif (\$comparison == Criteria::CONTAINS_SOME) {
+        } elseif (\$comparison === Criteria::CONTAINS_SOME) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1079,7 +1094,7 @@ class QueryBuilder extends AbstractOMBuilder
             }
 
             return \$this;
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             foreach (\$$variableName as \$value) {
                 \$value = '%| ' . \$value . ' |%';
                 if (\$this->containsKey(\$key)) {
@@ -1104,17 +1119,17 @@ class QueryBuilder extends AbstractOMBuilder
         } catch (SetColumnConverterException \$e) {
             throw new PropelException(sprintf('Value \"%s\" is not accepted in this set column', \$e->getValue()), \$e->getCode(), \$e);
         }
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             if (\${$variableName} === '0') {
                 return \$this;
             }
             \$comparison = Criteria::BINARY_ALL;
-        } elseif (\$comparison == Criteria::CONTAINS_SOME || \$comparison == Criteria::IN) {
+        } elseif (\$comparison === Criteria::CONTAINS_SOME || \$comparison === Criteria::IN) {
             if (\${$variableName} === '0') {
                 return \$this;
             }
             \$comparison = Criteria::BINARY_AND;
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             \$key = \$this->getAliasedColName($qualifiedName);
             if (\${$variableName} !== '0') {
                 \$this->add(\$key, \${$variableName}, Criteria::BINARY_NONE);
@@ -1123,9 +1138,15 @@ class QueryBuilder extends AbstractOMBuilder
 
             return \$this;
         }";
-        } elseif ($col->getType() == PropelTypes::ENUM) {
+        } elseif ($col->getType() === PropelTypes::ENUM) {
+            // We do not import the column's specific enum here — generated
+            // code coerces any \BackedEnum to its value, so no symbol from
+            // the enum class is referenced in the query body.
             $script .= "
         \$valueSet = " . $this->getTableMapClassName() . '::getValueSet(' . $this->getColumnConstant($col) . ");
+        if (\$$variableName instanceof \\BackedEnum) {
+            \$$variableName = \${$variableName}->value;
+        }
         if (is_scalar(\$$variableName)) {
             if (!in_array(\$$variableName, \$valueSet)) {
                 throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$$variableName));
@@ -1134,6 +1155,9 @@ class QueryBuilder extends AbstractOMBuilder
         } elseif (is_array(\$$variableName)) {
             \$convertedValues = [];
             foreach (\$$variableName as \$value) {
+                if (\$value instanceof \\BackedEnum) {
+                    \$value = \$value->value;
+                }
                 if (!in_array(\$value, \$valueSet)) {
                     throw new PropelException(sprintf('Value \"%s\" is not accepted in this enumerated column', \$value));
                 }
@@ -1197,12 +1221,12 @@ class QueryBuilder extends AbstractOMBuilder
      */
     public function filterBy$singularPhpName(\$$variableName = null, ?string \$comparison = null)
     {
-        if (null === \$comparison || \$comparison == Criteria::CONTAINS_ALL) {
+        if (null === \$comparison || \$comparison === Criteria::CONTAINS_ALL) {
             if (is_scalar(\$$variableName)) {
                 \$$variableName = '%| ' . \$$variableName . ' |%';
                 \$comparison = Criteria::LIKE;
             }
-        } elseif (\$comparison == Criteria::CONTAINS_NONE) {
+        } elseif (\$comparison === Criteria::CONTAINS_NONE) {
             \$$variableName = '%| ' . \$$variableName . ' |%';
             \$comparison = Criteria::NOT_LIKE;
             \$key = \$this->getAliasedColName($qualifiedName);
@@ -1948,6 +1972,7 @@ class QueryBuilder extends AbstractOMBuilder
      *
      * @return bool
      */
+    #[\Override]
     public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool
     {
         return parent::hasBehaviorModifier($hookName, 'QueryBuilderModifier');

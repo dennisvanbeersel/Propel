@@ -102,10 +102,9 @@ EOF;
     }
 
     /**
-     * @requires OS ^(?!Win.*)
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\RequiresOperatingSystem('^(?!Win.*)')]
     public function testYamlFileNotReadableThrowsException()
     {
         $this->expectException(InputOutputException::class);

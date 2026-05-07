@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    PHPUnit deprecation/warning settings are disabled temporarily.
-    TODO: Address PHPUnit 12 deprecations before PHPUnit 12 release:
-    - Replace returnValue() with willReturn()
-    - Replace getMockForTrait() with alternative approaches
-    - Fix dynamic property deprecations in generated code
-    Re-enable these settings once deprecations are addressed.
--->
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
@@ -15,9 +7,13 @@
     cacheDirectory=".phpunit.cache"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
-    failOnDeprecation="false"
-    failOnPhpunitDeprecation="false"
-    failOnWarning="false"
+    failOnDeprecation="true"
+    failOnPhpunitDeprecation="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    failOnIncomplete="true"
+    failOnNotice="true"
+    failOnEmptyTestSuite="true"
 >
     <testsuites>
         <testsuite name="propel2">
@@ -38,7 +34,12 @@
         <env name="DB" value="pgsql"/>
         <env name="DB_USER" value="postgres"/>
         <env name="DB_NAME" value="postgres"/>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;baselineFile=tests/deprecations.allowlist.json&amp;generateBaseline=false"/>
     </php>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+    </extensions>
 
     <source>
         <include>

@@ -12,6 +12,8 @@ namespace Propel\Generator\Platform;
 
 use PDO;
 use Propel\Generator\Config\GeneratorConfigInterface;
+use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\ColumnDefaultValue;
 use Propel\Generator\Model\Database;
@@ -48,6 +50,7 @@ class SqlitePlatform extends DefaultPlatform
     /**
      * @return void
      */
+    #[\Override]
     protected function initialize(): void
     {
         parent::initialize();
@@ -62,6 +65,7 @@ class SqlitePlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     protected function initializeTypeMap(): void
     {
         parent::initializeTypeMap();
@@ -81,6 +85,14 @@ class SqlitePlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::SET, 'INT'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BLOB'));
 
+        // Phase C (umbrella §6.4 + §1.2 frozen-feature stance): SQLite stores
+        // JSON/JSONB/INET/CIDR/TSVECTOR as TEXT (no native type support).
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'TEXT'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TEXT'));
+
         // no native UUID type, use UUID_BINARY
         $this->schemaDomainMap[PropelTypes::UUID] = $this->schemaDomainMap[PropelTypes::UUID_BINARY];
     }
@@ -90,6 +102,7 @@ class SqlitePlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getSchemaDelimiter(): string
     {
         return '§';
@@ -98,6 +111,7 @@ class SqlitePlatform extends DefaultPlatform
     /**
      * @return array<int>
      */
+    #[\Override]
     public function getDefaultTypeSizes(): array
     {
         return [
@@ -113,6 +127,7 @@ class SqlitePlatform extends DefaultPlatform
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void
     {
         parent::setGeneratorConfig($generatorConfig);
@@ -134,6 +149,7 @@ class SqlitePlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnsDDL(array $columns): string
     {
         $ret = '';
@@ -155,6 +171,7 @@ ALTER TABLE %s ADD %s;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getModifyTableDDL(TableDiff $tableDiff): string
     {
         $changedNotEditableThroughDirectDDL = $this->tableAlteringWorkaround && (
@@ -275,6 +292,7 @@ DROP TABLE %s;
     /**
      * @return string
      */
+    #[\Override]
     public function getBeginDDL(): string
     {
         return '
@@ -285,6 +303,7 @@ PRAGMA foreign_keys = OFF;
     /**
      * @return string
      */
+    #[\Override]
     public function getEndDDL(): string
     {
         return '
@@ -297,6 +316,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return string
      */
+    #[\Override]
     public function getAddTablesDDL(Database $database): string
     {
         $ret = '';
@@ -322,6 +342,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return void
      */
+    #[\Override]
     public function normalizeTable(Table $table): void
     {
         if ($table->getPrimaryKey()) {
@@ -376,6 +397,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return string
      */
+    #[\Override]
     public function getPrimaryKeyDDL(Table $table): string
     {
         if ($table->hasPrimaryKey() && !$table->hasAutoIncrementPrimaryKey()) {
@@ -388,6 +410,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getRemoveColumnDDL(Column $column): string
     {
         //not supported
@@ -397,6 +420,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getRenameColumnDDL(Column $fromColumn, Column $toColumn): string
     {
         //not supported
@@ -406,6 +430,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getModifyColumnDDL(ColumnDiff $columnDiff): string
     {
         //not supported
@@ -415,6 +440,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getModifyColumnsDDL($columnDiffs): string
     {
         //not supported
@@ -424,6 +450,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getDropPrimaryKeyDDL(Table $table): string
     {
         //not supported
@@ -433,6 +460,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getAddPrimaryKeyDDL(Table $table): string
     {
         //not supported
@@ -442,6 +470,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getAddForeignKeyDDL(ForeignKey $fk): string
     {
         //not supported
@@ -451,6 +480,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getDropForeignKeyDDL(ForeignKey $fk): string
     {
         //not supported
@@ -462,6 +492,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return string
      */
+    #[\Override]
     public function getAutoIncrement(): string
     {
         return 'PRIMARY KEY AUTOINCREMENT';
@@ -470,6 +501,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @return int
      */
+    #[\Override]
     public function getMaxColumnNameLength(): int
     {
         return 1024;
@@ -478,10 +510,34 @@ PRAGMA foreign_keys = ON;
     /**
      * @param \Propel\Generator\Model\Column $col
      *
+     * @throws \Propel\Generator\Exception\EngineException when the column requests a feature SQLite is frozen on
+     *
      * @return string
      */
+    #[\Override]
     public function getColumnDDL(Column $col): string
     {
+        // Phase C (umbrella §1.2): SQLite is frozen — generated/invisible/JSONB
+        // are MySQL/PG-only. Surface a clear, actionable error.
+        if ($col->isGenerated()) {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: generated columns are MySQL/PG-only (column "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+        if ($col->isInvisible()) {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: INVISIBLE columns are MySQL-only (column "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+        if ($col->getType() === 'JSONB') {
+            throw new EngineException(sprintf(
+                'SQLite is frozen in Propel 3.x: JSONB is PG-only (column "%s"). Use type="JSON" or migrate to PostgreSQL. See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+                $col->getName(),
+            ));
+        }
+
         if ($col->isAutoIncrement()) {
             $col->setType('INTEGER');
             $col->setDomainForType('INTEGER');
@@ -503,10 +559,67 @@ PRAGMA foreign_keys = ON;
     }
 
     /**
+     * Phase C (umbrella §1.2): SQLite rejects CHECK constraint emission.
+     *
+     * SQLite parses CHECK at table creation only — no ALTER ADD CHECK exists.
+     * To keep the schema model uniform across platforms, Phase C declines to
+     * emit CHECK on SQLite and asks users to switch to MySQL/PG for CHECK
+     * coverage. SQLite remains frozen at its pre-Phase-C feature set.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @throws \Propel\Generator\Exception\EngineException always — frozen-feature stance
+     *
+     * @return string
+     */
+    #[\Override]
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        throw new EngineException(sprintf(
+            'SQLite is frozen in Propel 3.x: CHECK constraints are MySQL/PG-only (CHECK "%s"). See docs/MIGRATION-FROM-PRE-AI.md#sqlite-frozen-features.',
+            $cc->getName(),
+        ));
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no INVISIBLE.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return false;
+    }
+
+    /**
+     * Phase C (umbrella §1.2): SQLite is frozen — no CHECK emission.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return false;
+    }
+
+    /**
      * @param \Propel\Generator\Model\Table $table
      *
      * @return string
      */
+    #[\Override]
     public function getAddTableDDL(Table $table): string
     {
         $table = clone $table;
@@ -561,6 +674,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return string
      */
+    #[\Override]
     public function getForeignKeyDDL(ForeignKey $fk): string
     {
         if ($fk->isSkipSql() || !$this->foreignKeySupport || $fk->isPolymorphic()) {
@@ -593,6 +707,7 @@ PRAGMA foreign_keys = ON;
      *
      * @return bool
      */
+    #[\Override]
     public function hasSize(string $sqlType): bool
     {
         return !in_array($sqlType, [
@@ -607,6 +722,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function doQuoting(string $text): string
     {
         return '[' . strtr($text, ['.' => '].[']) . ']';
@@ -615,6 +731,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsSchemas(): bool
     {
         return true;
@@ -623,6 +740,7 @@ PRAGMA foreign_keys = ON;
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsNativeDeleteTrigger(): bool
     {
         return true;

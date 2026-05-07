@@ -103,10 +103,9 @@ EOF;
     }
 
     /**
-     * @requires OS ^(?!Win.*)
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\RequiresOperatingSystem('^(?!Win.*)')]
     public function testConfigFileNotReadableThrowsException()
     {
         $this->expectException(InputOutputException::class);

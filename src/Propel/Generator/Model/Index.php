@@ -44,6 +44,18 @@ class Index extends MappingModel
     protected bool $autoNaming = false;
 
     /**
+     * Phase D (umbrella §6.4 carry-forward): partial-index WHERE clause
+     * (PostgreSQL: `CREATE INDEX ... WHERE foo IS NOT NULL`).
+     */
+    protected ?string $whereClause = null;
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): index access method
+     * (PostgreSQL: `USING gin|gist|hash|btree`; MySQL: `USING BTREE|HASH`).
+     */
+    protected ?string $indexType = null;
+
+    /**
      * Creates a new Index instance.
      *
      * @param string|null $name Name of the index
@@ -334,9 +346,60 @@ class Index extends MappingModel
     /**
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         $this->setName($this->getAttribute('name'));
+        $where = $this->getAttribute('where');
+        if ($where !== null && $where !== '') {
+            $this->whereClause = $where;
+        }
+        $using = $this->getAttribute('using');
+        if ($using !== null && $using !== '') {
+            $this->indexType = $using;
+        }
+    }
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): WHERE clause for partial indexes.
+     * PostgreSQL example: `CREATE INDEX idx_active ON post (id) WHERE status = 'active'`.
+     *
+     * @return string|null
+     */
+    public function getWhereClause(): ?string
+    {
+        return $this->whereClause;
+    }
+
+    /**
+     * @param string|null $whereClause
+     *
+     * @return void
+     */
+    public function setWhereClause(?string $whereClause): void
+    {
+        $this->whereClause = $whereClause;
+    }
+
+    /**
+     * Phase D (umbrella §6.4 carry-forward): index access method.
+     * PostgreSQL: gin|gist|hash|btree|brin|spgist. MySQL: BTREE|HASH.
+     *
+     * @return string|null
+     */
+    public function getIndexType(): ?string
+    {
+        return $this->indexType;
+    }
+
+    /**
+     * @param string|null $indexType
+     *
+     * @return void
+     */
+    public function setIndexType(?string $indexType): void
+    {
+        $this->indexType = $indexType;
     }
 
     /**

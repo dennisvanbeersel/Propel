@@ -67,6 +67,14 @@ class Table extends ScopedMappingModel implements IdMethod
     private array $unices = [];
 
     /**
+     * Phase C (umbrella §6.4): SQL CHECK constraints attached to the table.
+     * Column-scoped <check> elements are flattened into this list at load time.
+     *
+     * @var array<\Propel\Generator\Model\CheckConstraint>
+     */
+    private array $checkConstraints = [];
+
+    /**
      * @var array<\Propel\Generator\Model\IdMethodParameter>
      */
     private array $idMethodParameters = [];
@@ -201,6 +209,7 @@ class Table extends ScopedMappingModel implements IdMethod
     /**
      * @return void
      */
+    #[\Override]
     public function setupObject(): void
     {
         parent::setupObject();
@@ -257,6 +266,7 @@ class Table extends ScopedMappingModel implements IdMethod
      *
      * @return string
      */
+    #[\Override]
     public function getBuildProperty(string $name): string
     {
         return $this->database ? $this->database->getBuildProperty($name) : '';
@@ -282,6 +292,7 @@ class Table extends ScopedMappingModel implements IdMethod
      *
      * @return void
      */
+    #[\Override]
     protected function registerBehavior(Behavior $behavior): void
     {
         $behavior->setTable($this);
@@ -1129,10 +1140,57 @@ class Table extends ScopedMappingModel implements IdMethod
     }
 
     /**
+     * Phase C (umbrella §6.4): adds a CHECK constraint to this table.
+     *
+     * Accepts either a CheckConstraint instance or an attribute array (matching
+     * the <check> XML element). Column-scoped <check> elements are flattened
+     * here so the table holds a single canonical list.
+     *
+     * @psalm-api
+     *
+     * @param \Propel\Generator\Model\CheckConstraint|array $check
+     *
+     * @throws \Propel\Generator\Exception\InvalidArgumentException when a duplicate name is added
+     *
+     * @return \Propel\Generator\Model\CheckConstraint
+     */
+    public function addCheckConstraint($check): CheckConstraint
+    {
+        if ($check instanceof CheckConstraint) {
+            $check->setTable($this);
+            $name = $check->getName();
+            foreach ($this->checkConstraints as $existing) {
+                if ($existing->getName() === $name) {
+                    throw new InvalidArgumentException(sprintf('CHECK constraint "%s" already exists on table "%s".', $name, $this->getCommonName() ?: 'unknown'));
+                }
+            }
+            $this->checkConstraints[] = $check;
+
+            return $check;
+        }
+
+        $cc = new CheckConstraint();
+        $cc->loadMapping($check);
+
+        return $this->addCheckConstraint($cc);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): returns the flat list of CHECK constraints.
+     *
+     * @return array<\Propel\Generator\Model\CheckConstraint>
+     */
+    public function getCheckConstraints(): array
+    {
+        return $this->checkConstraints;
+    }
+
+    /**
      * Retrieves the configuration object.
      *
      * @return \Propel\Generator\Config\GeneratorConfigInterface|null
      */
+    #[\Override]
     public function getGeneratorConfig(): ?GeneratorConfigInterface
     {
         return $this->database->getGeneratorConfig();
@@ -1895,6 +1953,7 @@ class Table extends ScopedMappingModel implements IdMethod
      *
      * @return \Propel\Generator\Model\VendorInfo
      */
+    #[\Override]
     public function getVendorInfoForType(string $type): VendorInfo
     {
         $tableVendorInfo = parent::getVendorInfoForType($type);

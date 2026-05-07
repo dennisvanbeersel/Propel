@@ -19,6 +19,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author Charles Crossan <crossan007@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'datadictionary:export', description: 'Generate Data Dictionary files (.md)', aliases: ['datadictionary', 'md'])]
 class DataDictionaryExportCommand extends AbstractCommand
 {
     /**
@@ -41,16 +42,14 @@ class DataDictionaryExportCommand extends AbstractCommand
      *
      * @return void
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
 
         $this
             ->addOption(static::OPTION_OUTPUT_DIR, null, InputOption::VALUE_REQUIRED, 'The output directory', static::DEFAULT_OUTPUT_DIRECTORY)
-            ->addOption(static::OPTION_SCHEMA_DIR, null, InputOption::VALUE_REQUIRED, 'The directory where the schema files are placed')
-            ->setName('datadictionary:export')
-            ->setAliases(['datadictionary', 'md'])
-            ->setDescription('Generate Data Dictionary files (.md)');
+            ->addOption(static::OPTION_SCHEMA_DIR, null, InputOption::VALUE_REQUIRED, 'The directory where the schema files are placed');
     }
 
     /**
@@ -65,6 +64,7 @@ class DataDictionaryExportCommand extends AbstractCommand
      *
      * @return int
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

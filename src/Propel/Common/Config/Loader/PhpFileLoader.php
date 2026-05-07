@@ -39,6 +39,7 @@ class PhpFileLoader extends FileLoader
      *
      * @return array
      */
+    #[\Override]
     public function load($resource, $type = null): array
     {
         $path = $this->getPath($resource);
@@ -68,6 +69,7 @@ class PhpFileLoader extends FileLoader
      *
      * @return bool true if this class supports the given resource, false otherwise
      */
+    #[\Override]
     public function supports($resource, $type = null): bool
     {
         return static::checkSupports(['php', 'inc'], $resource);

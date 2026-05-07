@@ -194,7 +194,7 @@ class NestedSetBehaviorQueryBuilderModifierWithScopeTest extends TestCase
      */
     public function testAncestorsOf()
     {
-        $this->markTestIncomplete();
+        $this->markTestSkipped('NestedSet behavior is deprecated in Propel 3.0 (umbrella spec Phase D); recursive CTE pattern replaces it. Test left as a future regression target if NestedSet is restored.');
         [$t1, $t2, $t3, $t4, $t5, $t6, $t7, $t8, $t9, $t10] = $this->initTreeWithScope();
         /* Tree used for tests
          Scope 1
@@ -234,7 +234,7 @@ class NestedSetBehaviorQueryBuilderModifierWithScopeTest extends TestCase
      */
     public function testRootsOf()
     {
-        $this->markTestIncomplete();
+        $this->markTestSkipped('NestedSet behavior is deprecated in Propel 3.0 (umbrella spec Phase D); recursive CTE pattern replaces it. Test left as a future regression target if NestedSet is restored.');
         [$t1, $t2, $t3, $t4, $t5, $t6, $t7, $t8, $t9, $t10] = $this->initTreeWithScope();
         /* Tree used for tests
          Scope 1

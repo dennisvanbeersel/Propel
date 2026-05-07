@@ -1,29 +1,47 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-    PHPUnit deprecation/warning settings are disabled temporarily.
-    TODO: Address PHPUnit 12 deprecations before PHPUnit 12 release:
-    - Replace returnValue() with willReturn()
-    - Replace getMockForTrait() with alternative approaches
-    - Fix dynamic property deprecations in generated code
-    Re-enable these settings once deprecations are addressed.
--->
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/11.5/phpunit.xsd"
     colors="true"
     bootstrap="bootstrap.php"
     cacheDirectory=".phpunit.cache"
+    executionOrder="default"
     displayDetailsOnTestsThatTriggerDeprecations="true"
     displayDetailsOnTestsThatTriggerWarnings="true"
-    failOnDeprecation="false"
-    failOnPhpunitDeprecation="false"
-    failOnWarning="false"
+    failOnDeprecation="true"
+    failOnPhpunitDeprecation="true"
+    failOnWarning="true"
+    failOnRisky="true"
+    failOnIncomplete="true"
+    failOnNotice="true"
+    failOnEmptyTestSuite="true"
 >
     <testsuites>
         <testsuite name="propel2">
             <directory>Propel/Tests/</directory>
+            <exclude>Propel/Tests/PropertyTests/</exclude>
+            <exclude>Propel/Tests/ChaosTests/</exclude>
+            <exclude>Propel/Tests/Benchmark/</exclude>
+            <exclude>Propel/Tests/Benchmarks/</exclude>
+        </testsuite>
+        <testsuite name="property">
+            <directory>Propel/Tests/PropertyTests/</directory>
+        </testsuite>
+        <testsuite name="chaos">
+            <directory>Propel/Tests/ChaosTests/</directory>
+        </testsuite>
+        <testsuite name="benchmarks">
+            <directory>Propel/Tests/Benchmarks/</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <env name="SYMFONY_DEPRECATIONS_HELPER" value="max[self]=0&amp;baselineFile=tests/deprecations.allowlist.json&amp;generateBaseline=false"/>
+    </php>
+
+    <extensions>
+        <bootstrap class="Symfony\Bridge\PhpUnit\SymfonyExtension"/>
+    </extensions>
 
     <groups>
         <exclude>

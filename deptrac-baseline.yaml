@@ -1,0 +1,89 @@
+deptrac:
+  skip_violations:
+    Propel\Generator\Builder\Om\ObjectBuilder:
+      - Propel\Runtime\Exception\PropelException
+    Propel\Generator\Builder\Om\QueryBuilder:
+      - Propel\Runtime\ActiveQuery\Criteria
+      - Propel\Runtime\ActiveQuery\Criterion\ExistsQueryCriterion
+    Propel\Generator\Builder\Om\TableMapLoaderScriptBuilder:
+      - Propel\Runtime\Map\DatabaseMap
+      - Propel\Runtime\Map\TableMap
+    Propel\Generator\Command\ConfigConvertCommand:
+      - Propel\Runtime\ServiceContainer\StandardServiceContainer
+    Propel\Generator\Command\Executor\RollbackExecutor:
+      - Propel\Runtime\Exception\RuntimeException
+    Propel\Generator\Command\InitCommand:
+      - Propel\Runtime\Adapter\AdapterFactory
+      - Propel\Runtime\Connection\ConnectionFactory
+      - Propel\Runtime\Connection\Exception\ConnectionException
+    Propel\Generator\Command\MigrationMigrateCommand:
+      - Propel\Runtime\Exception\RuntimeException
+    Propel\Generator\Command\MigrationUpCommand:
+      - Propel\Runtime\Exception\RuntimeException
+    Propel\Generator\Config\GeneratorConfig:
+      - Propel\Runtime\Adapter\AdapterFactory
+      - Propel\Runtime\Connection\ConnectionFactory
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Config\GeneratorConfigInterface:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Config\QuickGeneratorConfig:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Manager\MigrationManager:
+      - Propel\Runtime\Adapter\AdapterFactory
+      - Propel\Runtime\Connection\ConnectionFactory
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Manager\ReverseManager:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Manager\SqlManager:
+      - Propel\Runtime\Adapter\AdapterFactory
+      - Propel\Runtime\Connection\ConnectionFactory
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Model\ForeignKey:
+      - Propel\Runtime\Exception\RuntimeException
+    Propel\Generator\Model\Table:
+      - Propel\Runtime\Exception\RuntimeException
+      - Propel\Runtime\Util\UuidConverter
+    Propel\Generator\Platform\DefaultPlatform:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Platform\MysqlPlatform:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Platform\PgsqlPlatform:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Platform\PlatformInterface:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Platform\SqlitePlatform:
+      - Propel\Runtime\Connection\ConnectionInterface
+      - Propel\Runtime\Connection\PdoConnection
+    Propel\Generator\Reverse\AbstractSchemaParser:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Reverse\MysqlSchemaParser:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Reverse\PgsqlSchemaParser:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Reverse\SchemaParserInterface:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Reverse\SqliteSchemaParser:
+      - Propel\Runtime\Connection\ConnectionInterface
+    Propel\Generator\Util\QuickBuilder:
+      - Propel\Runtime\Adapter\AdapterInterface
+      - Propel\Runtime\Adapter\Pdo\SqliteAdapter
+      - Propel\Runtime\Connection\ConnectionInterface
+      - Propel\Runtime\Connection\ConnectionWrapper
+      - Propel\Runtime\Connection\PdoConnection
+      - Propel\Runtime\Connection\StatementInterface
+      - Propel\Runtime\Propel
+    Propel\Generator\Util\SqlParser:
+      - Propel\Runtime\Connection\ConnectionInterface
+      - Propel\Runtime\Connection\StatementInterface
+    Propel\Runtime\ActiveQuery\ModelCriteria:
+      - Propel\Generator\Model\PropelTypes
+    Propel\Runtime\Adapter\Pdo\MysqlAdapter:
+      - Propel\Generator\Model\PropelTypes
+    Propel\Runtime\Adapter\Pdo\PdoAdapter:
+      - Propel\Generator\Model\PropelTypes
+    Propel\Runtime\Adapter\Pdo\PgsqlAdapter:
+      - Propel\Generator\Model\PropelTypes
+    Propel\Runtime\Adapter\Pdo\SqliteAdapter:
+      - Propel\Generator\Model\PropelTypes
+    Propel\Runtime\Map\ColumnMap:
+      - Propel\Generator\Model\PropelTypes

@@ -14,9 +14,7 @@ use Propel\Tests\Bookstore\Book2;
 use Propel\Tests\Bookstore\Map\Book2TableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class UuidBinaryTypeTest extends BookstoreTestBase
 {
     /** @var string */
@@ -71,9 +69,9 @@ class UuidBinaryTypeTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider uuidFilterDataProvider
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('uuidFilterDataProvider')]
     public function testQueryConvertsUuidParamToBin(string $description, $uuidValue)
     {
         $params = [];
@@ -98,10 +96,9 @@ class UuidBinaryTypeTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider queryConfiguratorDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('queryConfiguratorDataProvider')]
     public function testQueryResolvesUuidFilter(string $description, $queryConfigurator)
     {
         $bookQuery = Book2Query::create();

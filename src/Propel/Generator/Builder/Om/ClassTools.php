@@ -10,8 +10,6 @@ declare(strict_types=1);
 
 namespace Propel\Generator\Builder\Om;
 
-use Propel\Generator\Model\Table;
-
 /**
  * Tools to support class & package inclusion and referencing.
  *
@@ -20,7 +18,7 @@ use Propel\Generator\Model\Table;
 class ClassTools
 {
     /**
-     * Gets just classname, given a dot-path to class.
+     * Gets just the classname segment from a fully qualified PHP class name.
      *
      * @param string|null $qualifiedName
      *
@@ -32,17 +30,12 @@ class ClassTools
             return null;
         }
 
-        $pos = strrpos($qualifiedName, '.');
-        if ($pos !== false) {
-            return substr($qualifiedName, $pos + 1); // start just after '.'
-        }
-
         $pos = strrpos($qualifiedName, '\\');
         if ($pos !== false) {
             return substr($qualifiedName, $pos + 1);
         }
 
-        return $qualifiedName; // there is no '.' in the qualified name
+        return $qualifiedName;
     }
 
     /**
@@ -70,30 +63,6 @@ class ClassTools
     }
 
     /**
-     * Gets the baseClass path if specified for table/db.
-     *
-     * @param \Propel\Generator\Model\Table $table
-     *
-     * @return string|null
-     */
-    public static function getBaseClass(Table $table): ?string
-    {
-        return $table->getBaseClass();
-    }
-
-    /**
-     * Gets the interface path if specified for table.
-     *
-     * @param \Propel\Generator\Model\Table $table
-     *
-     * @return string|null
-     */
-    public static function getInterface(Table $table): ?string
-    {
-        return $table->getInterface();
-    }
-
-    /**
      * Gets a list of PHP reserved words.
      *
      * @return array<string>
@@ -101,6 +70,7 @@ class ClassTools
     public static function getPhpReservedWords(): array
     {
         return [
+            // PHP 5/7 carry-overs.
             'and', 'or', 'xor', 'exception', '__FILE__', '__LINE__',
             'array', 'as', 'break', 'case', 'class', 'const', 'continue',
             'declare', 'default', 'die', 'do', 'echo', 'else', 'elseif', 'empty',
@@ -108,9 +78,12 @@ class ClassTools
             'eval', 'exit', 'extends', 'for', 'foreach', 'function', 'global',
             'if', 'include', 'include_once', 'isset', 'list', 'new', 'print', 'require',
             'require_once', 'return', 'static', 'switch', 'unset', 'use', 'var', 'while',
-            '__FUNCTION__', '__CLASS__', '__METHOD__', '__DIR__', '__NAMESPACE__', 'final', 'php_user_filter', 'interface',
-            'implements', 'extends', 'public', 'protected', 'private', 'abstract', 'clone', 'try', 'catch',
+            '__FUNCTION__', '__CLASS__', '__METHOD__', '__DIR__', '__NAMESPACE__',
+            'final', 'php_user_filter', 'interface',
+            'implements', 'public', 'protected', 'private', 'abstract', 'clone', 'try', 'catch',
             'throw', 'this', 'namespace',
+            // PHP 8.x additions.
+            'match', 'enum', 'readonly', 'never', 'true', 'false', 'null',
         ];
     }
 

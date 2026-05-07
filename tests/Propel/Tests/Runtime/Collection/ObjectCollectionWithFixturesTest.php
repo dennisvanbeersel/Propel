@@ -24,9 +24,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for ObjectCollection.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ObjectCollectionWithFixturesTest extends BookstoreEmptyTestBase
 {
     /**

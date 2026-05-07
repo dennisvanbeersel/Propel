@@ -29,6 +29,7 @@ class Unique extends Index
      *
      * @return bool
      */
+    #[\Override]
     public function isUnique(): bool
     {
         return true;

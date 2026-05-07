@@ -101,10 +101,9 @@ EOF;
     }
 
     /**
-     * @requires OS ^(?!Win.*)
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\RequiresOperatingSystem('^(?!Win.*)')]
     public function testJsonFileNotReadableThrowsException()
     {
         $this->expectException(InputOutputException::class);

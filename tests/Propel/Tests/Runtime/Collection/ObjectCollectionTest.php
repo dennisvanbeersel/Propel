@@ -26,9 +26,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Test class for ObjectCollection.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ObjectCollectionTest extends BookstoreTestBase
 {
     /**
@@ -346,10 +345,9 @@ class ObjectCollectionTest extends BookstoreTestBase
     }
 
     /**
-     * @afterClass
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\AfterClass]
     public static function enableInstancePooling()
     {
         Propel::enableInstancePooling(); //Enable it for the other tests

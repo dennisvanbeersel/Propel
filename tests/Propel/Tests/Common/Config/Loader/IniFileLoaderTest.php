@@ -232,10 +232,9 @@ EOF;
     }
 
     /**
-     * @requires OS ^(?!Win.*)
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\RequiresOperatingSystem('^(?!Win.*)')]
     public function testIniFileNotReadableThrowsException()
     {
         $this->expectException(InputOutputException::class);

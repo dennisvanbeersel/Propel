@@ -24,6 +24,7 @@ use Symfony\Component\Finder\Finder;
 /**
  * @author Marc Scholten <marcphilipscholten@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'init', description: 'Initializes a new project')]
 class InitCommand extends AbstractCommand
 {
     private string $defaultSchemaDir;
@@ -43,13 +44,10 @@ class InitCommand extends AbstractCommand
     /**
      * @return void
      */
+    #[\Override]
     protected function configure(): void
     {
         parent::configure();
-
-        $this
-            ->setName('init')
-            ->setDescription('Initializes a new project');
     }
 
     /**
@@ -58,6 +56,7 @@ class InitCommand extends AbstractCommand
      *
      * @return int
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $consoleHelper = new ConsoleHelper($input, $output);

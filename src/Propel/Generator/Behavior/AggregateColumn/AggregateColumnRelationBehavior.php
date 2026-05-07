@@ -36,6 +36,7 @@ class AggregateColumnRelationBehavior extends Behavior
     /**
      * @return bool
      */
+    #[\Override]
     public function allowMultiple(): bool
     {
         return true;

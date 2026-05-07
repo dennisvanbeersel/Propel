@@ -193,31 +193,52 @@ class PropelDateTime extends DateTime
     }
 
     /**
-     * PHP "magic" function called when object is serialized.
-     * Sets an internal property with the date string and returns properties
-     * of class that should be serialized.
+     * PHP 7.4+ serialization API. Replaces __sleep()/__wakeup() which were
+     * shadowed by parent DateTime's __serialize() on PHP 8+ (resulting in
+     * dead serialization paths in PropelDateTime).
      *
-     * @return array<string>
+     * @return array{dateString: string, tzString: string}
      */
-    public function __sleep(): array
+    #[\Override]
+    public function __serialize(): array
     {
-        // We need to use a string without a time zone, due to
-        // PHP bug: http://bugs.php.net/bug.php?id=40743
-        $this->dateString = $this->format('Y-m-d H:i:s');
-        $this->tzString = $this->getTimeZone()->getName();
-
-        return ['dateString', 'tzString'];
+        return [
+            // Format without time zone to avoid PHP bug #40743 (legacy carry-over).
+            'dateString' => $this->format('Y-m-d H:i:s.u'),
+            'tzString' => $this->getTimeZone()->getName(),
+        ];
     }
 
     /**
-     * PHP "magic" function called when object is restored from serialized state.
-     * Calls DateTime constructor with previously stored string value of date.
+     * Robust against invalid stored timezone strings (e.g. due to corrupted
+     * caches or cross-version PHP timezone-database drift): falls back to UTC
+     * with an E_USER_WARNING rather than throwing — unserialize() failure
+     * mid-stream can corrupt larger unserialize batches and the original
+     * \Exception is hard to surface from __unserialize.
+     *
+     * @param array{dateString?: string, tzString?: string}|array $data
      *
      * @return void
      */
-    public function __wakeup(): void
+    #[\Override]
+    public function __unserialize(array $data): void
     {
-        // @TODO I don't think we can call the constructor from within this method
-        parent::__construct($this->dateString, new DateTimeZone($this->tzString));
+        $this->dateString = $data['dateString'] ?? '1970-01-01 00:00:00';
+        $this->tzString = $data['tzString'] ?? 'UTC';
+
+        try {
+            $tz = new DateTimeZone($this->tzString);
+        } catch (Exception $e) {
+            trigger_error(
+                sprintf(
+                    'PropelDateTime::__unserialize: stored timezone "%s" is invalid (%s); falling back to UTC',
+                    $this->tzString,
+                    $e->getMessage(),
+                ),
+                E_USER_WARNING,
+            );
+            $tz = new DateTimeZone('UTC');
+        }
+        parent::__construct($this->dateString, $tz);
     }
 }

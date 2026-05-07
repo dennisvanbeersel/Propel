@@ -10,7 +10,6 @@ declare(strict_types=1);
 
 namespace Propel\Generator\Behavior\I18n;
 
-use Propel\Generator\Behavior\Validate\ValidateBehavior;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
 use Propel\Generator\Exception\EngineException;
 use Propel\Generator\Model\Behavior;
@@ -71,6 +70,7 @@ class I18nBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyDatabase(): void
     {
         foreach ($this->getDatabase()->getTables() as $table) {
@@ -174,6 +174,7 @@ class I18nBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\I18n\I18nBehaviorObjectBuilderModifier
      */
+    #[\Override]
     public function getObjectBuilderModifier()
     {
         if ($this->objectBuilderModifier === null) {
@@ -186,6 +187,7 @@ class I18nBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\I18n\I18nBehaviorQueryBuilderModifier
      */
+    #[\Override]
     public function getQueryBuilderModifier()
     {
         if ($this->queryBuilderModifier === null) {
@@ -210,6 +212,7 @@ class I18nBehavior extends Behavior
     /**
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $this->addI18nTable();
@@ -319,7 +322,6 @@ class I18nBehavior extends Behavior
         $table = $this->getTable();
         $i18nTable = $this->i18nTable;
 
-        $i18nValidateParams = [];
         foreach ($this->getI18nColumnNamesFromConfig() as $columnName) {
             if (!$i18nTable->hasColumn($columnName)) {
                 if (!$table->hasColumn($columnName)) {
@@ -328,34 +330,12 @@ class I18nBehavior extends Behavior
 
                 $column = $table->getColumn($columnName);
                 $i18nTable->addColumn(clone $column);
-
-                // validate behavior: move rules associated to the column
-                if ($table->hasBehavior('validate')) {
-                    /** @var \Propel\Generator\Behavior\Validate\ValidateBehavior $validateBehavior */
-                    $validateBehavior = $table->getBehavior('validate');
-                    $params = $validateBehavior->getParametersFromColumnName($columnName);
-                    $i18nValidateParams = array_merge($i18nValidateParams, $params);
-                    $validateBehavior->removeParametersFromColumnName($columnName);
-                }
                 // FIXME: also move FKs, and indices on this column
             }
 
             if ($table->hasColumn($columnName)) {
                 $table->removeColumn($columnName);
             }
-        }
-
-        // validate behavior
-        if (count($i18nValidateParams) > 0) {
-            $i18nVbehavior = new ValidateBehavior();
-            $i18nVbehavior->setName('validate');
-            $i18nVbehavior->setParameters($i18nValidateParams);
-            $i18nTable->addBehavior($i18nVbehavior);
-
-            // current table must have almost 1 validation rule
-            /** @var \Propel\Generator\Behavior\Validate\ValidateBehavior $validate */
-            $validate = $table->getBehavior('validate');
-            $validate->addRuleOnPk();
         }
     }
 
@@ -388,15 +368,11 @@ class I18nBehavior extends Behavior
      */
     protected function getI18nColumnNamesFromConfig(): array
     {
-        $columnNames = explode(',', $this->getParameter('i18n_columns'));
-
-        foreach ($columnNames as $key => $columnName) {
+        $columnNames = [];
+        foreach (explode(',', $this->getParameter('i18n_columns')) as $columnName) {
             $columnName = trim($columnName);
-
-            if ($columnName) {
-                $columnNames[$key] = $columnName;
-            } else {
-                unset($columnNames[$key]);
+            if ($columnName !== '') {
+                $columnNames[] = $columnName;
             }
         }
 

@@ -72,7 +72,42 @@ class ForeignKeyComparator
         }
 
         // compare skipSql
-        return $fromFk->isSkipSql() !== $toFk->isSkipSql();
+        if ($fromFk->isSkipSql() !== $toFk->isSkipSql()) {
+            return true;
+        }
+
+        // Phase D (umbrella §6.4 carry-forward): DEFERRABLE / INITIALLY DEFERRED
+        // drift (PostgreSQL). Case-insensitive on the deferrable string since PG
+        // accepts either case and normalises uppercase internally. Treat null
+        // and the platform default ('NOT DEFERRABLE') as equivalent for the
+        // additivity guarantee (existing schemas without the attribute don't
+        // suddenly drift).
+        if (self::normaliseDeferrable($fromFk->getDeferrable()) !== self::normaliseDeferrable($toFk->getDeferrable())) {
+            return true;
+        }
+        if ($fromFk->getInitiallyDeferred() !== $toFk->getInitiallyDeferred()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /**
+     * Phase D: collapse null and 'NOT DEFERRABLE' to a canonical form so a
+     * fk that previously had no `deferrable` attribute doesn't compare unequal
+     * to one that explicitly sets it to the platform default.
+     *
+     * @param string|null $deferrable
+     *
+     * @return string
+     */
+    private static function normaliseDeferrable(?string $deferrable): string
+    {
+        if ($deferrable === null || $deferrable === '') {
+            return 'NOT DEFERRABLE';
+        }
+
+        return strtoupper(trim($deferrable));
     }
 
     /**

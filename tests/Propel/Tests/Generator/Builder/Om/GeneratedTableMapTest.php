@@ -29,9 +29,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  *
  * @see BookstoreDataPopulator
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedTableMapTest extends BookstoreTestBase
 {
     /**

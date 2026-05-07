@@ -223,7 +223,6 @@ class ArchivableBehaviorSyncTest extends TestCase
     }
 
     /**
-     * @dataProvider syncTestDataProvider
      *
      * @param string $message
      * @param string $behaviorAdditions
@@ -231,9 +230,9 @@ class ArchivableBehaviorSyncTest extends TestCase
      * @param string $archiveTableInputTags
      * @param string $auxiliaryTables
      * @param string $archiveTableOutputTags
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('syncTestDataProvider')]
     public function testSync(
         string $message,
         string $behaviorAdditions,

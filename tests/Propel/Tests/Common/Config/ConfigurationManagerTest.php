@@ -11,8 +11,8 @@ namespace Propel\Tests\Common\Config;
 use org\bovigo\vfs\vfsStream;
 use Propel\Common\Config\ConfigurationManager;
 use Propel\Common\Config\Exception\InvalidArgumentException;
-use Propel\Tests\TestCase;
 use Propel\Generator\Util\VfsTrait;
+use Propel\Tests\TestCase;
 use Symfony\Component\Config\Definition\Exception\InvalidConfigurationException;
 
 class ConfigurationManagerTest extends TestCase
@@ -440,7 +440,7 @@ propel:
       connections:
           mysource.name:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
@@ -460,10 +460,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForInvalidConnections
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForInvalidConnections')]
     public function testRuntimeOrGeneratorConnectionIsNotInConfiguredConnectionsThrowsException($yamlConf, $section)
     {
         $this->expectException(InvalidConfigurationException::class);
@@ -473,10 +472,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForInvalidDefaultConnection
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForInvalidDefaultConnection')]
     public function testRuntimeOrGeneratorDefaultConnectionIsNotInConfiguredConnectionsThrowsException($yamlConf, $section)
     {
         $this->expectException(InvalidConfigurationException::class);
@@ -496,14 +494,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -539,14 +537,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -585,14 +583,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -630,14 +628,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -670,14 +668,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -712,13 +710,20 @@ EOF;
                     'connections' => [
                         'default' => [
                             'adapter' => 'sqlite',
-                            'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                            'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                             'dsn' => 'sqlite::memory:',
                             'user' => '',
                             'password' => '',
                             'model_paths' => [
                                 'src',
                                 'vendor',
+                            ],
+                            'decorators' => ['transactional', 'logging', 'caching'],
+                            'preparedStatementCacheCapacity' => 256,
+                            'routing' => [
+                                'sessionConsistencyWindowSeconds' => 5.0,
+                                'replicaLagThresholdSeconds' => 2.0,
+                                'fallbackToPrimary' => true,
                             ],
                         ],
                     ],
@@ -761,7 +766,7 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
@@ -769,7 +774,7 @@ propel:
                 - src
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -788,17 +793,24 @@ EOF;
         $expectedRuntime = [
             'mysource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=mydb',
                 'user' => 'root',
                 'password' => '',
                 'model_paths' => [
                     'src',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
             'yoursource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=yourdb',
                 'user' => 'root',
                 'password' => '',
@@ -806,18 +818,32 @@ EOF;
                     'src',
                     'vendor',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
         ];
 
         $expectedGenerator = [
             'mysource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=mydb',
                 'user' => 'root',
                 'password' => '',
                 'model_paths' => [
                     'src',
+                ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
                 ],
             ],
         ];
@@ -840,13 +866,13 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -863,6 +889,9 @@ EOF;
 
 class TestableConfigurationManager extends ConfigurationManager
 {
+    /**
+     * @return void
+     */
     protected function process(array $extraConf = []): void
     {
     }

@@ -33,7 +33,9 @@ class DatabaseMapTest extends TestCaseFixtures
     {
         parent::setUp();
         $this->databaseName = 'foodb';
-        $this->databaseMap = TestDatabaseBuilder::getDmap();
+        // Use a fresh DatabaseMap per test to prevent static-state pollution under
+        // randomized test execution (e.g. Infection's harness).
+        $this->databaseMap = new DatabaseMap($this->databaseName);
     }
 
     /**
@@ -191,7 +193,7 @@ class DatabaseMapTest extends TestCaseFixtures
         try {
             $this->databaseMap->getColumn('foo.BAR');
             $this->fail('getColumn() throws an exception when called on column of an inexistent table');
-        } catch (ColumnNotFoundException $e) {
+        } catch (TableNotFoundException $e) {
             $this->assertTrue(true, 'getColumn() throws an exception when called on column of an inexistent table');
         }
         $tmap = $this->databaseMap->addTable('foo');

@@ -19,10 +19,9 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
  * Tests for Mysql database schema parser.
  *
  * @author William Durand
- *
- * @group database
- * @group mysql
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
+#[\PHPUnit\Framework\Attributes\Group('mysql')]
 class MysqlSchemaParserTest extends AbstractSchemaParserTestCase
 {
     /**

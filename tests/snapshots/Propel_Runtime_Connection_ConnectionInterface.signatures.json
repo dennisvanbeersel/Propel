@@ -1,0 +1,280 @@
+{
+    "class": "Propel\\Runtime\\Connection\\ConnectionInterface",
+    "kind": "interface",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "beginTransaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "commit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "exec",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "int"
+        },
+        {
+            "name": "getAttribute",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "attribute",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "getDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "data",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "getName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "?string"
+        },
+        {
+            "name": "getSingleDataFetcher",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "data",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\DataFetcher\\DataFetcherInterface"
+        },
+        {
+            "name": "inTransaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "lastInsertId",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "prepare",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "driverOptions",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "query",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "statement",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        },
+        {
+            "name": "quote",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "string",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "parameterType",
+                    "type": "int",
+                    "default": "PDO::PARAM_STR",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "rollBack",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "setAttribute",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "attribute",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "setName",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "transaction",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "callable",
+                    "type": "callable",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": null
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

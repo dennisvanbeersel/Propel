@@ -213,6 +213,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return void
      */
+    #[\Override]
     public function offsetSet($index, $value): void
     {
         $this->collection->offsetSet($index, $value);
@@ -225,6 +226,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return void
      */
+    #[\Override]
     public function offsetUnset($index): void
     {
         $this->collection->offsetUnset($index);
@@ -237,6 +239,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return void
      */
+    #[\Override]
     public function append($value): void
     {
         $this->collection->append($value);
@@ -249,7 +252,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function asort(int $flags = SORT_REGULAR): bool
     {
         parent::asort($flags);
@@ -263,7 +266,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function ksort(int $flags = SORT_REGULAR): bool
     {
         parent::ksort($flags);
@@ -277,7 +280,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function uasort($callback): bool
     {
         parent::uasort($callback);
@@ -291,7 +294,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
      *
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function uksort($callback): bool
     {
         parent::uksort($callback);
@@ -303,7 +306,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
     /**
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function natsort(): bool
     {
         parent::natsort();
@@ -315,7 +318,7 @@ class CollectionIterator extends ArrayIterator implements IteratorInterface
     /**
      * @return true
      */
-    #[\ReturnTypeWillChange]
+    #[\Override, \ReturnTypeWillChange]
     public function natcasesort(): bool
     {
         parent::natcasesort();

@@ -18,9 +18,8 @@ use Propel\Tests\Bookstore\Behavior\SortableTable12Query;
  * Tests for SortableBehavior class query modifier when the scope is enabled
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SortableBehaviorQueryBuilderModifierWithScopeTest extends TestCase
 {
     /**

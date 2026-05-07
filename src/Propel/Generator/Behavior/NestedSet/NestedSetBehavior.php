@@ -16,6 +16,8 @@ use Propel\Generator\Model\Column;
 /**
  * Behavior to adds nested set tree structure columns and abilities
  *
+ * @deprecated since 3.0, use recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+) instead.
+ *             See docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte. Will be removed in 4.0.
  * @author François Zaninotto
  */
 class NestedSetBehavior extends Behavior
@@ -49,8 +51,17 @@ class NestedSetBehavior extends Behavior
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
+        if (function_exists('trigger_deprecation')) {
+            trigger_deprecation(
+                'propel/propel',
+                '3.0',
+                'NestedSet behavior is deprecated. Use recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+); see docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte for migration cookbook.',
+            );
+        }
+
         $table = $this->getTable();
 
         if (!$table->hasColumn($this->getParameter('left_column'))) {
@@ -85,6 +96,7 @@ class NestedSetBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\NestedSet\NestedSetBehaviorObjectBuilderModifier
      */
+    #[\Override]
     public function getObjectBuilderModifier()
     {
         if ($this->objectBuilderModifier === null) {
@@ -97,6 +109,7 @@ class NestedSetBehavior extends Behavior
     /**
      * @return $this|\Propel\Generator\Behavior\NestedSet\NestedSetBehaviorQueryBuilderModifier
      */
+    #[\Override]
     public function getQueryBuilderModifier()
     {
         if ($this->queryBuilderModifier === null) {

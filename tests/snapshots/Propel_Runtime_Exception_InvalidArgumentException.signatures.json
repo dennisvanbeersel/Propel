@@ -1,0 +1,14 @@
+{
+    "class": "Propel\\Runtime\\Exception\\InvalidArgumentException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "InvalidArgumentException",
+    "implements": [
+        "Propel\\Runtime\\Exception\\ExceptionInterface"
+    ],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

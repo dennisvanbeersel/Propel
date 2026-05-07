@@ -16,9 +16,8 @@ use Propel\Tests\TestCaseFixtures;
  * Test : Propel should not allow incomplete foreign key references when foreign table has a composite primary key
  * Issue described in https://github.com/propelorm/Propel2/issues/675.
  * Originally described in http://stackoverflow.com/questions/7947085/are-incomplete-key-references-in-propel-useful
- *
- * @group model
  */
+#[\PHPUnit\Framework\Attributes\Group('model')]
 class Issue675Test extends TestCaseFixtures
 {
     /**

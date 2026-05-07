@@ -18,21 +18,20 @@ use Propel\Generator\Model\Unique;
 class UniqueTest extends ModelTestCase
 {
     /**
-     * @dataProvider provideTableSpecificAttributes
      *
      * @param string $tableName
      * @param int $maxColumnNameLength
      * @param string $indexName
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideTableSpecificAttributes')]
     public function testCreateDefaultUniqueIndexName($tableName, $maxColumnNameLength, $indexName)
     {
         $database = $this->getDatabaseMock('bookstore');
         $database
             ->expects($this->any())
             ->method('getMaxColumnNameLength')
-            ->will($this->returnValue($maxColumnNameLength));
+            ->willReturn($maxColumnNameLength);
 
         $table = $this->getTableMock($tableName, [
             'common_name' => $tableName,

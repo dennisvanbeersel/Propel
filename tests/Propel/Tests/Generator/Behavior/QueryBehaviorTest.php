@@ -16,9 +16,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Tests the generated query behavior hooks.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class QueryBehaviorTest extends BookstoreTestBase
 {
     /**

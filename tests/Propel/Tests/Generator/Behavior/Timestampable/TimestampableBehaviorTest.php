@@ -25,9 +25,8 @@ use TableColumnTypes;
  * Tests for TimestampableBehavior class
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class TimestampableBehaviorTest extends BookstoreTestBase
 {
     /**

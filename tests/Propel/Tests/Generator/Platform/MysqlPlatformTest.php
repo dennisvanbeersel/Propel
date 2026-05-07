@@ -76,17 +76,15 @@ class MysqlPlatformTest extends PlatformTestProvider
     }
 
     /**
-     * @dataProvider providerForTestGetAddTablesDDLSchema
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTablesDDLSchema')]
     public function testGetAddTablesDDLSchema($schema)
     {
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
@@ -149,17 +147,15 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForTestGetAddTablesDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTablesDDL')]
     public function testGetAddTablesDDL($schema)
     {
         $database = $this->getDatabaseFromSchema($schema);
         $expected = <<<EOF
 
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It "suspends judgement" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 
 -- ---------------------------------------------------------------------
@@ -203,10 +199,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForTestGetAddTablesSkipSQLDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTablesSkipSQLDDL')]
     public function testGetAddTablesSkipSQLDDL($schema)
     {
         $database = $this->getDatabaseFromSchema($schema);
@@ -215,10 +210,9 @@ EOF;
     }
 
     /**
-     * @dataProvider providerForTestGetAddTableDDLSimplePK
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTableDDLSimplePK')]
     public function testGetAddTableDDLSimplePK($schema)
     {
         $table = $this->getTableFromSchema($schema);
@@ -234,10 +228,9 @@ CREATE TABLE `foo`
     }
 
     /**
-     * @dataProvider providerForTestGetAddTableDDLCompositePK
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTableDDLCompositePK')]
     public function testGetAddTableDDLCompositePK($schema)
     {
         $table = $this->getTableFromSchema($schema);
@@ -254,10 +247,9 @@ CREATE TABLE `foo`
     }
 
     /**
-     * @dataProvider providerForTestGetAddTableDDLUniqueIndex
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTableDDLUniqueIndex')]
     public function testGetAddTableDDLUniqueIndex($schema)
     {
         $table = $this->getTableFromSchema($schema);
@@ -426,10 +418,9 @@ CREATE TABLE `foo`
     }
 
     /**
-     * @dataProvider providerForTestGetAddTableDDLSchema
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTableDDLSchema')]
     public function testGetAddTableDDLSchema($schema)
     {
         $table = $this->getTableFromSchema($schema, 'Woopah.foo');
@@ -458,10 +449,9 @@ DROP TABLE IF EXISTS `foo`;
     }
 
     /**
-     * @dataProvider providerForTestGetAddTableDDLSchema
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetAddTableDDLSchema')]
     public function testGetDropTableDDLSchema($schema)
     {
         $table = $this->getTableFromSchema($schema, 'Woopah.foo');
@@ -597,10 +587,9 @@ DROP TABLE IF EXISTS `Woopah`.`foo`;
     }
 
     /**
-     * @dataProvider providerForTestPrimaryKeyDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestPrimaryKeyDDL')]
     public function testGetDropPrimaryKeyDDL($table)
     {
         $expected = "
@@ -610,10 +599,9 @@ ALTER TABLE `foo` DROP PRIMARY KEY;
     }
 
     /**
-     * @dataProvider providerForTestPrimaryKeyDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestPrimaryKeyDDL')]
     public function testGetAddPrimaryKeyDDL($table)
     {
         $expected = "
@@ -623,10 +611,9 @@ ALTER TABLE `foo` ADD PRIMARY KEY (`bar`);
     }
 
     /**
-     * @dataProvider providerForTestGetIndicesDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetIndicesDDL')]
     public function testAddIndicesDDL($table)
     {
         $expected = "
@@ -638,10 +625,9 @@ CREATE INDEX `foo_index` ON `foo` (`bar1`);
     }
 
     /**
-     * @dataProvider providerForTestGetIndexDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetIndexDDL')]
     public function testAddIndexDDL($index)
     {
         $expected = "
@@ -651,10 +637,9 @@ CREATE INDEX `babar` ON `foo` (`bar1`, `bar2`);
     }
 
     /**
-     * @dataProvider providerForTestGetIndexDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetIndexDDL')]
     public function testDropIndexDDL($index)
     {
         $expected = "
@@ -664,10 +649,9 @@ DROP INDEX `babar` ON `foo`;
     }
 
     /**
-     * @dataProvider providerForTestGetIndexDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetIndexDDL')]
     public function testGetIndexDDL($index)
     {
         $expected = 'INDEX `babar` (`bar1`, `bar2`)';
@@ -713,10 +697,9 @@ DROP INDEX `babar` ON `foo`;
     }
 
     /**
-     * @dataProvider providerForTestGetUniqueDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetUniqueDDL')]
     public function testGetUniqueDDL($index)
     {
         $expected = 'UNIQUE INDEX `babar` (`bar1`, `bar2`)';
@@ -724,10 +707,9 @@ DROP INDEX `babar` ON `foo`;
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeysDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeysDDL')]
     public function testGetAddForeignKeysDDL($table)
     {
         $expected = "
@@ -745,10 +727,9 @@ ALTER TABLE `foo` ADD CONSTRAINT `foo_baz_fk`
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeyDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeyDDL')]
     public function testGetAddForeignKeyDDL($fk)
     {
         $expected = "
@@ -761,10 +742,9 @@ ALTER TABLE `foo` ADD CONSTRAINT `foo_bar_fk`
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeySkipSqlDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeySkipSqlDDL')]
     public function testGetAddForeignKeySkipSqlDDL($fk)
     {
         $expected = '';
@@ -772,10 +752,9 @@ ALTER TABLE `foo` ADD CONSTRAINT `foo_bar_fk`
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeyDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeyDDL')]
     public function testGetDropForeignKeyDDL($fk)
     {
         $expected = "
@@ -785,10 +764,9 @@ ALTER TABLE `foo` DROP FOREIGN KEY `foo_bar_fk`;
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeySkipSqlDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeySkipSqlDDL')]
     public function testGetDropForeignKeySkipSqlDDL($fk)
     {
         $expected = '';
@@ -796,10 +774,9 @@ ALTER TABLE `foo` DROP FOREIGN KEY `foo_bar_fk`;
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeyDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeyDDL')]
     public function testGetForeignKeyDDL($fk)
     {
         $expected = "CONSTRAINT `foo_bar_fk`
@@ -810,10 +787,9 @@ ALTER TABLE `foo` DROP FOREIGN KEY `foo_bar_fk`;
     }
 
     /**
-     * @dataProvider providerForTestGetForeignKeySkipSqlDDL
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestGetForeignKeySkipSqlDDL')]
     public function testGetForeignKeySkipSqlDDL($fk)
     {
         $expected = '';
@@ -921,16 +897,10 @@ CREATE TABLE `foo`
             <parameter name="Collate" value="utf8_unicode_ci"/>
             <parameter name="Connection" value="mysql://foo@bar.host:9306/federated/test_table"/>
             <parameter name="DataDirectory" value="/tmp/mysql-foo-table/"/>
-            <parameter name="DelayKeyWrite" value="1"/>
             <parameter name="IndexDirectory" value="/tmp/mysql-foo-table-idx/"/>
-            <parameter name="InsertMethod" value="LAST"/>
             <parameter name="KeyBlockSize" value="5"/>
             <parameter name="MaxRows" value="5000"/>
             <parameter name="MinRows" value="0"/>
-            <parameter name="Pack_Keys" value="DEFAULT"/>
-            <parameter name="PackKeys" value="1"/>
-            <parameter name="RowFormat" value="COMPRESSED"/>
-            <parameter name="Union" value="other_table"/>
         </vendor>
     </table>
 </database>
@@ -941,7 +911,7 @@ CREATE TABLE `foo`
 (
     `id` INTEGER NOT NULL,
     PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=100 AVG_ROW_LENGTH=50 CHARACTER SET='utf8' CHECKSUM=1 COLLATE='utf8_unicode_ci' CONNECTION='mysql://foo@bar.host:9306/federated/test_table' DATA DIRECTORY='/tmp/mysql-foo-table/' DELAY_KEY_WRITE=1 INDEX DIRECTORY='/tmp/mysql-foo-table-idx/' INSERT_METHOD=LAST KEY_BLOCK_SIZE=5 MAX_ROWS=5000 MIN_ROWS=0 PACK_KEYS=DEFAULT PACK_KEYS=1 ROW_FORMAT=COMPRESSED UNION='other_table';
+) ENGINE=InnoDB AUTO_INCREMENT=100 AVG_ROW_LENGTH=50 CHARACTER SET='utf8' CHECKSUM=1 COLLATE='utf8_unicode_ci' CONNECTION='mysql://foo@bar.host:9306/federated/test_table' DATA DIRECTORY='/tmp/mysql-foo-table/' INDEX DIRECTORY='/tmp/mysql-foo-table-idx/' KEY_BLOCK_SIZE=5 MAX_ROWS=5000 MIN_ROWS=0;
 ";
         $this->assertEquals($expected, $this->getPlatform()->getAddTableDDL($table));
     }
@@ -969,19 +939,16 @@ CREATE TABLE `foo`
         ];
     }
     
-    /**
-     * @dataProvider typeMappingDataProvider
-     */
+    #[\PHPUnit\Framework\Attributes\DataProvider('typeMappingDataProvider')]
     public function testTypeMapping(string $propelDataType, string $expectedMysqlDataType){
         $actualMysqlDataType = $this->getPlatform()->getDomainForType($propelDataType)->getSqlType();
         $this->assertEquals($expectedMysqlDataType, $actualMysqlDataType);
     }
 
     /**
-     * @dataProvider providerForTestCreateSchemaWithUuidColumns
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestCreateSchemaWithUuidColumns')]
     public function testCreateSchemaWithUuidColumns($schema)
     {
         $expected = "
@@ -997,10 +964,9 @@ CREATE TABLE `foo`
     }
 
     /**
-     * @dataProvider providerForTestCreateSchemaWithUuidBinaryColumns
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providerForTestCreateSchemaWithUuidBinaryColumns')]
     public function testCreateSchemaWithUuidBinaryColumns($schema)
     {
         $expected = "
@@ -1039,5 +1005,37 @@ CREATE TABLE `foo`
 
         $uuidSqlType = $platform->getDomainForType(PropelTypes::UUID)->getSqlType();
         $this->assertEquals(PropelTypes::UUID, $uuidSqlType);
+    }
+
+    /**
+     * Regression: getMajorServerVersionNumber had an off-by-one (substr length
+     * was $dotPos - 1) so for "8.0.30" it returned (int) "" = 0, meaning the
+     * MySQL-8 NOACTION default-FK-action branch was never taken.
+     *
+     * @return void
+     */
+    public function testGetMajorServerVersionNumberPicksMySql8(): void
+    {
+        $platform = new class () extends MysqlPlatform {
+            public string $stub = '';
+
+            protected function getServerVersion(): ?string
+            {
+                return $this->stub;
+            }
+
+            public function probe(string $stub): ?int
+            {
+                $this->stub = $stub;
+
+                return $this->getMajorServerVersionNumber();
+            }
+        };
+
+        $this->assertSame(8, $platform->probe('8.0.30'));
+        $this->assertSame(5, $platform->probe('5.7.31'));
+        $this->assertSame(10, $platform->probe('10.5.18-MariaDB'));
+        $this->assertSame(11, $platform->probe('11.4.0-MariaDB'));
+        $this->assertNull($platform->probe(''));
     }
 }

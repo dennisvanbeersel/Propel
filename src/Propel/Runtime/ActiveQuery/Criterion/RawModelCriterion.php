@@ -58,6 +58,7 @@ class RawModelCriterion extends AbstractModelCriterion
      *
      * @return void
      */
+    #[\Override]
     protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void
     {
         if (substr_count($this->clause, '?') !== 1) {

@@ -12,6 +12,7 @@ namespace Propel\Runtime\Adapter\Pdo;
 
 use PDO;
 use PDOException;
+use PDOStatement;
 use Propel\Generator\Model\PropelTypes;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\Adapter\AdapterInterface;
@@ -557,13 +558,13 @@ abstract class PdoAdapter
      * $stmt->execute();
      * </code>
      *
-     * @param \Propel\Runtime\Connection\StatementInterface $stmt
+     * @param \Propel\Runtime\Connection\StatementInterface|\PDOStatement $stmt
      * @param array $params array('column' => ..., 'table' => ..., 'value' => ...)
      * @param \Propel\Runtime\Map\DatabaseMap $dbMap
      *
      * @return void
      */
-    public function bindValues(StatementInterface $stmt, array $params, DatabaseMap $dbMap): void
+    public function bindValues(StatementInterface|PDOStatement $stmt, array $params, DatabaseMap $dbMap): void
     {
         $position = 0;
         foreach ($params as $param) {
@@ -591,7 +592,7 @@ abstract class PdoAdapter
      * Binds a value to a positioned parameter in a statement,
      * given a ColumnMap object to infer the binding type.
      *
-     * @param \Propel\Runtime\Connection\StatementInterface $stmt The statement to bind
+     * @param \Propel\Runtime\Connection\StatementInterface|\PDOStatement $stmt The statement to bind
      * @param string $parameter Parameter identifier
      * @param mixed $value The value to bind
      * @param \Propel\Runtime\Map\ColumnMap $cMap The ColumnMap of the column to bind
@@ -599,7 +600,7 @@ abstract class PdoAdapter
      *
      * @return bool
      */
-    public function bindValue(StatementInterface $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool
+    public function bindValue(StatementInterface|PDOStatement $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool
     {
         if ($cMap->isTemporal()) {
             $value = $this->formatTemporalValue($value, $cMap);

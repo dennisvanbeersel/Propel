@@ -19,9 +19,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Tests for AutoAddPkBehavior class
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AutoAddPkBehaviorTest extends BookstoreTestBase
 {
     /**

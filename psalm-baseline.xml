@@ -5,40 +5,7 @@
       <code><![CDATA[$configSection = &$this->config[$section]]]></code>
     </UnsupportedPropertyReferenceUsage>
   </file>
-  <file src="src/Propel/Common/Config/Loader/IniFileLoader.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function load($resource, $type = null): array]]></code>
-      <code><![CDATA[public function supports($resource, $type = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Common/Config/Loader/JsonFileLoader.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function load($resource, $type = null): array]]></code>
-      <code><![CDATA[public function supports($resource, $type = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Common/Config/Loader/PhpFileLoader.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function load($resource, $type = null): array]]></code>
-      <code><![CDATA[public function supports($resource, $type = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Common/Config/Loader/XmlFileLoader.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function load($resource, $type = null): array]]></code>
-      <code><![CDATA[public function supports($resource, $type = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Common/Config/Loader/YamlFileLoader.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function load($resource, $type = null): array]]></code>
-      <code><![CDATA[public function supports($resource, $type = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Common/Config/PropelConfiguration.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getConfigTreeBuilder(): TreeBuilder]]></code>
-    </MissingOverrideAttribute>
     <UnusedForeachValue>
       <code><![CDATA[$connection]]></code>
     </UnusedForeachValue>
@@ -54,17 +21,9 @@
     </UnusedMethodCall>
   </file>
   <file src="src/Propel/Common/Pluralizer/SimpleEnglishPluralizer.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getPluralForm(string $root): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[SimpleEnglishPluralizer]]></code>
     </UnusedClass>
-  </file>
-  <file src="src/Propel/Common/Pluralizer/StandardEnglishPluralizer.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getPluralForm(string $root): string]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Common/Util/SetColumnConverter.php">
     <PossiblyUnusedMethod>
@@ -72,26 +31,16 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Application.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function doRun(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[Application]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Behavior/AggregateColumn/AggregateColumnBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function allowMultiple(): bool]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[AggregateColumnBehavior]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Behavior/AggregateColumn/AggregateColumnRelationBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function allowMultiple(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[objectAttributes]]></code>
       <code><![CDATA[objectFilter]]></code>
@@ -105,10 +54,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Behavior/AggregateMultipleColumns/AggregateMultipleColumnsBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function allowMultiple(): bool]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[objectMethods]]></code>
     </PossiblyUnusedMethod>
@@ -117,12 +62,6 @@
     </UnsupportedPropertyReferenceUsage>
   </file>
   <file src="src/Propel/Generator/Behavior/Archivable/ArchivableBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getObjectBuilderModifier()]]></code>
-      <code><![CDATA[public function getQueryBuilderModifier()]]></code>
-      <code><![CDATA[public function modifyDatabase(): void]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[\Propel\Generator\Model\Table]]></code>
     </PossiblyUnusedReturnValue>
@@ -167,37 +106,28 @@
     </PossiblyUnusedProperty>
   </file>
   <file src="src/Propel/Generator/Behavior/AutoAddPk/AutoAddPkBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyDatabase(): void]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[AutoAddPkBehavior]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedParam>
       <code><![CDATA[$builder]]></code>
     </PossiblyUnusedParam>
+    <UndefinedDocblockClass>
+      <code><![CDATA[$validateBehavior]]></code>
+      <code><![CDATA[$validateBehavior]]></code>
+    </UndefinedDocblockClass>
     <UnusedClass>
       <code><![CDATA[ConcreteInheritanceBehavior]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Behavior/ConcreteInheritance/ConcreteInheritanceParentBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[objectMethods]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Behavior/Delegate/DelegateBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[DelegateBehavior]]></code>
     </UnusedClass>
@@ -209,12 +139,6 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Generator/Behavior/I18n/I18nBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getObjectBuilderModifier()]]></code>
-      <code><![CDATA[public function getQueryBuilderModifier()]]></code>
-      <code><![CDATA[public function modifyDatabase(): void]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[staticAttributes]]></code>
     </PossiblyUnusedMethod>
@@ -246,13 +170,6 @@
       <code><![CDATA[$table]]></code>
     </PossiblyUnusedProperty>
   </file>
-  <file src="src/Propel/Generator/Behavior/NestedSet/NestedSetBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getObjectBuilderModifier()]]></code>
-      <code><![CDATA[public function getQueryBuilderModifier()]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Behavior/NestedSet/NestedSetBehaviorObjectBuilderModifier.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[objectAttributes]]></code>
@@ -272,30 +189,10 @@
       <code><![CDATA[queryMethods]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Generator/Behavior/QueryCache/QueryCacheBehavior.php">
-    <PossiblyUnusedParam>
-      <code><![CDATA[$builder]]></code>
-    </PossiblyUnusedParam>
-    <UnusedClass>
-      <code><![CDATA[QueryCacheBehavior]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Propel/Generator/Behavior/Sluggable/SluggableBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[SluggableBehavior]]></code>
     </UnusedClass>
-  </file>
-  <file src="src/Propel/Generator/Behavior/Sortable/SortableBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function addParameter(array $parameter): void]]></code>
-      <code><![CDATA[public function getObjectBuilderModifier()]]></code>
-      <code><![CDATA[public function getQueryBuilderModifier()]]></code>
-      <code><![CDATA[public function getTableMapBuilderModifier()]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Generator/Behavior/Sortable/SortableBehaviorObjectBuilderModifier.php">
     <PossiblyUnusedMethod>
@@ -336,26 +233,9 @@
     </PossiblyUnusedParam>
   </file>
   <file src="src/Propel/Generator/Behavior/Timestampable/TimestampableBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[TimestampableBehavior]]></code>
     </UnusedClass>
-  </file>
-  <file src="src/Propel/Generator/Behavior/Validate/ValidateBehavior.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[objectAttributes]]></code>
-      <code><![CDATA[objectMethods]]></code>
-    </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Generator/Behavior/Versionable/VersionableBehavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getObjectBuilderModifier()]]></code>
-      <code><![CDATA[public function getQueryBuilderModifier()]]></code>
-      <code><![CDATA[public function modifyDatabase(): void]]></code>
-      <code><![CDATA[public function modifyTable(): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Generator/Behavior/Versionable/VersionableBehaviorObjectBuilderModifier.php">
     <PossiblyUnusedMethod>
@@ -408,106 +288,27 @@
       <code><![CDATA[$foreignValueOrColumn]]></code>
     </UnusedVariable>
   </file>
-  <file src="src/Propel/Generator/Builder/Om/AbstractObjectBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool]]></code>
-    </MissingOverrideAttribute>
-    <UndefinedMethod>
-      <code><![CDATA[addAddArrayElement]]></code>
-      <code><![CDATA[addAddArrayElement]]></code>
-      <code><![CDATA[addArrayAccessor]]></code>
-      <code><![CDATA[addArrayMutator]]></code>
-      <code><![CDATA[addBooleanAccessor]]></code>
-      <code><![CDATA[addBooleanMutator]]></code>
-      <code><![CDATA[addDefaultAccessor]]></code>
-      <code><![CDATA[addDefaultAccessor]]></code>
-      <code><![CDATA[addDefaultMutator]]></code>
-      <code><![CDATA[addEnumAccessor]]></code>
-      <code><![CDATA[addEnumMutator]]></code>
-      <code><![CDATA[addHasArrayElement]]></code>
-      <code><![CDATA[addHasArrayElement]]></code>
-      <code><![CDATA[addJsonAccessor]]></code>
-      <code><![CDATA[addJsonMutator]]></code>
-      <code><![CDATA[addLazyLoader]]></code>
-      <code><![CDATA[addLobMutator]]></code>
-      <code><![CDATA[addObjectAccessor]]></code>
-      <code><![CDATA[addObjectMutator]]></code>
-      <code><![CDATA[addRemoveArrayElement]]></code>
-      <code><![CDATA[addRemoveArrayElement]]></code>
-      <code><![CDATA[addSetAccessor]]></code>
-      <code><![CDATA[addSetMutator]]></code>
-      <code><![CDATA[addTemporalAccessor]]></code>
-      <code><![CDATA[addTemporalMutator]]></code>
-    </UndefinedMethod>
-  </file>
   <file src="src/Propel/Generator/Builder/Om/ClassTools.php">
     <PossiblyUnusedMethod>
-      <code><![CDATA[getBaseClass]]></code>
-      <code><![CDATA[getInterface]]></code>
       <code><![CDATA[getPhpReservedWords]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Generator/Builder/Om/ColumnAccessorBuilderTrait.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[addArrayAccessor]]></code>
-      <code><![CDATA[addBooleanAccessor]]></code>
-      <code><![CDATA[addDefaultAccessor]]></code>
-      <code><![CDATA[addEnumAccessor]]></code>
-      <code><![CDATA[addJsonAccessor]]></code>
-      <code><![CDATA[addObjectAccessor]]></code>
-      <code><![CDATA[addSetAccessor]]></code>
-      <code><![CDATA[addTemporalAccessor]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="src/Propel/Generator/Builder/Om/ColumnMutatorBuilderTrait.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[addAddArrayElement]]></code>
-      <code><![CDATA[addArrayMutator]]></code>
-      <code><![CDATA[addBooleanMutator]]></code>
-      <code><![CDATA[addDefaultMutator]]></code>
-      <code><![CDATA[addEnumMutator]]></code>
-      <code><![CDATA[addJsonMutator]]></code>
-      <code><![CDATA[addLobMutator]]></code>
-      <code><![CDATA[addObjectMutator]]></code>
-      <code><![CDATA[addRemoveArrayElement]]></code>
-      <code><![CDATA[addSetMutator]]></code>
-      <code><![CDATA[addTemporalMutator]]></code>
-    </PossiblyUnusedMethod>
     <PossiblyUnusedParam>
       <code><![CDATA[$col]]></code>
     </PossiblyUnusedParam>
   </file>
   <file src="src/Propel/Generator/Builder/Om/ExtensionObjectBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ExtensionObjectBuilder]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Builder/Om/ExtensionQueryBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-      <code><![CDATA[public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ExtensionQueryBuilder]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Builder/Om/ExtensionQueryInheritanceBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getPackage(): ?string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ExtensionQueryInheritanceBuilder]]></code>
     </UnusedClass>
@@ -523,40 +324,11 @@
     </UnusedVariable>
   </file>
   <file src="src/Propel/Generator/Builder/Om/InterfaceBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[InterfaceBuilder]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Propel/Generator/Builder/Om/MultiExtendObjectBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getPackage(): ?string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Builder/Om/ObjectBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[protected function validateModel(): void]]></code>
-      <code><![CDATA[public function getNamespace(): ?string]]></code>
-      <code><![CDATA[public function getPackage(): string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[addDoInsertBodyWithIdMethod]]></code>
-      <code><![CDATA[addHasArrayElement]]></code>
-      <code><![CDATA[addLazyLoader]]></code>
-    </PossiblyUnusedMethod>
     <UnnecessaryVarAnnotation>
       <code><![CDATA[\Propel\Generator\Model\Column]]></code>
       <code><![CDATA[\Propel\Generator\Model\Column]]></code>
@@ -568,15 +340,6 @@
     </UnusedVariable>
   </file>
   <file src="src/Propel/Generator/Builder/Om/QueryBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getNamespace(): ?string]]></code>
-      <code><![CDATA[public function getPackage(): string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-      <code><![CDATA[public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedParam>
       <code><![CDATA[$fkTable]]></code>
       <code><![CDATA[$queryClass]]></code>
@@ -588,26 +351,7 @@
       <code><![CDATA[$column]]></code>
     </UnusedForeachValue>
   </file>
-  <file src="src/Propel/Generator/Builder/Om/QueryInheritanceBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getNamespace(): ?string]]></code>
-      <code><![CDATA[public function getPackage(): string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Builder/Om/TableMapBuilder.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function addClassBody(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassClose(string &$script): void]]></code>
-      <code><![CDATA[protected function addClassOpen(string &$script): void]]></code>
-      <code><![CDATA[public function getNamespace(): ?string]]></code>
-      <code><![CDATA[public function getPackage(): string]]></code>
-      <code><![CDATA[public function getUnprefixedClassName(): string]]></code>
-      <code><![CDATA[public function hasBehaviorModifier(string $hookName, string $modifier = ''): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[addColumnNameConstants]]></code>
       <code><![CDATA[getBaseTableMapClassName]]></code>
@@ -641,18 +385,11 @@
     </UnusedVariable>
   </file>
   <file src="src/Propel/Generator/Command/AbstractCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[hasInputArgument]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Command/ConfigConvertCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedParam>
       <code><![CDATA[$output]]></code>
     </PossiblyUnusedParam>
@@ -661,28 +398,16 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/DataDictionaryExportCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[DataDictionaryExportCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/DatabaseReverseCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[DatabaseReverseCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/GraphvizGenerateCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[GraphvizGenerateCommand]]></code>
     </UnusedClass>
@@ -695,10 +420,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Command/InitCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure(): void]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[InitCommand]]></code>
     </UnusedClass>
@@ -707,37 +428,21 @@
     </UnusedParam>
   </file>
   <file src="src/Propel/Generator/Command/MigrationCreateCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationCreateCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/MigrationDiffCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationDiffCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/MigrationDownCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationDownCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/MigrationMigrateCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationMigrateCommand]]></code>
     </UnusedClass>
@@ -746,83 +451,45 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Generator/Command/MigrationStatusCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationStatusCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/MigrationUpCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MigrationUpCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/ModelBuildCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ModelBuildCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/SqlBuildCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[SqlBuildCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/SqlInsertCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[SqlInsertCommand]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Command/TestPrepareCommand.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function configure()]]></code>
-      <code><![CDATA[protected function execute(InputInterface $input, OutputInterface $output): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[TestPrepareCommand]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Propel/Generator/Config/GeneratorConfig.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getBehaviorLocator(): BehaviorLocator]]></code>
-      <code><![CDATA[public function getConfiguredBuilder(Table $table, string $type): AbstractOMBuilder]]></code>
-      <code><![CDATA[public function getConfiguredPlatform(?ConnectionInterface $con = null, ?string $database = null): ?PlatformInterface]]></code>
-      <code><![CDATA[public function getConfiguredPluralizer(): PluralizerInterface]]></code>
-      <code><![CDATA[public function getConfiguredSchemaParser(?ConnectionInterface $con = null, $database = null): ?SchemaParserInterface]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Generator/Config/QuickGeneratorConfig.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getBehaviorLocator(): BehaviorLocator]]></code>
-      <code><![CDATA[public function getConfiguredBuilder(Table $table, string $type): AbstractOMBuilder]]></code>
-      <code><![CDATA[public function getConfiguredPlatform(?ConnectionInterface $con = null, ?string $database = null): ?PlatformInterface]]></code>
-      <code><![CDATA[public function getConfiguredPluralizer(): PluralizerInterface]]></code>
-      <code><![CDATA[public function getConfiguredSchemaParser(?ConnectionInterface $con = null, ?string $database = null): ?SchemaParserInterface]]></code>
-    </MissingOverrideAttribute>
+  <file src="src/Propel/Generator/Exception/ConstraintNotFoundException.php">
+    <UnusedClass>
+      <code><![CDATA[ConstraintNotFoundException]]></code>
+    </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Manager/AbstractManager.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[getDataModelDbMap]]></code>
       <code><![CDATA[setDbEncoding]]></code>
       <code><![CDATA[setXsd]]></code>
-      <code><![CDATA[setXsl]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedReturnValue>
       <code><![CDATA[int]]></code>
@@ -860,22 +527,23 @@
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
   </file>
+  <file src="src/Propel/Generator/Migration/MigrationInterface.php">
+    <PossiblyUnusedReturnValue>
+      <code><![CDATA[null|void]]></code>
+      <code><![CDATA[null|void]]></code>
+    </PossiblyUnusedReturnValue>
+  </file>
   <file src="src/Propel/Generator/Model/Behavior.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getObjectBuilderModifier]]></code>
       <code><![CDATA[getQueryBuilderModifier]]></code>
       <code><![CDATA[getTableMapBuilderModifier]]></code>
       <code><![CDATA[getTableOrFail]]></code>
+      <code><![CDATA[setParameters]]></code>
       <code><![CDATA[setTableModificationOrder]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/Column.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getNotNullString]]></code>
       <code><![CDATA[getUppercasedName]]></code>
@@ -901,9 +569,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Generator/Model/ConstraintNameGenerator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function generateName(array $inputs): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ConstraintNameGenerator]]></code>
     </UnusedClass>
@@ -915,13 +580,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/Database.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function registerBehavior(Behavior $behavior): void]]></code>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-      <code><![CDATA[public function getBuildProperty(string $name): string]]></code>
-      <code><![CDATA[public function getGeneratorConfig(): ?GeneratorConfigInterface]]></code>
-      <code><![CDATA[public function setSchema(?string $schema): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[addTables]]></code>
       <code><![CDATA[getParentSchema]]></code>
@@ -982,9 +640,6 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Generator/Model/Domain.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[appendXml]]></code>
       <code><![CDATA[getDatabase]]></code>
@@ -995,14 +650,13 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/ForeignKey.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[clearReferences]]></code>
       <code><![CDATA[getLocalValues]]></code>
       <code><![CDATA[getMappedLocalColumn]]></code>
       <code><![CDATA[getSchemaName]]></code>
+      <code><![CDATA[setDeferrable]]></code>
+      <code><![CDATA[setInitiallyDeferred]]></code>
       <code><![CDATA[setInterface]]></code>
       <code><![CDATA[setPhpName]]></code>
     </PossiblyUnusedMethod>
@@ -1020,9 +674,6 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Model/IdMethodParameter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getTable]]></code>
       <code><![CDATA[getTableName]]></code>
@@ -1036,19 +687,15 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Model/Index.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getTableName]]></code>
       <code><![CDATA[hasColumns]]></code>
       <code><![CDATA[setColumnObjects]]></code>
+      <code><![CDATA[setIndexType]]></code>
+      <code><![CDATA[setWhereClause]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/Inheritance.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[setAncestor]]></code>
       <code><![CDATA[setClassName]]></code>
@@ -1057,9 +704,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Model/MappingModel.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function loadMapping(array $attributes): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getAttributes]]></code>
     </PossiblyUnusedMethod>
@@ -1068,11 +712,6 @@
     <UnnecessaryVarAnnotation>
       <code><![CDATA[\Propel\Generator\Model\NameGeneratorInterface]]></code>
     </UnnecessaryVarAnnotation>
-  </file>
-  <file src="src/Propel/Generator/Model/PhpNameGenerator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function generateName(array $inputs): string]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Generator/Model/Schema.php">
     <PossiblyUnusedMethod>
@@ -1083,19 +722,7 @@
       <code><![CDATA[joinSchemas]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Generator/Model/ScopedMappingModel.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Model/Table.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function registerBehavior(Behavior $behavior): void]]></code>
-      <code><![CDATA[public function getBuildProperty(string $name): string]]></code>
-      <code><![CDATA[public function getGeneratorConfig(): ?GeneratorConfigInterface]]></code>
-      <code><![CDATA[public function getVendorInfoForType(string $type): VendorInfo]]></code>
-      <code><![CDATA[public function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[addColumns]]></code>
       <code><![CDATA[addForeignKeys]]></code>
@@ -1129,59 +756,12 @@
       <code><![CDATA[\Propel\Generator\Model\Unique]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Propel/Generator/Model/Unique.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function isUnique(): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Model/VendorInfo.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function setupObject(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isEmpty]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Platform/DefaultPlatform.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function doQuoting(string $text): string]]></code>
-      <code><![CDATA[public function getAddTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAutoIncrement(): string]]></code>
-      <code><![CDATA[public function getBooleanString($value): string]]></code>
-      <code><![CDATA[public function getColumnBindingPHP(Column $column, string $identifier, string $columnValueAccessor, string $tab = '            '): string]]></code>
-      <code><![CDATA[public function getColumnDDL(Column $col): string]]></code>
-      <code><![CDATA[public function getColumnDefaultValueDDL(Column $col): string]]></code>
-      <code><![CDATA[public function getColumnListDDL(array $columns, string $delimiter = ','): string]]></code>
-      <code><![CDATA[public function getConnection(): ?ConnectionInterface]]></code>
-      <code><![CDATA[public function getDatabaseType(): string]]></code>
-      <code><![CDATA[public function getDateFormatter(): string]]></code>
-      <code><![CDATA[public function getDefaultForeignKeyOnDeleteBehavior(): string]]></code>
-      <code><![CDATA[public function getDefaultForeignKeyOnUpdateBehavior(): string]]></code>
-      <code><![CDATA[public function getDomainForType(string $propelType): Domain]]></code>
-      <code><![CDATA[public function getMaxColumnNameLength(): int]]></code>
-      <code><![CDATA[public function getNativeIdMethod(): string]]></code>
-      <code><![CDATA[public function getNullString(bool $notNull): string]]></code>
-      <code><![CDATA[public function getPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getSchemaDelimiter(): string]]></code>
-      <code><![CDATA[public function getTimeFormatter(): string]]></code>
-      <code><![CDATA[public function getTimestampFormatter(): string]]></code>
-      <code><![CDATA[public function hasScale(string $sqlType): bool]]></code>
-      <code><![CDATA[public function hasSize(string $sqlType): bool]]></code>
-      <code><![CDATA[public function hasStreamBlobImpl(): bool]]></code>
-      <code><![CDATA[public function isIdentifierQuotingEnabled(): bool]]></code>
-      <code><![CDATA[public function normalizeTable(Table $table): void]]></code>
-      <code><![CDATA[public function quote(string $text): string]]></code>
-      <code><![CDATA[public function quoteIdentifier(string $text): string]]></code>
-      <code><![CDATA[public function setConnection(?ConnectionInterface $con = null): void]]></code>
-      <code><![CDATA[public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void]]></code>
-      <code><![CDATA[public function setIdentifierQuoting(bool $enabled): void]]></code>
-      <code><![CDATA[public function supportsIndexSize(): bool]]></code>
-      <code><![CDATA[public function supportsInsertNullPk(): bool]]></code>
-      <code><![CDATA[public function supportsMigrations(): bool]]></code>
-      <code><![CDATA[public function supportsNativeDeleteTrigger(): bool]]></code>
-      <code><![CDATA[public function supportsSchemas(): bool]]></code>
-      <code><![CDATA[public function supportsVarcharWithoutSize(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getModifyTableColumnsDDL]]></code>
       <code><![CDATA[getModifyTableForeignKeysDDL]]></code>
@@ -1197,122 +777,15 @@
     </UnusedVariable>
   </file>
   <file src="src/Propel/Generator/Platform/MysqlPlatform.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function initializeTypeMap(): void]]></code>
-      <code><![CDATA[public function disconnectedEscapeText(string $text): string]]></code>
-      <code><![CDATA[public function doQuoting(string $text): string]]></code>
-      <code><![CDATA[public function getAddColumnDDL(Column $column): string]]></code>
-      <code><![CDATA[public function getAddColumnsDDL(array $columns): string]]></code>
-      <code><![CDATA[public function getAddForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getAddIndexDDL(Index $index): string]]></code>
-      <code><![CDATA[public function getAddTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAddTablesDDL(Database $database): string]]></code>
-      <code><![CDATA[public function getAutoIncrement(): string]]></code>
-      <code><![CDATA[public function getBeginDDL(): string]]></code>
-      <code><![CDATA[public function getColumnBindingPHP(Column $column, string $identifier, string $columnValueAccessor, string $tab = '            '): string]]></code>
-      <code><![CDATA[public function getColumnDDL(Column $col): string]]></code>
-      <code><![CDATA[public function getCommentBlockDDL(string $comment): string]]></code>
-      <code><![CDATA[public function getDefaultForeignKeyOnDeleteBehavior(): string]]></code>
-      <code><![CDATA[public function getDefaultForeignKeyOnUpdateBehavior(): string]]></code>
-      <code><![CDATA[public function getDefaultTypeSizes(): array]]></code>
-      <code><![CDATA[public function getDropForeignKeyDDL(ForeignKey $fk): ?string]]></code>
-      <code><![CDATA[public function getDropIndexDDL(Index $index): string]]></code>
-      <code><![CDATA[public function getDropPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getDropTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getEndDDL(): string]]></code>
-      <code><![CDATA[public function getForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getIndexDDL(Index $index): string]]></code>
-      <code><![CDATA[public function getMaxColumnNameLength(): int]]></code>
-      <code><![CDATA[public function getModifyColumnDDL(ColumnDiff $columnDiff): string]]></code>
-      <code><![CDATA[public function getModifyColumnsDDL(array $columnDiffs): string]]></code>
-      <code><![CDATA[public function getModifyDatabaseDDL(DatabaseDiff $databaseDiff): string]]></code>
-      <code><![CDATA[public function getPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getRemoveColumnDDL(Column $column): string]]></code>
-      <code><![CDATA[public function getRenameColumnDDL(Column $fromColumn, Column $toColumn): string]]></code>
-      <code><![CDATA[public function getRenameTableDDL(string $fromTableName, string $toTableName): string]]></code>
-      <code><![CDATA[public function getUniqueDDL(Unique $unique): string]]></code>
-      <code><![CDATA[public function hasSize(string $sqlType): bool]]></code>
-      <code><![CDATA[public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void]]></code>
-      <code><![CDATA[public function supportsIndexSize(): bool]]></code>
-      <code><![CDATA[public function supportsNativeDeleteTrigger(): bool]]></code>
-      <code><![CDATA[public function supportsSchemas(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[setDefaultTableEngine]]></code>
       <code><![CDATA[setTableEngineKeyword]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Generator/Platform/PgsqlPlatform.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function initializeTypeMap(): void]]></code>
-      <code><![CDATA[public function getAddColumnsDDL(array $columns): string]]></code>
-      <code><![CDATA[public function getAddForeignKeysDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAddIndexDDL(Index $index): string]]></code>
-      <code><![CDATA[public function getAddTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAddTablesDDL(Database $database): string]]></code>
-      <code><![CDATA[public function getAutoIncrement(): string]]></code>
-      <code><![CDATA[public function getBeginDDL(): string]]></code>
-      <code><![CDATA[public function getBooleanString($value): string]]></code>
-      <code><![CDATA[public function getColumnDDL(Column $col): string]]></code>
-      <code><![CDATA[public function getDefaultTypeSizes(): array]]></code>
-      <code><![CDATA[public function getDropIndexDDL(Index $index): string]]></code>
-      <code><![CDATA[public function getDropTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getEndDDL(): string]]></code>
-      <code><![CDATA[public function getForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getIdentifierPhp(]]></code>
-      <code><![CDATA[public function getMaxColumnNameLength(): int]]></code>
-      <code><![CDATA[public function getModifyColumnDDL(ColumnDiff $columnDiff): string]]></code>
-      <code><![CDATA[public function getModifyColumnsDDL(array $columnDiffs): string]]></code>
-      <code><![CDATA[public function getModifyTableDDL(TableDiff $tableDiff): string]]></code>
-      <code><![CDATA[public function getNativeIdMethod(): string]]></code>
-      <code><![CDATA[public function getPrimaryKeyName(Table $table): string]]></code>
-      <code><![CDATA[public function getRenameTableDDL(string $fromTableName, string $toTableName): string]]></code>
-      <code><![CDATA[public function getSequenceName(Table $table): string]]></code>
-      <code><![CDATA[public function getUniqueDDL(Unique $unique): string]]></code>
-      <code><![CDATA[public function hasSize(string $sqlType): bool]]></code>
-      <code><![CDATA[public function hasStreamBlobImpl(): bool]]></code>
-      <code><![CDATA[public function supportsNativeDeleteTrigger(): bool]]></code>
-      <code><![CDATA[public function supportsSchemas(): bool]]></code>
-      <code><![CDATA[public function supportsVarcharWithoutSize(): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Generator/Platform/PlatformInterface.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[hasScale]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Generator/Platform/SqlitePlatform.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function initialize(): void]]></code>
-      <code><![CDATA[protected function initializeTypeMap(): void]]></code>
-      <code><![CDATA[public function doQuoting(string $text): string]]></code>
-      <code><![CDATA[public function getAddColumnsDDL(array $columns): string]]></code>
-      <code><![CDATA[public function getAddForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getAddPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAddTableDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getAddTablesDDL(Database $database): string]]></code>
-      <code><![CDATA[public function getAutoIncrement(): string]]></code>
-      <code><![CDATA[public function getBeginDDL(): string]]></code>
-      <code><![CDATA[public function getColumnDDL(Column $col): string]]></code>
-      <code><![CDATA[public function getDefaultTypeSizes(): array]]></code>
-      <code><![CDATA[public function getDropForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getDropPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getEndDDL(): string]]></code>
-      <code><![CDATA[public function getForeignKeyDDL(ForeignKey $fk): string]]></code>
-      <code><![CDATA[public function getMaxColumnNameLength(): int]]></code>
-      <code><![CDATA[public function getModifyColumnDDL(ColumnDiff $columnDiff): string]]></code>
-      <code><![CDATA[public function getModifyColumnsDDL($columnDiffs): string]]></code>
-      <code><![CDATA[public function getModifyTableDDL(TableDiff $tableDiff): string]]></code>
-      <code><![CDATA[public function getPrimaryKeyDDL(Table $table): string]]></code>
-      <code><![CDATA[public function getRemoveColumnDDL(Column $column): string]]></code>
-      <code><![CDATA[public function getRenameColumnDDL(Column $fromColumn, Column $toColumn): string]]></code>
-      <code><![CDATA[public function getSchemaDelimiter(): string]]></code>
-      <code><![CDATA[public function hasSize(string $sqlType): bool]]></code>
-      <code><![CDATA[public function normalizeTable(Table $table): void]]></code>
-      <code><![CDATA[public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void]]></code>
-      <code><![CDATA[public function supportsNativeDeleteTrigger(): bool]]></code>
-      <code><![CDATA[public function supportsSchemas(): bool]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Generator/Platform/Util/MysqlUuidMigrationBuilder.php">
     <PossiblyUnusedMethod>
@@ -1320,33 +793,18 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Reverse/AbstractSchemaParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getConnection(): ConnectionInterface]]></code>
-      <code><![CDATA[public function getPlatform(): PlatformInterface]]></code>
-      <code><![CDATA[public function getWarnings(): array]]></code>
-      <code><![CDATA[public function setConnection(ConnectionInterface $dbh): void]]></code>
-      <code><![CDATA[public function setGeneratorConfig(GeneratorConfigInterface $config): void]]></code>
-      <code><![CDATA[public function setPlatform(PlatformInterface $platform): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
+      <code><![CDATA[detectUuidColumn]]></code>
       <code><![CDATA[getMappedNativeType]]></code>
       <code><![CDATA[hasPlatform]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Reverse/MysqlSchemaParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function getTypeMapping(): array]]></code>
-      <code><![CDATA[public function parse(Database $database, array $additionalTables = []): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[MysqlSchemaParser]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Generator/Reverse/PgsqlSchemaParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function getTypeMapping(): array]]></code>
-      <code><![CDATA[public function parse(Database $database, array $additionalTables = []): int]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedParam>
       <code><![CDATA[$oid]]></code>
     </PossiblyUnusedParam>
@@ -1361,19 +819,9 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Generator/Reverse/SqliteSchemaParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function getTypeMapping(): array]]></code>
-      <code><![CDATA[public function parse(Database $database, array $additionalTables = []): int]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[SqliteSchemaParser]]></code>
     </UnusedClass>
-  </file>
-  <file src="src/Propel/Generator/Schema/Dumper/XmlDumper.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function dump(Database $database): string]]></code>
-      <code><![CDATA[public function dumpSchema(Schema $schema, bool $doFinalInitialization = true): string]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Generator/Util/PhpParser.php">
     <PossiblyUnusedMethod>
@@ -1422,9 +870,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/BaseModelCriteria.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getIterator(): Traversable]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
       <code><![CDATA[getFullyQualifiedModelName]]></code>
@@ -1483,109 +928,33 @@
       <code><![CDATA[\Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion]]></code>
     </UnnecessaryVarAnnotation>
   </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/AbstractInnerQueryCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Runtime/ActiveQuery/Criterion/AbstractModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function equals(?object $obj): bool]]></code>
-    </MissingOverrideAttribute>
     <UnnecessaryVarAnnotation>
       <code><![CDATA[\Propel\Runtime\ActiveQuery\Criterion\AbstractModelCriterion]]></code>
     </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/Criterion/BasicCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isIgnoreCase]]></code>
       <code><![CDATA[setIgnoreCase]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/BasicModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/BinaryCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/BinaryModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/ColumnToQueryOperatorCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function initForRelation(ModelCriteria $outerQuery, RelationMap $relation): void]]></code>
-      <code><![CDATA[protected function processInnerQuery(): Criteria]]></code>
-      <code><![CDATA[protected function resolveOperator(?string $operatorDeclaration): string]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/CustomCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/Criterion/ExistsCriterion.php">
     <UnusedClass>
       <code><![CDATA[ExistsCriterion]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/ExistsQueryCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function initForRelation(ModelCriteria $outerQuery, RelationMap $relation): void]]></code>
-      <code><![CDATA[protected function processInnerQuery(): Criteria]]></code>
-      <code><![CDATA[protected function resolveOperator(?string $operatorDeclaration): string]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/InCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/InModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Runtime/ActiveQuery/Criterion/LikeCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isIgnoreCase]]></code>
       <code><![CDATA[setIgnoreCase]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/Criterion/LikeModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isIgnoreCase]]></code>
       <code><![CDATA[setIgnoreCase]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/RawCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/RawModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/ActiveQuery/Criterion/SeveralModelCriterion.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function appendPsForUniqueClauseTo(string &$sb, array &$params): void]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/Join.php">
     <PossiblyUnusedMethod>
@@ -1610,19 +979,6 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/ModelCriteria.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function doReplaceNameInExpression(array $matches): string]]></code>
-      <code><![CDATA[public function __clone()]]></code>
-      <code><![CDATA[public function addJoinObject(Join $join, ?string $name = null)]]></code>
-      <code><![CDATA[public function addSelectColumn(string $name)]]></code>
-      <code><![CDATA[public function addSelectQuery(Criteria $subQueryCriteria, ?string $alias = null, bool $addAliasAndSelectColumns = true)]]></code>
-      <code><![CDATA[public function clear()]]></code>
-      <code><![CDATA[public function createSelectSql(array &$params): string]]></code>
-      <code><![CDATA[public function doCount(?ConnectionInterface $con = null): DataFetcherInterface]]></code>
-      <code><![CDATA[public function doSelect(?ConnectionInterface $con = null): DataFetcherInterface]]></code>
-      <code><![CDATA[public function doUpdate($updateValues, ConnectionInterface $con, bool $forceIndividualSaves = false): int]]></code>
-      <code><![CDATA[public function mergeWith(Criteria $criteria, ?string $operator = null)]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[addJoinCondition]]></code>
       <code><![CDATA[addUsingAlias]]></code>
@@ -1702,10 +1058,6 @@
     </UnusedVariable>
   </file>
   <file src="src/Propel/Runtime/ActiveQuery/ModelJoin.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function equals(Join $join): bool]]></code>
-      <code><![CDATA[public function isIdentifierQuotingEnabled(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getObjectToRelate]]></code>
       <code><![CDATA[setRelationAlias]]></code>
@@ -1740,16 +1092,12 @@
       <code><![CDATA[$match]]></code>
     </UnusedClosureParam>
   </file>
-  <file src="src/Propel/Runtime/ActiveRecord/NestedSetRecursiveIterator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function getChildren(): ?RecursiveIterator]]></code>
-      <code><![CDATA[public function hasChildren(): bool]]></code>
-      <code><![CDATA[public function next(): void]]></code>
-      <code><![CDATA[public function rewind(): void]]></code>
-      <code><![CDATA[public function valid(): bool]]></code>
-    </MissingOverrideAttribute>
+  <file src="src/Propel/Runtime/ActiveRecord/NestedSetNodeInterface.php">
+    <PossiblyUnusedMethod>
+      <code><![CDATA[getAncestors]]></code>
+      <code><![CDATA[getFirstChild]]></code>
+      <code><![CDATA[getNextSibling]]></code>
+    </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Adapter/AdapterInterface.php">
     <PossiblyUnusedMethod>
@@ -1779,18 +1127,6 @@
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Adapter/Pdo/MysqlAdapter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function prepareParams(array $params): array]]></code>
-      <code><![CDATA[public function applyLimit(string &$sql, int $offset, int $limit, ?Criteria $criteria = null): void]]></code>
-      <code><![CDATA[public function applyLock(string &$sql, Lock $lock): void]]></code>
-      <code><![CDATA[public function bindValue(StatementInterface $stmt, string $parameter, $value, ColumnMap $cMap, ?int $position = null): bool]]></code>
-      <code><![CDATA[public function concatString(string $s1, string $s2): string]]></code>
-      <code><![CDATA[public function quoteIdentifier(string $text): string]]></code>
-      <code><![CDATA[public function quoteIdentifierTable(string $table): string]]></code>
-      <code><![CDATA[public function random(?string $seed = null): string]]></code>
-      <code><![CDATA[public function strLength(string $s): string]]></code>
-      <code><![CDATA[public function subString(string $s, int $pos, int $len): string]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedParam>
       <code><![CDATA[$table]]></code>
     </PossiblyUnusedParam>
@@ -1827,37 +1163,11 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Runtime/Adapter/Pdo/PgsqlAdapter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function getIdMethod(): int]]></code>
-      <code><![CDATA[public function applyLimit(string &$sql, int $offset, int $limit, ?Criteria $criteria = null): void]]></code>
-      <code><![CDATA[public function applyLock(string &$sql, Lock $lock): void]]></code>
-      <code><![CDATA[public function compareRegex($left, $right): string]]></code>
-      <code><![CDATA[public function concatString(string $s1, string $s2): string]]></code>
-      <code><![CDATA[public function getGroupBy(Criteria $criteria): string]]></code>
-      <code><![CDATA[public function getId(ConnectionInterface $con, ?string $name = null): int]]></code>
-      <code><![CDATA[public function getTimeFormatter(): string]]></code>
-      <code><![CDATA[public function getTimestampFormatter(): string]]></code>
-      <code><![CDATA[public function quoteIdentifierTable(string $table): string]]></code>
-      <code><![CDATA[public function random(?string $seed = null): string]]></code>
-      <code><![CDATA[public function strLength(string $s): string]]></code>
-      <code><![CDATA[public function subString(string $s, int $pos, int $len): string]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[doExplainPlan]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Adapter/Pdo/SqliteAdapter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function applyLimit(string &$sql, int $offset, int $limit, ?Criteria $criteria = null): void]]></code>
-      <code><![CDATA[public function applyLock(string &$sql, Lock $lock): void]]></code>
-      <code><![CDATA[public function concatString(string $s1, string $s2): string]]></code>
-      <code><![CDATA[public function initConnection(ConnectionInterface $con, array $settings): void]]></code>
-      <code><![CDATA[public function quoteIdentifier(string $text): string]]></code>
-      <code><![CDATA[public function random(?string $seed = null): string]]></code>
-      <code><![CDATA[public function setCharset(ConnectionInterface $con, string $charset): void]]></code>
-      <code><![CDATA[public function strLength(string $s): string]]></code>
-      <code><![CDATA[public function subString(string $s, int $pos, int $len): string]]></code>
-    </MissingOverrideAttribute>
     <UnusedFunctionCall>
       <code><![CDATA[mb_regex_encoding]]></code>
     </UnusedFunctionCall>
@@ -1873,9 +1183,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Runtime/Collection/ArrayCollection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function getArrayCopy(?string $keyColumn = null, bool $usePrefix = false): array]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[delete]]></code>
       <code><![CDATA[fromArray]]></code>
@@ -1885,16 +1192,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Collection/Collection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function getIterator(): Traversable]]></code>
-      <code><![CDATA[public function offsetExists($offset): bool]]></code>
-      <code><![CDATA[public function offsetSet($offset, $value): void]]></code>
-      <code><![CDATA[public function offsetUnset($offset): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[diff]]></code>
       <code><![CDATA[get]]></code>
@@ -1908,17 +1205,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Collection/CollectionIterator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function append($value): void]]></code>
-      <code><![CDATA[public function offsetSet($index, $value): void]]></code>
-      <code><![CDATA[public function offsetUnset($index): void]]></code>
-    </MissingOverrideAttribute>
     <ParamNameMismatch>
       <code><![CDATA[$callback]]></code>
       <code><![CDATA[$callback]]></code>
@@ -1937,16 +1223,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Collection/ObjectCollection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function append($value): void]]></code>
-      <code><![CDATA[public function contains($element): bool]]></code>
-      <code><![CDATA[public function exchangeArray(array $input): void]]></code>
-      <code><![CDATA[public function getArrayCopy(?string $keyColumn = null, bool $usePrefix = false): array]]></code>
-      <code><![CDATA[public function offsetSet($offset, $value): void]]></code>
-      <code><![CDATA[public function offsetUnset($offset): void]]></code>
-      <code><![CDATA[public function search($element)]]></code>
-      <code><![CDATA[public function setData(array $data): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
       <code><![CDATA[delete]]></code>
@@ -1962,106 +1238,33 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Collection/ObjectCombinationCollection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function contains($element): bool]]></code>
-      <code><![CDATA[public function getPrimaryKeys(bool $usePrefix = true): array]]></code>
-      <code><![CDATA[public function push($value): void]]></code>
-      <code><![CDATA[public function removeObject($element): void]]></code>
-      <code><![CDATA[public function search($element)]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ObjectCombinationCollection]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Collection/OnDemandCollection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function append($value): void]]></code>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function exchangeArray(array $input): void]]></code>
-      <code><![CDATA[public function exportTo($parser, bool $usePrefix = true, bool $includeLazyLoadColumns = true, string $keyType = TableMap::TYPE_PHPNAME): string]]></code>
-      <code><![CDATA[public function getArrayCopy(): array]]></code>
-      <code><![CDATA[public function getIterator(): Traversable]]></code>
-      <code><![CDATA[public function offsetExists($offset): bool]]></code>
-      <code><![CDATA[public function offsetSet($offset, $value): void]]></code>
-      <code><![CDATA[public function offsetUnset($offset): void]]></code>
-      <code><![CDATA[public function prepend($value): int]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[fromArray]]></code>
+      <code><![CDATA[serialize]]></code>
       <code><![CDATA[toArray]]></code>
+      <code><![CDATA[unserialize]]></code>
     </PossiblyUnusedMethod>
     <PossiblyUnusedParam>
       <code><![CDATA[$arr]]></code>
+      <code><![CDATA[$data]]></code>
     </PossiblyUnusedParam>
-  </file>
-  <file src="src/Propel/Runtime/Collection/OnDemandIterator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function next(): void]]></code>
-      <code><![CDATA[public function rewind(): void]]></code>
-      <code><![CDATA[public function valid(): bool]]></code>
-    </MissingOverrideAttribute>
   </file>
   <file src="src/Propel/Runtime/Connection/ConnectionManagerInterface.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[setName]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Runtime/Connection/ConnectionManagerMasterSlave.php">
-    <UnusedClass>
-      <code><![CDATA[ConnectionManagerMasterSlave]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Propel/Runtime/Connection/ConnectionManagerPrimaryReplica.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function closeConnections(): void]]></code>
-      <code><![CDATA[public function getName(): string]]></code>
-      <code><![CDATA[public function getReadConnection(?AdapterInterface $adapter = null): ConnectionInterface]]></code>
-      <code><![CDATA[public function getWriteConnection(?AdapterInterface $adapter = null): ConnectionInterface]]></code>
-      <code><![CDATA[public function setName(string $name): void]]></code>
-    </MissingOverrideAttribute>
-    <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-      <code><![CDATA[setReadConfiguration]]></code>
-      <code><![CDATA[setWriteConfiguration]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="src/Propel/Runtime/Connection/ConnectionManagerSingle.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function closeConnections(): void]]></code>
-      <code><![CDATA[public function getName(): string]]></code>
-      <code><![CDATA[public function getReadConnection(?AdapterInterface $adapter = null): ConnectionInterface]]></code>
-      <code><![CDATA[public function getWriteConnection(?AdapterInterface $adapter = null): ConnectionInterface]]></code>
-      <code><![CDATA[public function setName(string $name): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[getConfiguration]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Connection/ConnectionWrapper.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function beginTransaction(): bool]]></code>
-      <code><![CDATA[public function commit(): bool]]></code>
-      <code><![CDATA[public function exec($statement): int]]></code>
-      <code><![CDATA[public function getAttribute(int $attribute)]]></code>
-      <code><![CDATA[public function getDataFetcher($data): DataFetcherInterface]]></code>
-      <code><![CDATA[public function getName(): ?string]]></code>
-      <code><![CDATA[public function getSingleDataFetcher($data): DataFetcherInterface]]></code>
-      <code><![CDATA[public function inTransaction(): bool]]></code>
-      <code><![CDATA[public function lastInsertId(?string $name = null)]]></code>
-      <code><![CDATA[public function prepare(string $statement, array $driverOptions = [])]]></code>
-      <code><![CDATA[public function query(string $statement, ...$args): DataFetcherInterface]]></code>
-      <code><![CDATA[public function quote(string $string, int $parameterType = 2): string]]></code>
-      <code><![CDATA[public function rollBack(): bool]]></code>
-      <code><![CDATA[public function setAttribute($attribute, $value): bool]]></code>
-      <code><![CDATA[public function setLogger(LoggerInterface $logger): void]]></code>
-      <code><![CDATA[public function setName(string $name): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[forceRollBack]]></code>
       <code><![CDATA[getLastExecutedQuery]]></code>
@@ -2077,29 +1280,7 @@
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Propel/Runtime/Connection/DebugPDO.php">
-    <UnusedClass>
-      <code><![CDATA[DebugPDO]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Propel/Runtime/Connection/PdoConnection.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function beginTransaction(): bool]]></code>
-      <code><![CDATA[public function commit(): bool]]></code>
-      <code><![CDATA[public function exec($statement): int]]></code>
-      <code><![CDATA[public function getAttribute(int $attribute)]]></code>
-      <code><![CDATA[public function getDataFetcher($data): DataFetcherInterface]]></code>
-      <code><![CDATA[public function getName(): ?string]]></code>
-      <code><![CDATA[public function getSingleDataFetcher($data): DataFetcherInterface]]></code>
-      <code><![CDATA[public function inTransaction(): bool]]></code>
-      <code><![CDATA[public function lastInsertId(?string $name = null)]]></code>
-      <code><![CDATA[public function prepare(string $statement, array $driverOptions = [])]]></code>
-      <code><![CDATA[public function query(string $statement)]]></code>
-      <code><![CDATA[public function quote(string $string, int $parameterType = PDO::PARAM_STR): string]]></code>
-      <code><![CDATA[public function rollBack(): bool]]></code>
-      <code><![CDATA[public function setAttribute($attribute, $value): bool]]></code>
-      <code><![CDATA[public function setName(string $name): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__call]]></code>
     </PossiblyUnusedMethod>
@@ -2110,29 +1291,9 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Runtime/Connection/ProfilerConnectionWrapper.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[protected function createStatementWrapper($sql): StatementWrapper]]></code>
-      <code><![CDATA[public function exec($statement): int]]></code>
-      <code><![CDATA[public function log($msg): void]]></code>
-      <code><![CDATA[public function prepare(string $statement, array $driverOptions = [])]]></code>
-      <code><![CDATA[public function query($statement = '', ...$args): DataFetcherInterface]]></code>
-      <code><![CDATA[public function setAttribute($attribute, $value): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[setProfiler]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Runtime/Connection/ProfilerStatementWrapper.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function bindParam($parameter, &$variable, int $dataType = PDO::PARAM_STR, ?int $length = null, $driverOptions = null): bool]]></code>
-      <code><![CDATA[public function bindValue($parameter, $value, int $dataType = PDO::PARAM_STR): bool]]></code>
-      <code><![CDATA[public function execute(?array $inputParameters = null): bool]]></code>
-    </MissingOverrideAttribute>
-  </file>
-  <file src="src/Propel/Runtime/Connection/PropelPDO.php">
-    <UnusedClass>
-      <code><![CDATA[PropelPDO]]></code>
-    </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Connection/StatementInterface.php">
     <PossiblyUnusedMethod>
@@ -2154,28 +1315,6 @@
     </PossiblyUnusedReturnValue>
   </file>
   <file src="src/Propel/Runtime/Connection/StatementWrapper.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function bindColumn($column, &$param, $type = null, $maxlen = null, $driverdata = null): bool]]></code>
-      <code><![CDATA[public function bindParam($parameter, &$variable, int $dataType = PDO::PARAM_STR, ?int $length = null, $driverOptions = null): bool]]></code>
-      <code><![CDATA[public function bindValue($parameter, $value, int $dataType = PDO::PARAM_STR): bool]]></code>
-      <code><![CDATA[public function closeCursor(): bool]]></code>
-      <code><![CDATA[public function columnCount(): int]]></code>
-      <code><![CDATA[public function debugDumpParams(): void]]></code>
-      <code><![CDATA[public function errorCode(): string]]></code>
-      <code><![CDATA[public function errorInfo(): array]]></code>
-      <code><![CDATA[public function execute(?array $inputParameters = null): bool]]></code>
-      <code><![CDATA[public function fetch(int $fetchStyle = PDO::FETCH_BOTH, int $cursorOrientation = PDO::FETCH_ORI_NEXT, int $cursorOffset = 0)]]></code>
-      <code><![CDATA[public function fetchAll(?int $fetchStyle = PDO::FETCH_BOTH, $fetchArgument = null, array $ctorArgs = []): array]]></code>
-      <code><![CDATA[public function fetchColumn(int $columnIndex = 0): ?string]]></code>
-      <code><![CDATA[public function fetchObject($className, array $ctorArgs = [])]]></code>
-      <code><![CDATA[public function getAttribute($attribute)]]></code>
-      <code><![CDATA[public function getColumnMeta($column)]]></code>
-      <code><![CDATA[public function getIterator(): Traversable]]></code>
-      <code><![CDATA[public function nextRowset(): bool]]></code>
-      <code><![CDATA[public function rowCount(): int]]></code>
-      <code><![CDATA[public function setAttribute($attribute, $value): bool]]></code>
-      <code><![CDATA[public function setFetchMode($mode, $classNameObject = null, array $ctorarfg = []): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__call]]></code>
       <code><![CDATA[getBoundValues]]></code>
@@ -2184,51 +1323,12 @@
       <code><![CDATA[setStatement]]></code>
     </PossiblyUnusedMethod>
   </file>
-  <file src="src/Propel/Runtime/DataFetcher/AbstractDataFetcher.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function fetchColumn($index = null)]]></code>
-      <code><![CDATA[public function getDataObject()]]></code>
-      <code><![CDATA[public function setDataObject($dataObject): void]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Runtime/DataFetcher/ArrayDataFetcher.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function close(): void]]></code>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function fetch(): ?array]]></code>
-      <code><![CDATA[public function getIndexType(): string]]></code>
-      <code><![CDATA[public function next(): void]]></code>
-      <code><![CDATA[public function rewind(): void]]></code>
-      <code><![CDATA[public function valid(): bool]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ArrayDataFetcher]]></code>
     </UnusedClass>
   </file>
-  <file src="src/Propel/Runtime/DataFetcher/DataFetcherInterface.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function count(): int;]]></code>
-      <code><![CDATA[public function next(): void;]]></code>
-      <code><![CDATA[public function rewind(): void;]]></code>
-      <code><![CDATA[public function valid(): bool;]]></code>
-    </MissingOverrideAttribute>
-  </file>
   <file src="src/Propel/Runtime/DataFetcher/PDODataFetcher.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[#[\ReturnTypeWillChange]]]></code>
-      <code><![CDATA[public function close(): void]]></code>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function fetch(?int $style = null)]]></code>
-      <code><![CDATA[public function getIndexType(): string]]></code>
-      <code><![CDATA[public function next(): void]]></code>
-      <code><![CDATA[public function rewind(): void]]></code>
-      <code><![CDATA[public function valid(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[bindColumn]]></code>
       <code><![CDATA[fetchAll]]></code>
@@ -2237,6 +1337,12 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Formatter/AbstractFormatter.php">
+    <InvalidReturnStatement>
+      <code><![CDATA[self::$reflectionCache[$class] ??= new ReflectionClass($class)]]></code>
+    </InvalidReturnStatement>
+    <InvalidReturnType>
+      <code><![CDATA[\ReflectionClass<T>]]></code>
+    </InvalidReturnType>
     <PossiblyUnusedMethod>
       <code><![CDATA[__construct]]></code>
       <code><![CDATA[getClass]]></code>
@@ -2255,10 +1361,6 @@
     </UnnecessaryVarAnnotation>
   </file>
   <file src="src/Propel/Runtime/Formatter/AbstractFormatterWithHydration.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function formatRecord(?ActiveRecordInterface $record = null): array]]></code>
-      <code><![CDATA[public function getCollectionClassName(): ?string]]></code>
-    </MissingOverrideAttribute>
     <NonVariableReferenceReturn>
       <code><![CDATA[$this->alreadyHydratedObjects[$this->class][$mainKey]]]></code>
     </NonVariableReferenceReturn>
@@ -2270,24 +1372,11 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Runtime/Formatter/ArrayFormatter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function format(?DataFetcherInterface $dataFetcher = null)]]></code>
-      <code><![CDATA[public function formatOne(?DataFetcherInterface $dataFetcher = null): ?array]]></code>
-      <code><![CDATA[public function formatRecord(?ActiveRecordInterface $record = null): array]]></code>
-      <code><![CDATA[public function getCollectionClassName(): ?string]]></code>
-      <code><![CDATA[public function isObjectFormatter(): bool]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[ArrayFormatter]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Formatter/ObjectFormatter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function format(?DataFetcherInterface $dataFetcher = null)]]></code>
-      <code><![CDATA[public function formatOne(?DataFetcherInterface $dataFetcher = null): ?ActiveRecordInterface]]></code>
-      <code><![CDATA[public function getCollectionClassName(): ?string]]></code>
-      <code><![CDATA[public function isObjectFormatter(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isObjectFormatter]]></code>
     </PossiblyUnusedMethod>
@@ -2300,13 +1389,6 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Runtime/Formatter/OnDemandFormatter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function format(?DataFetcherInterface $dataFetcher = null): OnDemandCollection]]></code>
-      <code><![CDATA[public function getAllObjectsFromRow(array $row): ActiveRecordInterface]]></code>
-      <code><![CDATA[public function getCollection(): OnDemandCollection]]></code>
-      <code><![CDATA[public function getCollectionClassName(): string]]></code>
-      <code><![CDATA[public function init(?BaseModelCriteria $criteria = null, ?DataFetcherInterface $dataFetcher = null)]]></code>
-    </MissingOverrideAttribute>
     <UnnecessaryVarAnnotation>
       <code><![CDATA[\Propel\Runtime\Collection\OnDemandCollection]]></code>
     </UnnecessaryVarAnnotation>
@@ -2315,24 +1397,11 @@
     </UnusedForeachValue>
   </file>
   <file src="src/Propel/Runtime/Formatter/SimpleArrayFormatter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function format(?DataFetcherInterface $dataFetcher = null)]]></code>
-      <code><![CDATA[public function formatOne(?DataFetcherInterface $dataFetcher = null)]]></code>
-      <code><![CDATA[public function formatRecord(?ActiveRecordInterface $record = null): array]]></code>
-      <code><![CDATA[public function getCollectionClassName(): ?string]]></code>
-      <code><![CDATA[public function isObjectFormatter(): bool]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[isObjectFormatter]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Formatter/StatementFormatter.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function format(?DataFetcherInterface $dataFetcher = null): DataFetcherInterface]]></code>
-      <code><![CDATA[public function formatOne(?DataFetcherInterface $dataFetcher = null): ?DataFetcherInterface]]></code>
-      <code><![CDATA[public function formatRecord(?ActiveRecordInterface $record = null)]]></code>
-      <code><![CDATA[public function isObjectFormatter(): bool]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[StatementFormatter]]></code>
     </UnusedClass>
@@ -2413,40 +1482,21 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Parser/CsvParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function fromArray(array $array, ?string $rootKey = null, bool $isList = false, bool $includeHeading = true): string]]></code>
-      <code><![CDATA[public function listFromArray(array $array, ?string $rootKey = null): string]]></code>
-      <code><![CDATA[public function listToArray(string $data, ?string $rootKey = null): array]]></code>
-      <code><![CDATA[public function toArray(string $data, ?string $rootKey = null, bool $isList = false, bool $includeHeading = true): array]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[CsvParser]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Parser/JsonParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function fromArray(array $array, ?string $rootKey = null): string]]></code>
-      <code><![CDATA[public function toArray(string $data, ?string $rootKey = null): array]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[JsonParser]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Parser/XmlParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function fromArray(array $array, string $rootKey = 'data', ?string $charset = null): string]]></code>
-      <code><![CDATA[public function listFromArray(array $array, ?string $rootKey = 'data', ?string $charset = null): string]]></code>
-      <code><![CDATA[public function toArray(string $data, string $rootKey = 'data'): array]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[XmlParser]]></code>
     </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Parser/YamlParser.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function fromArray(array $array, ?string $rootKey = null): string]]></code>
-      <code><![CDATA[public function toArray(string $data, ?string $rootKey = null): array]]></code>
-    </MissingOverrideAttribute>
     <UnusedClass>
       <code><![CDATA[YamlParser]]></code>
     </UnusedClass>
@@ -2482,21 +1532,6 @@
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/ServiceContainer/StandardServiceContainer.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function closeConnections(): void]]></code>
-      <code><![CDATA[public function getAdapter(?string $name = null): AdapterInterface]]></code>
-      <code><![CDATA[public function getAdapterClass(?string $name = null): string]]></code>
-      <code><![CDATA[public function getConnection(?string $name = null, string $mode = ServiceContainerInterface::CONNECTION_WRITE): ConnectionInterface]]></code>
-      <code><![CDATA[public function getConnectionManager(string $name): ConnectionManagerInterface]]></code>
-      <code><![CDATA[public function getDatabaseMap(?string $name = null): DatabaseMap]]></code>
-      <code><![CDATA[public function getDefaultDatasource(): string]]></code>
-      <code><![CDATA[public function getLogger(?string $name = null): LoggerInterface]]></code>
-      <code><![CDATA[public function getProfiler(): Profiler]]></code>
-      <code><![CDATA[public function getReadConnection(string $name): ConnectionInterface]]></code>
-      <code><![CDATA[public function getWriteConnection(string $name): ConnectionInterface]]></code>
-      <code><![CDATA[public function hasConnectionManager(string $name): bool]]></code>
-      <code><![CDATA[public function initDatabaseMaps(array $databaseNameToTableMapClassNames = []): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[checkVersion]]></code>
       <code><![CDATA[getConnectionManagers]]></code>
@@ -2537,18 +1572,11 @@
     </PossiblyUnusedParam>
   </file>
   <file src="src/Propel/Runtime/Util/PropelDateTime.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function __wakeup(): void]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[createHighPrecision]]></code>
     </PossiblyUnusedMethod>
   </file>
   <file src="src/Propel/Runtime/Util/PropelModelPager.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function count(): int]]></code>
-      <code><![CDATA[public function getIterator(): Traversable]]></code>
-    </MissingOverrideAttribute>
     <PossiblyUnusedMethod>
       <code><![CDATA[__call]]></code>
       <code><![CDATA[getCurrentMaxLink]]></code>
@@ -2568,31 +1596,5 @@
       <code><![CDATA[binToUuidRecursive]]></code>
       <code><![CDATA[uuidToBinRecursive]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Runtime/Validator/Constraints/Date.php">
-    <UnusedClass>
-      <code><![CDATA[Date]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Propel/Runtime/Validator/Constraints/DateValidator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate($value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
-    <UnusedClass>
-      <code><![CDATA[DateValidator]]></code>
-    </UnusedClass>
-  </file>
-  <file src="src/Propel/Runtime/Validator/Constraints/Unique.php">
-    <PossiblyUnusedProperty>
-      <code><![CDATA[$column]]></code>
-    </PossiblyUnusedProperty>
-  </file>
-  <file src="src/Propel/Runtime/Validator/Constraints/UniqueValidator.php">
-    <MissingOverrideAttribute>
-      <code><![CDATA[public function validate($value, Constraint $constraint): void]]></code>
-    </MissingOverrideAttribute>
-    <UnusedClass>
-      <code><![CDATA[UniqueValidator]]></code>
-    </UnusedClass>
   </file>
 </files>

@@ -106,6 +106,23 @@ class ColumnComparator
             $changedProperties['autoIncrement'] = [$fromColumn->isAutoIncrement(), $toColumn->isAutoIncrement()];
         }
 
+        // Phase C (umbrella §6.4): drift on collation, comment, generated-column, INVISIBLE.
+        if ($fromDomain->getDescription() !== $toDomain->getDescription()) {
+            $changedProperties['description'] = [$fromDomain->getDescription(), $toDomain->getDescription()];
+        }
+
+        if ($fromColumn->isInvisible() !== $toColumn->isInvisible()) {
+            $changedProperties['invisible'] = [$fromColumn->isInvisible(), $toColumn->isInvisible()];
+        }
+
+        if ($fromColumn->getGenerationKind() !== $toColumn->getGenerationKind()) {
+            $changedProperties['generationKind'] = [$fromColumn->getGenerationKind(), $toColumn->getGenerationKind()];
+        }
+
+        if ($fromColumn->getGenerationExpression() !== $toColumn->getGenerationExpression()) {
+            $changedProperties['generationExpression'] = [$fromColumn->getGenerationExpression(), $toColumn->getGenerationExpression()];
+        }
+
         return $changedProperties;
     }
 }

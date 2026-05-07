@@ -1,0 +1,124 @@
+# Tier 1 frozen public API surface (umbrella spec §3.1) plus Tier 2 deprecation-runway
+# extension surfaces (§3.2). Snapshots in this directory are JSON dumps of method
+# signatures + extends/implements + properties + class constants + @method PHPDoc
+# methods. The CI gate (.github/workflows/quality-gates.yml job: signature-diff)
+# regenerates and diffs against committed snapshots; any drift fails the gate
+# unless paired with @deprecated annotations in the same diff.
+#
+# Generated bookstore Base classes are tracked separately by lint-generated +
+# golden-file diff (see .github/workflows/quality-gates.yml).
+
+# ============================================================
+# Tier 1 — runtime-class surface (frozen)
+# ============================================================
+
+# ActiveQuery
+Propel\Runtime\ActiveQuery\Criteria
+Propel\Runtime\ActiveQuery\ModelCriteria
+
+# ActiveRecord interface (sacred per §3.1)
+Propel\Runtime\ActiveRecord\ActiveRecordInterface
+
+# Map metadata
+Propel\Runtime\Map\TableMap
+
+# Static facade
+Propel\Runtime\Propel
+
+# Connection contract (mirrors PDO; loose params)
+Propel\Runtime\Connection\ConnectionInterface
+
+# ============================================================
+# Tier 2 — extension surfaces (deprecation runway required)
+# ============================================================
+
+# Adapter contracts (custom adapters in user codebases)
+Propel\Runtime\Adapter\AdapterInterface
+Propel\Runtime\Adapter\SqlAdapterInterface
+
+# Collection extension surface
+Propel\Runtime\Collection\Collection
+Propel\Runtime\Collection\ObjectCollection
+Propel\Runtime\Collection\ArrayCollection
+Propel\Runtime\Collection\OnDemandCollection
+
+# Formatter base
+Propel\Runtime\Formatter\AbstractFormatter
+
+# Service container interface (DI bridges)
+Propel\Runtime\ServiceContainer\ServiceContainerInterface
+
+# Connection management (Tier 2 — wrapped by profiling extensions)
+Propel\Runtime\Connection\ConnectionManagerInterface
+Propel\Runtime\Connection\ConnectionManagerSingle
+Propel\Runtime\Connection\ConnectionManagerPrimaryReplica
+Propel\Runtime\Connection\ConnectionWrapper
+Propel\Runtime\Connection\StatementWrapper
+
+# Phase E (umbrella §2.1) — Decorator chain SPI for runtime Connection.
+Propel\Runtime\Connection\ConnectionDecoratorInterface
+
+# Exception hierarchy (caught by user code)
+Propel\Runtime\Exception\ExceptionInterface
+Propel\Runtime\Exception\PropelException
+Propel\Runtime\Exception\BadMethodCallException
+Propel\Runtime\Exception\ClassNotFoundException
+Propel\Runtime\Exception\EntityNotFoundException
+Propel\Runtime\Exception\FileNotFoundException
+Propel\Runtime\Exception\InvalidArgumentException
+Propel\Runtime\Exception\LogicException
+Propel\Runtime\Exception\RuntimeException
+Propel\Runtime\Exception\UnexpectedValueException
+
+# Util classes returned by Tier 1 methods (e.g., paginate())
+Propel\Runtime\Util\PropelDateTime
+Propel\Runtime\Util\PropelModelPager
+Propel\Runtime\Util\Profiler
+Propel\Runtime\Util\PropelConditionalProxy
+Propel\Runtime\Util\UuidConverter
+
+# Phase C (umbrella §6.4) — Schema-model SPI for downstream consumers (custom platforms,
+# migration tooling, third-party generators) that read/write the schema model.
+Propel\Generator\Model\CheckConstraint
+
+# Phase C (umbrella §6.4) — Runtime SPI for the PG JSONB operator helper.
+Propel\Runtime\ActiveQuery\Operator\JsonbOperator
+
+# Phase F (umbrella §6.4) — Operator enums alongside Criteria::* constants. Backed-string
+# enums whose `value` matches the corresponding Criteria::* constant. Constants stay
+# frozen forever; enums are an additive Tier 2 surface for typed call sites.
+Propel\Runtime\ActiveQuery\Operator\Comparison
+Propel\Runtime\ActiveQuery\Operator\JoinType
+Propel\Runtime\ActiveQuery\Operator\SortOrder
+Propel\Runtime\ActiveQuery\Operator\LogicalOperator
+
+# Phase F (umbrella §2.2) — Tier 2 SPI for prepared-statement cache key derivation.
+# Adopted from Phase E.4's CachingConnection::buildCacheKey shape.
+Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey
+
+# Phase F (umbrella §2.2) — Tier 3 internal Plan/* value objects with public-method
+# stability commitment for downstream Behavior + ModelCriteria consumers.
+Propel\Runtime\ActiveQuery\Plan\JoinPlan
+Propel\Runtime\ActiveQuery\Plan\WhereTree
+Propel\Runtime\ActiveQuery\Plan\OrderClause
+
+# Criterion extension surface (19 classes; user-extension via getNewCriterion())
+Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
+Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
+Propel\Runtime\ActiveQuery\Criterion\AbstractModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\BasicCriterion
+Propel\Runtime\ActiveQuery\Criterion\BasicModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\BinaryCriterion
+Propel\Runtime\ActiveQuery\Criterion\BinaryModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\ColumnToQueryOperatorCriterion
+Propel\Runtime\ActiveQuery\Criterion\CriterionFactory
+Propel\Runtime\ActiveQuery\Criterion\CustomCriterion
+Propel\Runtime\ActiveQuery\Criterion\ExistsCriterion
+Propel\Runtime\ActiveQuery\Criterion\ExistsQueryCriterion
+Propel\Runtime\ActiveQuery\Criterion\InCriterion
+Propel\Runtime\ActiveQuery\Criterion\InModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\LikeCriterion
+Propel\Runtime\ActiveQuery\Criterion\LikeModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\RawCriterion
+Propel\Runtime\ActiveQuery\Criterion\RawModelCriterion
+Propel\Runtime\ActiveQuery\Criterion\SeveralModelCriterion

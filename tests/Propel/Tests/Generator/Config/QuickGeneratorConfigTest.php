@@ -125,13 +125,20 @@ class QuickGeneratorConfigTest extends TestCase
                     'src',
                     'vendor',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
-            $generatorConfig->get()['database']['connections']['fakeConn']
+            $generatorConfig->get()['database']['connections']['fakeConn'],
         );
         $this->assertEquals(
             [
                 'adapter' => 'sqlite',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'sqlite::memory:',
                 'user' => '',
                 'password' => '',
@@ -139,8 +146,15 @@ class QuickGeneratorConfigTest extends TestCase
                     'src',
                     'vendor',
                 ],
+                'decorators' => ['transactional', 'logging', 'caching'],
+                'preparedStatementCacheCapacity' => 256,
+                'routing' => [
+                    'sessionConsistencyWindowSeconds' => 5.0,
+                    'replicaLagThresholdSeconds' => 2.0,
+                    'fallbackToPrimary' => true,
+                ],
             ],
-            $generatorConfig->get()['database']['connections']['default']
+            $generatorConfig->get()['database']['connections']['default'],
         );
     }
 }

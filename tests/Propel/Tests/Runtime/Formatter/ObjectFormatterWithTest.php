@@ -33,9 +33,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for ObjectFormatter when Criteria uses with().
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ObjectFormatterWithTest extends BookstoreEmptyTestBase
 {
     /**

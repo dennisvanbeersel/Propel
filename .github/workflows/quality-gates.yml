@@ -1,0 +1,159 @@
+name: Quality Gates
+
+on:
+  pull_request:
+  push:
+    branches: [master, ar-rewrite]
+  workflow_dispatch:
+
+jobs:
+  signature-diff:
+    name: "BC signature diff"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Dump current signatures to /tmp
+        run: |
+          mkdir -p /tmp/sig-current
+          php bin/propel-internal-dump-signatures tests/snapshots/tracked-classes.txt /tmp/sig-current
+      - name: Diff against committed snapshots
+        run: |
+          set +e
+          fail=0
+          for committed in tests/snapshots/*.signatures.json; do
+            base=$(basename "$committed")
+            current="/tmp/sig-current/$base"
+            if [ ! -f "$current" ]; then
+              echo "::error::Missing current snapshot for $base — class deleted without deprecation?"
+              fail=1
+              continue
+            fi
+            if ! diff -u "$committed" "$current" > /tmp/diff.out; then
+              echo "::error::Signature drift in $base — diff:"
+              cat /tmp/diff.out
+              echo ""
+              echo "::error::If intentional, regenerate with bin/propel-internal-dump-signatures and commit. BC-safe widening (covariant return types, contravariant params, added optional params with defaults) is allowed; everything else requires @deprecated annotation in same diff per umbrella spec §3.4."
+              fail=1
+            fi
+          done
+          # Also check for new untracked classes that were added to tracked-classes.txt without committed snapshots.
+          for current in /tmp/sig-current/*.signatures.json; do
+            base=$(basename "$current")
+            if [ ! -f "tests/snapshots/$base" ]; then
+              echo "::error::New tracked class with no committed snapshot: $base — commit the generated snapshot alongside tracked-classes.txt."
+              fail=1
+            fi
+          done
+          if [ $fail -eq 0 ]; then
+            echo "✓ All Tier 1 signatures stable."
+          fi
+          exit $fail
+
+  baseline-monotonic:
+    name: "Static-analysis baselines never grow"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Determine merge base
+        id: base
+        run: |
+          # For PRs, compare against the target branch; for pushes, compare against master.
+          if [ "${{ github.event_name }}" = "pull_request" ]; then
+            BASE_REF="origin/${{ github.base_ref }}"
+          else
+            BASE_REF="origin/master"
+          fi
+          git fetch --no-tags --depth=1 origin "${{ github.base_ref || 'master' }}" 2>/dev/null || true
+          echo "ref=$BASE_REF" >> "$GITHUB_OUTPUT"
+      - name: Check baselines monotonic vs ${{ steps.base.outputs.ref }}
+        run: php tools/check-baseline-monotonic.php ${{ steps.base.outputs.ref }}
+
+  lint-generated:
+    name: "Generated code passes same bar as src/"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Build bookstore fixture (real build script, not a phpunit filter)
+        run: bash tests/bin/setup.sqlite.sh
+      - name: Verify build directory exists (fail loudly if regen produced nothing)
+        run: |
+          if [ ! -d tests/Fixtures/bookstore/build/classes ] || [ -z "$(find tests/Fixtures/bookstore/build/classes -name '*.php' -print -quit)" ]; then
+            echo "::error::tests/Fixtures/bookstore/build/classes/ is empty after setup.sqlite.sh — generator broken"
+            exit 1
+          fi
+      - name: phpcs against generated bookstore
+        run: vendor/bin/phpcs --standard=phpcs.xml tests/Fixtures/bookstore/build/classes/
+      - name: phpstan against generated bookstore
+        run: vendor/bin/phpstan analyze --level=7 tests/Fixtures/bookstore/build/classes/ --no-progress
+
+  deptrac:
+    name: "Architecture (Deptrac)"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, libxml, pdo
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - run: composer deptrac
+
+  xsd-additivity:
+    name: "XSD additivity (every fixture validates)"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, libxml, dom
+          coverage: none
+      - name: XSD additivity sweep
+        run: php tools/xsd-additivity-check.php
+
+  golden-diff:
+    name: "Generated bookstore matches golden fixture"
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: json, libxml, pdo, pdo_sqlite
+          coverage: none
+      - name: Composer install
+        run: composer install --no-progress --prefer-dist
+      - name: Build bookstore fixture
+        run: bash tests/bin/setup.sqlite.sh
+      - name: Refresh golden into /tmp (don't touch committed dir)
+        run: |
+          mkdir -p /tmp/golden-current
+          cp -r tests/Fixtures/bookstore/build/classes/* /tmp/golden-current/
+          find /tmp/golden-current -type f -exec chmod 644 {} +
+      - name: Diff against committed golden
+        run: |
+          if ! diff -ru tests/snapshots/bookstore-golden /tmp/golden-current; then
+            echo "::error::Generated bookstore drift — run 'php tools/regen-golden.php' and commit the regenerated tree alongside your generator change. Per umbrella spec §4.7."
+            exit 1
+          fi
+          echo "✓ Golden bookstore tree stable."

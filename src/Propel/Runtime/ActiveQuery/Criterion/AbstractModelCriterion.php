@@ -57,6 +57,7 @@ abstract class AbstractModelCriterion extends AbstractCriterion
      *
      * @return bool
      */
+    #[\Override]
     public function equals(?object $obj): bool
     {
         // TODO: optimize me with early outs

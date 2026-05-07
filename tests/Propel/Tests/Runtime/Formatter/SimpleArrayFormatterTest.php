@@ -15,9 +15,7 @@ use Propel\Tests\Bookstore\Map\BookTableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreDataPopulator;
 use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SimpleArrayFormatterTest extends BookstoreEmptyTestBase
 {
     /**

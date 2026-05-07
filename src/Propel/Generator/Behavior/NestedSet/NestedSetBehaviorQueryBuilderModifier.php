@@ -100,7 +100,15 @@ class NestedSetBehaviorQueryBuilderModifier
     public function queryMethods(QueryBuilder $builder): string
     {
         $this->setBuilder($builder);
-        $script = '';
+        $script = "
+// ----------------------------------------------------------------------------
+// @deprecated since 3.0 — NestedSet behavior is deprecated; the query methods
+// below are kept on a Tier 2 runway for the entire 3.x line and will be removed
+// in 4.0. Migrate to recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+); see
+// docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte for the cookbook.
+// ----------------------------------------------------------------------------
+
+";
 
         // select filters
         if ($this->behavior->useScope()) {

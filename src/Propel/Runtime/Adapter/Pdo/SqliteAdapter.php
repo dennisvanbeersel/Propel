@@ -31,6 +31,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function setCharset(ConnectionInterface $con, string $charset): void
     {
     }
@@ -41,6 +42,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function initConnection(ConnectionInterface $con, array $settings): void
     {
         $con->query('PRAGMA foreign_keys = ON');
@@ -62,6 +64,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function concatString(string $s1, string $s2): string
     {
         return "($s1 || $s2)";
@@ -76,6 +79,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function subString(string $s, int $pos, int $len): string
     {
         return "substr($s, $pos, $len)";
@@ -88,6 +92,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function strLength(string $s): string
     {
         return "length($s)";
@@ -100,6 +105,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function quoteIdentifier(string $text): string
     {
         return "[$text]";
@@ -115,6 +121,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function applyLimit(string &$sql, int $offset, int $limit, ?Criteria $criteria = null): void
     {
         if ($limit >= 0) {
@@ -129,6 +136,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return string
      */
+    #[\Override]
     public function random(?string $seed = null): string
     {
         return 'random()';
@@ -142,6 +150,7 @@ class SqliteAdapter extends PdoAdapter implements SqlAdapterInterface
      *
      * @return void
      */
+    #[\Override]
     public function applyLock(string &$sql, Lock $lock): void
     {
     }

@@ -1,0 +1,12 @@
+{
+    "class": "Propel\\Runtime\\Exception\\EntityNotFoundException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "Propel\\Runtime\\Exception\\RuntimeException",
+    "implements": [],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

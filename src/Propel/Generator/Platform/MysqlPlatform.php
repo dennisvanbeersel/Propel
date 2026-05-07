@@ -13,6 +13,7 @@ namespace Propel\Generator\Platform;
 use PDO;
 use Propel\Generator\Config\GeneratorConfigInterface;
 use Propel\Generator\Exception\EngineException;
+use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\Database;
 use Propel\Generator\Model\Diff\ColumnDiff;
@@ -46,6 +47,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     protected function initializeTypeMap(): void
     {
         parent::initializeTypeMap();
@@ -63,6 +65,14 @@ class MysqlPlatform extends DefaultPlatform
         $this->setSchemaDomainMapping(new Domain(PropelTypes::REAL, 'DOUBLE'));
         $this->setSchemaDomainMapping(new Domain(PropelTypes::UUID_BINARY, 'BINARY', 16));
 
+        // Phase C (umbrella §6.4): MySQL native JSON; JSONB folds to JSON (MySQL has no JSONB).
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSON, 'JSON'));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::JSONB, 'JSON'));
+        // INET/CIDR/TSVECTOR are PG-only; MySQL gets compatible substitutes with comment hints.
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::INET, 'VARBINARY', 16));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::CIDR, 'VARBINARY', 17));
+        $this->setSchemaDomainMapping(new Domain(PropelTypes::TSVECTOR, 'TEXT'));
+
         $this->setUuidTypeMapping();
     }
 
@@ -71,6 +81,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return void
      */
+    #[\Override]
     public function setGeneratorConfig(GeneratorConfigInterface $generatorConfig): void
     {
         parent::setGeneratorConfig($generatorConfig);
@@ -160,6 +171,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return string
      */
+    #[\Override]
     public function getAutoIncrement(): string
     {
         return 'AUTO_INCREMENT';
@@ -168,6 +180,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return int
      */
+    #[\Override]
     public function getMaxColumnNameLength(): int
     {
         return 64;
@@ -176,6 +189,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsNativeDeleteTrigger(): bool
     {
         return strtolower($this->getDefaultTableEngine()) === 'innodb';
@@ -184,6 +198,7 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return bool
      */
+    #[\Override]
     public function supportsIndexSize(): bool
     {
         return true;
@@ -213,6 +228,7 @@ class MysqlPlatform extends DefaultPlatform
      *
      * @return string
      */
+    #[\Override]
     public function getAddTablesDDL(Database $database): string
     {
         $ret = '';
@@ -231,11 +247,11 @@ class MysqlPlatform extends DefaultPlatform
     /**
      * @return string
      */
+    #[\Override]
     public function getBeginDDL(): string
     {
         return "
-# This is a fix for InnoDB in MySQL >= 4.1.x
-# It \"suspends judgement\" for fkey relationships until are tables are set.
+# Suspend foreign-key checks while tables are being created.
 SET FOREIGN_KEY_CHECKS = 0;
 ";
     }
@@ -243,6 +259,7 @@ SET FOREIGN_KEY_CHECKS = 0;
     /**
      * @return string
      */
+    #[\Override]
     public function getEndDDL(): string
     {
         return "
@@ -258,6 +275,7 @@ SET FOREIGN_KEY_CHECKS = 1;
      *
      * @return string
      */
+    #[\Override]
     public function getPrimaryKeyDDL(Table $table): string
     {
         if ($table->hasPrimaryKey()) {
@@ -286,6 +304,7 @@ SET FOREIGN_KEY_CHECKS = 1;
      *
      * @return string
      */
+    #[\Override]
     public function getAddTableDDL(Table $table): string
     {
         $lines = [];
@@ -315,6 +334,11 @@ SET FOREIGN_KEY_CHECKS = 1;
     ", "
         ", $this->getForeignKeyDDL($foreignKey));
             }
+        }
+
+        // Phase C (umbrella §6.4): table-level CHECK constraints inline in CREATE TABLE.
+        foreach ($table->getCheckConstraints() as $checkConstraint) {
+            $lines[] = $this->getCheckConstraintDDL($checkConstraint);
         }
 
         $vendorSpecific = $table->getVendorInfoForType('mysql');
@@ -362,8 +386,7 @@ CREATE TABLE %s
     {
         $vi = $table->getVendorInfoForType('mysql');
         $tableOptions = [];
-        // List of supported table options
-        // see http://dev.mysql.com/doc/refman/5.5/en/create-table.html
+        // List of supported table options (InnoDB-focused; MyISAM-only options dropped).
         $supportedOptions = [
             'AutoIncrement' => 'AUTO_INCREMENT',
             'AvgRowLength' => 'AVG_ROW_LENGTH',
@@ -372,25 +395,13 @@ CREATE TABLE %s
             'Collate' => 'COLLATE',
             'Connection' => 'CONNECTION',
             'DataDirectory' => 'DATA DIRECTORY',
-            'Delay_key_write' => 'DELAY_KEY_WRITE',
-            'DelayKeyWrite' => 'DELAY_KEY_WRITE',
             'IndexDirectory' => 'INDEX DIRECTORY',
-            'InsertMethod' => 'INSERT_METHOD',
             'KeyBlockSize' => 'KEY_BLOCK_SIZE',
             'MaxRows' => 'MAX_ROWS',
             'MinRows' => 'MIN_ROWS',
-            'Pack_Keys' => 'PACK_KEYS',
-            'PackKeys' => 'PACK_KEYS',
-            'RowFormat' => 'ROW_FORMAT',
-            'Union' => 'UNION',
         ];
 
-        $noQuotedValue = array_flip([
-            'InsertMethod',
-            'Pack_Keys',
-            'PackKeys',
-            'RowFormat',
-        ]);
+        $noQuotedValue = [];
 
         foreach ($supportedOptions as $name => $sqlName) {
             $parameterValue = null;
@@ -420,6 +431,7 @@ CREATE TABLE %s
      *
      * @return string
      */
+    #[\Override]
     public function getDropTableDDL(Table $table): string
     {
         return "
@@ -434,6 +446,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getColumnDDL(Column $col): string
     {
         $domain = $col->getDomain();
@@ -507,9 +520,34 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
             }
         }
 
-        $autoIncrement = $col->getAutoIncrementString();
-        if ($autoIncrement) {
-            $ddl[] = $autoIncrement;
+        // Phase D (umbrella §6.3): native ON UPDATE expression (MySQL/MariaDB).
+        // Used by TimestampableBehavior to delegate the updated_at refresh to the
+        // database — single source of truth, no PHP-side hook needed. Vendor
+        // parameter format: <vendor type="mysql"><parameter name="OnUpdate" value="CURRENT_TIMESTAMP"/></vendor>.
+        if ($colinfo->hasParameter('OnUpdate')) {
+            $ddl[] = 'ON UPDATE ' . $colinfo->getParameter('OnUpdate');
+        }
+
+        // Phase C (umbrella §6.4): generated column — emit GENERATED ALWAYS AS (expr) {VIRTUAL|STORED}
+        // before AUTO_INCREMENT / INVISIBLE / COMMENT. AUTO_INCREMENT and a generation expression
+        // are mutually exclusive on MySQL, so the autoIncrement branch is skipped when the column
+        // is generated (the user error is rejected upstream during model load if both are set).
+        if ($col->isGenerated()) {
+            $ddl[] = sprintf(
+                'GENERATED ALWAYS AS (%s) %s',
+                (string)$col->getGenerationExpression(),
+                strtoupper((string)$col->getGenerationKind()),
+            );
+        } else {
+            $autoIncrement = $col->getAutoIncrementString();
+            if ($autoIncrement) {
+                $ddl[] = $autoIncrement;
+            }
+        }
+
+        // Phase C (umbrella §6.4): INVISIBLE keyword (MySQL 8.0.23+ / MariaDB 10.3+).
+        if ($col->isInvisible()) {
+            $ddl[] = 'INVISIBLE';
         }
 
         if ($col->getDescription()) {
@@ -517,6 +555,58 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
         }
 
         return implode(' ', $ddl);
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL/MariaDB supports VIRTUAL and STORED generated columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsGeneratedColumns(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8.0.23+ / MariaDB 10.3+ support INVISIBLE columns.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsInvisibleColumns(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8.0.16+ / MariaDB 10.5+ enforce CHECK constraints.
+     *
+     * @return bool
+     */
+    #[\Override]
+    public function supportsCheckConstraints(): bool
+    {
+        return true;
+    }
+
+    /**
+     * Phase C (umbrella §6.4): MySQL 8 / MariaDB 10.5 CHECK constraint DDL.
+     *
+     * @param \Propel\Generator\Model\CheckConstraint $cc
+     *
+     * @return string
+     */
+    #[\Override]
+    public function getCheckConstraintDDL(CheckConstraint $cc): string
+    {
+        $name = $this->quoteIdentifier($cc->getName());
+        $ddl = sprintf('CONSTRAINT %s CHECK (%s)', $name, $cc->getExpression());
+        if (!$cc->isEnforced()) {
+            $ddl .= ' NOT ENFORCED';
+        }
+
+        return $ddl;
     }
 
     /**
@@ -585,6 +675,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getDropPrimaryKeyDDL(Table $table): string
     {
         if (!$table->hasPrimaryKey()) {
@@ -603,6 +694,7 @@ DROP TABLE IF EXISTS " . $this->quoteIdentifier($table->getName()) . ";
      *
      * @return string
      */
+    #[\Override]
     public function getAddIndexDDL(Index $index): string
     {
         $pattern = "
@@ -625,6 +717,7 @@ CREATE %sINDEX %s ON %s (%s);
      *
      * @return string
      */
+    #[\Override]
     public function getDropIndexDDL(Index $index): string
     {
         $pattern = "
@@ -645,6 +738,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getIndexDDL(Index $index): string
     {
         return sprintf(
@@ -678,6 +772,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getUniqueDDL(Unique $unique): string
     {
         return sprintf(
@@ -692,6 +787,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddForeignKeyDDL(ForeignKey $fk): string
     {
         if ($this->supportsForeignKeys($fk->getTable())) {
@@ -708,6 +804,7 @@ DROP INDEX %s ON %s;
      *
      * @return string
      */
+    #[\Override]
     public function getForeignKeyDDL(ForeignKey $fk): string
     {
         if ($this->supportsForeignKeys($fk->getTable())) {
@@ -722,6 +819,7 @@ DROP INDEX %s ON %s;
      *
      * @return string|null
      */
+    #[\Override]
     public function getDropForeignKeyDDL(ForeignKey $fk): ?string
     {
         if (!$this->supportsForeignKeys($fk->getTable())) {
@@ -746,6 +844,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getCommentBlockDDL(string $comment): string
     {
         $pattern = "
@@ -765,6 +864,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyDatabaseDDL(DatabaseDiff $databaseDiff): string
     {
         $ret = '';
@@ -800,6 +900,7 @@ ALTER TABLE %s DROP FOREIGN KEY %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRenameTableDDL(string $fromTableName, string $toTableName): string
     {
         $pattern = "
@@ -820,6 +921,7 @@ RENAME TABLE %s TO %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRemoveColumnDDL(Column $column): string
     {
         $pattern = "
@@ -841,6 +943,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getRenameColumnDDL(Column $fromColumn, Column $toColumn): string
     {
         return $this->getChangeColumnDDL($fromColumn, $toColumn);
@@ -853,6 +956,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnDDL(ColumnDiff $columnDiff): string
     {
         $fromColumn = $columnDiff->getFromColumn();
@@ -896,6 +1000,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getModifyColumnsDDL(array $columnDiffs): string
     {
         $modifyColumnStatements = array_map($this->getModifyColumnDDL(...), $columnDiffs);
@@ -910,6 +1015,7 @@ ALTER TABLE %s DROP %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnDDL(Column $column): string
     {
         $pattern = "
@@ -946,6 +1052,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getAddColumnsDDL(array $columns): string
     {
         $lines = '';
@@ -961,6 +1068,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return bool
      */
+    #[\Override]
     public function supportsSchemas(): bool
     {
         return true;
@@ -971,6 +1079,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return bool
      */
+    #[\Override]
     public function hasSize(string $sqlType): bool
     {
         return !in_array($sqlType, [
@@ -985,6 +1094,7 @@ ALTER TABLE %s ADD %s %s;
     /**
      * @return array<int>
      */
+    #[\Override]
     public function getDefaultTypeSizes(): array
     {
         return [
@@ -1004,6 +1114,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function disconnectedEscapeText(string $text): string
     {
         return addslashes($text);
@@ -1020,34 +1131,10 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string the quoted identifier
      */
+    #[\Override]
     public function doQuoting(string $text): string
     {
         return '`' . strtr($text, ['.' => '`.`']) . '`';
-    }
-
-    /**
-     * @param \Propel\Generator\Model\Column $column
-     * @param string $identifier
-     * @param string $columnValueAccessor
-     * @param string $tab
-     *
-     * @return string
-     */
-    public function getColumnBindingPHP(Column $column, string $identifier, string $columnValueAccessor, string $tab = '            '): string
-    {
-        // FIXME - This is a temporary hack to get around apparent bugs w/ PDO+MYSQL
-        // See http://pecl.php.net/bugs/bug.php?id=9919
-        if ($column->getPDOType() === PDO::PARAM_BOOL) {
-            return sprintf(
-                "
-%s\$stmt->bindValue(%s, (int) %s, PDO::PARAM_INT);",
-                $tab,
-                $identifier,
-                $columnValueAccessor,
-            );
-        }
-
-        return parent::getColumnBindingPHP($column, $identifier, $columnValueAccessor, $tab);
     }
 
     /**
@@ -1055,6 +1142,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnDeleteBehavior(): string
     {
         $majorVersion = $this->getMajorServerVersionNumber();
@@ -1067,6 +1155,7 @@ ALTER TABLE %s ADD %s %s;
      *
      * @return string
      */
+    #[\Override]
     public function getDefaultForeignKeyOnUpdateBehavior(): string
     {
         $majorVersion = $this->getMajorServerVersionNumber();
@@ -1104,7 +1193,7 @@ ALTER TABLE %s ADD %s %s;
             return null;
         }
 
-        return (int)substr($serverVersion, 0, $dotPos - 1);
+        return (int)substr($serverVersion, 0, $dotPos);
     }
 
     /**
@@ -1117,5 +1206,24 @@ ALTER TABLE %s ADD %s %s;
         $serverVersion = $this->getServerVersion() ?? '';
 
         return (stripos($serverVersion, 'mariadb') !== false);
+    }
+
+    /**
+     * MySQL exposes zero-date placeholders for DATE / DATETIME / TIMESTAMP
+     * columns; TIME has no equivalent (00:00:00 is a valid value).
+     *
+     * @inheritDoc
+     */
+    #[\Override]
+    public function getInvalidDateString(string $columnType): ?string
+    {
+        if (in_array($columnType, [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
+            return '0000-00-00 00:00:00';
+        }
+        if ($columnType === PropelTypes::DATE) {
+            return '0000-00-00';
+        }
+
+        return null;
     }
 }

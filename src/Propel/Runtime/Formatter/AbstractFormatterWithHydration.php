@@ -12,7 +12,6 @@ namespace Propel\Runtime\Formatter;
 
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
 use Propel\Runtime\Collection\ArrayCollection;
-use ReflectionClass;
 
 abstract class AbstractFormatterWithHydration extends AbstractFormatter
 {
@@ -31,6 +30,7 @@ abstract class AbstractFormatterWithHydration extends AbstractFormatter
      *
      * @return array The original record turned into an array
      */
+    #[\Override]
     public function formatRecord(?ActiveRecordInterface $record = null): array
     {
         return $record ? $record->toArray() : [];
@@ -39,6 +39,7 @@ abstract class AbstractFormatterWithHydration extends AbstractFormatter
     /**
      * @return string|null
      */
+    #[\Override]
     public function getCollectionClassName(): ?string
     {
         return ArrayCollection::class;
@@ -82,7 +83,7 @@ abstract class AbstractFormatterWithHydration extends AbstractFormatter
             if ($modelWith->isSingleTableInheritance()) {
                 /** @var class-string<object>|object $class */
                 $class = $modelWith->getTableMap()::getOMClass($row, $col, false);
-                $reflectionClass = new ReflectionClass($class);
+                $reflectionClass = self::getReflectionClass($class);
                 $class = $reflectionClass->getName();
                 if ($reflectionClass->isAbstract()) {
                     $tableMapClass = "Map\\{$class}TableMap";

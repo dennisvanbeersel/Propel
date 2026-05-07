@@ -35,9 +35,8 @@ use ReflectionClass;
  * Tests for ConcreteInheritanceBehavior class
  *
  * @author François Zaniontto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ConcreteInheritanceBehaviorTest extends BookstoreTestBase
 {
     /**

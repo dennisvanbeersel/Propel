@@ -16,8 +16,8 @@ use Propel\Tests\TestCaseFixtures;
 
 /**
  * @author Moritz Ringler
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ColumnToQueryOperatorCriterionTest extends TestCaseFixtures
 {
     /**
@@ -36,9 +36,9 @@ class ColumnToQueryOperatorCriterionTest extends TestCaseFixtures
     }
 
     /**
-     * @dataProvider operatorDataProvider
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('operatorDataProvider')]
     public function testCriterionCreatesClauseForOperator(string $operator)
     {
         $outer = AuthorQuery::create();
@@ -51,9 +51,9 @@ class ColumnToQueryOperatorCriterionTest extends TestCaseFixtures
     }
 
     /**
-     * @dataProvider operatorDataProvider
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('operatorDataProvider')]
     public function testCriterionCreateForRelation(string $operator)
     {
         $outer = AuthorQuery::create();

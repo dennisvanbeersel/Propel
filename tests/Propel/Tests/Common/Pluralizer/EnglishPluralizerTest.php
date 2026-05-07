@@ -93,10 +93,9 @@ class EnglishPluralizerTest extends TestCase
     }
 
     /**
-     * @dataProvider getPluralFormDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPluralFormDataProvider')]
     public function testStandardPluralForm($input, $output)
     {
         $pluralizer = new StandardEnglishPluralizer();
@@ -104,10 +103,9 @@ class EnglishPluralizerTest extends TestCase
     }
 
     /**
-     * @dataProvider getPluralFormDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getPluralFormDataProvider')]
     public function testSimplePluralForm($input)
     {
         $pluralizer = new SimpleEnglishPluralizer();

@@ -47,9 +47,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * method for the exact contents of the database.
  *
  * @author Hans Lellelid <hans@xmpl.org>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedObjectRelTest extends BookstoreEmptyTestBase
 {
     /**

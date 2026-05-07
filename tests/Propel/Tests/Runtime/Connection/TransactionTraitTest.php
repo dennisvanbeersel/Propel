@@ -10,6 +10,8 @@ namespace Propel\Tests\Runtime\Connection;
 
 use Error;
 use Exception;
+use PHPUnit\Framework\MockObject\MockObject;
+use Propel\Runtime\Connection\TransactionTrait;
 use Propel\Tests\TestCase;
 use Throwable;
 
@@ -21,13 +23,27 @@ use Throwable;
 class TransactionTraitTest extends TestCase
 {
     /**
+     * Build a mock for an abstract class that uses TransactionTrait.
+     *
+     * Replaces the deprecated getMockForTrait() (removed in PHPUnit 12).
+     *
+     * @return \Propel\Tests\Runtime\Connection\TransactionTraitTestHarness&\PHPUnit\Framework\MockObject\MockObject
+     */
+    private function getTransactionTraitMock(): MockObject
+    {
+        return $this->getMockBuilder(TransactionTraitTestHarness::class)
+            ->onlyMethods(['beginTransaction', 'commit', 'rollBack'])
+            ->getMock();
+    }
+
+    /**
      * @throws \Exception
      *
      * @return void
      */
     public function testTransactionRollback()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->once())->method('beginTransaction');
         $con->expects($this->once())->method('rollback');
@@ -48,7 +64,7 @@ class TransactionTraitTest extends TestCase
      */
     public function testTransactionRollbackOnThrowable()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->once())->method('beginTransaction');
         $con->expects($this->once())->method('rollback');
@@ -69,7 +85,7 @@ class TransactionTraitTest extends TestCase
      */
     public function testTransactionCommit()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->once())->method('beginTransaction');
         $con->expects($this->never())->method('rollback');
@@ -82,7 +98,7 @@ class TransactionTraitTest extends TestCase
 
     public function testTransactionChaining()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->once())->method('beginTransaction');
         $con->expects($this->never())->method('rollback');
@@ -98,7 +114,7 @@ class TransactionTraitTest extends TestCase
      */
     public function testTransactionNestedCommit()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->exactly(2))->method('beginTransaction');
         $con->expects($this->never())->method('rollback');
@@ -118,7 +134,7 @@ class TransactionTraitTest extends TestCase
      */
     public function testTransactionNestedException()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->exactly(2))->method('beginTransaction');
         $con->expects($this->exactly(2))->method('rollback');
@@ -141,7 +157,7 @@ class TransactionTraitTest extends TestCase
      */
     public function testTransactionNestedThrowable()
     {
-        $con = $this->getMockForTrait('Propel\Runtime\Connection\TransactionTrait');
+        $con = $this->getTransactionTraitMock();
 
         $con->expects($this->exactly(2))->method('beginTransaction');
         $con->expects($this->exactly(2))->method('rollback');
@@ -158,4 +174,16 @@ class TransactionTraitTest extends TestCase
             $this->assertEquals('boooom', $e->getMessage());
         }
     }
+}
+
+/**
+ * Harness exposing TransactionTrait through an abstract class so it can be
+ * mocked with the regular MockBuilder API (getMockForTrait() is deprecated and
+ * removed in PHPUnit 12).
+ *
+ * @internal
+ */
+abstract class TransactionTraitTestHarness
+{
+    use TransactionTrait;
 }

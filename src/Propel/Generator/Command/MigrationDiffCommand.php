@@ -25,11 +25,13 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'migration:diff', description: 'Generate diff classes', aliases: ['diff'])]
 class MigrationDiffCommand extends AbstractCommand
 {
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
@@ -45,10 +47,7 @@ class MigrationDiffCommand extends AbstractCommand
             ->addOption('skip-tables', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_OPTIONAL, 'List of excluded tables', [])
             ->addOption('disable-identifier-quoting', null, InputOption::VALUE_NONE, 'Disable identifier quoting in SQL queries for reversed database tables.')
             ->addOption('comment', 'm', InputOption::VALUE_OPTIONAL, 'A comment for the migration', '')
-            ->addOption('suffix', null, InputOption::VALUE_OPTIONAL, 'A suffix for the migration class', '')
-            ->setName('migration:diff')
-            ->setAliases(['diff'])
-            ->setDescription('Generate diff classes');
+            ->addOption('suffix', null, InputOption::VALUE_OPTIONAL, 'A suffix for the migration class', '');
     }
 
     /**
@@ -56,6 +55,7 @@ class MigrationDiffCommand extends AbstractCommand
      *
      * @throws \Propel\Generator\Exception\RuntimeException
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

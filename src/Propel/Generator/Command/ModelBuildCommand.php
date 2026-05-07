@@ -19,11 +19,13 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Florian Klein <florian.klein@free.fr>
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'model:build', description: 'Build the model classes based on Propel XML schemas', aliases: ['build'])]
 class ModelBuildCommand extends AbstractCommand
 {
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
@@ -46,15 +48,13 @@ class ModelBuildCommand extends AbstractCommand
             ->addOption('disable-package-object-model', null, InputOption::VALUE_NONE, 'Disable schema database merging (packageObjectModel)')
             ->addOption('disable-namespace-auto-package', null, InputOption::VALUE_NONE, 'Disable namespace auto-packaging')
             ->addOption('composer-dir', null, InputOption::VALUE_REQUIRED, 'Directory in which your composer.json resides', null)
-            ->addOption('loader-script-dir', null, InputOption::VALUE_REQUIRED, 'Target folder of the database table map loader script. Defaults to paths.loaderScriptDir', null)
-            ->setName('model:build')
-            ->setAliases(['build'])
-            ->setDescription('Build the model classes based on Propel XML schemas');
+            ->addOption('loader-script-dir', null, InputOption::VALUE_REQUIRED, 'Target folder of the database table map loader script. Defaults to paths.loaderScriptDir', null);
     }
 
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

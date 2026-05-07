@@ -12,9 +12,7 @@ use Exception;
 use Propel\Runtime\Connection\ConnectionWrapper;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ConnectionWrapperTest extends BookstoreTestBase
 {
     protected function tearDown(): void
@@ -115,10 +113,9 @@ class ConnectionWrapperTest extends BookstoreTestBase
     }
 
     /**
-     * @dataProvider debugModeProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('debugModeProvider')]
     public function testInstanceAndClassDebugMode(?bool $classState, ?bool $instanceState, bool $expected, string $message): void
     {
         ConnectionWrapper::$useDebugMode = $classState;

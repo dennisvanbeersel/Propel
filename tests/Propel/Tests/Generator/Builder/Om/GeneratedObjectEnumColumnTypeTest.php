@@ -43,7 +43,7 @@ EOF;
             $publicAccessorCode = <<<EOF
 class PublicComplexColumnTypeEntity3 extends ComplexColumnTypeEntity3
 {
-    public \$bar;
+    public ?int \$bar = null;
 }
 EOF;
             eval($publicAccessorCode);
@@ -59,12 +59,13 @@ EOF;
         $e = new ComplexColumnTypeEntity3();
         $this->assertNull($e->getBar());
         $e = new PublicComplexColumnTypeEntity3();
+        // The accessor now returns the generated backed enum; assert via its `value`.
         $e->bar = 0;
-        $this->assertEquals('foo', $e->getBar());
+        $this->assertSame('foo', $e->getBar()->value);
         $e->bar = 3;
-        $this->assertEquals('1', $e->getBar());
+        $this->assertSame('1', $e->getBar()->value);
         $e->bar = 6;
-        $this->assertEquals('foo bar', $e->getBar());
+        $this->assertSame('foo bar', $e->getBar()->value);
     }
 
     /**
@@ -85,7 +86,7 @@ EOF;
     public function testGetterDefaultValue()
     {
         $e = new PublicComplexColumnTypeEntity3();
-        $this->assertEquals('bar', $e->getBar2());
+        $this->assertSame('bar', $e->getBar2()->value);
     }
 
     /**
@@ -126,7 +127,7 @@ EOF;
         $e->save();
         ComplexColumnTypeEntity3TableMap::clearInstancePool();
         $e = ComplexColumnTypeEntity3Query::create()->findOne();
-        $this->assertEquals('baz', $e->getBar());
+        $this->assertSame('baz', $e->getBar()->value);
     }
 
     /**
@@ -138,7 +139,7 @@ EOF;
         $e1->setBar('baz');
         $e2 = new ComplexColumnTypeEntity3();
         $e1->copyInto($e2);
-        $this->assertEquals('baz', $e2->getBar());
+        $this->assertSame('baz', $e2->getBar()->value);
     }
 
     /**

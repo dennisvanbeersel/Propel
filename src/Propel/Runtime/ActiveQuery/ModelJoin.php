@@ -191,6 +191,7 @@ class ModelJoin extends Join
     /**
      * @return bool
      */
+    #[\Override]
     public function isIdentifierQuotingEnabled(): bool
     {
         return $this->getTableMap()->isIdentifierQuotingEnabled();
@@ -226,6 +227,7 @@ class ModelJoin extends Join
      *
      * @return bool
      */
+    #[\Override]
     public function equals(Join $join): bool
     {
         /** @phpstan-var \Propel\Runtime\ActiveQuery\ModelJoin $join */
@@ -238,6 +240,7 @@ class ModelJoin extends Join
     /**
      * @return string
      */
+    #[\Override]
     public function __toString(): string
     {
         return parent::toString()

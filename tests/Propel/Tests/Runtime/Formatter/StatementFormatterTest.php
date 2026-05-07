@@ -21,9 +21,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Test class for StatementFormatter.
  *
  * @author Francois Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class StatementFormatterTest extends BookstoreEmptyTestBase
 {
     /**

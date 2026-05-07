@@ -1,0 +1,14 @@
+{
+    "class": "Propel\\Runtime\\Exception\\LogicException",
+    "kind": "class",
+    "isAbstract": false,
+    "isFinal": false,
+    "extends": "LogicException",
+    "implements": [
+        "Propel\\Runtime\\Exception\\ExceptionInterface"
+    ],
+    "methods": [],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

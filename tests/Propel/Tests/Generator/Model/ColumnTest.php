@@ -78,11 +78,11 @@ class ColumnTest extends ModelTestCase
             ->expects($this->once())
             ->method('getDomainForType')
             ->with($this->equalTo('VARCHAR'))
-            ->will($this->returnValue($this->getDomainMock('VARCHAR')));
+            ->willReturn($this->getDomainMock('VARCHAR'));
         $platform
             ->expects($this->any())
             ->method('supportsVarcharWithoutSize')
-            ->will($this->returnValue(false));
+            ->willReturn(false);
 
         $table = $this->getTableMock('books', [
             'database' => $database,
@@ -93,7 +93,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue('VARCHAR'));
+            ->willReturn('VARCHAR');
 
         $column = new Column('');
         $column->setTable($table);
@@ -114,7 +114,7 @@ class ColumnTest extends ModelTestCase
             ->expects($this->once())
             ->method('getDomainForType')
             ->with($this->equalTo('DATE'))
-            ->will($this->returnValue($this->getDomainMock('DATE')));
+            ->willReturn($this->getDomainMock('DATE'));
 
         $table = $this->getTableMock('books', [
             'database' => $database,
@@ -143,7 +143,7 @@ class ColumnTest extends ModelTestCase
             ->expects($this->once())
             ->method('getDomain')
             ->with($this->equalTo('BOOLEAN'))
-            ->will($this->returnValue($this->getDomainMock('INTEGER')));
+            ->willReturn($this->getDomainMock('INTEGER'));
 
         $table = $this->getTableMock('books', ['database' => $database]);
 
@@ -210,7 +210,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getDefaultValue')
-            ->will($this->returnValue(null));
+            ->willReturn(null);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -219,10 +219,9 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideDefaultValues
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDefaultValues')]
     public function testGetDefaultValueString($mappingType, $value, $expected)
     {
         $defaultValue = $this
@@ -233,20 +232,20 @@ class ColumnTest extends ModelTestCase
         $defaultValue
             ->expects($this->any())
             ->method('getValue')
-            ->will($this->returnValue((string)$value));
+            ->willReturn((string)$value);
 
         $domain = $this->getDomainMock();
         $domain
             ->expects($this->any())
             ->method('getDefaultValue')
-            ->will($this->returnValue($defaultValue));
+            ->willReturn($defaultValue);
         $domain
             ->expects($this->any())
             ->method('setDefaultValue');
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -332,7 +331,7 @@ class ColumnTest extends ModelTestCase
             ->expects($this->any())
             ->method('getColumnForeignKeys')
             ->with('author_id')
-            ->will($this->returnValue($fks));
+            ->willReturn($fks);
 
         $column = new Column('author_id');
         $column->setTable($table);
@@ -362,14 +361,14 @@ class ColumnTest extends ModelTestCase
         $toCopy
             ->expects($this->once())
             ->method('getSqlType')
-            ->will($this->returnValue('INTEGER'));
+            ->willReturn('INTEGER');
 
         $platform = $this->getPlatformMock();
         $platform
             ->expects($this->any())
             ->method('getDomainForType')
             ->with($this->equalTo('BOOLEAN'))
-            ->will($this->returnValue($toCopy));
+            ->willReturn($toCopy);
 
         $domain = $this->getDomainMock();
         $domain
@@ -379,11 +378,11 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->once())
             ->method('getType')
-            ->will($this->returnValue('BOOLEAN'));
+            ->willReturn('BOOLEAN');
         $domain
             ->expects($this->any())
             ->method('getSqlType')
-            ->will($this->returnValue('INTEGER'));
+            ->willReturn('INTEGER');
 
         $column = new Column('');
         $column->setTable($this->getTableMock('books', [
@@ -414,7 +413,7 @@ class ColumnTest extends ModelTestCase
         $platform
             ->expects($this->once())
             ->method('getNullString')
-            ->will($this->returnValue('NOT NULL'));
+            ->willReturn('NOT NULL');
 
         $table = $this->getTableMock('books', ['platform' => $platform]);
 
@@ -426,17 +425,16 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider providePdoTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('providePdoTypes')]
     public function testGetPdoType($mappingType, $pdoType)
     {
         $domain = $this->getDomainMock();
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -489,7 +487,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue('ENUM'));
+            ->willReturn('ENUM');
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -512,7 +510,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue('SET'));
+            ->willReturn('SET');
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -548,7 +546,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue('OBJECT'));
+            ->willReturn('OBJECT');
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -559,10 +557,9 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideMappingTemporalTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingTemporalTypes')]
     public function testTemporalType($mappingType)
     {
         $domain = $this->getDomainMock();
@@ -574,7 +571,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -597,10 +594,9 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideMappingLobTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingLobTypes')]
     public function testLobType($mappingType, $phpType, $isPhpPrimitiveType)
     {
         $domain = $this->getDomainMock();
@@ -612,7 +608,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -633,10 +629,9 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideMappingBooleanTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingBooleanTypes')]
     public function testBooleanType($mappingType)
     {
         $domain = $this->getDomainMock();
@@ -648,13 +643,13 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
         $column->setType($mappingType);
 
-        $this->assertSame('boolean', $column->getPhpType());
+        $this->assertSame('bool', $column->getPhpType());
         $this->assertTrue($column->isPhpPrimitiveType());
         $this->assertTrue($column->isBooleanType());
     }
@@ -668,10 +663,9 @@ class ColumnTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideMappingNumericTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingNumericTypes')]
     public function testNumericType($mappingType, $phpType, $isPrimitiveNumericType)
     {
         $domain = $this->getDomainMock();
@@ -683,7 +677,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -702,19 +696,18 @@ class ColumnTest extends ModelTestCase
             ['TINYINT', 'int', true],
             ['INTEGER', 'int', true],
             ['BIGINT', 'string', false],
-            ['FLOAT', 'double', true],
-            ['DOUBLE', 'double', true],
+            ['FLOAT', 'float', true],
+            ['DOUBLE', 'float', true],
             ['NUMERIC', 'string', false],
             ['DECIMAL', 'string', false],
-            ['REAL', 'double', true],
+            ['REAL', 'float', true],
         ];
     }
 
     /**
-     * @dataProvider provideMappingUuidTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingUuidTypes')]
     public function testUuidType(string $columnType, string $phpType)
     {
         $domain = $this->getDomainMock();
@@ -726,7 +719,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($columnType));
+            ->willReturn($columnType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -748,10 +741,9 @@ class ColumnTest extends ModelTestCase
 
 
     /**
-     * @dataProvider provideMappingTextTypes
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideMappingTextTypes')]
     public function testTextType($mappingType)
     {
         $domain = $this->getDomainMock();
@@ -763,7 +755,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->any())
             ->method('getType')
-            ->will($this->returnValue($mappingType));
+            ->willReturn($mappingType);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -798,7 +790,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->once())
             ->method('getSizeDefinition')
-            ->will($this->returnValue('(10,2)'));
+            ->willReturn('(10,2)');
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -815,7 +807,7 @@ class ColumnTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getPhpName')
-            ->will($this->returnValue('Article'));
+            ->willReturn('Article');
 
         $column = new Column('created_at');
         $column->setTable($table);
@@ -884,7 +876,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->once())
             ->method('getPhpDefaultValue')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -903,7 +895,7 @@ class ColumnTest extends ModelTestCase
         $table
             ->expects($this->once())
             ->method('getIdMethod')
-            ->will($this->returnValue('none'));
+            ->willReturn('none');
 
         $column = new Column('');
         $column->setTable($table);
@@ -920,13 +912,13 @@ class ColumnTest extends ModelTestCase
         $platform
             ->expects($this->once())
             ->method('getAutoIncrement')
-            ->will($this->returnValue('AUTO_INCREMENT'));
+            ->willReturn('AUTO_INCREMENT');
 
         $table = $this->getTableMock('books', ['platform' => $platform]);
         $table
             ->expects($this->once())
             ->method('getIdMethod')
-            ->will($this->returnValue('native'));
+            ->willReturn('native');
 
         $column = new Column('');
         $column->setAutoIncrement(true);
@@ -987,7 +979,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->once())
             ->method('getSize')
-            ->will($this->returnValue(50));
+            ->willReturn(50);
 
         $column = new Column('');
         $column->setDomain($domain);
@@ -1009,7 +1001,7 @@ class ColumnTest extends ModelTestCase
         $domain
             ->expects($this->once())
             ->method('getScale')
-            ->will($this->returnValue(2));
+            ->willReturn(2);
 
         $column = new Column('');
         $column->setDomain($domain);

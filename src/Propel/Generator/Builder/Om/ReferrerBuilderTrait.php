@@ -70,15 +70,15 @@ trait ReferrerBuilderTrait
 
             // it doesn't make sense to join in rows from the current table, since we are fetching
             // objects related to *this* table (i.e. the joined rows will all be the same row as current object)
-            if ($this->getTable()->getPhpName() == $tblFK2->getPhpName()) {
+            if ($this->getTable()->getPhpName() === $tblFK2->getPhpName()) {
                 $doJoinGet = false;
             }
 
             $relCol2 = $this->getFKPhpNameAffix($fk2, false);
 
             if (
-                $this->getRelatedBySuffix($refFK) != '' &&
-                ($this->getRelatedBySuffix($refFK) == $this->getRelatedBySuffix($fk2))
+                $this->getRelatedBySuffix($refFK) !== '' &&
+                ($this->getRelatedBySuffix($refFK) === $this->getRelatedBySuffix($fk2))
             ) {
                 $doJoinGet = false;
             }
@@ -133,9 +133,9 @@ trait ReferrerBuilderTrait
         if ($refFK->isLocalPrimaryKey()) {
             $script .= "
     /**
-     * @var        $className one-to-one related $className object
+     * @var        $className|null one-to-one related $className object
      */
-    protected $" . $this->getPKRefFKVarName($refFK) . ";
+    protected ?$className $" . $this->getPKRefFKVarName($refFK) . " = null;
 ";
         } else {
             $script .= "
@@ -144,7 +144,7 @@ trait ReferrerBuilderTrait
      * @phpstan-var ObjectCollection&\Traversable<{$className}> Collection to store aggregation of $className objects.
      */
     protected $" . $this->getRefFKCollVarName($refFK) . ";
-    protected $" . $this->getRefFKCollVarName($refFK) . "Partial;
+    protected bool $" . $this->getRefFKCollVarName($refFK) . "Partial = false;
 ";
         }
     }
@@ -303,13 +303,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKAdd(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $collName = $this->getRefFKCollVarName($refFK);
 
@@ -560,13 +554,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKDoAdd(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $relatedObjectClassName = $this->getRefFKPhpNameAffix($refFK, false);
         $lowerRelatedObjectClassName = lcfirst($relatedObjectClassName);
@@ -592,13 +580,7 @@ trait ReferrerBuilderTrait
      */
     protected function addRefFKRemove(string &$script, ForeignKey $refFK): void
     {
-        $tblFK = $refFK->getTable();
-
         $className = $this->getClassNameFromTable($refFK->getTable());
-
-        if ($tblFK->getChildrenColumn()) {
-            $className = $this->getClassNameFromTable($refFK->getTable());
-        }
 
         $relatedName = $this->getRefFKPhpNameAffix($refFK, true);
         $relatedObjectClassName = $this->getRefFKPhpNameAffix($refFK, false);

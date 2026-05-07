@@ -41,7 +41,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
                    'connections' => [
                        'default' => [
                            'adapter' => 'sqlite',
-                           'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                           'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                            'dsn' => 'sqlite::memory:',
                            'user' => '',
                            'password' => '',
@@ -74,6 +74,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
      *
      * @return \Propel\Generator\Builder\Om\AbstractOMBuilder
      */
+    #[\Override]
     public function getConfiguredBuilder(Table $table, string $type): AbstractOMBuilder
     {
         $class = $this->getConfigProperty('generator.objectModel.builders.' . $type);
@@ -94,6 +95,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
      *
      * @return \Propel\Common\Pluralizer\PluralizerInterface
      */
+    #[\Override]
     public function getConfiguredPluralizer(): PluralizerInterface
     {
         return new StandardEnglishPluralizer();
@@ -102,6 +104,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getConfiguredPlatform(?ConnectionInterface $con = null, ?string $database = null): ?PlatformInterface
     {
         return null;
@@ -110,6 +113,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
     /**
      * @inheritDoc
      */
+    #[\Override]
     public function getConfiguredSchemaParser(?ConnectionInterface $con = null, ?string $database = null): ?SchemaParserInterface
     {
         return null;
@@ -118,6 +122,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
     /**
      * @return \Propel\Generator\Util\BehaviorLocator
      */
+    #[\Override]
     public function getBehaviorLocator(): BehaviorLocator
     {
         if (!$this->behaviorLocator) {

@@ -13,6 +13,7 @@ namespace Propel\Generator\Behavior\Timestampable;
 use DateTime;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
 use Propel\Generator\Builder\Om\ObjectBuilder;
+use Propel\Generator\Builder\Util\CodeEmitter;
 use Propel\Generator\Model\Behavior;
 
 /**
@@ -31,6 +32,10 @@ class TimestampableBehavior extends Behavior
         'update_column' => 'updated_at',
         'disable_created_at' => 'false',
         'disable_updated_at' => 'false',
+        // Phase D (umbrella §6.3): on MySQL/MariaDB the update column is declared with
+        // ON UPDATE CURRENT_TIMESTAMP at the DDL level — single source of truth.
+        // Set 'false' to opt out and keep the legacy PHP-side preUpdate hook on all platforms.
+        'use_native_on_update' => 'true',
     ];
 
     /**
@@ -50,10 +55,66 @@ class TimestampableBehavior extends Behavior
     }
 
     /**
+     * Phase D (umbrella §6.3): native ON UPDATE delegates the updated_at refresh
+     * to the database engine — single source of truth, no PHP-side hook needed.
+     * Only honored on MySQL/MariaDB; on PG / SQLite the legacy PHP-side preUpdate
+     * hook is used (PG has no native ON UPDATE; SQLite is frozen per umbrella §1.2).
+     *
+     * @return bool
+     */
+    protected function useNativeOnUpdate(): bool
+    {
+        return $this->booleanValue($this->getParameter('use_native_on_update'));
+    }
+
+    /**
+     * Returns true when the resolved platform supports native ON UPDATE
+     * CURRENT_TIMESTAMP at the column DDL level. MySQL and MariaDB are detected
+     * via the platform class name suffix; everything else is false.
+     *
+     * @return bool
+     */
+    protected function platformSupportsNativeOnUpdate(): bool
+    {
+        $table = $this->getTable();
+        $database = $table->getDatabase();
+        if ($database === null) {
+            return false;
+        }
+        $platform = $database->getPlatform();
+        if ($platform === null) {
+            return false;
+        }
+
+        return $platform->getDatabaseType() === 'mysql';
+    }
+
+    /**
+     * Native `ON UPDATE CURRENT_TIMESTAMP` only makes sense on temporal columns
+     * (TIMESTAMP/DATETIME). Schemas that opt into the legacy integer-epoch
+     * pattern (`type="INTEGER"` storing `time()`) must keep the PHP-side
+     * preUpdate hook, since the database has no temporal value to refresh.
+     *
+     * @return bool
+     */
+    protected function updateColumnIsNativeCompatible(): bool
+    {
+        $table = $this->getTable();
+        if (!$table->hasColumn($this->getParameter('update_column'))) {
+            return false;
+        }
+
+        $type = strtoupper($table->getColumn($this->getParameter('update_column'))->getType());
+
+        return $type === 'TIMESTAMP' || $type === 'DATETIME';
+    }
+
+    /**
      * Add the create_column and update_columns to the current table
      *
      * @return void
      */
+    #[\Override]
     public function modifyTable(): void
     {
         $table = $this->getTable();
@@ -70,6 +131,40 @@ class TimestampableBehavior extends Behavior
                 'type' => 'TIMESTAMP',
             ]);
         }
+
+        // Phase D: when native ON UPDATE is requested AND the platform supports it,
+        // attach a vendor parameter so the platform's getColumnDDL emits
+        // "ON UPDATE CURRENT_TIMESTAMP" inline. The PHP-side preUpdate hook then
+        // skips its setUpdatedAt emission (see preUpdate() below).
+        if (
+            $this->withUpdatedAt()
+            && $this->useNativeOnUpdate()
+            && $this->platformSupportsNativeOnUpdate()
+            && $this->updateColumnIsNativeCompatible()
+        ) {
+            $updateColumn = $table->getColumn($this->getParameter('update_column'));
+            $vendor = $updateColumn->getVendorInfoForType('mysql');
+            if (!$vendor->hasParameter('OnUpdate')) {
+                $vendor->setParameter('OnUpdate', 'CURRENT_TIMESTAMP');
+                // getVendorInfoForType returns a new VendorInfo when none exists
+                // for the requested type — re-attach it to the column so it persists.
+                $updateColumn->addVendorInfo($vendor);
+            }
+        }
+    }
+
+    /**
+     * Phase D: when native ON UPDATE is in effect, the database refreshes the
+     * timestamp itself — short-circuit so the same logic isn't duplicated PHP-side.
+     *
+     * @return bool
+     */
+    protected function nativeOnUpdateActive(): bool
+    {
+        return $this->withUpdatedAt()
+            && $this->useNativeOnUpdate()
+            && $this->platformSupportsNativeOnUpdate()
+            && $this->updateColumnIsNativeCompatible();
     }
 
     /**
@@ -104,6 +199,13 @@ class TimestampableBehavior extends Behavior
      */
     public function preUpdate(AbstractOMBuilder $builder): string
     {
+        // Phase D: when native ON UPDATE is active the database refreshes
+        // updated_at on every UPDATE — duplicating it PHP-side is wasted work
+        // and would break keepUpdateDateUnchanged() opt-out semantics.
+        if ($this->nativeOnUpdateActive()) {
+            return '';
+        }
+
         if ($this->withUpdatedAt()) {
             $updateColumn = $this->getTable()->getColumn($this->getParameter('update_column'));
 
@@ -182,19 +284,26 @@ if (!\$this->isColumnModified(" . $this->getColumnConstant('update_column', $bui
             return '';
         }
 
-        return "
-/**
- * Mark the current object so that the update date doesn't get updated during next save
- *
- * @return \$this The current object (for fluent API support)
- */
-public function keepUpdateDateUnchanged()
-{
-    \$this->modifiedColumns[" . $this->getColumnConstant('update_column', $builder) . "] = true;
+        $updateConstant = $this->getColumnConstant('update_column', $builder);
 
-    return \$this;
-}
-";
+        $emitter = new CodeEmitter();
+        $emitter->blank();
+        $emitter->docblock(
+            "Mark the current object so that the update date doesn't get updated during next save\n"
+            . "\n"
+            . '@return $this The current object (for fluent API support)',
+        );
+        $emitter->line('public function keepUpdateDateUnchanged()');
+        $emitter->line('{');
+        $body = $emitter->block();
+        $emitter->line('$this->modifiedColumns[' . $updateConstant . '] = true;');
+        $emitter->blank();
+        $emitter->line('return $this;');
+        unset($body);
+        $emitter->line('}');
+        $emitter->blank();
+
+        return $emitter->toString();
     }
 
     /**

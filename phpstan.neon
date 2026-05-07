@@ -7,8 +7,33 @@ parameters:
     paths:
         - '%rootDir%/../../../src/'
     ignoreErrors:
-        - '#Call to an undefined method .+Collection::.+Array\(\)#'
-        - '#Call to an undefined method object::.+\(\)#'
+        # The 4 prior blanket regex were dropped per umbrella §4.1 Phase A.32
+        # baseline-drawdown contract. Errors they hid now surface in the
+        # baseline file (still suppressed for now, but counted and gated by
+        # the monotonic CI check, so they can only shrink from here).
+        # Blanket regex are re-introduced only with maintainer sign-off.
         -
             identifier: missingType.iterableValue
-        - '#Call to deprecated method .* of class Propel\\#'
+        # NestedSet is deprecated end-to-end (Phase D, see docs/MIGRATION-FROM-PRE-AI.md).
+        # The behavior class, modifier classes, and runtime classes all reference each other;
+        # those internal cross-calls are not "real" deprecation warnings — the entire subsystem
+        # is on a Tier 2 runway through 3.x. Removed in 4.0 along with the suppression.
+        -
+            identifier: method.deprecatedClass
+            paths:
+                - src/Propel/Generator/Behavior/NestedSet/*
+                - src/Propel/Runtime/ActiveRecord/NestedSet*
+        -
+            identifier: parameter.deprecatedClass
+            paths:
+                - src/Propel/Generator/Behavior/NestedSet/*
+                - src/Propel/Runtime/ActiveRecord/NestedSet*
+        -
+            identifier: new.deprecated
+            paths:
+                - src/Propel/Generator/Behavior/NestedSet/*
+        -
+            identifier: method.deprecated
+            paths:
+                - src/Propel/Generator/Behavior/NestedSet/*
+                - src/Propel/Runtime/ActiveRecord/NestedSet*

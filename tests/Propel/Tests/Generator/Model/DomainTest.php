@@ -32,17 +32,16 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideDomainData
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideDomainData')]
     public function testSetupObject($default, $expression)
     {
         $platform = $this->getPlatformMock();
         $platform
             ->expects($this->any())
             ->method('getDomainForType')
-            ->will($this->returnValue(new Domain('BOOLEAN')));
+            ->willReturn(new Domain('BOOLEAN'));
 
         $domain = new Domain();
         $domain->setDatabase($this->getDatabaseMock('bookstore', [
@@ -121,7 +120,7 @@ class DomainTest extends ModelTestCase
         $value
             ->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue('foo'));
+            ->willReturn('foo');
 
         $domain = new Domain('VARCHAR');
         $domain->setDefaultValue($value);
@@ -130,17 +129,16 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideBooleanValues
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideBooleanValues')]
     public function testGetBooleanValue($mappingType, $booleanAsString, $expected)
     {
         $value = $this->getColumnDefaultValueMock();
         $value
             ->expects($this->once())
             ->method('getValue')
-            ->will($this->returnValue($booleanAsString));
+            ->willReturn($booleanAsString);
 
         $domain = new Domain($mappingType);
         $domain->setDefaultValue($value);
@@ -175,7 +173,7 @@ class DomainTest extends ModelTestCase
         $value
             ->expects($this->once())
             ->method('isExpression')
-            ->will($this->returnValue(true));
+            ->willReturn(true);
 
         $domain = new Domain();
         $domain->setDefaultValue($value);
@@ -185,10 +183,9 @@ class DomainTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideSizeDefinitions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSizeDefinitions')]
     public function testGetSizeDefinition($size, $scale, $definition)
     {
         $domain = new Domain('FLOAT', 'DOUBLE', $size, $scale);

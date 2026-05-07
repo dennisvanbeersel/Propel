@@ -1,0 +1,141 @@
+Escaped mutants:
+================
+
+1) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:143    [M] Concat
+
+@@ @@
+      */
+     public function getPluralName(): string
+     {
+-        return $this->pluralName ?? $this->name . 's';
++        return $this->pluralName ?? 's' . $this->name;
+     }
+     /**
+      * Set the type
+
+
+2) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:143    [M] ConcatOperandRemoval
+
+@@ @@
+      */
+     public function getPluralName(): string
+     {
+-        return $this->pluralName ?? $this->name . 's';
++        return $this->pluralName ?? 's';
+     }
+     /**
+      * Set the type
+
+
+3) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:143    [M] ConcatOperandRemoval
+
+@@ @@
+      */
+     public function getPluralName(): string
+     {
+-        return $this->pluralName ?? $this->name . 's';
++        return $this->pluralName ?? $this->name;
+     }
+     /**
+      * Set the type
+
+
+4) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:143    [M] Coalesce
+
+@@ @@
+      */
+     public function getPluralName(): string
+     {
+-        return $this->pluralName ?? $this->name . 's';
++        return $this->name . 's' ?? $this->pluralName;
+     }
+     /**
+      * Set the type
+
+
+5) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:244    [M] InstanceOf_
+
+@@ @@
+     public function addColumnMapping(ColumnMap $local, $foreign): void
+     {
+         $this->localColumns[] = $local;
+-        if ($foreign instanceof ColumnMap) {
++        if (true) {
+             $this->foreignColumns[] = $foreign;
+             $this->localValues[] = null;
+         } else {
+
+
+Timed Out mutants:
+==================
+
+Skipped mutants:
+================
+
+Not Covered mutants:
+====================
+
+1) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:101    [M] PublicVisibility
+
+@@ @@
+     /**
+      * @return bool
+      */
+-    public function isPolymorphic(): bool
++    protected function isPolymorphic(): bool
+     {
+         return $this->polymorphic;
+     }
+
+
+2) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:217    [M] PublicVisibility
+
+@@ @@
+      *
+      * @return \Propel\Runtime\Map\TableMap The left table for this relationship
+      */
+-    public function getLeftTable(): TableMap
++    protected function getLeftTable(): TableMap
+     {
+         return $this->getType() === self::MANY_TO_ONE ? $this->getLocalTable() : $this->getForeignTable();
+     }
+
+
+3) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:219    [M] Identical
+
+@@ @@
+      */
+     public function getLeftTable(): TableMap
+     {
+-        return $this->getType() === self::MANY_TO_ONE ? $this->getLocalTable() : $this->getForeignTable();
++        return $this->getType() !== self::MANY_TO_ONE ? $this->getLocalTable() : $this->getForeignTable();
+     }
+     /**
+      * Get the right table of the relation
+
+
+4) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:219    [M] Ternary
+
+@@ @@
+      */
+     public function getLeftTable(): TableMap
+     {
+-        return $this->getType() === self::MANY_TO_ONE ? $this->getLocalTable() : $this->getForeignTable();
++        return $this->getType() === self::MANY_TO_ONE ? $this->getForeignTable() : $this->getLocalTable();
+     }
+     /**
+      * Get the right table of the relation
+
+
+5) /Users/dvb/Projects/Propel2/src/Propel/Runtime/Map/RelationMap.php:277    [M] Continue_
+
+@@ @@
+         for ($i = 0, $size = count($this->localColumns); $i < $size; $i++) {
+             $foreignColumn = $this->foreignColumns[$i];
+             if ($foreignColumn === null) {
+-                // Skip polymorphic relation entries with no foreign column
+-                continue;
++                break;
+             }
+             if ($direction === self::LOCAL_TO_FOREIGN) {
+                 $h[$this->localColumns[$i]->getFullyQualifiedName()] = $foreignColumn->getFullyQualifiedName();

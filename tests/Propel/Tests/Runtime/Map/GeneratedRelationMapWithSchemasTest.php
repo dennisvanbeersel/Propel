@@ -14,9 +14,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
 
 /**
  * @author Ulf Hermann
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class GeneratedRelationMapWithSchemasTest extends TestCaseFixturesDatabase
 {
     /**

@@ -10,9 +10,7 @@ namespace Propel\Tests\Generator\Migration;
 
 use PDO;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PrimaryKeyAITest extends MigrationTestCase
 {
     /**
@@ -118,10 +116,9 @@ class PrimaryKeyAITest extends MigrationTestCase
     }
 
     /**
-     * @group mysql
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
     public function testChangeSize()
     {
         if ($this->con->getAttribute(PDO::ATTR_DRIVER_NAME) === 'mysql') {

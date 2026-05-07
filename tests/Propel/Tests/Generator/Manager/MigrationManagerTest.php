@@ -17,9 +17,7 @@ use Propel\Generator\Manager\MigrationManager;
 use Propel\Generator\Platform\DefaultPlatform;
 use Propel\Tests\TestCase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class MigrationManagerTest extends TestCase
 {
     /**
@@ -63,7 +61,7 @@ class MigrationManagerTest extends TestCase
         $migrationManager
             ->expects($this->any())
             ->method('getMigrationTimestamps')
-            ->will($this->returnValue($migrationTimestamps));
+            ->willReturn($migrationTimestamps);
 
         // make sure there is no other table named migration
         $migrationManager->getAdapterConnection('migration')->query('DROP TABLE IF EXISTS migration');
@@ -84,13 +82,12 @@ class MigrationManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider getAllDatabaseVersionsDataProvider
      *
      * @param array<int, string|null> $migrationData
      * @param list<int> $expectedDatabaseVersions
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAllDatabaseVersionsDataProvider')]
     public function testGetAllDatabaseVersions(array $migrationData, array $expectedDatabaseVersions): void
     {
         $migrationManager = $this->createMigrationManager([]);
@@ -121,15 +118,14 @@ class MigrationManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider getGetNonExecutedMigrationTimestampsByVersionDataProvider
      *
      * @param list<int> $localTimestamps
      * @param list<int> $databaseTimestamps
      * @param list<int> $expectedTimestamps
      * @param int|null $expectedVersion
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getGetNonExecutedMigrationTimestampsByVersionDataProvider')]
     public function testGetNonExecutedMigrationTimestampsByVersion(
         array $localTimestamps,
         array $databaseTimestamps,
@@ -167,14 +163,13 @@ class MigrationManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider getAlreadyExecutedTimestampsDataProvider
      *
      * @param list<int> $localTimestamps
      * @param array<int, string|null> $databaseMigrationData
      * @param list<int> $expectedTimestamps
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAlreadyExecutedTimestampsDataProvider')]
     public function testGetAlreadyExecutedTimestamps(
         array $localTimestamps,
         array $databaseMigrationData,
@@ -189,15 +184,14 @@ class MigrationManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider getAlreadyExecutedMigrationTimestampsByVersionDataProvider
      *
      * @param list<int> $localTimestamps
      * @param array<int, string|null> $databaseMigrationData
      * @param list<int> $expectedTimestamps
      * @param int|null $expectedVersion
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('getAlreadyExecutedMigrationTimestampsByVersionDataProvider')]
     public function testGetAlreadyExecutedMigrationTimestampsByVersion(
         array $localTimestamps,
         array $databaseMigrationData,
@@ -401,15 +395,14 @@ class MigrationManagerTest extends TestCase
     }
 
     /**
-     * @dataProvider isDatabaseVersionsAppliedDataProvider
      *
      * @param list<int> $localTimestamps
      * @param list<int> $databaseTimestamps
      * @param int $version
      * @param bool $expectedIsDatabaseVersionApplied
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('isDatabaseVersionsAppliedDataProvider')]
     public function testIsDatabaseVersionsApplied(
         array $localTimestamps,
         array $databaseTimestamps,

@@ -29,6 +29,7 @@ class IdMethodParameter extends MappingModel
     /**
      * @return void
      */
+    #[\Override]
     protected function setupObject(): void
     {
         $this->name = $this->getAttribute('name');

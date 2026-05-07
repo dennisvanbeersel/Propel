@@ -14,9 +14,7 @@ use Propel\Runtime\ServiceContainer\ServiceContainerInterface;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
-/**
- * @group database
- */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class SelectQueryExecutorTest extends BookstoreTestBase
 {
     /**

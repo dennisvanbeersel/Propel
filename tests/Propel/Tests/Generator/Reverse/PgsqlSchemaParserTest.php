@@ -22,9 +22,9 @@ use Propel\Tests\TestCaseFixturesDatabase;
  * Tests for Pgsql database schema parser.
  *
  * @author Alan Pinstein
- * @group pgsql
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('pgsql')]
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class PgsqlSchemaParserTest extends TestCaseFixturesDatabase
 {
     /**
@@ -69,10 +69,9 @@ class PgsqlSchemaParserTest extends TestCaseFixturesDatabase
     }
 
     /**
-     * @dataProvider parseDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('parseDataProvider')]
     public function testParse($columnDDL, $expectedPhpName, $expectedType, $expectedDefaultType, $expectedDefaultValue, $expectedSize, $expectedScale)
     {
         $this->con->query("create table foo ( {$columnDDL} );");

@@ -14,6 +14,8 @@ use Propel\Runtime\Adapter\AdapterInterface;
 
 /**
  * Manager for primary/replica connection to a datasource.
+ *
+ * @psalm-api
  */
 class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
 {
@@ -48,6 +50,7 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
      *
      * @return void
      */
+    #[\Override]
     public function setName(string $name): void
     {
         $this->name = $name;
@@ -56,6 +59,7 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
     /**
      * @return string The datasource name associated to this connection
      */
+    #[\Override]
     public function getName(): string
     {
         return $this->name;
@@ -74,13 +78,13 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
     /**
      * For replication, set whether to always force the use of a primary connection.
      *
-     * @param bool $isForceMasterConnection
+     * @param bool $isForcePrimaryConnection
      *
      * @return void
      */
-    public function setForcePrimaryConnection(bool $isForceMasterConnection): void
+    public function setForcePrimaryConnection(bool $isForcePrimaryConnection): void
     {
-        $this->isForcePrimaryConnection = $isForceMasterConnection;
+        $this->isForcePrimaryConnection = $isForcePrimaryConnection;
     }
 
     /**
@@ -141,6 +145,7 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface
      */
+    #[\Override]
     public function getWriteConnection(?AdapterInterface $adapter = null): ConnectionInterface
     {
         if ($this->writeConnection === null) {
@@ -161,6 +166,7 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface
      */
+    #[\Override]
     public function getReadConnection(?AdapterInterface $adapter = null): ConnectionInterface
     {
         if ($this->writeConnection && $this->writeConnection->inTransaction()) {
@@ -188,6 +194,7 @@ class ConnectionManagerPrimaryReplica implements ConnectionManagerInterface
     /**
      * @return void
      */
+    #[\Override]
     public function closeConnections(): void
     {
         $this->writeConnection = null;

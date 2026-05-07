@@ -9,6 +9,8 @@
 namespace Propel\Tests\Runtime\Adapter\Pdo;
 
 use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
+use Propel\Runtime\Connection\ConnectionInterface;
+use Propel\Runtime\DataFetcher\DataFetcherInterface;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\Bookstore\Map\BookTableMap;
 use Propel\Tests\TestCaseFixtures;
@@ -44,9 +46,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testSimpleLock(): void
     {
         $c = new BookQuery();
@@ -65,9 +66,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
      * Test `applyLock`
      *
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testComplexLock(): void
     {
         $c = new BookQuery();
@@ -84,9 +84,8 @@ class PgsqlAdapterTest extends TestCaseFixtures
 
     /**
      * @return void
-     *
-     * @group pgsql
      */
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testSubQueryWithSharedLock()
     {
         $subCriteria = new BookQuery();
@@ -102,5 +101,37 @@ class PgsqlAdapterTest extends TestCaseFixtures
 
         $params = [];
         $this->assertSame($expected, $c->createSelectSql($params), 'Subquery contains shared read lock');
+    }
+
+    /**
+     * Regression: getId() previously called \$con->quote(\$name) which produces
+     * a string-literal-quoted form ('Foo'). PostgreSQL folds unquoted identifiers
+     * to lowercase, so a sequence created with CREATE SEQUENCE "MyMixedCase_seq"
+     * would not be found via nextval('MyMixedCase_seq'). Identifier-quoting via
+     * quoteIdentifierTable() preserves case and supports schema qualification.
+     *
+     * @return void
+     */
+    public function testGetIdQuotesSequenceAsIdentifier(): void
+    {
+        $con = $this->createMock(ConnectionInterface::class);
+        $con->method('quote')->willReturnCallback(static fn (string $value): string => "'" . str_replace("'", "''", $value) . "'");
+
+        $fetcher = $this->createMock(DataFetcherInterface::class);
+        $fetcher->method('fetchColumn')->willReturn(1);
+
+        $capturedSql = '';
+        $con->expects($this->once())
+            ->method('query')
+            ->willReturnCallback(function (string $sql) use (&$capturedSql, $fetcher) {
+                $capturedSql = $sql;
+
+                return $fetcher;
+            });
+
+        $adapter = new PgsqlAdapter();
+        $adapter->getId($con, 'MySchema.MyMixedCase_seq');
+
+        $this->assertStringContainsString('"MySchema"."MyMixedCase_seq"', $capturedSql, 'sequence name must be identifier-quoted, not string-quoted');
     }
 }

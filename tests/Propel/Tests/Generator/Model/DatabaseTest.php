@@ -97,12 +97,12 @@ class DatabaseTest extends ModelTestCase
         $platform
             ->expects($this->any())
             ->method('getMaxColumnNameLength')
-            ->will($this->returnValue(64));
+            ->willReturn(64);
         $platform
             ->expects($this->any())
             ->method('getDomainForType')
             ->with($this->equalTo('TIMESTAMP'))
-            ->will($this->returnValue($this->getDomainMock('TIMESTAMP')));
+            ->willReturn($this->getDomainMock('TIMESTAMP'));
 
         $database = new Database();
         $database->setPlatform($platform);
@@ -152,10 +152,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideBehaviors
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideBehaviors')]
     public function testAddArrayBehavior($name, $class)
     {
         $type = sprintf(
@@ -314,17 +313,17 @@ class DatabaseTest extends ModelTestCase
 
     public static function provideBehaviors()
     {
+        // Note: 'query_cache' and 'validate' removed in Propel 3.0 — see
+        // BehaviorableTrait::addBehavior for the migration-error path.
         return [
             ['aggregate_column', 'AggregateColumn'],
             ['auto_add_pk', 'AutoAddPk'],
             ['concrete_inheritance', 'ConcreteInheritance'],
             ['delegate', 'Delegate'],
             ['nested_set', 'NestedSet'],
-            ['query_cache', 'QueryCache'],
             ['sluggable', 'Sluggable'],
             ['sortable', 'Sortable'],
             ['timestampable', 'Timestampable'],
-            ['validate', 'Validate'],
             ['versionable', 'Versionable'],
         ];
     }
@@ -359,7 +358,7 @@ class DatabaseTest extends ModelTestCase
             ->expects($this->once())
             ->method('getConfigProperty')
             ->with($this->equalTo('generator.database.adapters.mysql.tableType'))
-            ->will($this->returnValue('InnoDB'));
+            ->willReturn('InnoDB');
 
         $schema = $this->getSchemaMock('bookstore', [
             'generator_config' => $config,
@@ -382,7 +381,7 @@ class DatabaseTest extends ModelTestCase
         $platform
             ->expects($this->once())
             ->method('getDomainForType')
-            ->will($this->returnValue($copiedDomain));
+            ->willReturn($copiedDomain);
 
         $database = new Database();
         $database->setPlatform($platform);
@@ -423,10 +422,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider provideSupportedFormats
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('provideSupportedFormats')]
     public function testSetDefaultStringFormat($format)
     {
         $database = new Database();
@@ -470,10 +468,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseClass(string $className, string $expectedClassName, string $message)
     {
         $database = new Database();
@@ -483,10 +480,9 @@ class DatabaseTest extends ModelTestCase
     }
 
     /**
-     * @dataProvider baseClassDataProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('baseClassDataProvider')]
     public function testSetBaseQueryClass(string $className, string $expectedClassName, string $message)
     {
         $database = new Database();
@@ -546,7 +542,7 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
@@ -589,15 +585,14 @@ EOF;
     }
 
     /**
-     * @dataProvider combinedNamespaceDataProvider
      *
      * @param string|null $databaseNamespace
      * @param string|null $tableNamespace
      * @param string|null $expectedNamespace
      * @param string $message
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('combinedNamespaceDataProvider')]
     public function testCombineNamespace($databaseNamespace, $tableNamespace, $expectedNamespace, $message)
     {
         $database = new Database();

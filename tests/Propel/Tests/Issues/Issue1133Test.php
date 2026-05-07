@@ -45,9 +45,8 @@ class DummyObject
 
 /**
  * This test proves the bug described in https://github.com/propelorm/Propel2/issues/1133.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue1133Test extends TestCase
 {
     /**

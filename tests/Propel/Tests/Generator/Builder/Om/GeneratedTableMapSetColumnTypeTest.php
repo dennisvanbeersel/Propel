@@ -51,10 +51,9 @@ EOF;
     }
 
     /**
-     * @dataProvider valueSetConstantProvider
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\DataProvider('valueSetConstantProvider')]
     public function testValueSetConstants($constantName, $value)
     {
         $this->assertTrue(defined($constantName));

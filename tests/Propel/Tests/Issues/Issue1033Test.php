@@ -14,9 +14,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 
 /**
  * This test proves the bug described in https://github.com/propelorm/Propel2/issues/1033.
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class Issue1033Test extends BookstoreTestBase
 {
     /**

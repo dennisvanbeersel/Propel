@@ -1,0 +1,249 @@
+{
+    "class": "Propel\\Runtime\\ServiceContainer\\ServiceContainerInterface",
+    "kind": "interface",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": null,
+    "implements": [],
+    "methods": [
+        {
+            "name": "closeConnections",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "void"
+        },
+        {
+            "name": "getAdapter",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Adapter\\AdapterInterface"
+        },
+        {
+            "name": "getAdapterClass",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "getConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "mode",
+                    "type": "string",
+                    "default": "self::CONNECTION_WRITE",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+        },
+        {
+            "name": "getConnectionManager",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionManagerInterface"
+        },
+        {
+            "name": "getDatabaseMap",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Map\\DatabaseMap"
+        },
+        {
+            "name": "getDefaultDatasource",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "string"
+        },
+        {
+            "name": "getLogger",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Psr\\Log\\LoggerInterface"
+        },
+        {
+            "name": "getProfiler",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "Propel\\Runtime\\Util\\Profiler"
+        },
+        {
+            "name": "getReadConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+        },
+        {
+            "name": "getWriteConnection",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\Connection\\ConnectionInterface"
+        },
+        {
+            "name": "hasConnectionManager",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "name",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "initDatabaseMaps",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "databaseNameToTableMapClassNames",
+                    "type": "array",
+                    "default": "array (\n)",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": [
+        {
+            "name": "CONNECTION_READ",
+            "value": "'read'"
+        },
+        {
+            "name": "CONNECTION_WRITE",
+            "value": "'write'"
+        },
+        {
+            "name": "DEFAULT_DATABASE_MAP_CLASS",
+            "value": "'Propel\\\\Runtime\\\\Map\\\\DatabaseMap'"
+        },
+        {
+            "name": "DEFAULT_DATASOURCE_NAME",
+            "value": "'default'"
+        },
+        {
+            "name": "DEFAULT_PROFILER_CLASS",
+            "value": "'Propel\\\\Runtime\\\\Util\\\\Profiler'"
+        }
+    ]
+}

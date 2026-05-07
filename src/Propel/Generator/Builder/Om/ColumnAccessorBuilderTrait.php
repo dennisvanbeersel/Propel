@@ -12,7 +12,6 @@ namespace Propel\Generator\Builder\Om;
 
 use Propel\Generator\Model\Column;
 use Propel\Generator\Model\PropelTypes;
-use Propel\Generator\Platform\MysqlPlatform;
 
 /**
  * Trait containing column accessor generation methods for ObjectBuilder.
@@ -52,18 +51,8 @@ trait ColumnAccessorBuilderTrait
 
         $dateTimeClass = $this->getDateTimeClass($column);
 
-        $handleMysqlDate = false;
-        $mysqlInvalidDateString = '';
-        if ($this->getPlatform() instanceof MysqlPlatform) {
-            if (in_array($column->getType(), [PropelTypes::TIMESTAMP, PropelTypes::DATETIME], true)) {
-                $handleMysqlDate = true;
-                $mysqlInvalidDateString = '0000-00-00 00:00:00';
-            } elseif ($column->getType() === PropelTypes::DATE) {
-                $handleMysqlDate = true;
-                $mysqlInvalidDateString = '0000-00-00';
-            }
-            // 00:00:00 is a valid time, so no need to check for that.
-        }
+        $mysqlInvalidDateString = $this->getPlatform()?->getInvalidDateString($column->getType()) ?? '';
+        $handleMysqlDate = $mysqlInvalidDateString !== '';
 
         $orNull = $column->isNotNull() ? '' : '|null';
         $descriptionReturnValueNull = $column->isNotNull() ? '' : ', NULL if column is NULL';
@@ -74,7 +63,7 @@ trait ColumnAccessorBuilderTrait
      * Get the [optionally formatted] temporal [$clo] column value.
      * {$column->getDescription()}
      *
-     * @param string|null \$format The date/time format string (either date()-style or strftime()-style).
+     * @param string|null \$format The date/time format string (date()-style).
      *   If format is NULL, then the raw $dateTimeClass object will be returned.
      *
      * @return string|{$dateTimeClass}{$orNull} Formatted date/time value as string or $dateTimeClass object (if format is NULL){$descriptionReturnValueNull}{$descriptionReturnMysqlInvalidDate}.
@@ -109,17 +98,12 @@ trait ColumnAccessorBuilderTrait
      */
     protected function getTemporalTypeDefaultFormatConfigKey(Column $column): ?string
     {
-        switch ($column->getType()) {
-            case PropelTypes::DATE:
-                return 'generator.dateTime.defaultDateFormat';
-            case PropelTypes::TIME:
-                return 'generator.dateTime.defaultTimeFormat';
-            case PropelTypes::TIMESTAMP:
-            case PropelTypes::DATETIME:
-                return 'generator.dateTime.defaultTimeStampFormat';
-            default:
-                return null;
-        }
+        return match ($column->getType()) {
+            PropelTypes::DATE => 'generator.dateTime.defaultDateFormat',
+            PropelTypes::TIME => 'generator.dateTime.defaultTimeFormat',
+            PropelTypes::TIMESTAMP, PropelTypes::DATETIME => 'generator.dateTime.defaultTimeStampFormat',
+            default => null,
+        };
     }
 
     /**
@@ -380,7 +364,7 @@ trait ColumnAccessorBuilderTrait
         }
         if (!\$this->$cloUnserialized && null !== \$this->$clo) {
             \$$cloUnserialized = substr(\$this->$clo, 2, -2);
-            \$this->$cloUnserialized = '' !== \$$cloUnserialized ? explode(' | ', \$$cloUnserialized) : array();
+            \$this->$cloUnserialized = '' !== \$$cloUnserialized ? explode(' | ', \$$cloUnserialized) : [];
         }
 
         return \$this->$cloUnserialized;";
@@ -496,6 +480,7 @@ trait ColumnAccessorBuilderTrait
     public function addEnumAccessorComment(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($column);
 
         $script .= "
     /**
@@ -506,7 +491,7 @@ trait ColumnAccessorBuilderTrait
      * @param ConnectionInterface \$con An optional ConnectionInterface connection to use for fetching this lazy-loaded column.";
         }
         $script .= "
-     * @return string|null
+     * @return $enumClassName|null
      * @throws \\Propel\\Runtime\\Exception\\PropelException
      */";
     }
@@ -522,6 +507,8 @@ trait ColumnAccessorBuilderTrait
     protected function addEnumAccessorBody(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($column);
+
         if ($column->isLazyLoad()) {
             $script .= $this->getAccessorLazyLoadSnippet($column);
         }
@@ -535,7 +522,7 @@ trait ColumnAccessorBuilderTrait
             throw new PropelException('Unknown stored enum key: ' . \$this->$clo);
         }
 
-        return \$valueSet[\$this->$clo];";
+        return $enumClassName::from(\$valueSet[\$this->$clo]);";
     }
 
     /**

@@ -23,9 +23,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Tests for AggregateColumnBehavior class
  *
  * @author François Zaninotto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AggregateColumnBehaviorTest extends BookstoreTestBase
 {
     /**

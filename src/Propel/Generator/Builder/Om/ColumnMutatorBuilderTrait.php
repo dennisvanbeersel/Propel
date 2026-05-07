@@ -131,7 +131,7 @@ trait ColumnMutatorBuilderTrait
         }
 
         $script .= "
-    " . $visibility . " function set$cfc($typeHint\$v$null)
+    " . $visibility . " function set$cfc($typeHint\$v$null): self
     {";
     }
 
@@ -320,18 +320,11 @@ trait ColumnMutatorBuilderTrait
                 || (\$dt->format($fmt) === $defaultValue) // or the entered value matches the default
                  ) {";
         } else {
-            switch ($col->getType()) {
-                case 'DATE':
-                    $format = 'Y-m-d';
-
-                    break;
-                case 'TIME':
-                    $format = 'H:i:s.u';
-
-                    break;
-                default:
-                    $format = 'Y-m-d H:i:s.u';
-            }
+            $format = match ($col->getType()) {
+                PropelTypes::DATE => 'Y-m-d',
+                PropelTypes::TIME => 'H:i:s.u',
+                default => 'Y-m-d H:i:s.u',
+            };
             $script .= "
             if (\$this->{$clo} === null || \$dt === null || \$dt->format(\"$format\") !== \$this->{$clo}->format(\"$format\")) {";
         }
@@ -563,11 +556,15 @@ trait ColumnMutatorBuilderTrait
     protected function addEnumMutator(string &$script, Column $col): void
     {
         $clo = $col->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($col);
         $this->addEnumMutatorComment($script, $col);
-        $this->addMutatorOpenOpen($script, $col);
+        $this->addEnumMutatorOpenOpen($script, $col, $enumClassName);
         $this->addMutatorOpenBody($script, $col);
 
         $script .= "
+        if (\$v instanceof \\BackedEnum) {
+            \$v = \$v->value;
+        }
         if (\$v !== null) {
             \$valueSet = " . $this->getTableMapClassName() . '::getValueSet(' . $this->getColumnConstant($col) . ");
             if (!in_array(\$v, \$valueSet)) {
@@ -585,6 +582,35 @@ trait ColumnMutatorBuilderTrait
     }
 
     /**
+     * Emits the function signature for an ENUM column mutator.
+     *
+     * Differs from {@see addMutatorOpenOpen()} only in the parameter type:
+     * an ENUM column accepts the generated backed enum instance OR the bare
+     * string (for backward compatibility) OR null (for nullable columns).
+     *
+     * @param string $script
+     * @param \Propel\Generator\Model\Column $column
+     * @param string $enumClassName Short / aliased class name of the generated backed enum.
+     *
+     * @return void
+     */
+    protected function addEnumMutatorOpenOpen(string &$script, Column $column, string $enumClassName): void
+    {
+        $cfc = $column->getPhpName();
+        $visibility = $this->getTable()->isReadOnly() ? 'protected' : $column->getMutatorVisibility();
+
+        $nullable = !$column->isNotNull();
+        // Accept the generated enum, any BackedEnum (Versionable mirror tables, etc.),
+        // the bare string (BC), or null when nullable.
+        $typeHint = $enumClassName . '|\\BackedEnum|string' . ($nullable ? '|null' : '');
+        $default = $nullable ? ' = null' : '';
+
+        $script .= "
+    " . $visibility . " function set$cfc($typeHint \$v$default): self
+    {";
+    }
+
+    /**
      * Adds the comment for an enum mutator.
      *
      * @param string $script
@@ -595,6 +621,7 @@ trait ColumnMutatorBuilderTrait
     public function addEnumMutatorComment(string &$script, Column $column): void
     {
         $clo = $column->getLowercasedName();
+        $enumClassName = $this->getEnumClassName($column);
 
         $orNull = $column->isNotNull() ? '' : '|null';
 
@@ -602,7 +629,7 @@ trait ColumnMutatorBuilderTrait
     /**
      * Set the value of [$clo] column.
      * " . $column->getDescription() . "
-     * @param string{$orNull} \$v new value
+     * @param $enumClassName|string$orNull \$v new value
      * @return \$this The current object (for fluent API support)
      * @throws \\Propel\\Runtime\\Exception\\PropelException
      */";
@@ -694,9 +721,9 @@ trait ColumnMutatorBuilderTrait
         $script .= "
         if (\$v !== null) {
             if (is_string(\$v)) {
-                \$v = in_array(strtolower(\$v), array('false', 'off', '-', 'no', 'n', '0', '')) ? false : true;
+                \$v = in_array(strtolower(\$v), ['false', 'off', '-', 'no', 'n', '0', '']) ? false : true;
             } else {
-                \$v = (boolean) \$v;
+                \$v = (bool) \$v;
             }
         }
 

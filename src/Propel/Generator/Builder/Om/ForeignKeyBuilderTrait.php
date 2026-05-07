@@ -68,9 +68,9 @@ trait ForeignKeyBuilderTrait
 
         $script .= "
     /**
-     * @var        $className
+     * @var        $className|null
      */
-    protected $" . $varName . ";
+    protected ?$className $$varName = null;
 ";
     }
 
@@ -105,7 +105,7 @@ trait ForeignKeyBuilderTrait
      * @return \$this The current object (for fluent API support)
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function set" . $this->getFKPhpNameAffix($fk, false) . "(?$className \$v = null)
+    public function set" . $this->getFKPhpNameAffix($fk, false) . "(?$className \$v = null): self
     {";
 
         foreach ($fk->getMapping() as $map) {
@@ -233,7 +233,7 @@ trait ForeignKeyBuilderTrait
      * @return {$className}{$orNull} $returnDesc
      * @throws \Propel\Runtime\Exception\PropelException
      */
-    public function get" . $this->getFKPhpNameAffix($fk, false) . "(?ConnectionInterface \$con = null)
+    public function get" . $this->getFKPhpNameAffix($fk, false) . "(?ConnectionInterface \$con = null): ?$className
     {";
         $script .= "
         if (\$this->$varName === null && ($conditional)) {";
@@ -252,16 +252,11 @@ trait ForeignKeyBuilderTrait
             if (\$this->{$varName} !== null) {
                 \$this->{$varName}->set" . $this->getRefFKPhpNameAffix($fk, false) . '($this);
             }';
-        } else {
-            $script .= "
-            /* The following can be used additionally to
-                guarantee the related object contains a reference
-                to this object.  This level of coupling may, however, be
-                undesirable since it could result in an only partially populated collection
-                in the referenced object.
-                \$this->{$varName}->add" . $this->getRefFKPhpNameAffix($fk, true) . "(\$this);
-             */";
         }
+        // For 1:N relations the inverse `$this->fk->addLocal($this)` could
+        // be invoked here to keep the related collection fully consistent,
+        // but doing so silently overrides user-managed coupling and may
+        // partially populate the referenced collection — we skip it.
 
         $script .= "
         }
@@ -564,7 +559,6 @@ trait ForeignKeyBuilderTrait
             $this->addCrossFKAdd($script, $crossFKs);
             $this->addCrossFKDoAdd($script, $crossFKs);
             $this->addCrossFKRemove($script, $crossFKs);
-            //$this->addCrossFKRemoves($script, $crossFKs);
         }
     }
 

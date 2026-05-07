@@ -29,6 +29,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return array
      */
+    #[\Override]
     public function load($resource, $type = null): array
     {
         $json = file_get_contents($this->getPath($resource));
@@ -55,6 +56,7 @@ class JsonFileLoader extends FileLoader
      *
      * @return bool true if this class supports the given resource, false otherwise
      */
+    #[\Override]
     public function supports($resource, $type = null): bool
     {
         return static::checkSupports('json', $resource);

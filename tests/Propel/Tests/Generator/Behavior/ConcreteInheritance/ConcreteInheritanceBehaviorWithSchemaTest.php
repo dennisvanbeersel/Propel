@@ -17,9 +17,8 @@ use Propel\Tests\TestCaseFixturesDatabase;
  * Tests for ConcreteInheritanceBehavior class
  *
  * @author François Zaniontto
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class ConcreteInheritanceBehaviorWithSchemaTest extends TestCaseFixturesDatabase
 {
     /**

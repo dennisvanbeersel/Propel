@@ -18,6 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 /**
  * @author William Durand <william.durand1@gmail.com>
  */
+#[\Symfony\Component\Console\Attribute\AsCommand(name: 'graphviz:generate', description: 'Generate Graphviz files (.dot)', aliases: ['graphviz'])]
 class GraphvizGenerateCommand extends AbstractCommand
 {
     /**
@@ -28,21 +29,20 @@ class GraphvizGenerateCommand extends AbstractCommand
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function configure()
     {
         parent::configure();
 
         $this
             ->addOption('output-dir', null, InputOption::VALUE_REQUIRED, 'The output directory', self::DEFAULT_OUTPUT_DIRECTORY)
-            ->addOption('schema-dir', null, InputOption::VALUE_REQUIRED, 'The directory where the schema files are placed')
-            ->setName('graphviz:generate')
-            ->setAliases(['graphviz'])
-            ->setDescription('Generate Graphviz files (.dot)');
+            ->addOption('schema-dir', null, InputOption::VALUE_REQUIRED, 'The directory where the schema files are placed');
     }
 
     /**
      * @inheritDoc
      */
+    #[\Override]
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $configOptions = [];

@@ -104,10 +104,9 @@ EOF;
     }
 
     /**
-     * @requires OS ^(?!Win.*)
-     *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\RequiresOperatingSystem('^(?!Win.*)')]
     public function testXmlFileNotReadableThrowsException()
     {
         $this->expectException(InputOutputException::class);

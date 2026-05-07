@@ -103,6 +103,7 @@ class StandardServiceContainer implements ServiceContainerInterface
     /**
      * @return string
      */
+    #[\Override]
     public function getDefaultDatasource(): string
     {
         return $this->defaultDatasource;
@@ -125,6 +126,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return string
      */
+    #[\Override]
     public function getAdapterClass(?string $name = null): string
     {
         if ($name === null) {
@@ -174,6 +176,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Adapter\AdapterInterface
      */
+    #[\Override]
     public function getAdapter(?string $name = null): AdapterInterface
     {
         if ($name === null) {
@@ -247,6 +250,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return void
      */
+    #[\Override]
     public function initDatabaseMaps(array $databaseNameToTableMapClassNames = []): void
     {
         if ($this->databaseMaps === null) {
@@ -301,6 +305,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Map\DatabaseMap
      */
+    #[\Override]
     public function getDatabaseMap(?string $name = null): DatabaseMap
     {
         if (!$name) {
@@ -355,6 +360,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionManagerInterface
      */
+    #[\Override]
     public function getConnectionManager(string $name): ConnectionManagerInterface
     {
         if (!isset($this->connectionManagers[$name])) {
@@ -369,6 +375,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return bool true if a connectionManager with $name has been registered
      */
+    #[\Override]
     public function hasConnectionManager(string $name): bool
     {
         return isset($this->connectionManagers[$name]);
@@ -390,6 +397,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return void
      */
+    #[\Override]
     public function closeConnections(): void
     {
         foreach ($this->connectionManagers as $manager) {
@@ -408,6 +416,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface A database connection
      */
+    #[\Override]
     public function getConnection(?string $name = null, string $mode = ServiceContainerInterface::CONNECTION_WRITE): ConnectionInterface
     {
         if ($name === null) {
@@ -432,6 +441,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface A database connection
      */
+    #[\Override]
     public function getWriteConnection(string $name): ConnectionInterface
     {
         return $this->getConnectionManager($name)->getWriteConnection($this->getAdapter($name));
@@ -449,6 +459,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Connection\ConnectionInterface A database connection
      */
+    #[\Override]
     public function getReadConnection(string $name): ConnectionInterface
     {
         return $this->getConnectionManager($name)->getReadConnection($this->getAdapter($name));
@@ -521,6 +532,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Propel\Runtime\Util\Profiler
      */
+    #[\Override]
     public function getProfiler(): Profiler
     {
         if ($this->profiler === null) {
@@ -543,6 +555,7 @@ class StandardServiceContainer implements ServiceContainerInterface
      *
      * @return \Psr\Log\LoggerInterface
      */
+    #[\Override]
     public function getLogger(?string $name = null): LoggerInterface
     {
         if ($name === null) {

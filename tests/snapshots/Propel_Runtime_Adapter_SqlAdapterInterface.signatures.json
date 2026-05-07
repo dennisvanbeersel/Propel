@@ -1,0 +1,324 @@
+{
+    "class": "Propel\\Runtime\\Adapter\\SqlAdapterInterface",
+    "kind": "interface",
+    "isAbstract": true,
+    "isFinal": false,
+    "extends": null,
+    "implements": [
+        "Propel\\Runtime\\Adapter\\AdapterInterface"
+    ],
+    "methods": [
+        {
+            "name": "applyLimit",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "offset",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "limit",
+                    "type": "int",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "criteria",
+                    "type": "?Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "applyLock",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "lock",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Lock",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "bindValue",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "stmt",
+                    "type": "Propel\\Runtime\\Connection\\StatementInterface|PDOStatement",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "parameter",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "value",
+                    "type": null,
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                },
+                {
+                    "name": "cMap",
+                    "type": "Propel\\Runtime\\Map\\ColumnMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "position",
+                    "type": "?int",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "bool"
+        },
+        {
+            "name": "bindValues",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "stmt",
+                    "type": "Propel\\Runtime\\Connection\\StatementInterface|PDOStatement",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "dbMap",
+                    "type": "Propel\\Runtime\\Map\\DatabaseMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "cleanupSQL",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "sql",
+                    "type": "string",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "params",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "values",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "dbMap",
+                    "type": "Propel\\Runtime\\Map\\DatabaseMap",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "void"
+        },
+        {
+            "name": "createSelectSqlPart",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "fromClause",
+                    "type": "array",
+                    "default": null,
+                    "byRef": true,
+                    "variadic": false,
+                    "nullable": false
+                },
+                {
+                    "name": "aliasAll",
+                    "type": "bool",
+                    "default": "false",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "ignoreCase",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "in",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "random",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "seed",
+                    "type": "?string",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "supportsAliasesInDelete",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [],
+            "returnType": "bool"
+        },
+        {
+            "name": "toUpperCase",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "in",
+                    "type": "string",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "string"
+        },
+        {
+            "name": "turnSelectColumnsToAliases",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": true,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "criteria",
+                    "type": "Propel\\Runtime\\ActiveQuery\\Criteria",
+                    "default": null,
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": false
+                }
+            ],
+            "returnType": "Propel\\Runtime\\ActiveQuery\\Criteria"
+        }
+    ],
+    "phpDocMethods": [],
+    "properties": [],
+    "constants": []
+}

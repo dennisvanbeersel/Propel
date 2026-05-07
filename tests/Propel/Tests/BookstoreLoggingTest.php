@@ -24,9 +24,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
  * Tests polymorphic relation primary with polymorphic_relation_log table.
  *
  * @author Marc J. Schmidt <marc@marcjschmidt.de>
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class BookstoreLoggingTest extends BookstoreEmptyTestBase
 {
     /**
@@ -138,11 +137,11 @@ class BookstoreLoggingTest extends BookstoreEmptyTestBase
     }
 
     /**
-     * @group mysql
-     * @group pgsql
      *
      * @return void
      */
+    #[\PHPUnit\Framework\Attributes\Group('mysql')]
+    #[\PHPUnit\Framework\Attributes\Group('pgsql')]
     public function testQueryJoins()
     {
         if ($this->runningOnSQLite()) {

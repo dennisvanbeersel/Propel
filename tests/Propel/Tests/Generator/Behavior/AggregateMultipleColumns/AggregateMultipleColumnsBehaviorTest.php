@@ -25,9 +25,8 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
  * Uses the tables defined in tests/Fixtures/bookstore/behavior-aggregate-multiple-schema.xml
  *
  * @author Moritz Ringler
- *
- * @group database
  */
+#[\PHPUnit\Framework\Attributes\Group('database')]
 class AggregateMultipleColumnsBehaviorTest extends BookstoreTestBase
 {
     /**
@@ -302,7 +301,7 @@ EOF;
      *
      * @param \Propel\Tests\Bookstore\Behavior\AggregateMultipleScoreGroup $group
      * @param int $scoreValue
-     * @param string|\Propel\Runtime\Validator\Constraints\Date|null $date
+     * @param string|\DateTimeInterface|null $date
      *
      * @return \Propel\Tests\Bookstore\Behavior\AggregateMultipleScore
      */
