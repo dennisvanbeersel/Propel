@@ -96,6 +96,12 @@ Propel\Runtime\ActiveQuery\Operator\LogicalOperator
 # Adopted from Phase E.4's CachingConnection::buildCacheKey shape.
 Propel\Runtime\ActiveQuery\Compiler\PreparedStatementKey
 
+# Phase F (umbrella §2.2) — Tier 3 internal Plan/* value objects with public-method
+# stability commitment for downstream Behavior + ModelCriteria consumers.
+Propel\Runtime\ActiveQuery\Plan\JoinPlan
+Propel\Runtime\ActiveQuery\Plan\WhereTree
+Propel\Runtime\ActiveQuery\Plan\OrderClause
+
 # Criterion extension surface (19 classes; user-extension via getNewCriterion())
 Propel\Runtime\ActiveQuery\Criterion\AbstractCriterion
 Propel\Runtime\ActiveQuery\Criterion\AbstractInnerQueryCriterion
