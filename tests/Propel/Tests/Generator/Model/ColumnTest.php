@@ -467,12 +467,11 @@ class ColumnTest extends ModelTestCase
             ['TIME', PDO::PARAM_STR],
             ['TIMESTAMP', PDO::PARAM_STR],
             ['BOOLEAN', PDO::PARAM_BOOL],
-            ['BOOLEAN_EMU', PDO::PARAM_INT],
-            ['OBJECT', PDO::PARAM_LOB],
-            ['ARRAY', PDO::PARAM_STR],
             ['ENUM', PDO::PARAM_INT],
-            ['BU_DATE', PDO::PARAM_STR],
-            ['BU_TIMESTAMP', PDO::PARAM_STR],
+            // Phase G.2.6: BU_DATE / BU_TIMESTAMP / BOOLEAN_EMU / OBJECT / PHP_ARRAY were
+            // removed from the active mapping pipeline; resolving them now throws
+            // (covered by DeprecatedPropelTypesTest). They no longer have a PDO type to
+            // assert against here.
             [PropelTypes::UUID, PDO::PARAM_STR],
             [PropelTypes::UUID_BINARY, PDO::PARAM_LOB],
         ];
@@ -537,24 +536,9 @@ class ColumnTest extends ModelTestCase
         $this->assertContains('BAZ', $column->getValueSet());
     }
 
-    /**
-     * @return void
-     */
-    public function testPhpObjectType()
-    {
-        $domain = $this->getDomainMock();
-        $domain
-            ->expects($this->any())
-            ->method('getType')
-            ->willReturn('OBJECT');
-
-        $column = new Column('');
-        $column->setDomain($domain);
-        $column->setType('OBJECT');
-
-        $this->assertFalse($column->isPhpPrimitiveType());
-        $this->assertTrue($column->isPhpObjectType());
-    }
+    // Phase G.2.6: OBJECT column type removed in Propel 4.0; legacy testPhpObjectType
+    // dropped along with the type. DeprecatedPropelTypesTest::testObjectThrowsPointingAtJson
+    // covers the throw on getPhpNative('OBJECT').
 
     /**
      * @return void
@@ -588,8 +572,7 @@ class ColumnTest extends ModelTestCase
             ['DATE'],
             ['TIME'],
             ['TIMESTAMP'],
-            ['BU_DATE'],
-            ['BU_TIMESTAMP'],
+            // Phase G.2.6: BU_DATE / BU_TIMESTAMP removed (DeprecatedPropelTypesTest covers throw).
         ];
     }
 
@@ -658,7 +641,7 @@ class ColumnTest extends ModelTestCase
     {
         return [
             ['BOOLEAN'],
-            ['BOOLEAN_EMU'],
+            // Phase G.2.6: BOOLEAN_EMU removed (DeprecatedPropelTypesTest covers throw).
         ];
     }
 
@@ -776,8 +759,7 @@ class ColumnTest extends ModelTestCase
             ['DATE'],
             ['TIME'],
             ['TIMESTAMP'],
-            ['BU_DATE'],
-            ['BU_TIMESTAMP'],
+            // Phase G.2.6: BU_DATE / BU_TIMESTAMP removed (DeprecatedPropelTypesTest covers throw).
         ];
     }
 

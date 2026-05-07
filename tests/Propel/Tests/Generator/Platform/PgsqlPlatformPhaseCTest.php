@@ -111,8 +111,12 @@ class PgsqlPlatformPhaseCTest extends PlatformTestBase
     /**
      * @return void
      */
-    public function testLegacySerialOptIn(): void
+    public function testLegacySerialFlagIsHardErrorInPropel4(): void
     {
+        // Phase G.2.6 (Propel 4.0): the `legacy-serial` PG vendor flag was
+        // deprecated in 3.0 with a 1-minor runway and now throws. Schemas
+        // must migrate to <column type="IDENTITY"> for SQL:2003 IDENTITY
+        // columns.
         $platform = $this->getPlatform();
         $database = new Database();
         $database->setPlatform($platform);
@@ -129,9 +133,10 @@ class PgsqlPlatformPhaseCTest extends PlatformTestBase
         $col->addVendorInfo($vendor);
         $table->addColumn($col);
 
-        $ddl = $platform->getColumnDDL($col);
-        $this->assertStringContainsString('serial', $ddl);
-        $this->assertStringNotContainsString('IDENTITY', $ddl);
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('legacy-serial');
+
+        $platform->getColumnDDL($col);
     }
 
     /**

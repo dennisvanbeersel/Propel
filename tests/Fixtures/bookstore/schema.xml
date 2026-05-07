@@ -352,7 +352,7 @@
         <column name="title" type="VARCHAR"/>
         <column name="style" type="ENUM" valueSet="novel, essay, poetry"/>
         <column name="style2" type="SET" valueSet="novel, essay, poetry"/>
-        <column name="tags" type="ARRAY"/>
+        <column name="tags" type="JSON"/>
         <column name="uuid" required="false" type="UUID"/>
         <column name="uuid_bin" required="false" type="UUID_BINARY"/>
         <index>

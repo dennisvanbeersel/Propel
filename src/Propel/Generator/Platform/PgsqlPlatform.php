@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Propel\Generator\Platform;
 
+use InvalidArgumentException;
 use Propel\Generator\Exception\EngineException;
 use Propel\Generator\Model\CheckConstraint;
 use Propel\Generator\Model\Column;
@@ -598,9 +599,12 @@ DROP TABLE IF EXISTS %s CASCADE;
     }
 
     /**
-     * Phase C (umbrella §6.4): vendor-parameter check for the legacy serial emission flag.
+     * Phase C (umbrella §6.4) / Phase G.2.6 (Propel 4.0): vendor-parameter check
+     * for the legacy serial emission flag. Throws hard once the flag is set.
      *
      * @param \Propel\Generator\Model\Column $col
+     *
+     * @throws \InvalidArgumentException When the `legacy-serial` flag is opted into.
      *
      * @return bool
      */
@@ -612,11 +616,16 @@ DROP TABLE IF EXISTS %s CASCADE;
         }
         $val = strtolower((string)$vendor->getParameter('legacy-serial'));
         if (in_array($val, ['true', '1', 'yes'], true)) {
-            if (function_exists('trigger_deprecation')) {
-                trigger_deprecation('propel/propel', '3.0', 'legacy-serial vendor flag — migrate to IDENTITY before 4.0 (column "%s").', $col->getName());
-            }
-
-            return true;
+            // Phase G.2.6 (Propel 4.0): the legacy `serial` / `bigserial` PG emission
+            // path was deprecated in 3.0 with a runway of one minor; 4.0 promotes the
+            // flag to a hard error. Schemas must migrate to `<column type="IDENTITY">`,
+            // which emits `GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY` per SQL:2003.
+            throw new InvalidArgumentException(sprintf(
+                'The `legacy-serial` PostgreSQL vendor flag was removed in Propel 4.0 '
+                . '(column "%s"). Migrate to `<column type="IDENTITY">` for SQL:2003 '
+                . 'IDENTITY-column emission. See UPGRADE-4.0.md.',
+                $col->getName(),
+            ));
         }
 
         return false;

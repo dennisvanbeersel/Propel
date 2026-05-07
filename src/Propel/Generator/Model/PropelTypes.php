@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 namespace Propel\Generator\Model;
 
+use InvalidArgumentException;
 use PDO;
 
 /**
@@ -592,10 +593,17 @@ class PropelTypes
     }
 
     /**
-     * Emits a deprecation notice when the given mapping type has been scheduled
-     * for removal in 4.0. No-op for non-deprecated types.
+     * Phase G.2.6 (Propel 4.0): the legacy mapping types (BU_DATE, BU_TIMESTAMP,
+     * BOOLEAN_EMU, OBJECT, PHP_ARRAY) are removed from active use. Resolving any
+     * of them via getPhpNative/getPDOType/getPdoTypeString now throws — schemas
+     * that still declare them must migrate per the {@see DEPRECATED_TYPE_REPLACEMENTS}
+     * table. The XSD continues to accept these as valid type values per umbrella
+     * §3.7 (additivity promise — schemas remain parseable forever) but the
+     * generator pipeline refuses to emit code for them.
      *
      * @param string $type
+     *
+     * @throws \InvalidArgumentException When `$type` is one of the removed legacy types.
      *
      * @return void
      */
@@ -604,13 +612,16 @@ class PropelTypes
         if (!isset(self::DEPRECATED_TYPE_REPLACEMENTS[$type])) {
             return;
         }
-        trigger_deprecation(
-            'maturix/propel',
-            '3.0',
-            'PropelType "%s" is deprecated and will be removed in 4.0; use %s instead.',
+
+        throw new InvalidArgumentException(sprintf(
+            'PropelType "%s" was removed in Propel 4.0; use %s instead. '
+            . 'Run `vendor/bin/rector --rules=Propel4Migration src/` for callsites '
+            . 'and update <column type="%s"> declarations in your schema XML. '
+            . 'See UPGRADE-4.0.md.',
             $type,
             self::DEPRECATED_TYPE_REPLACEMENTS[$type],
-        );
+            $type,
+        ));
     }
 
     /**
