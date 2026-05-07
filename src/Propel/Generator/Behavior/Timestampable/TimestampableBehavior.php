@@ -13,6 +13,7 @@ namespace Propel\Generator\Behavior\Timestampable;
 use DateTime;
 use Propel\Generator\Builder\Om\AbstractOMBuilder;
 use Propel\Generator\Builder\Om\ObjectBuilder;
+use Propel\Generator\Builder\Util\CodeEmitter;
 use Propel\Generator\Model\Behavior;
 
 /**
@@ -183,19 +184,26 @@ if (!\$this->isColumnModified(" . $this->getColumnConstant('update_column', $bui
             return '';
         }
 
-        return "
-/**
- * Mark the current object so that the update date doesn't get updated during next save
- *
- * @return \$this The current object (for fluent API support)
- */
-public function keepUpdateDateUnchanged()
-{
-    \$this->modifiedColumns[" . $this->getColumnConstant('update_column', $builder) . "] = true;
+        $updateConstant = $this->getColumnConstant('update_column', $builder);
 
-    return \$this;
-}
-";
+        $emitter = new CodeEmitter();
+        $emitter->blank();
+        $emitter->docblock(
+            "Mark the current object so that the update date doesn't get updated during next save\n"
+            . "\n"
+            . '@return $this The current object (for fluent API support)',
+        );
+        $emitter->line('public function keepUpdateDateUnchanged()');
+        $emitter->line('{');
+        $body = $emitter->block();
+        $emitter->line('$this->modifiedColumns[' . $updateConstant . '] = true;');
+        $emitter->blank();
+        $emitter->line('return $this;');
+        unset($body);
+        $emitter->line('}');
+        $emitter->blank();
+
+        return $emitter->toString();
     }
 
     /**

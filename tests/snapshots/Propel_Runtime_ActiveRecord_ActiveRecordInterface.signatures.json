@@ -17,7 +17,19 @@
         }
     ],
     "phpDocMethods": [
-        "array toArray(string $keyType = \\Propel\\Runtime\\Map\\TableMap::TYPE_FIELDNAME, bool $includeLazyLoadColumns = true, array $alreadyDumpedObjects = [], bool $includeForeignObjects = false): array"
+        "array toArray(string $keyType = \\Propel\\Runtime\\Map\\TableMap::TYPE_FIELDNAME, bool $includeLazyLoadColumns = true, array $alreadyDumpedObjects = [], bool $includeForeignObjects = false)",
+        "bool isDeleted()",
+        "bool isModified()",
+        "bool isNew()",
+        "int save(?\\Propel\\Runtime\\Connection\\ConnectionInterface $con = null)",
+        "mixed getPrimaryKey()",
+        "void clear()",
+        "void delete(?\\Propel\\Runtime\\Connection\\ConnectionInterface $con = null)",
+        "void fromArray(array $arr, string $keyType = \\Propel\\Runtime\\Map\\TableMap::TYPE_PHPNAME)",
+        "void setDeleted(bool $b)",
+        "void setModified(bool $b)",
+        "void setNew(bool $b)",
+        "void setPrimaryKey(mixed $key)"
     ],
     "properties": [],
     "constants": []
