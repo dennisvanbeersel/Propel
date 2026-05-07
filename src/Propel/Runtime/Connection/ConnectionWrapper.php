@@ -406,7 +406,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
      *
      * Overrides PDO::prepare() in order to:
      *  - Add logging and query counting if logging is true.
-     *  - Add query caching support if the PropelPDO::PROPEL_ATTR_CACHE_PREPARES was set to true.
+     *  - Add query caching support if the ConnectionWrapper::PROPEL_ATTR_CACHE_PREPARES was set to true.
      *
      * @param string $statement This must be a valid SQL statement for the target database server.
      * @param array $driverOptions One $array or more key => value pairs to set attribute values
@@ -604,10 +604,9 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     }
 
     /**
-     * Returns the number of queries this DebugPDO instance has performed on the database connection.
+     * Returns the number of queries this connection has performed on the database server.
      *
-     * When using DebugPDOStatement as the statement class, any queries by DebugPDOStatement instances
-     * are counted as well.
+     * Counts all queries logged through the connection wrapper.
      *
      * @return int
      */
@@ -617,7 +616,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     }
 
     /**
-     * Increments the number of queries performed by this DebugPDO instance.
+     * Increments the number of queries performed by this connection.
      *
      * Returns the original number of queries (ie the value of $this->queryCount before calling this method).
      *

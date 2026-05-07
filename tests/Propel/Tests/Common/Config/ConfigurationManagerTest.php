@@ -440,7 +440,7 @@ propel:
       connections:
           mysource.name:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
@@ -494,14 +494,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -537,14 +537,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -583,14 +583,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -628,14 +628,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -668,14 +668,14 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
               attributes:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -710,7 +710,7 @@ EOF;
                     'connections' => [
                         'default' => [
                             'adapter' => 'sqlite',
-                            'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                            'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                             'dsn' => 'sqlite::memory:',
                             'user' => '',
                             'password' => '',
@@ -766,7 +766,7 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
@@ -774,7 +774,7 @@ propel:
                 - src
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:
@@ -793,7 +793,7 @@ EOF;
         $expectedRuntime = [
             'mysource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=mydb',
                 'user' => 'root',
                 'password' => '',
@@ -810,7 +810,7 @@ EOF;
             ],
             'yoursource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=yourdb',
                 'user' => 'root',
                 'password' => '',
@@ -831,7 +831,7 @@ EOF;
         $expectedGenerator = [
             'mysource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=mydb',
                 'user' => 'root',
                 'password' => '',
@@ -866,13 +866,13 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:
           yoursource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=yourdb
               user: root
               password:

@@ -1291,11 +1291,6 @@
       <code><![CDATA[bool]]></code>
     </PossiblyUnusedReturnValue>
   </file>
-  <file src="src/Propel/Runtime/Connection/DebugPDO.php">
-    <UnusedClass>
-      <code><![CDATA[DebugPDO]]></code>
-    </UnusedClass>
-  </file>
   <file src="src/Propel/Runtime/Connection/PdoConnection.php">
     <PossiblyUnusedMethod>
       <code><![CDATA[__call]]></code>
@@ -1310,11 +1305,6 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[setProfiler]]></code>
     </PossiblyUnusedMethod>
-  </file>
-  <file src="src/Propel/Runtime/Connection/PropelPDO.php">
-    <UnusedClass>
-      <code><![CDATA[PropelPDO]]></code>
-    </UnusedClass>
   </file>
   <file src="src/Propel/Runtime/Connection/StatementInterface.php">
     <PossiblyUnusedMethod>

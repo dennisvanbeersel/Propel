@@ -138,7 +138,7 @@ class QuickGeneratorConfigTest extends TestCase
         $this->assertEquals(
             [
                 'adapter' => 'sqlite',
-                'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                 'dsn' => 'sqlite::memory:',
                 'user' => '',
                 'password' => '',

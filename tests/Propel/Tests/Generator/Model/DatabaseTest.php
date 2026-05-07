@@ -542,7 +542,7 @@ propel:
       connections:
           mysource:
               adapter: mysql
-              classname: Propel\Runtime\Connection\DebugPDO
+              classname: Propel\Runtime\Connection\ConnectionWrapper
               dsn: mysql:host=localhost;dbname=mydb
               user: root
               password:

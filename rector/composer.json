@@ -1,0 +1,25 @@
+{
+    "name": "propel/rector-rules",
+    "type": "rector-extension",
+    "description": "Mechanical migration rules for upgrading from Propel 3.x to 4.0.",
+    "license": "MIT",
+    "require": {
+        "php": ">=8.4",
+        "rector/rector": "^1.2 || ^2.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Propel\\Rector\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Propel\\Rector\\Tests\\": "tests/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "4.0-dev"
+        }
+    }
+}

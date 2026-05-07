@@ -46,7 +46,7 @@ propel:
     connections:
       bookstore:
         adapter: mysql
-        classname: \Propel\Runtime\Connection\DebugPDO
+        classname: \Propel\Runtime\Connection\ConnectionWrapper
         dsn: mysql:host=127.0.0.1;dbname=test
         user: root
         password:

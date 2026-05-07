@@ -41,7 +41,7 @@ class QuickGeneratorConfig extends ConfigurationManager implements GeneratorConf
                    'connections' => [
                        'default' => [
                            'adapter' => 'sqlite',
-                           'classname' => 'Propel\Runtime\Connection\DebugPDO',
+                           'classname' => 'Propel\Runtime\Connection\ConnectionWrapper',
                            'dsn' => 'sqlite::memory:',
                            'user' => '',
                            'password' => '',

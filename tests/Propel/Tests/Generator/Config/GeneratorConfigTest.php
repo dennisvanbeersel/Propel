@@ -52,7 +52,7 @@ class GeneratorConfigTest extends TestCase
                 'connections' => [
                     'mysource' => [
                         'adapter' => 'sqlite',
-                        'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+                        'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
                         'dsn' => 'sqlite:" . sys_get_temp_dir() . "/mydb',
                         'user' => 'root',
                         'password' => '',
@@ -63,7 +63,7 @@ class GeneratorConfigTest extends TestCase
                     ],
                     'yoursource' => [
                         'adapter' => 'mysql',
-                        'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+                        'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
                         'dsn' => 'mysql:host=localhost;dbname=yourdb',
                         'user' => 'root',
                         'password' => '',
@@ -294,7 +294,7 @@ class GeneratorConfigTest extends TestCase
         $expected = [
             'mysource' => [
                 'adapter' => 'sqlite',
-                'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+                'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
                 'dsn' => 'sqlite:' . sys_get_temp_dir() . '/mydb',
                 'user' => 'root',
                 'password' => '',
@@ -312,7 +312,7 @@ class GeneratorConfigTest extends TestCase
             ],
             'yoursource' => [
                 'adapter' => 'mysql',
-                'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+                'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
                 'dsn' => 'mysql:host=localhost;dbname=yourdb',
                 'user' => 'root',
                 'password' => '',
@@ -342,7 +342,7 @@ class GeneratorConfigTest extends TestCase
     {
         $expected = [
             'adapter' => 'sqlite',
-            'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+            'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
             'dsn' => 'sqlite:' . sys_get_temp_dir() . '/mydb',
             'user' => 'root',
             'password' => '',
@@ -371,7 +371,7 @@ class GeneratorConfigTest extends TestCase
     {
         $expected = [
             'adapter' => 'mysql',
-            'classname' => 'Propel\\Runtime\\Connection\\DebugPDO',
+            'classname' => 'Propel\\Runtime\\Connection\\ConnectionWrapper',
             'dsn' => 'mysql:host=localhost;dbname=yourdb',
             'user' => 'root',
             'password' => '',

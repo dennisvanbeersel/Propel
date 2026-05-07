@@ -22,7 +22,7 @@ class ArrayToPhpConverterTest extends TestCase
             'connections' => [
                 'bookstore' => [
                   'adapter' => 'mysql',
-                  'classname' => 'DebugPDO',
+                  'classname' => 'ConnectionWrapper',
                   'dsn' => 'mysql:host=localhost;dbname=bookstore',
                   'user' => 'testuser',
                   'password' => 'password',
@@ -35,7 +35,7 @@ class ArrayToPhpConverterTest extends TestCase
 \$serviceContainer->setAdapterClass('bookstore', 'mysql');
 \$manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('bookstore');
 \$manager->setConfiguration(array (
-  'classname' => 'DebugPDO',
+  'classname' => 'ConnectionWrapper',
   'dsn' => 'mysql:host=localhost;dbname=bookstore',
   'user' => 'testuser',
   'password' => 'password',
@@ -196,7 +196,7 @@ EOF;
           'connections' => [
             'bookstore' => [
               'adapter' => 'mysql',
-              'classname' => '\\Propel\\Runtime\\Connection\\DebugPDO',
+              'classname' => '\\Propel\\Runtime\\Connection\\ConnectionWrapper',
               'dsn' => 'mysql:host=127.0.0.1;dbname=test',
               'user' => 'root',
               'password' => '',
@@ -225,7 +225,7 @@ EOF;
 $serviceContainer->setAdapterClass('bookstore', 'mysql');
 $manager = new \Propel\Runtime\Connection\ConnectionManagerSingle('bookstore');
 $manager->setConfiguration(array (
-  'classname' => '\\Propel\\Runtime\\Connection\\DebugPDO',
+  'classname' => '\\Propel\\Runtime\\Connection\\ConnectionWrapper',
   'dsn' => 'mysql:host=127.0.0.1;dbname=test',
   'user' => 'root',
   'password' => '',
