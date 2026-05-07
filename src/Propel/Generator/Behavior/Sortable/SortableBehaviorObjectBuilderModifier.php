@@ -435,17 +435,28 @@ public function setScopeValue(\$v)
      */
     protected function addIsFirst(string &$script): void
     {
-        $script .= "
-/**
- * Check if the object is first in the list, i.e. if it has 1 for rank
- *
- * @return bool
- */
-public function isFirst()
-{
-    return \$this->{$this->getColumnGetter()}() == 1;
-}
-";
+        // Phase D D.3.1: ported to CodeEmitter — byte-identical to the previous
+        // string-concat form. Pattern: blank line at start, blank line after
+        // closing brace (no trailing blank). The CodeEmitter::raw() helper
+        // (delegated to direct line emission below) preserves the leading
+        // newline by emitting an explicit blank() before the docblock.
+        $columnGetter = $this->getColumnGetter();
+        $emitter = new \Propel\Generator\Builder\Util\CodeEmitter();
+        $emitter->blank();
+        $emitter->line('/**');
+        $emitter->line(' * Check if the object is first in the list, i.e. if it has 1 for rank');
+        $emitter->line(' *');
+        $emitter->line(' * @return bool');
+        $emitter->line(' */');
+        $emitter->line('public function isFirst()');
+        $emitter->line('{');
+        {
+            $body = $emitter->block();
+            $emitter->line('return $this->' . $columnGetter . '() == 1;');
+            unset($body);
+        }
+        $emitter->line('}');
+        $script .= $emitter->toString();
     }
 
     /**
