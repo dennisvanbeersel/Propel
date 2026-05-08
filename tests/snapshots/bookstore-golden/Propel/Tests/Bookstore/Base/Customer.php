@@ -75,14 +75,14 @@ abstract class Customer implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * The value for the join_date field.

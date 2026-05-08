@@ -72,42 +72,42 @@ abstract class Essay implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the first_author_id field.
      * Foreign Key Author
      * @var        int|null
      */
-    protected ?int $first_author_id = null;
+    public protected(set) ?int $first_author_id = null;
 
     /**
      * The value for the second_author_id field.
      * Foreign Key Author
      * @var        int|null
      */
-    protected ?int $second_author_id = null;
+    public protected(set) ?int $second_author_id = null;
 
     /**
      * The value for the subtitle field.
      *
      * @var        string|null
      */
-    protected ?string $subtitle = null;
+    public protected(set) ?string $subtitle = null;
 
     /**
      * The value for the next_essay_id field.
      * Book Id
      * @var        int|null
      */
-    protected ?int $next_essay_id = null;
+    public protected(set) ?int $next_essay_id = null;
 
     /**
      * @var        ChildAuthor|null

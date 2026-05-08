@@ -79,14 +79,14 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Primary key for the account ...
      * @var        int
      */
-    protected ?int $employee_id = null;
+    public protected(set) ?int $employee_id = null;
 
     /**
      * The value for the login field.
      *
      * @var        string|null
      */
-    protected ?string $login = null;
+    public protected(set) ?string $login = null;
 
     /**
      * The value for the password field.
@@ -94,7 +94,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: '\'@\'\'34"'
      * @var        string|null
      */
-    protected ?string $password = null;
+    public protected(set) ?string $password = null;
 
     /**
      * The value for the enabled field.
@@ -102,7 +102,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: true
      * @var        bool|null
      */
-    protected ?bool $enabled = null;
+    public protected(set) ?bool $enabled = null;
 
     /**
      * The value for the not_enabled field.
@@ -110,7 +110,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: false
      * @var        bool|null
      */
-    protected ?bool $not_enabled = null;
+    public protected(set) ?bool $not_enabled = null;
 
     /**
      * The value for the created field.
@@ -133,7 +133,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected ?int $role_id = null;
+    public protected(set) ?int $role_id = null;
 
     /**
      * The value for the authenticator field.
@@ -141,7 +141,7 @@ abstract class BookstoreEmployeeAccount implements ActiveRecordInterface
      * Note: this column has a database default value of: (expression) 'Password'
      * @var        string|null
      */
-    protected ?string $authenticator = null;
+    public protected(set) ?string $authenticator = null;
 
     /**
      * @var        ChildBookstoreEmployee|null

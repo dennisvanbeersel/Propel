@@ -70,7 +70,7 @@ abstract class AggregateItem implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the score field.
@@ -78,14 +78,14 @@ abstract class AggregateItem implements ActiveRecordInterface
      * Note: this column has a database default value of: 0
      * @var        int|null
      */
-    protected ?int $score = null;
+    public protected(set) ?int $score = null;
 
     /**
      * The value for the poll_id field.
      *
      * @var        int|null
      */
-    protected ?int $poll_id = null;
+    public protected(set) ?int $poll_id = null;
 
     /**
      * @var        ChildAggregatePoll|null

@@ -70,21 +70,21 @@ abstract class Table8 implements ActiveRecordInterface
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the foo_id field.
      *
      * @var        int|null
      */
-    protected ?int $foo_id = null;
+    public protected(set) ?int $foo_id = null;
 
     /**
      * The value for the identifier field.
      *
      * @var        string
      */
-    protected ?string $identifier = null;
+    public protected(set) ?string $identifier = null;
 
     /**
      * @var        ChildTable6|null

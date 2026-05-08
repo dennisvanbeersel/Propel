@@ -79,35 +79,35 @@ abstract class Author implements ActiveRecordInterface
      * Author Id
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the first_name field.
      * First Name
      * @var        string
      */
-    protected ?string $first_name = null;
+    public protected(set) ?string $first_name = null;
 
     /**
      * The value for the last_name field.
      * Last Name
      * @var        string
      */
-    protected ?string $last_name = null;
+    public protected(set) ?string $last_name = null;
 
     /**
      * The value for the email field.
      * E-Mail Address
      * @var        string|null
      */
-    protected ?string $email = null;
+    public protected(set) ?string $email = null;
 
     /**
      * The value for the age field.
      * The authors age
      * @var        int|null
      */
-    protected ?int $age = null;
+    public protected(set) ?int $age = null;
 
     /**
      * @var        ObjectCollection|ChildBook[] Collection to store aggregation of ChildBook objects.

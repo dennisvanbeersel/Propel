@@ -70,7 +70,7 @@ abstract class Media implements ActiveRecordInterface
      * Media Id
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the cover_image field.
@@ -91,7 +91,7 @@ abstract class Media implements ActiveRecordInterface
      * An excerpt from the book.
      * @var        string|null
      */
-    protected ?string $excerpt = null;
+    public protected(set) ?string $excerpt = null;
 
     /**
      * Whether the lazy-loaded $excerpt value has been loaded from database.
@@ -105,7 +105,7 @@ abstract class Media implements ActiveRecordInterface
      * Book ID for this media collection.
      * @var        int
      */
-    protected ?int $book_id = null;
+    public protected(set) ?int $book_id = null;
 
     /**
      * @var        ChildBook|null

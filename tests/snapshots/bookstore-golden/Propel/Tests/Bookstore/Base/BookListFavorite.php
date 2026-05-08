@@ -72,14 +72,14 @@ abstract class BookListFavorite implements ActiveRecordInterface
      * Fkey to book.id
      * @var        int
      */
-    protected ?int $book_id = null;
+    public protected(set) ?int $book_id = null;
 
     /**
      * The value for the book_club_list_id field.
      * Fkey to book_club_list.id
      * @var        int
      */
-    protected ?int $book_club_list_id = null;
+    public protected(set) ?int $book_club_list_id = null;
 
     /**
      * @var        ChildBook|null

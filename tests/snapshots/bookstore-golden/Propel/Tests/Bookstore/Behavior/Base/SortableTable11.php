@@ -69,21 +69,21 @@ abstract class SortableTable11 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the sortable_rank field.
      *
      * @var        int|null
      */
-    protected ?int $sortable_rank = null;
+    public protected(set) ?int $sortable_rank = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

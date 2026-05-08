@@ -68,28 +68,28 @@ abstract class TableWithScope implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the scope field.
      *
      * @var        int|null
      */
-    protected ?int $scope = null;
+    public protected(set) ?int $scope = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the slug field.
      *
      * @var        string|null
      */
-    protected ?string $slug = null;
+    public protected(set) ?string $slug = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

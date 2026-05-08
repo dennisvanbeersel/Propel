@@ -73,14 +73,14 @@ abstract class Woman implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the husband_id field.
      *
      * @var        int|null
      */
-    protected ?int $husband_id = null;
+    public protected(set) ?int $husband_id = null;
 
     /**
      * @var        ChildMan|null

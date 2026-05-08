@@ -70,14 +70,14 @@ abstract class AggregateComment implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the post_id field.
      *
      * @var        int|null
      */
-    protected ?int $post_id = null;
+    public protected(set) ?int $post_id = null;
 
     /**
      * @var        ChildAggregatePost|null

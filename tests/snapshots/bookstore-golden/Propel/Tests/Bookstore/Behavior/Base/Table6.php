@@ -73,14 +73,14 @@ abstract class Table6 implements ActiveRecordInterface
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the id field.
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * @var        ObjectCollection|ChildTable8[] Collection to store aggregation of ChildTable8 objects.

@@ -70,28 +70,28 @@ abstract class ReleasePool implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the record_label_id field.
      *
      * @var        int
      */
-    protected ?int $record_label_id = null;
+    public protected(set) ?int $record_label_id = null;
 
     /**
      * The value for the record_label_abbr field.
      *
      * @var        string
      */
-    protected ?string $record_label_abbr = null;
+    public protected(set) ?string $record_label_abbr = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * @var        ChildRecordLabel|null

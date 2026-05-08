@@ -75,21 +75,21 @@ abstract class Contest implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * The value for the country_code field.
      *
      * @var        string|null
      */
-    protected ?string $country_code = null;
+    public protected(set) ?string $country_code = null;
 
     /**
      * @var        ChildCountry|null

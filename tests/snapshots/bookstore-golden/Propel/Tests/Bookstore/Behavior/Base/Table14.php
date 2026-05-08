@@ -68,21 +68,21 @@ abstract class Table14 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the url field.
      *
      * @var        string|null
      */
-    protected ?string $url = null;
+    public protected(set) ?string $url = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced

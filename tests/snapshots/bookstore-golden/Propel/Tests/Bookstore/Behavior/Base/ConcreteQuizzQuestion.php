@@ -70,42 +70,42 @@ abstract class ConcreteQuizzQuestion implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the question field.
      *
      * @var        string|null
      */
-    protected ?string $question = null;
+    public protected(set) ?string $question = null;
 
     /**
      * The value for the answer_1 field.
      *
      * @var        string|null
      */
-    protected ?string $answer_1 = null;
+    public protected(set) ?string $answer_1 = null;
 
     /**
      * The value for the answer_2 field.
      *
      * @var        string|null
      */
-    protected ?string $answer_2 = null;
+    public protected(set) ?string $answer_2 = null;
 
     /**
      * The value for the correct_answer field.
      *
      * @var        int|null
      */
-    protected ?int $correct_answer = null;
+    public protected(set) ?int $correct_answer = null;
 
     /**
      * The value for the quizz_id field.
      *
      * @var        int
      */
-    protected ?int $quizz_id = null;
+    public protected(set) ?int $quizz_id = null;
 
     /**
      * @var        ChildConcreteQuizz|null

@@ -76,21 +76,21 @@ abstract class BookstoreContestEntry implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $bookstore_id = null;
+    public protected(set) ?int $bookstore_id = null;
 
     /**
      * The value for the contest_id field.
      *
      * @var        int
      */
-    protected ?int $contest_id = null;
+    public protected(set) ?int $contest_id = null;
 
     /**
      * The value for the customer_id field.
      *
      * @var        int
      */
-    protected ?int $customer_id = null;
+    public protected(set) ?int $customer_id = null;
 
     /**
      * The value for the entry_date field.
