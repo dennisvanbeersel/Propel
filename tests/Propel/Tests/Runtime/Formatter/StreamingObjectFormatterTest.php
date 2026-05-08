@@ -170,8 +170,32 @@ XML;
         $formatter = new StreamingObjectFormatter($query, $query->doSelect());
         $formatter->setTelemetry($telemetry);
 
-        foreach ($formatter->format() as $_) {
-            // drain
+        foreach ($formatter->format() as $row) {
+            $this->assertNotNull($row);
         }
+    }
+
+    /**
+     * Phase G.6.2 — verifies that `ModelCriteria::findStream()` returns a
+     * Generator wired through StreamingObjectFormatter (not the user's
+     * setFormatter() formatter).
+     *
+     * @return void
+     */
+    public function testFindStreamReturnsGeneratorYieldingHydratedEntities(): void
+    {
+        $this->seed(7);
+
+        /** @var \Generator<int, ActiveRecordInterface> $stream */
+        $stream = ('StreamingFormatterBench\\StreamAuthorQuery')::create()->findStream();
+
+        $this->assertInstanceOf(Generator::class, $stream);
+
+        $count = 0;
+        foreach ($stream as $row) {
+            $this->assertInstanceOf(ActiveRecordInterface::class, $row);
+            $count++;
+        }
+        $this->assertSame(7, $count);
     }
 }

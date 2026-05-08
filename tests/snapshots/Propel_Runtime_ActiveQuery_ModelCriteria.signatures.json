@@ -1276,6 +1276,24 @@
             "returnType": null
         },
         {
+            "name": "findStream",
+            "visibility": "public",
+            "isStatic": false,
+            "isAbstract": false,
+            "isFinal": false,
+            "parameters": [
+                {
+                    "name": "con",
+                    "type": "?Propel\\Runtime\\Connection\\ConnectionInterface",
+                    "default": "NULL",
+                    "byRef": false,
+                    "variadic": false,
+                    "nullable": true
+                }
+            ],
+            "returnType": "Generator"
+        },
+        {
             "name": "getAliasedColName",
             "visibility": "public",
             "isStatic": false,
