@@ -1325,8 +1325,6 @@
       <code><![CDATA[\ReflectionClass<T>]]></code>
     </InvalidReturnType>
     <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-      <code><![CDATA[getClass]]></code>
       <code><![CDATA[getDbName]]></code>
       <code><![CDATA[hasLimit]]></code>
       <code><![CDATA[isObjectFormatter]]></code>
@@ -1361,6 +1359,8 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[isObjectFormatter]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Propel/Runtime/Formatter/ObjectRowHydratorTrait.php">
     <UndefinedMethod>
       <code><![CDATA[populateObject]]></code>
       <code><![CDATA[populateObject]]></code>
