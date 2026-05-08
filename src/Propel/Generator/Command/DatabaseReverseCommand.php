@@ -44,11 +44,6 @@ class DatabaseReverseCommand extends AbstractCommand
     public const REVERSE_FORMAT_INFORMATION_SCHEMA = 'information-schema';
 
     /**
-     * @var string
-     */
-    public const REVERSE_FORMAT_LEGACY_SHOW_CREATE = 'legacy-show-create';
-
-    /**
      * @inheritDoc
      */
     #[\Override]
@@ -65,8 +60,8 @@ class DatabaseReverseCommand extends AbstractCommand
                 'reverse-format',
                 null,
                 InputOption::VALUE_REQUIRED,
-                'Reverse-engineering strategy: information-schema (default; INFORMATION_SCHEMA / pg_catalog queries) or '
-                . 'legacy-show-create (deprecated, removal targeted for 4.0; SHOW CREATE TABLE regex parsing).',
+                'Reverse-engineering strategy: information-schema (INFORMATION_SCHEMA / pg_catalog queries). '
+                . 'The legacy `legacy-show-create` SHOW CREATE TABLE regex parser was removed in Propel 4.0.',
                 self::REVERSE_FORMAT_INFORMATION_SCHEMA,
             )
             ->addArgument(
@@ -85,29 +80,19 @@ class DatabaseReverseCommand extends AbstractCommand
     {
         $configOptions = [];
 
-        // Phase D: validate --reverse-format and fire a deprecation when the
-        // legacy SHOW CREATE TABLE path is requested. The legacy path is the
-        // pre-D.6.1 parser behavior; removal targeted for 4.0.
+        // Phase G.2.7 (Propel 4.0): only `information-schema` is now a valid
+        // --reverse-format. The legacy `legacy-show-create` branch and its
+        // REVERSE_FORMAT_LEGACY_SHOW_CREATE constant were removed.
         $reverseFormat = (string)$input->getOption('reverse-format');
-        if (
-            $reverseFormat !== self::REVERSE_FORMAT_INFORMATION_SCHEMA
-            && $reverseFormat !== self::REVERSE_FORMAT_LEGACY_SHOW_CREATE
-        ) {
+        if ($reverseFormat !== self::REVERSE_FORMAT_INFORMATION_SCHEMA) {
             $output->writeln(sprintf(
-                '<error>Invalid --reverse-format value "%s". Allowed: %s, %s.</error>',
+                '<error>Invalid --reverse-format value "%s". Only "%s" is supported in Propel 4.0; '
+                . 'the legacy `legacy-show-create` branch was removed. See UPGRADE-4.0.md.</error>',
                 $reverseFormat,
                 self::REVERSE_FORMAT_INFORMATION_SCHEMA,
-                self::REVERSE_FORMAT_LEGACY_SHOW_CREATE,
             ));
 
             return static::CODE_ERROR;
-        }
-        if ($reverseFormat === self::REVERSE_FORMAT_LEGACY_SHOW_CREATE && function_exists('trigger_deprecation')) {
-            trigger_deprecation(
-                'propel/propel',
-                '3.0',
-                '--reverse-format=legacy-show-create is deprecated; removal targeted for 4.0. Use the default information-schema strategy.',
-            );
         }
 
         $connection = (string)$input->getArgument('connection');

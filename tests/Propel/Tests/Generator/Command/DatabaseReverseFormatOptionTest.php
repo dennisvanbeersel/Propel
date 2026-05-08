@@ -14,9 +14,10 @@ use Propel\Generator\Command\DatabaseReverseCommand;
 use Propel\Tests\TestCase;
 
 /**
- * Phase D (umbrella §6.4 carry-forward): the new --reverse-format option
- * exposes the legacy SHOW CREATE TABLE path under a deprecation flag, and
- * defaults to the information-schema strategy.
+ * Phase D (umbrella §6.4 carry-forward) / Phase G.2.7 (Propel 4.0): the
+ * --reverse-format option defaults to the information-schema strategy. The
+ * legacy SHOW CREATE TABLE branch (REVERSE_FORMAT_LEGACY_SHOW_CREATE) was
+ * removed in 4.0 along with NestedSet.
  */
 class DatabaseReverseFormatOptionTest extends TestCase
 {
@@ -38,11 +39,10 @@ class DatabaseReverseFormatOptionTest extends TestCase
     /**
      * @return void
      */
-    public function testReverseFormatConstantsAreStable(): void
+    public function testInformationSchemaConstantStable(): void
     {
-        // Tier 2 stability: the public constants are part of the consumer
+        // Tier 2 stability: the public constant is part of the consumer
         // contract for tooling that wraps the command.
         $this->assertSame('information-schema', DatabaseReverseCommand::REVERSE_FORMAT_INFORMATION_SCHEMA);
-        $this->assertSame('legacy-show-create', DatabaseReverseCommand::REVERSE_FORMAT_LEGACY_SHOW_CREATE);
     }
 }
