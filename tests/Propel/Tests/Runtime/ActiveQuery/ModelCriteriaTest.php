@@ -1980,6 +1980,13 @@ class ModelCriteriaTest extends BookstoreTestBase
      */
     public function testFindOneOrCreateWithArrays()
     {
+        if ($this->runningOnPostgreSQL()) {
+            $this->markTestSkipped(
+                'PostgreSQL has no `=` operator for a JSON column, so the generic filterByTags() '
+                . 'equality filter used here is unsupported; JSON containment needs JSON operators.',
+            );
+        }
+
         Book2Query::create()->deleteAll();
 
         // The `tags` column is a JSON array (the legacy PHP ARRAY type was removed in 4.0),
