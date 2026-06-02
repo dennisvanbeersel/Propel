@@ -975,7 +975,6 @@
       <code><![CDATA[findOneOrCreate]]></code>
       <code><![CDATA[findPks]]></code>
       <code><![CDATA[getParams]]></code>
-      <code><![CDATA[getSelect]]></code>
       <code><![CDATA[groupBy]]></code>
       <code><![CDATA[groupByClass]]></code>
       <code><![CDATA[having]]></code>
