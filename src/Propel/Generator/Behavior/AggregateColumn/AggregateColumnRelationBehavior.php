@@ -83,6 +83,8 @@ protected \$old{$relationName}{$aggregateName};
      *
      * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
      *
+     * @psalm-suppress PossiblyUnusedMethod called dynamically by the query builder behavior hook dispatch
+     *
      * @return string
      */
     public function queryAttributes(AbstractOMBuilder $builder): string

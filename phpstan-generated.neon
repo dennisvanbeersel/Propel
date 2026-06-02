@@ -6,6 +6,9 @@ parameters:
     # and by PHPStan level 7 on src/. Generated output legitimately uses a handful of
     # patterns that the strict levels flag but that are correct by construction.
     level: 0
+    # The ignore patterns below describe generated-code shapes; depending on the schema set
+    # being built, a given pattern may legitimately match nothing, so do not fail on that.
+    reportUnmatchedIgnoredErrors: false
     paths:
         - tests/Fixtures/bookstore/build/classes
     scanDirectories:

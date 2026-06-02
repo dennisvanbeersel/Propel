@@ -119,6 +119,7 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
      * element ... has no effect").
      *
      * @psalm-suppress ReservedWord
+     * @psalm-suppress NonVariableReferenceReturn returning a fresh local null for the missing-key case is intentional
      *
      * @param mixed $offset
      *
