@@ -1074,6 +1074,10 @@ abstract class AggregateComment implements ActiveRecordInterface
      */
     public function setAggregatePost(?ChildAggregatePost $v = null): self
     {
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregatePost && $v !== $this->aAggregatePost) {
+            $this->oldAggregatePostNbComments = $this->aAggregatePost;
+        }
         if ($v === null) {
             $this->setPostId(NULL);
         } else {

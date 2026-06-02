@@ -1240,6 +1240,14 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      */
     public function setAggregateMultipleScoreGroup(?ChildAggregateMultipleScoreGroup $v = null): self
     {
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
+            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore1 = $this->aAggregateMultipleScoreGroup;
+        }
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
+            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore = $this->aAggregateMultipleScoreGroup;
+        }
         if ($v === null) {
             $this->setScoreGroupId(NULL);
         } else {

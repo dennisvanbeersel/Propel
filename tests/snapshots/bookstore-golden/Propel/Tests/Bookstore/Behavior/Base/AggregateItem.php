@@ -1161,6 +1161,14 @@ abstract class AggregateItem implements ActiveRecordInterface
      */
     public function setAggregatePoll(?ChildAggregatePoll $v = null): self
     {
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregatePoll && $v !== $this->aAggregatePoll) {
+            $this->oldAggregatePollNbVotes = $this->aAggregatePoll;
+        }
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregatePoll && $v !== $this->aAggregatePoll) {
+            $this->oldAggregatePollTotalScore = $this->aAggregatePoll;
+        }
         if ($v === null) {
             $this->setPollId(NULL);
         } else {

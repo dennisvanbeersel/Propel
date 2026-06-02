@@ -1923,7 +1923,7 @@ class ModelCriteriaTest extends BookstoreTestBase
         $this->assertTrue($book instanceof Book2, 'findOneOrCreate() returns an instance of the model when the request has no result');
         $this->assertTrue($book->isNew(), 'findOneOrCreate() returns a new instance of the model when the request has no result');
         $this->assertEquals('bar', $book->getTitle(), 'findOneOrCreate() returns a populated objects based on the conditions');
-        $this->assertEquals('poetry', $book->getStyle(), 'findOneOrCreate() returns a populated objects based on the conditions');
+        $this->assertEquals('poetry', $book->getStyle()?->value, 'findOneOrCreate() returns a populated objects based on the conditions');
 
         $book = Book2Query::create('b')
             ->where('b.Title = ?', 'foobar')
@@ -1932,14 +1932,14 @@ class ModelCriteriaTest extends BookstoreTestBase
         $this->assertTrue($book instanceof Book2, 'findOneOrCreate() returns an instance of the model when the request has no result');
         $this->assertTrue($book->isNew(), 'findOneOrCreate() returns a new instance of the model when the request has no result');
         $this->assertEquals('foobar', $book->getTitle(), 'findOneOrCreate() returns a populated objects based on the conditions');
-        $this->assertEquals('essay', $book->getStyle(), 'findOneOrCreate() returns a populated objects based on the conditions');
+        $this->assertEquals('essay', $book->getStyle()?->value, 'findOneOrCreate() returns a populated objects based on the conditions');
 
         $book = Book2Query::create('b')
             ->where('b.Style = ?', 'novel')
             ->findOneOrCreate();
         $this->assertTrue($book instanceof Book2, 'findOneOrCreate() returns an instance of the model when the request has no result');
         $this->assertTrue($book->isNew(), 'findOneOrCreate() returns a new instance of the model when the request has no result');
-        $this->assertEquals('novel', $book->getStyle(), 'findOneOrCreate() returns a populated objects based on the conditions');
+        $this->assertEquals('novel', $book->getStyle()?->value, 'findOneOrCreate() returns a populated objects based on the conditions');
     }
 
     /**
@@ -1982,8 +1982,11 @@ class ModelCriteriaTest extends BookstoreTestBase
     {
         Book2Query::create()->deleteAll();
 
+        // The `tags` column is a JSON array (the legacy PHP ARRAY type was removed in 4.0),
+        // so filtering goes through the plural filterByTags(); findOneOrCreate() still
+        // populates the new object from the equality condition.
         $book = Book2Query::create('b')
-            ->filterByTag('russian')
+            ->filterByTags(['russian'])
             ->findOneOrCreate();
         $this->assertTrue($book instanceof Book2, 'findOneOrCreate() returns an instance of the model when the request has no result');
         $this->assertTrue($book->isNew(), 'findOneOrCreate() returns a new instance of the model when the request has no result');

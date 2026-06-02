@@ -114,14 +114,19 @@ protected \$old{$relationName}{$aggregateName};
         $relationName = $this->getRelationName($builder);
         $aggregateName = $this->getParameter('aggregate_name');
         $relatedClass = $builder->getClassNameFromBuilder($builder->getNewStubObjectBuilder($this->getForeignTable()));
-        $search = "    public function set{$relationName}(?{$relatedClass} \$v = null)
-    {";
-        $replace = $search . "
+        // The generated foreign-key setter now carries a return type declaration
+        // (e.g. `: self`); match the signature up to the closing parenthesis and keep
+        // whatever return type / opening brace follows so the old-relation tracking is
+        // actually injected (a plain str_replace on the old signature silently failed).
+        $pattern = '/    public function set' . preg_quote($relationName, '/')
+            . '\(\?' . preg_quote($relatedClass, '/') . ' \$v = null\)([^{]*\{)/';
+        $replace = "    public function set{$relationName}(?{$relatedClass} \$v = null)\$1"
+            . "
         // aggregate_column_relation behavior
         if (null !== \$this->a{$relationName} && \$v !== \$this->a{$relationName}) {
             \$this->old{$relationName}{$aggregateName} = \$this->a{$relationName};
         }";
-        $script = str_replace($search, $replace, $script);
+        $script = preg_replace($pattern, $replace, $script);
     }
 
     /**

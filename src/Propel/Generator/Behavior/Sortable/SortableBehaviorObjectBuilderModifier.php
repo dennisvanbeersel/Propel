@@ -378,8 +378,10 @@ public function getScopeValue(\$returnNulls = true)
 ";
         } elseif ($this->behavior->getColumnForParameter('scope_column')->isEnumType()) {
             $columnConstant = strtoupper(preg_replace('/[^a-zA-Z0-9_\x7f-\xff]/', '_', $this->getColumnAttribute('scope_column')));
+            // The enum column getter returns a backed enum; use its scalar ->value so that
+            // array_search() resolves the stored index used to scope the sortable rank.
             $script .= "
-    return array_search(\$this->{$this->getColumnGetter('scope_column')}(), {$this->tableMapClassName}::getValueSet({$this->tableMapClassName}::COL_{$columnConstant}));
+    return array_search(\$this->{$this->getColumnGetter('scope_column')}()?->value, {$this->tableMapClassName}::getValueSet({$this->tableMapClassName}::COL_{$columnConstant}));
             ";
         } elseif ($this->behavior->getColumnForParameter('scope_column')->isSetType()) {
             $columnConstant = strtoupper(preg_replace('/[^a-zA-Z0-9_\x7f-\xff]/', '_', $this->getColumnAttribute('scope_column')));

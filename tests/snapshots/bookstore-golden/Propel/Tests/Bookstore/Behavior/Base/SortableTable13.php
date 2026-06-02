@@ -1277,7 +1277,7 @@ abstract class SortableTable13 implements ActiveRecordInterface
     public function getScopeValue($returnNulls = true)
     {
 
-        return array_search($this->getStyle(), SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE));
+        return array_search($this->getStyle()?->value, SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE));
 
     }
 
