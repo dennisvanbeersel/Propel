@@ -331,7 +331,7 @@ private ?string $generationExpression = null;
 
 Validation: if `generated` is set, `expression` MUST be set; throw `SchemaException` (existing class) with file:line context if not.
 
-Validation: `expression` without `generated` is allowed (forward-compat for future use cases) but emits `trigger_deprecation('maturix/propel', '3.0', '<column expression> without <generated> has no effect')`.
+Validation: `expression` without `generated` is allowed (forward-compat for future use cases) but emits `trigger_deprecation('dennisvanbeersel/propel', '3.0', '<column expression> without <generated> has no effect')`.
 
 - [ ] **Step 3: Add public getters**
 
@@ -561,7 +561,7 @@ git commit -m "feat(platform/mysql): emit JSON, INVISIBLE, generated columns, CH
 
 - [ ] **Step 1: PG generated-column DDL**
 
-PG only supports STORED. If `getGenerationKind() === 'virtual'`, emit `STORED` and `trigger_deprecation('maturix/propel', '3.0', 'PostgreSQL has no virtual generated columns; emitting STORED instead')`. Match column DDL to:
+PG only supports STORED. If `getGenerationKind() === 'virtual'`, emit `STORED` and `trigger_deprecation('dennisvanbeersel/propel', '3.0', 'PostgreSQL has no virtual generated columns; emitting STORED instead')`. Match column DDL to:
 ```
 <type> <COLLATE?> <NULL?> <DEFAULT?> <GENERATED { ALWAYS AS IDENTITY | ALWAYS AS (expr) STORED }>
 ```
@@ -694,7 +694,7 @@ git commit -m "feat(builder/query): generate JSONB filterByX* helpers on PG only
 
 - [ ] **Step 1: Honor `<vendor type="pgsql"><parameter name="legacy-serial" value="true"/>` on a `<column>` to opt back into `serial`/`bigserial` emission**
 
-Triggers `trigger_deprecation('maturix/propel', '3.0', 'legacy-serial vendor flag — migrate to IDENTITY before 4.0')`.
+Triggers `trigger_deprecation('dennisvanbeersel/propel', '3.0', 'legacy-serial vendor flag — migrate to IDENTITY before 4.0')`.
 
 - [ ] **Step 2: Document in `docs/MIGRATION-FROM-PRE-AI.md`**
 
@@ -874,7 +874,7 @@ git commit -m "test(pbt): schema XML→DDL→reverse→XML round-trip property t
 
 - [ ] **Step 1: Add `--reverse-format` option** with values `information-schema` (default) and `legacy-show-create`. Symfony `InputOption::VALUE_REQUIRED`.
 
-- [ ] **Step 2: When `legacy-show-create`, dispatch to the pre-Phase-C parsing method** (kept as a private method in the parser; not deleted). `trigger_deprecation('maturix/propel', '3.0', '--reverse-format=legacy-show-create — removal targeted for 4.0')`.
+- [ ] **Step 2: When `legacy-show-create`, dispatch to the pre-Phase-C parsing method** (kept as a private method in the parser; not deleted). `trigger_deprecation('dennisvanbeersel/propel', '3.0', '--reverse-format=legacy-show-create — removal targeted for 4.0')`.
 
 - [ ] **Step 3: Document in `docs/MIGRATION-FROM-PRE-AI.md`** — when to use the flag (e.g., when downstream tooling depends on the older parser's quirks); concrete deadline.
 

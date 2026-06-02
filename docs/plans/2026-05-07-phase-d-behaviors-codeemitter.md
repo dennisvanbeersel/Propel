@@ -50,7 +50,7 @@ The Phase C deferred work (reverse parsers + Diff comparator extensions) lands i
 - `tests/Fixtures/bookstore/schema-nested-set-deprecated.xml` — opt-in fixture exercising NestedSet so the deprecation trigger path is end-to-end tested without polluting the main bookstore golden tree.
 
 **Modified:**
-- `src/Propel/Generator/Behavior/NestedSet/NestedSetBehavior.php` — class-level `@deprecated` PHPDoc + `trigger_deprecation('maturix/propel', '3.0', 'NestedSet behavior — use recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+); see docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte for migration cookbook')` in `modifyTable()`.
+- `src/Propel/Generator/Behavior/NestedSet/NestedSetBehavior.php` — class-level `@deprecated` PHPDoc + `trigger_deprecation('dennisvanbeersel/propel', '3.0', 'NestedSet behavior — use recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+); see docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte for migration cookbook')` in `modifyTable()`.
 - `src/Propel/Generator/Behavior/NestedSet/NestedSetBehaviorObjectBuilderModifier.php` — port to `CodeEmitter` (file is 49,209 bytes / ~1,783 LOC) **without changing emitted output**; emit `@deprecated` PHPDoc on every generated nested-set method (consumer-visible deprecation).
 - `src/Propel/Generator/Behavior/NestedSet/NestedSetBehaviorQueryBuilderModifier.php` — same port (33,219 bytes / ~1,117 LOC).
 - `src/Propel/Generator/Behavior/Sortable/SortableBehaviorObjectBuilderModifier.php` — port to `CodeEmitter` (25,756 bytes / ~965 LOC).
@@ -299,7 +299,7 @@ class NestedSetBehavior extends Behavior { ... }
 
 ```php
 trigger_deprecation(
-    'maturix/propel',
+    'dennisvanbeersel/propel',
     '3.0',
     'NestedSet behavior is deprecated. Use recursive CTEs (MySQL 8 / MariaDB 10.2.2+ / PG 8.4+); see docs/MIGRATION-FROM-PRE-AI.md#nested-set-to-recursive-cte for migration cookbook.',
 );
@@ -766,7 +766,7 @@ protected array $parameters = [
 
 Add the column with `defaultExpr` set to `CURRENT_TIMESTAMP` and a vendor parameter `<vendor type="mysql"><parameter name="onUpdate" value="CURRENT_TIMESTAMP"/></vendor>` so the existing platform DDL emitter (which already honors that vendor parameter) generates the right SQL.
 
-If platform is PostgreSQL: no native, fall back to PHP-side `preUpdate` hook (current behavior). Emit `trigger_deprecation('maturix/propel', '3.0', 'Timestampable use_native_on_update on PostgreSQL has no native ON UPDATE; PHP-side hook used; consider a TRIGGER for true DB-side enforcement')`.
+If platform is PostgreSQL: no native, fall back to PHP-side `preUpdate` hook (current behavior). Emit `trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Timestampable use_native_on_update on PostgreSQL has no native ON UPDATE; PHP-side hook used; consider a TRIGGER for true DB-side enforcement')`.
 
 If platform is SQLite: PHP-side hook (frozen).
 
@@ -950,7 +950,7 @@ git commit -m "feat(reverse): UUID detection on MySQL BINARY(16) + PG native uui
 
 - [ ] **Step 1: Add `--reverse-format` option** with values `information-schema` (default) and `legacy-show-create`. Symfony `InputOption::VALUE_REQUIRED`.
 
-- [ ] **Step 2: When `legacy-show-create`, dispatch to the pre-D.6.1 parsing method** (kept private; not deleted). Fire `trigger_deprecation('maturix/propel', '3.0', '--reverse-format=legacy-show-create — removal targeted for 4.0')`.
+- [ ] **Step 2: When `legacy-show-create`, dispatch to the pre-D.6.1 parsing method** (kept private; not deleted). Fire `trigger_deprecation('dennisvanbeersel/propel', '3.0', '--reverse-format=legacy-show-create — removal targeted for 4.0')`.
 
 - [ ] **Step 3: Document in `docs/MIGRATION-FROM-PRE-AI.md`** when to use the flag (downstream tooling depends on the older parser's quirks; concrete deadline).
 

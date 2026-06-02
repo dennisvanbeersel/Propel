@@ -47,7 +47,7 @@ PdoConnection (final, ~200 LOC) — bare PDO bridge, no logic
 
 ### BC shim deprecation runway
 
-- `ConnectionWrapper` now constructs the canonical decorator chain (`TransactionalConnection` + `LoggingConnection` + `CachingConnection`) inside its constructor. Emits `trigger_deprecation('maturix/propel', '3.0', ...)`. Removal at 4.0.
+- `ConnectionWrapper` now constructs the canonical decorator chain (`TransactionalConnection` + `LoggingConnection` + `CachingConnection`) inside its constructor. Emits `trigger_deprecation('dennisvanbeersel/propel', '3.0', ...)`. Removal at 4.0.
 - `StatementWrapper` similar BC shim.
 - `ConnectionFactory::$useProfilerConnection` static narrowed (now only injects 'profiling' decorator if true) but kept for BC. Tagged for future-cycle elimination.
 

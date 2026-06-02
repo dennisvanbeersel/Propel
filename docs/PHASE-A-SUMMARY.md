@@ -54,7 +54,7 @@ The foundational tooling, BC machinery, and review framework that every subseque
 
 ### BC alias-deprecations (kill in 4.0)
 
-Deprecation runway preserves consumer code. Triggers `trigger_deprecation('maturix/propel', '3.0', ...)` with `@deprecated` PHPDoc:
+Deprecation runway preserves consumer code. Triggers `trigger_deprecation('dennisvanbeersel/propel', '3.0', ...)` with `@deprecated` PHPDoc:
 
 - `DebugPDO`, `PropelPDO` — empty subclasses kept as alias to `ConnectionWrapper`.
 - `ConnectionManagerMasterSlave` — `trigger_deprecation` added to the existing `@deprecated`.
@@ -117,7 +117,7 @@ These are first-class topics in their own phase plans, drafted just-in-time per 
 
 - BC tier discipline: zero Tier 1 surface drift across the whole phase.
 - Test suite green per commit (except where flagged in iteration logs).
-- Deprecation telemetry wiring: every `trigger_deprecation` call uses the correct package name (`maturix/propel`).
+- Deprecation telemetry wiring: every `trigger_deprecation` call uses the correct package name (`dennisvanbeersel/propel`).
 - One-purpose commits: 80 commits on `ar-rewrite` ahead of `master`, each with a clear scope and full commit-message rationale.
 
 ## Next: Phase B

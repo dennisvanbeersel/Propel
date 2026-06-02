@@ -100,7 +100,7 @@ Expected: package added, lockfile updated, no other changes.
 
 - [ ] **Step 3: Verify the function is available**
 
-Run: `php -r "trigger_deprecation('maturix/propel', '3.0', 'test'); echo 'OK';"`
+Run: `php -r "trigger_deprecation('dennisvanbeersel/propel', '3.0', 'test'); echo 'OK';"`
 Expected: `OK` printed (no fatal error).
 
 - [ ] **Step 4: Commit**
@@ -1453,7 +1453,7 @@ git commit -m "remove: MyISAM plumbing, MySQL 4.1.x DDL branch, and PECL #9919 b
 
 Where each constant is *used* (in resolution paths), wrap with:
 ```php
-trigger_deprecation('maturix/propel', '3.0', 'PropelType "%s" is deprecated and will be removed in 4.0. Use %s instead.', $type, $replacement);
+trigger_deprecation('dennisvanbeersel/propel', '3.0', 'PropelType "%s" is deprecated and will be removed in 4.0. Use %s instead.', $type, $replacement);
 ```
 
 For each: `BU_DATE` → `DATE`/`TIMESTAMP`, `BU_TIMESTAMP` → `TIMESTAMP`, `BOOLEAN_EMU` → `BOOLEAN`, `OBJECT` → `JSON` or app-layer storage, `PHP_ARRAY` → `JSON`.
@@ -1574,7 +1574,7 @@ class DebugPDO extends ConnectionWrapper
 {
     public function __construct(\Propel\Runtime\Connection\ConnectionInterface $connection)
     {
-        trigger_deprecation('maturix/propel', '3.0', 'Class "%s" is deprecated, use "%s" directly.', self::class, ConnectionWrapper::class);
+        trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Class "%s" is deprecated, use "%s" directly.', self::class, ConnectionWrapper::class);
         parent::__construct($connection);
     }
 }
@@ -1616,12 +1616,12 @@ In `PropelConfiguration.php`, find the section building the tree (around line 12
     ->ifTrue(fn ($v) => is_array($v) && (isset($v['slaves']) || isset($v['master'])))
     ->then(function ($v) {
         if (isset($v['slaves'])) {
-            trigger_deprecation('maturix/propel', '3.0', 'Config key "slaves" is deprecated; use "replicas" instead.');
+            trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Config key "slaves" is deprecated; use "replicas" instead.');
             $v['replicas'] = $v['slaves'];
             unset($v['slaves']);
         }
         if (isset($v['master'])) {
-            trigger_deprecation('maturix/propel', '3.0', 'Config key "master" is deprecated; use "primary" instead.');
+            trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Config key "master" is deprecated; use "primary" instead.');
             $v['primary'] = $v['master'];
             unset($v['master']);
         }
@@ -1958,7 +1958,7 @@ Mini Propel consumer project exercising Tier 1 surface end-to-end. Run on every 
 ```
 
 The directory contains:
-- `composer.json` requiring `maturix/propel: dev-ar-rewrite`
+- `composer.json` requiring `dennisvanbeersel/propel: dev-ar-rewrite`
 - A trivial schema with one table
 - `tests/SmokeTest.php` that does `BookQuery::create()->find()`, `save()`, `delete()`, `with()`, `paginate()` against an in-memory SQLite
 
@@ -2364,5 +2364,5 @@ Authored 2026-05-06 after Round 2 cycle 1 closed the four end-of-phase MUST-FIX 
 
 - **BC tier discipline.** No public-API removals slipped into Phase A; everything user-visible became a deprecation, never a hard break. Tier-2 SPI commitments not yet made (correctly — that's Phase B+).
 - **Test suite green per commit.** All 48 commits on `ar-rewrite` branch landed with `composer test:agnostic` GREEN; no rolling-red commits in the history. Squash-friendly.
-- **Deprecation telemetry wiring.** All 6 `trigger_deprecation` sites use the correct `'maturix/propel'` package name; `DeprecatedConnectionWrappersTest` proves the wiring is non-inert via `expectUserDeprecationMessage`.
+- **Deprecation telemetry wiring.** All 6 `trigger_deprecation` sites use the correct `'dennisvanbeersel/propel'` package name; `DeprecatedConnectionWrappersTest` proves the wiring is non-inert via `expectUserDeprecationMessage`.
 - **Quality stack cleanliness.** `composer stan` (0 errors), `composer psalm` (0 errors), `composer cs-check` (clean), `composer deptrac` (0 violations) held green throughout the phase. Baselines decreased monotonically.

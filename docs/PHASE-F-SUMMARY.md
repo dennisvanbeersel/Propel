@@ -57,7 +57,7 @@ Tier 3 seams for downstream Behaviors + ModelCriteria consumers:
 
 ### Java-Hashtable deprecation runway (Group F.6)
 
-The eight rump methods (`put`, `putAll`, `get`, `keys`, `containsKey`, `keyContainsValue`, `size`, `equals`) emit `trigger_deprecation('maturix/propel', '3.0', ...)` when called. They remain functional during the runway — removal targeted for 4.0. Each deprecation message points at the modern replacement.
+The eight rump methods (`put`, `putAll`, `get`, `keys`, `containsKey`, `keyContainsValue`, `size`, `equals`) emit `trigger_deprecation('dennisvanbeersel/propel', '3.0', ...)` when called. They remain functional during the runway — removal targeted for 4.0. Each deprecation message points at the modern replacement.
 
 `equals()` refactored to call `count($this->map)` directly (instead of `$this->size()`) to avoid double-deprecation-emission when called.
 

@@ -19,7 +19,7 @@
 | 5 | Deptrac green; no new layer violations | **GREEN** | `composer deptrac` → 0 violations; 233 baselined skips; 0 warnings/errors. |
 | 6 | Performance benchmarks within ±5 % | **GREEN (baseline phase)** | `docs/reviews/perf-baseline.json` captured; re-run within 4 %. See `docs/reviews/A-bench.md`. |
 | 7 | CHANGELOG.md updated | **GREEN** | `CHANGELOG.md` exists with [Unreleased] section + Keep-a-Changelog format. |
-| 8 | Deprecation message audit clean | **YELLOW** | 7 `trigger_deprecation` sites in `src/`, all using `'maturix/propel'` (correct package name). `tests/deprecations.allowlist.json` exists but is `[]` — no deprecations triggered by current test suite, so allowlist is empty. This is consistent (the deprecation paths are exercised only by tests that explicitly invoke deprecated APIs — none do today). |
+| 8 | Deprecation message audit clean | **YELLOW** | 7 `trigger_deprecation` sites in `src/`, all using `'dennisvanbeersel/propel'` (correct package name). `tests/deprecations.allowlist.json` exists but is `[]` — no deprecations triggered by current test suite, so allowlist is empty. This is consistent (the deprecation paths are exercised only by tests that explicitly invoke deprecated APIs — none do today). |
 | 9 | Generated-code lint parity green | **GREEN (CI-job present)** | `quality-gates.yml` job `lint-generated` runs phpcs + phpstan against `tests/Fixtures/bookstore/build/classes/`. Job is correctly defined. Round 1 fix added a guard that fails when generation produces nothing (workflow lines 96-100). |
 | 10 | Golden-file diff reviewed | **GREEN** | `tests/snapshots/bookstore-golden/` committed (399 files; matches live build/classes count). `quality-gates.yml` `golden-diff` job uses `diff -ru` against the committed tree. |
 | 11 | Phase plan updated with retrospective notes | **RED** | Plan task A.44 step 5 demanded a retrospective appended to the plan file. Not present. |
@@ -92,7 +92,7 @@ Phase A claimed (umbrella §3.4 #2 + plan A.2) that 6 existing deprecations form
   - `Criteria.signatures.json` → 38 public constants. ✓ Matches umbrella §3.1 ("~38 actual").
   - `ActiveRecordInterface.signatures.json` → 1 declared method `isPrimaryKeyNull` + `phpDocMethods` array containing the `toArray(...)` PHPDoc contract. ✓ Matches umbrella §3.1.
 - `: self` vs `: static` — **not yet relevant in Phase A** (no setter generation changes landed). Companion plan task 2.6 in B.
-- `'maturix/propel'` package name correctly used in all 6 `trigger_deprecation` call-sites. No `'propel/propel'` strays.
+- `'dennisvanbeersel/propel'` package name correctly used in all 6 `trigger_deprecation` call-sites. No `'propel/propel'` strays.
 - XSD additivity is the load-bearing BC defect (above).
 
 ---

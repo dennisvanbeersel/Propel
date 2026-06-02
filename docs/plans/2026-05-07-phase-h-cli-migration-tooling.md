@@ -345,7 +345,7 @@ Group H.2 is the highest-risk group: it changes a runtime-shaped table schema fo
    */
   public function updateLatestMigrationTimestamp(string $datasource, int $timestamp): void
   {
-      trigger_deprecation('maturix/propel', '3.0', '...');
+      trigger_deprecation('dennisvanbeersel/propel', '3.0', '...');
       $this->recordMigrationApplication($datasource, $timestamp, '', 1, null);
   }
   ```
