@@ -265,6 +265,7 @@ class PgsqlSchemaParser extends AbstractSchemaParser
             data_type,
             column_default,
             is_nullable,
+            is_identity,
             numeric_precision,
             numeric_scale,
             character_maximum_length
@@ -323,6 +324,16 @@ class PgsqlSchemaParser extends AbstractSchemaParser
             }
 
             if (substr(strtoupper($type), 0, 6) === 'SERIAL') {
+                $autoincrement = true;
+                $default = null;
+            }
+
+            // PostgreSQL IDENTITY columns (GENERATED { ALWAYS | BY DEFAULT } AS IDENTITY) are
+            // the modern replacement for SERIAL; they carry no nextval() default, so detect them
+            // via information_schema.columns.is_identity. Without this, an identity primary key
+            // reverse-engineers as non-auto-increment, producing a spurious migration diff that
+            // emits an invalid "ALTER COLUMN ... SET DEFAULT nextval(...)" against the column.
+            if (isset($row['is_identity']) && (strtoupper((string)$row['is_identity']) === 'YES' || $row['is_identity'] === true)) {
                 $autoincrement = true;
                 $default = null;
             }
