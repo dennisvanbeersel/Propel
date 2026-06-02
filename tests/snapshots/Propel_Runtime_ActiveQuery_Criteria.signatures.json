@@ -1922,7 +1922,7 @@
             "parameters": [
                 {
                     "name": "limit",
-                    "type": "int",
+                    "type": "string|int|float",
                     "default": null,
                     "byRef": false,
                     "variadic": false,
@@ -1940,7 +1940,7 @@
             "parameters": [
                 {
                     "name": "offset",
-                    "type": "int",
+                    "type": "string|int|float",
                     "default": null,
                     "byRef": false,
                     "variadic": false,

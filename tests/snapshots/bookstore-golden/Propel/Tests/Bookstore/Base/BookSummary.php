@@ -70,21 +70,21 @@ abstract class BookSummary implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the book_id field.
      *
      * @var        int
      */
-    protected ?int $book_id = null;
+    public protected(set) ?int $book_id = null;
 
     /**
      * The value for the summary field.
      *
      * @var        string
      */
-    protected ?string $summary = null;
+    public protected(set) ?string $summary = null;
 
     /**
      * @var        ChildBook|null

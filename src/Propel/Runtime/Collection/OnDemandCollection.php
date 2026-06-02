@@ -141,7 +141,7 @@ class OnDemandCollection extends Collection
      * @return mixed
      */
     #[\Override]
-    public function offsetGet($offset): mixed
+    public function &offsetGet($offset): mixed
     {
         throw new PropelException('The On Demand Collection does not allow access by offset');
     }

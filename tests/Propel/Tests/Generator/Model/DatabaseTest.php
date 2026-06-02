@@ -320,7 +320,7 @@ class DatabaseTest extends ModelTestCase
             ['auto_add_pk', 'AutoAddPk'],
             ['concrete_inheritance', 'ConcreteInheritance'],
             ['delegate', 'Delegate'],
-            ['nested_set', 'NestedSet'],
+            // Phase G.2.7: nested_set behavior removed in Propel 4.0.
             ['sluggable', 'Sluggable'],
             ['sortable', 'Sortable'],
             ['timestampable', 'Timestampable'],

@@ -8,14 +8,13 @@
 
 namespace Propel\Tests\Generator\Builder\Om;
 
-use Base\RelationpkUserGroupQuery;
 use Map\RelationpkUserTableMap;
 use Propel\Runtime\Collection\ObjectCombinationCollection;
 use Propel\Tests\Helpers\PlatformDatabaseBuildTimeBase;
 use RelationpkGroup;
 use RelationpkGroupQuery;
 use RelationpkUser;
-use RelationpkUserGroupQuery as RelationpkUserGroupQueryRelationpkUserGroupQuery;
+use RelationpkUserGroupQuery;
 use RelationpkUserQuery;
 
 /**
@@ -91,7 +90,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -109,7 +108,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $hans->save();
         $this->assertEquals([$admins], iterator_to_array($hans->getGroups('standard')));
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -118,7 +117,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(2, $admins->getUserPositions());
         $hans->save();
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -182,16 +181,16 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
                 ->find()
         );
 
-        $this->assertCount(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()
+        $this->assertCount(1, RelationpkUserGroupQuery::create()
             ->filterByPosition('lead')
             ->filterByGroup($admins)
             ->find());
 
-        $this->assertCount(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()
+        $this->assertCount(2, RelationpkUserGroupQuery::create()
             ->filterByGroup($admins)
             ->find());
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
     }
@@ -208,7 +207,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -220,7 +219,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -228,7 +227,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(0, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(0, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
+        $this->assertEquals(0, RelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
     }
@@ -245,7 +244,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -257,7 +256,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -266,7 +265,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(0, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(0, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
+        $this->assertEquals(0, RelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
     }
@@ -283,7 +282,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -295,7 +294,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -313,7 +312,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(2, $newHansObject->getGroupPositions(), 'getGroupPositions makes a query and adds then the added group, thus we have 2');
         $newHansObject->save();
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
     }
@@ -330,7 +329,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -346,7 +345,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(2, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -354,7 +353,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -362,7 +361,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(0, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(0, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
+        $this->assertEquals(0, RelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -371,7 +370,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $hans->addGroup($cleaner, 'chef');
         $this->assertCount(2, $hans->getGroupPositions());
         $hans->save();
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -382,7 +381,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $newHansObject->getGroupPositions());
         $newHansObject->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -393,7 +392,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(0, $newHansObject->getGroupPositions());
         $newHansObject->save();
 
-        $this->assertEquals(0, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
+        $this->assertEquals(0, RelationpkUserGroupQuery::create()->count(), 'We have zero connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
     }
@@ -407,7 +406,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -419,7 +418,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -435,11 +434,11 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertEquals([$cleaner, 'chef'], $hans->getGroupPositions()->getFirst());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have still one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have still one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
-        $userGroup = RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->filterByUser($hans)->findOne();
+        $userGroup = RelationpkUserGroupQuery::create()->filterByUser($hans)->findOne();
         $this->assertEquals('chef', $userGroup->getPosition());
         $this->assertEquals($cleaner->getId(), $userGroup->getGroupId());
     }
@@ -453,7 +452,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -469,7 +468,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(2, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have still two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have still two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
@@ -490,7 +489,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -508,7 +507,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(2, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(2, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have still two connections.');
+        $this->assertEquals(2, RelationpkUserGroupQuery::create()->count(), 'We have still two connections.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
     }
@@ -522,7 +521,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -542,7 +541,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
     }
@@ -556,7 +555,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
     {
         RelationpkUserQuery::create()->deleteAll();
         RelationpkGroupQuery::create()->deleteAll();
-        RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->deleteAll();
+        RelationpkUserGroupQuery::create()->deleteAll();
 
         $hans = new RelationpkUser();
         $hans->setName('hans');
@@ -570,7 +569,7 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(1, RelationpkGroupQuery::create()->count(), 'We have one group.');
 
@@ -583,11 +582,11 @@ class GeneratedObjectM2MRelationThreePKs2Test extends PlatformDatabaseBuildTimeB
         $this->assertCount(1, $hans->getGroupPositions());
         $hans->save();
 
-        $this->assertEquals(1, RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->count(), 'We have one connection.');
+        $this->assertEquals(1, RelationpkUserGroupQuery::create()->count(), 'We have one connection.');
         $this->assertEquals(1, RelationpkUserQuery::create()->count(), 'We have one user.');
         $this->assertEquals(2, RelationpkGroupQuery::create()->count(), 'We have two groups.');
 
-        $userGroup = RelationpkUserGroupQueryRelationpkUserGroupQuery::create()->filterByUser($hans)->findOne();
+        $userGroup = RelationpkUserGroupQuery::create()->filterByUser($hans)->findOne();
         $this->assertEquals('chef', $userGroup->getPosition());
         $this->assertEquals($cleaner->getId(), $userGroup->getGroupId());
     }

@@ -1085,7 +1085,7 @@ After E.8, `ConnectionWrapper` is no longer the load-bearing implementation — 
 ```php
 public function __construct(ConnectionInterface $connection)
 {
-    trigger_deprecation('maturix/propel', '3.0', 'ConnectionWrapper is deprecated. Use ConnectionFactory::create with a decorator chain. See docs/CONNECTION-DECORATORS.md#migration. Removal targeted for 4.0.');
+    trigger_deprecation('dennisvanbeersel/propel', '3.0', 'ConnectionWrapper is deprecated. Use ConnectionFactory::create with a decorator chain. See docs/CONNECTION-DECORATORS.md#migration. Removal targeted for 4.0.');
 
     // Build the chain that mirrors the legacy ConnectionWrapper behavior.
     $logging = new LoggingConnection($connection);

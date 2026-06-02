@@ -174,6 +174,13 @@ class Table extends ScopedMappingModel implements IdMethod
     protected ?string $defaultStringFormat = null;
 
     /**
+     * Phase G.3 (Propel 4.0): opt-in lazy-relation emission. When true, the
+     * generator wires init<Rel>() through PHP 8.4 ReflectionClass::newLazyGhost
+     * so the relation collection only materializes on first read.
+     */
+    private bool $useLazyObjects = false;
+
+    /**
      * Constructs a table object with a name
      *
      * @param string $name table name
@@ -257,6 +264,8 @@ class Table extends ScopedMappingModel implements IdMethod
         $this->defaultStringFormat = $this->getAttribute('defaultStringFormat');
         $this->defaultAccessorVisibility = $this->getAttribute('defaultAccessorVisibility', $this->database->getAttribute('defaultAccessorVisibility', static::VISIBILITY_PUBLIC));
         $this->defaultMutatorVisibility = $this->getAttribute('defaultMutatorVisibility', $this->database->getAttribute('defaultMutatorVisibility', static::VISIBILITY_PUBLIC));
+
+        $this->useLazyObjects = $this->booleanValue($this->getAttribute('useLazyObjects'));
     }
 
     /**
@@ -1503,6 +1512,33 @@ class Table extends ScopedMappingModel implements IdMethod
     public function setReadOnly(bool $flag): void
     {
         $this->readOnly = $flag;
+    }
+
+    /**
+     * Whether the generator should emit lazy-relation initializers (PHP 8.4 newLazyGhost).
+     * Phase G.3 (Propel 4.0): opt-in only; default flips on in 4.1 if benchmark holds.
+     *
+     * @psalm-api
+     *
+     * @return bool
+     */
+    public function useLazyObjects(): bool
+    {
+        return $this->useLazyObjects;
+    }
+
+    /**
+     * Toggle lazy-relation emission for this table.
+     *
+     * @psalm-api
+     *
+     * @param bool $flag
+     *
+     * @return void
+     */
+    public function setUseLazyObjects(bool $flag): void
+    {
+        $this->useLazyObjects = $flag;
     }
 
     /**

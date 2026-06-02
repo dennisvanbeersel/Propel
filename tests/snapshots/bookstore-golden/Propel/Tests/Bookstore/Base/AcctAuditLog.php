@@ -70,21 +70,21 @@ abstract class AcctAuditLog implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the uid field.
      *
      * @var        string
      */
-    protected ?string $uid = null;
+    public protected(set) ?string $uid = null;
 
     /**
      * The value for the message field.
      *
      * @var        string|null
      */
-    protected ?string $message = null;
+    public protected(set) ?string $message = null;
 
     /**
      * @var        ChildBookstoreEmployeeAccount|null

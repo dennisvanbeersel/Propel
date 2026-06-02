@@ -78,6 +78,18 @@ use Propel\Tests\Bookstore\Behavior\Map\AggregateItemTableMap;
  */
 abstract class AggregateItemQuery extends ModelCriteria
 {
+
+    // aggregate_column_relation_aggregate_total_score behavior
+    /**
+     * @var array|null
+     */
+    protected $aggregatePollTotalScores;
+
+    // aggregate_column_relation_aggregate_nb_votes behavior
+    /**
+     * @var array|null
+     */
+    protected $aggregatePollNbVotess;
     protected ?string $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**

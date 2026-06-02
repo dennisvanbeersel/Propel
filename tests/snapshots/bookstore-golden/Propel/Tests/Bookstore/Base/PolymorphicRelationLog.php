@@ -72,28 +72,28 @@ abstract class PolymorphicRelationLog implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the message field.
      *
      * @var        string
      */
-    protected ?string $message = null;
+    public protected(set) ?string $message = null;
 
     /**
      * The value for the target_id field.
      *
      * @var        int|null
      */
-    protected ?int $target_id = null;
+    public protected(set) ?int $target_id = null;
 
     /**
      * The value for the target_type field.
      *
      * @var        string|null
      */
-    protected ?string $target_type = null;
+    public protected(set) ?string $target_type = null;
 
     /**
      * @var        ChildAuthor|null

@@ -73,14 +73,14 @@ abstract class DistributionManager implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildDistribution[] Collection to store aggregation of ChildDistribution objects.

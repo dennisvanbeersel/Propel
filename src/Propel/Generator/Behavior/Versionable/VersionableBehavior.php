@@ -223,7 +223,7 @@ class VersionableBehavior extends Behavior
             if (!$versionTable->hasColumn($fkIdsColumnName)) {
                 $versionTable->addColumn([
                     'name' => $fkIdsColumnName,
-                    'type' => 'ARRAY',
+                    'type' => 'JSON',
                 ]);
             }
 
@@ -231,7 +231,7 @@ class VersionableBehavior extends Behavior
             if (!$versionTable->hasColumn($fkVersionsColumnName)) {
                 $versionTable->addColumn([
                     'name' => $fkVersionsColumnName,
-                    'type' => 'ARRAY',
+                    'type' => 'JSON',
                 ]);
             }
         }

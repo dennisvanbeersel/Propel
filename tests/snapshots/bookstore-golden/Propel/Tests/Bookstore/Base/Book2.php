@@ -72,21 +72,21 @@ abstract class Book2 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the style field.
      *
      * @var        int|null
      */
-    protected ?int $style = null;
+    public protected(set) ?int $style = null;
 
     /**
      * The value for the style2 field.
@@ -100,30 +100,23 @@ abstract class Book2 implements ActiveRecordInterface
     /**
      * The value for the tags field.
      *
-     * @var        array|null
+     * @var        string|null
      */
-    protected $tags;
-
-    /**
-     * The unserialized $tags value - i.e. the persisted object.
-     * This is necessary to avoid repeated calls to unserialize() at runtime.
-     * @var object
-     */
-    protected $tags_unserialized;
+    public protected(set) ?string $tags = null;
 
     /**
      * The value for the uuid field.
      *
      * @var        string|null
      */
-    protected ?string $uuid = null;
+    public protected(set) ?string $uuid = null;
 
     /**
      * The value for the uuid_bin field.
      *
      * @var        string|null
      */
-    protected ?string $uuid_bin = null;
+    public protected(set) ?string $uuid_bin = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -447,30 +440,13 @@ abstract class Book2 implements ActiveRecordInterface
     /**
      * Get the [tags] column value.
      *
-     * @return array|null
-     */
-    public function getTags()
-    {
-        if (null === $this->tags_unserialized) {
-            $this->tags_unserialized = [];
-        }
-        if (!$this->tags_unserialized && null !== $this->tags) {
-            $tags_unserialized = substr($this->tags, 2, -2);
-            $this->tags_unserialized = '' !== $tags_unserialized ? explode(' | ', $tags_unserialized) : [];
-        }
+     * @param bool $asArray Returns the JSON data as array instead of object
 
-        return $this->tags_unserialized;
-    }
-
-    /**
-     * Test the presence of a value in the [tags] array column value.
-     * @param mixed $value
-     *
-     * @return bool
+     * @return object|array|null
      */
-    public function hasTag($value): bool
+    public function getTags(bool $asArray = true)
     {
-        return in_array($value, $this->getTags());
+        return $this->tags !== null ? json_decode($this->tags, $asArray, 512, JSON_THROW_ON_ERROR) : null;
     }
 
     /**
@@ -590,50 +566,20 @@ abstract class Book2 implements ActiveRecordInterface
     /**
      * Set the value of [tags] column.
      *
-     * @param array|null $v New value
+     * @param string|array|object|null $v new value
      * @return $this The current object (for fluent API support)
      */
     public function setTags($v): self
     {
-        if ($this->tags_unserialized !== $v) {
-            $this->tags_unserialized = $v;
-            $this->tags = '| ' . implode(' | ', $v) . ' |';
+        if (is_string($v)) {
+            // JSON as string needs to be decoded/encoded to get a reliable comparison (spaces, ...)
+            $v = json_decode($v, false, 512, JSON_THROW_ON_ERROR);
+        }
+        $encodedValue = json_encode($v, JSON_THROW_ON_ERROR);
+        if ($encodedValue !== $this->tags) {
+            $this->tags = $encodedValue;
             $this->modifiedColumns[Book2TableMap::COL_TAGS] = true;
         }
-
-        return $this;
-    }
-
-    /**
-     * Adds a value to the [tags] array column value.
-     * @param mixed $value
-     *
-     * @return $this The current object (for fluent API support)
-     */
-    public function addTag($value)
-    {
-        $currentArray = $this->getTags();
-        $currentArray []= $value;
-        $this->setTags($currentArray);
-
-        return $this;
-    }
-
-    /**
-     * Removes a value from the [tags] array column value.
-     * @param mixed $value
-     *
-     * @return $this The current object (for fluent API support)
-     */
-    public function removeTag($value)
-    {
-        $targetArray = [];
-        foreach ($this->getTags() as $element) {
-            if ($element != $value) {
-                $targetArray []= $element;
-            }
-        }
-        $this->setTags($targetArray);
 
         return $this;
     }
@@ -727,8 +673,7 @@ abstract class Book2 implements ActiveRecordInterface
             $this->style2 = (null !== $col) ? (int) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 4 + $startcol : Book2TableMap::translateFieldName('Tags', TableMap::TYPE_PHPNAME, $indexType)];
-            $this->tags = $col;
-            $this->tags_unserialized = null;
+            $this->tags = (null !== $col) ? (string) $col : null;
 
             $col = $row[TableMap::TYPE_NUM == $indexType ? 5 + $startcol : Book2TableMap::translateFieldName('Uuid', TableMap::TYPE_PHPNAME, $indexType)];
             if (is_resource($col)) {
@@ -1193,10 +1138,6 @@ abstract class Book2 implements ActiveRecordInterface
                 $this->setStyle2($value);
                 break;
             case 4:
-                if (!is_array($value)) {
-                    $v = trim(substr($value, 2, -2));
-                    $value = $v ? explode(' | ', $v) : array();
-                }
                 $this->setTags($value);
                 break;
             case 5:
@@ -1453,7 +1394,6 @@ abstract class Book2 implements ActiveRecordInterface
         $this->style2 = null;
         $this->style2_converted = null;
         $this->tags = null;
-        $this->tags_unserialized = null;
         $this->uuid = null;
         $this->uuid_bin = null;
         $this->alreadyInSave = false;

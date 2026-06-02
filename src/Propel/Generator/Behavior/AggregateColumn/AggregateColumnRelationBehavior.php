@@ -77,6 +77,29 @@ protected \$old{$relationName}{$aggregateName};
     }
 
     /**
+     * Declares the collection property used by the generated find/update-related query
+     * methods, so the generated query class does not create it dynamically (deprecated
+     * on PHP 8.2+).
+     *
+     * @psalm-suppress PossiblyUnusedMethod called dynamically by the query builder behavior hook dispatch
+     *
+     * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
+     *
+     * @return string
+     */
+    public function queryAttributes(AbstractOMBuilder $builder): string
+    {
+        $relationName = $this->getRelationName($builder);
+        $variableName = lcfirst($relationName . $this->getParameter('aggregate_name'));
+
+        return "/**
+ * @var array|null
+ */
+protected \${$variableName}s;
+";
+    }
+
+    /**
      * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
      *
      * @return string
@@ -114,14 +137,19 @@ protected \$old{$relationName}{$aggregateName};
         $relationName = $this->getRelationName($builder);
         $aggregateName = $this->getParameter('aggregate_name');
         $relatedClass = $builder->getClassNameFromBuilder($builder->getNewStubObjectBuilder($this->getForeignTable()));
-        $search = "    public function set{$relationName}(?{$relatedClass} \$v = null)
-    {";
-        $replace = $search . "
+        // The generated foreign-key setter now carries a return type declaration
+        // (e.g. `: self`); match the signature up to the closing parenthesis and keep
+        // whatever return type / opening brace follows so the old-relation tracking is
+        // actually injected (a plain str_replace on the old signature silently failed).
+        $pattern = '/    public function set' . preg_quote($relationName, '/')
+            . '\(\?' . preg_quote($relatedClass, '/') . ' \$v = null\)([^{]*\{)/';
+        $replace = "    public function set{$relationName}(?{$relatedClass} \$v = null)\$1"
+            . "
         // aggregate_column_relation behavior
         if (null !== \$this->a{$relationName} && \$v !== \$this->a{$relationName}) {
             \$this->old{$relationName}{$aggregateName} = \$this->a{$relationName};
         }";
-        $script = str_replace($search, $replace, $script);
+        $script = preg_replace($pattern, $replace, $script) ?? $script;
     }
 
     /**

@@ -113,16 +113,28 @@ class Collection implements ArrayAccess, IteratorAggregate, Countable
     }
 
     /**
+     * Returns the element by reference so callers can mutate nested structures in place,
+     * e.g. `$collection[$key]['field'] = $value` on an array-formatted collection. Returning
+     * by value would make such writes a silent no-op ("Indirect modification of overloaded
+     * element ... has no effect").
+     *
      * @psalm-suppress ReservedWord
+     * @psalm-suppress NonVariableReferenceReturn returning a fresh local null for the missing-key case is intentional
      *
      * @param mixed $offset
      *
      * @return mixed
      */
     #[\Override]
-    public function offsetGet($offset): mixed
+    public function &offsetGet($offset): mixed
     {
-        return $this->data[$offset] ?? null;
+        if (array_key_exists($offset, $this->data)) {
+            return $this->data[$offset];
+        }
+
+        $null = null;
+
+        return $null;
     }
 
     /**

@@ -3,7 +3,7 @@
 **Date:** 2026-05-06 (v2 revised after critical-review pass)
 **Branch:** `ar-rewrite`
 **Status:** Strategic spec. Phase plans drafted just-in-time.
-**Composer package name:** `maturix/propel` (used in `trigger_deprecation()` calls — NOT `propel/propel`)
+**Composer package name:** `dennisvanbeersel/propel` (used in `trigger_deprecation()` calls — NOT `propel/propel`)
 **Branch alias today:** `3.0-dev` per `composer.json:65` — this rewrite ships as **3.0.0**.
 
 > **For Claude:** This is the strategic umbrella. Each phase below has (or will have) its own `docs/plans/YYYY-MM-DD-<phase-letter>-<topic>.md` with task-level steps. When executing a phase, use `superpowers:writing-plans` first to draft that phase's plan, then `superpowers:executing-plans` to run it.
@@ -51,7 +51,7 @@ This is non-negotiable for the spec to be coherent. Without a version map, "remo
 ### 1.4 Core principles
 
 1. **Remove dead, modernize live.** Anything broken on supported PHP/Symfony today is a kill candidate.
-2. **Deprecation runway over instant breaks.** Tier 1/2 changes get `trigger_deprecation('maturix/propel', '3.X', ...)` for the entire 3.x line before removal in 4.0.
+2. **Deprecation runway over instant breaks.** Tier 1/2 changes get `trigger_deprecation('dennisvanbeersel/propel', '3.X', ...)` for the entire 3.x line before removal in 4.0.
 3. **Target architecture before refactor.** No "split X" / "collapse Y" task lands without a documented post-state architecture (§2).
 4. **YAGNI on abstractions, ambition on capabilities.** Multi-platform abstractions designed for Oracle/MSSQL collapse to direct strategies for the two databases we keep — but capability gaps vs. Doctrine/Cycle (observability, worker-mode, typed DSL) get closed.
 5. **Generator output IS the public API.** Treat generated method signatures as binding. CI signature-diff gate enforces this (§4).
@@ -195,7 +195,7 @@ No removals, no signature narrowing. Enums and modern alternatives may be added 
 
 ### 3.2 Tier 2 — Deprecation runway required
 
-One full minor in 3.x with `trigger_deprecation('maturix/propel', '3.X', '...')` before removal in 4.0.
+One full minor in 3.x with `trigger_deprecation('dennisvanbeersel/propel', '3.X', '...')` before removal in 4.0.
 
 - `AdapterInterface`, `SqlAdapterInterface` (custom adapters in user codebases).
 - **`Behavior` abstract class hooks taking `ObjectBuilderApi` (NEW interface, §2.3) instead of concrete `ObjectBuilder`** — closes the silent-break-at-codegen hole. `objectFilter`, `objectAttributes`, `objectMethods`, `queryMethods`, `staticMethods`, `tableMapFilter`, `preSave`/`postSave`/`preUpdate`/`postUpdate`/`preDelete`/`postDelete`. Third-party Behaviors update once during 3.x runway.
@@ -219,7 +219,7 @@ One full minor in 3.x with `trigger_deprecation('maturix/propel', '3.X', '...')`
 
 ### 3.4 Deprecation tooling — concrete
 
-1. **`composer require symfony/deprecation-contracts`** as a direct dep (Phase A foundational task). `trigger_deprecation('maturix/propel', '3.X', ...)` as the calling convention.
+1. **`composer require symfony/deprecation-contracts`** as a direct dep (Phase A foundational task). `trigger_deprecation('dennisvanbeersel/propel', '3.X', ...)` as the calling convention.
 2. **`composer require --dev symfony/phpunit-bridge`** + set `SYMFONY_DEPRECATIONS_HELPER=max[self]=0` in CI. Tests fail if any code change triggers a self-emitted deprecation that wasn't there before. Existing 6 deprecations form the baseline.
 3. **`#[\Deprecated]` PHP attribute** is **PHP 8.4 only**. NOT used in 3.x. At 4.0 (Phase G PHP-8.4 bump), PHPDoc `@deprecated` migrates to the attribute via Rector rule shipped in this repo.
 4. **CI signature-diff gate — concretely defined (Phase A foundational task):**
@@ -691,7 +691,7 @@ A phase merge is conditional on:
 ### 7.3 External validation
 
 - **Consumer smoke test:** `tests/integration/consumer-smoke/` mini-project — Phase A deliverable — exercises Tier 1 surface (find/filterBy/save/delete/with/paginate). Run on every PR.
-- **Ecosystem coverage:** advisory CI job runs the test suites of 2–3 Packagist projects depending on `maturix/propel` against each phase merge (e.g., `propel/propel-bundle`, real Symfony app). Failures surface as advisory warnings — do not block merge but require maintainer note.
+- **Ecosystem coverage:** advisory CI job runs the test suites of 2–3 Packagist projects depending on `dennisvanbeersel/propel` against each phase merge (e.g., `propel/propel-bundle`, real Symfony app). Failures surface as advisory warnings — do not block merge but require maintainer note.
 - **Version compatibility matrix in README.md**: which Propel version supports which PHP / MySQL / MariaDB / PG / Symfony combinations. Updated per phase.
 
 ---
@@ -764,7 +764,7 @@ Ships as a separate Composer package; tagged in lockstep with 4.0 release.
 
 1. **§1.1 Version map** added. 2.x LTS, 3.0 rewrite, 4.0 PHP-8.4 + removals.
 2. **§2 Target Architecture** added. Connection chain post-E, Criteria split post-F, Builder template strategy, DI/facade decision, TelemetryInterface.
-3. **§3 BC tiers** corrected: enumerated generated-code surface (`useXxxQuery`, `XxxQuery::create`, magic dispatch); fixed Criteria constant count (~38, not 31); fixed `ActiveRecordInterface` "single method, sacred" wording; introduced `ObjectBuilderApi` Tier 2 facade; flipped `: static` to `: self`; alias-then-kill `DebugPDO`/`PropelPDO`; concretized signature-diff gate (snapshot format, allowlist, update process); fixed `trigger_deprecation` package name to `maturix/propel`; deferred `#[\Deprecated]` to 4.0/PHP-8.4; pinned XSD hosting; added Tier 2 entries for `Criterion`/`PropelException`/`Util` classes.
+3. **§3 BC tiers** corrected: enumerated generated-code surface (`useXxxQuery`, `XxxQuery::create`, magic dispatch); fixed Criteria constant count (~38, not 31); fixed `ActiveRecordInterface` "single method, sacred" wording; introduced `ObjectBuilderApi` Tier 2 facade; flipped `: static` to `: self`; alias-then-kill `DebugPDO`/`PropelPDO`; concretized signature-diff gate (snapshot format, allowlist, update process); fixed `trigger_deprecation` package name to `dennisvanbeersel/propel`; deferred `#[\Deprecated]` to 4.0/PHP-8.4; pinned XSD hosting; added Tier 2 entries for `Criterion`/`PropelException`/`Util` classes.
 4. **§4 Quality Gates** added (entire section). Baseline drawdown contract, PHPUnit fail-flag restoration, coverage floors, mutation testing, Deptrac, generated-code lint parity, golden-file regression, Definition of Done, numerical perf targets, PBT infrastructure, chaos tests.
 5. **§5 Phases** revised: added B' (builder architecture refactor), I (observability), J (worker mode); expanded E (replica routing), F (typed Criterion DSL stretch), H (migration tooling). Risk levels recalibrated (A bumped to Medium; H bumped to Medium).
 6. **§6 Lists** corrected: Sortable 2,011 LOC (not 965); NestedSet 3,036 LOC (not 2,900); `DebugPDO`/`PropelPDO` moved from kill-in-A to alias-deprecate-kill-4.0.

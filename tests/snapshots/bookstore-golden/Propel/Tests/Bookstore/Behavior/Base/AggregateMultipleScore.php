@@ -72,7 +72,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the score field.
@@ -80,7 +80,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      * Note: this column has a database default value of: 0
      * @var        int|null
      */
-    protected ?int $score = null;
+    public protected(set) ?int $score = null;
 
     /**
      * The value for the scored_at field.
@@ -94,7 +94,7 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected ?int $score_group_id = null;
+    public protected(set) ?int $score_group_id = null;
 
     /**
      * @var        ChildAggregateMultipleScoreGroup|null
@@ -1240,6 +1240,14 @@ abstract class AggregateMultipleScore implements ActiveRecordInterface
      */
     public function setAggregateMultipleScoreGroup(?ChildAggregateMultipleScoreGroup $v = null): self
     {
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
+            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore1 = $this->aAggregateMultipleScoreGroup;
+        }
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregateMultipleScoreGroup && $v !== $this->aAggregateMultipleScoreGroup) {
+            $this->oldAggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore = $this->aAggregateMultipleScoreGroup;
+        }
         if ($v === null) {
             $this->setScoreGroupId(NULL);
         } else {

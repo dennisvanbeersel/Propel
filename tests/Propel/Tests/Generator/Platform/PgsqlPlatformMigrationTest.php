@@ -447,6 +447,8 @@ EOF;
     {
         $expected = <<<END
 
+ALTER TABLE "foo" ALTER COLUMN "id" DROP IDENTITY IF EXISTS;
+
 ALTER TABLE "foo" ALTER COLUMN "id" TYPE uuid USING id::uuid;
 
 ALTER TABLE "foo" ALTER COLUMN "id" SET DEFAULT vendor_specific_uuid_generator_function();

@@ -75,7 +75,7 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the first_score_at field.
@@ -96,49 +96,49 @@ abstract class AggregateMultipleScoreGroup implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    protected ?int $total_score = null;
+    public protected(set) ?int $total_score = null;
 
     /**
      * The value for the number_of_scores field.
      *
      * @var        int|null
      */
-    protected ?int $number_of_scores = null;
+    public protected(set) ?int $number_of_scores = null;
 
     /**
      * The value for the avg_score field.
      *
      * @var        int|null
      */
-    protected ?int $avg_score = null;
+    public protected(set) ?int $avg_score = null;
 
     /**
      * The value for the min_score field.
      *
      * @var        int|null
      */
-    protected ?int $min_score = null;
+    public protected(set) ?int $min_score = null;
 
     /**
      * The value for the max_score field.
      *
      * @var        int|null
      */
-    protected ?int $max_score = null;
+    public protected(set) ?int $max_score = null;
 
     /**
      * The value for the total_big_score field.
      *
      * @var        int|null
      */
-    protected ?int $total_big_score = null;
+    public protected(set) ?int $total_big_score = null;
 
     /**
      * The value for the number_of_big_scores field.
      *
      * @var        int|null
      */
-    protected ?int $number_of_big_scores = null;
+    public protected(set) ?int $number_of_big_scores = null;
 
     /**
      * @var        ObjectCollection|ChildAggregateMultipleScore[] Collection to store aggregation of ChildAggregateMultipleScore objects.

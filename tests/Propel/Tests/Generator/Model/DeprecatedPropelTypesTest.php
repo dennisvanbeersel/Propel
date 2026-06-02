@@ -10,63 +10,71 @@ declare(strict_types=1);
 
 namespace Propel\Tests\Generator\Model;
 
-use PHPUnit\Framework\Attributes\Group;
+use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 use Propel\Generator\Model\PropelTypes;
-use Symfony\Bridge\PhpUnit\ExpectUserDeprecationMessageTrait;
 
 /**
- * Per umbrella spec §3.7: BU_DATE, BU_TIMESTAMP, BOOLEAN_EMU, OBJECT and
- * PHP_ARRAY column types are scheduled for removal in 4.0. Resolving them
- * via PropelTypes must emit a deprecation pointing to the replacement.
+ * Phase G.2.6 (Propel 4.0): the legacy mapping types — BU_DATE, BU_TIMESTAMP,
+ * BOOLEAN_EMU, OBJECT, PHP_ARRAY — are removed from active use. Resolving
+ * any of them via PropelTypes::getPhpNative / getPDOType / getPdoTypeString
+ * throws an InvalidArgumentException pointing at the modern replacement.
+ *
+ * The XSD continues to accept these as valid values per umbrella §3.7
+ * (additivity promise — schemas remain parseable forever); only the
+ * generator pipeline refuses to emit code for them.
  */
-#[Group('legacy')]
 class DeprecatedPropelTypesTest extends TestCase
 {
-    use ExpectUserDeprecationMessageTrait;
-
-    public function testBuDateIsDeprecatedInFavourOfTimestamp(): void
+    public function testBuDateThrowsPointingAtTimestamp(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: PropelType "BU_DATE" is deprecated and will be removed in 4.0; use TIMESTAMP instead.',
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PropelType "BU_DATE" was removed in Propel 4.0; use TIMESTAMP instead.');
 
         PropelTypes::getPhpNative(PropelTypes::BU_DATE);
     }
 
-    public function testBuTimestampIsDeprecatedInFavourOfTimestamp(): void
+    public function testBuTimestampThrowsPointingAtTimestamp(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: PropelType "BU_TIMESTAMP" is deprecated and will be removed in 4.0; use TIMESTAMP instead.',
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PropelType "BU_TIMESTAMP" was removed in Propel 4.0; use TIMESTAMP instead.');
 
         PropelTypes::getPhpNative(PropelTypes::BU_TIMESTAMP);
     }
 
-    public function testBooleanEmuIsDeprecatedInFavourOfBoolean(): void
+    public function testBooleanEmuThrowsPointingAtBoolean(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: PropelType "BOOLEAN_EMU" is deprecated and will be removed in 4.0; use BOOLEAN instead.',
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PropelType "BOOLEAN_EMU" was removed in Propel 4.0; use BOOLEAN instead.');
 
         PropelTypes::getPhpNative(PropelTypes::BOOLEAN_EMU);
     }
 
-    public function testObjectIsDeprecatedInFavourOfJson(): void
+    public function testObjectThrowsPointingAtJson(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: PropelType "OBJECT" is deprecated and will be removed in 4.0; use JSON or app-layer storage instead.',
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PropelType "OBJECT" was removed in Propel 4.0; use JSON or app-layer storage instead.');
 
         PropelTypes::getPhpNative(PropelTypes::OBJECT);
     }
 
-    public function testPhpArrayIsDeprecatedInFavourOfJson(): void
+    public function testPhpArrayThrowsPointingAtJson(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: PropelType "ARRAY" is deprecated and will be removed in 4.0; use JSON instead.',
-        );
+        $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('PropelType "ARRAY" was removed in Propel 4.0; use JSON instead.');
 
         PropelTypes::getPhpNative(PropelTypes::PHP_ARRAY);
+    }
+
+    public function testGetPDOTypeAlsoThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        PropelTypes::getPDOType(PropelTypes::BU_DATE);
+    }
+
+    public function testGetPdoTypeStringAlsoThrows(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        PropelTypes::getPdoTypeString(PropelTypes::BOOLEAN_EMU);
     }
 }

@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Propel\Runtime\ActiveQuery;
 
 use Exception;
+use Generator;
 use Propel\Common\Exception\SetColumnConverterException;
 use Propel\Common\Util\SetColumnConverter;
 use Propel\Generator\Model\PropelTypes;
@@ -38,6 +39,7 @@ use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Exception\RuntimeException;
 use Propel\Runtime\Exception\UnexpectedValueException;
 use Propel\Runtime\Formatter\SimpleArrayFormatter;
+use Propel\Runtime\Formatter\StreamingObjectFormatter;
 use Propel\Runtime\Map\ColumnMap;
 use Propel\Runtime\Map\RelationMap;
 use Propel\Runtime\Map\TableMap;
@@ -1355,6 +1357,54 @@ class ModelCriteria extends BaseModelCriteria
         return $criteria
             ->getFormatter()
             ->init($criteria)->format($dataFetcher);
+    }
+
+    /**
+     * Phase G.6.2 (Propel 4.0, ADDITIVE): streaming counterpart to {@see find()}.
+     *
+     * Issues the SELECT and returns a `Generator` that yields one
+     * hydrated entity per row. Memory profile is O(1) in row count
+     * (modulo DataFetcher buffering) — the full collection is never
+     * materialized.
+     *
+     * Always wires through {@see StreamingObjectFormatter} regardless of
+     * the formatter set via {@see setFormatter()}; consumers opting into
+     * streaming have already declared the contract.
+     *
+     * Limitations:
+     *
+     * - One-to-many `with()` is rejected with `LogicException`. The eager
+     *   formatter dedupes parents by serialized PK across all rows, which
+     *   is incompatible with streaming. Drop the with() on the
+     *   collection-side relation, or use {@see find()} instead.
+     * - When the strong-ref instance pool is active, streamed entities
+     *   stay retained in `InstancePoolTrait::$instances` even after the
+     *   consumer discards them. Combine with the WeakMap pool variant
+     *   (Phase G.7) to truly keep memory bounded across a 100k-row
+     *   stream.
+     *
+     * @api Tier 1 additive (new method).
+     *
+     * @param \Propel\Runtime\Connection\ConnectionInterface|null $con an optional connection object
+     *
+     * @throws \Propel\Runtime\Exception\LogicException When `with()` joins a one-to-many relation.
+     *
+     * @return \Generator<int, \Propel\Runtime\ActiveRecord\ActiveRecordInterface>
+     */
+    public function findStream(?ConnectionInterface $con = null): Generator
+    {
+        if ($con === null) {
+            $con = Propel::getServiceContainer()->getReadConnection($this->getDbName());
+        }
+
+        $this->basePreSelect($con);
+        $criteria = $this->isKeepQuery() ? clone $this : $this;
+        $dataFetcher = $criteria->doSelect($con);
+
+        $formatter = new StreamingObjectFormatter();
+        $formatter->init($criteria);
+
+        return $formatter->format($dataFetcher);
     }
 
     /**

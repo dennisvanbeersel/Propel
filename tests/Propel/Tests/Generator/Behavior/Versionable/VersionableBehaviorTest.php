@@ -240,8 +240,8 @@ CREATE TABLE versionable_behavior_test_1_version
     id INTEGER NOT NULL,
     bar INTEGER,
     version INTEGER DEFAULT 0 NOT NULL,
-    versionable_behavior_test_0_ids MEDIUMTEXT,
-    versionable_behavior_test_0_versions MEDIUMTEXT,
+    versionable_behavior_test_0_ids TEXT,
+    versionable_behavior_test_0_versions TEXT,
     PRIMARY KEY (id,version),
     UNIQUE (id,version),
     FOREIGN KEY (id) REFERENCES versionable_behavior_test_1 (id)

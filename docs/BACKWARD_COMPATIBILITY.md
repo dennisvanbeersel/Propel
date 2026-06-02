@@ -20,7 +20,7 @@ The CI `signature-diff` gate enforces this tier at every PR via the snapshots in
 
 ## Tier 2 — Deprecation runway required
 
-One full minor in the current major with `trigger_deprecation('maturix/propel', '3.X', ...)` before removal in the next major.
+One full minor in the current major with `trigger_deprecation('dennisvanbeersel/propel', '3.X', ...)` before removal in the next major.
 
 Includes:
 - `AdapterInterface`, `SqlAdapterInterface`.
@@ -58,7 +58,7 @@ Schema instances valid against today's XSD remain valid against the new XSD. New
 
 ## Deprecation tooling
 
-- `trigger_deprecation('maturix/propel', '3.X', ...)` for runtime emission.
+- `trigger_deprecation('dennisvanbeersel/propel', '3.X', ...)` for runtime emission.
 - `@deprecated` PHPDoc for static-analysis tools.
 - `#[\Deprecated]` attribute reserved for 4.0+ (PHP 8.4).
 - `tests/deprecations.allowlist.json` baselines known deprecations; `SYMFONY_DEPRECATIONS_HELPER=max[self]=0` fails CI on any new self-emitted deprecation that isn't allowlisted.

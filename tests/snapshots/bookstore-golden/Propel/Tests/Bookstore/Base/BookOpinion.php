@@ -74,28 +74,28 @@ abstract class BookOpinion implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $book_id = null;
+    public protected(set) ?int $book_id = null;
 
     /**
      * The value for the reader_id field.
      *
      * @var        int
      */
-    protected ?int $reader_id = null;
+    public protected(set) ?int $reader_id = null;
 
     /**
      * The value for the rating field.
      *
      * @var        string|null
      */
-    protected ?string $rating = null;
+    public protected(set) ?string $rating = null;
 
     /**
      * The value for the recommend_to_friend field.
      *
      * @var        bool|null
      */
-    protected ?bool $recommend_to_friend = null;
+    public protected(set) ?bool $recommend_to_friend = null;
 
     /**
      * @var        ChildBook|null

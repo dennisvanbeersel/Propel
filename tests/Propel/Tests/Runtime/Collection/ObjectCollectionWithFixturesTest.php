@@ -16,6 +16,7 @@ use Propel\Tests\Bookstore\Author;
 use Propel\Tests\Bookstore\AuthorQuery;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\Bookstore\Map\AuthorTableMap;
+use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
 use Propel\Tests\Bookstore\Map\BookTableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreDataPopulator;
 use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
@@ -317,9 +318,9 @@ class ObjectCollectionWithFixturesTest extends BookstoreEmptyTestBase
     {
         AuthorTableMap::clearInstancePool();
         BookTableMap::clearInstancePool();
-        $authors = AuthorQuery::create()
-            ->add(null, '1<>1', Criteria::CUSTOM)
-            ->find($this->con);
+        $query = AuthorQuery::create();
+        $query->add(new CustomCriterion($query, '1<>1'));
+        $authors = $query->find($this->con);
         $count = $this->con->getQueryCount();
         $books = $authors->populateRelation('Book', null, $this->con);
         $this->assertTrue($books instanceof ObjectCollection, 'populateRelation() returns a Collection instance');

@@ -53,7 +53,7 @@ use Propel\Tests\Bookstore\Map\Book2TableMap;
  * @method     ChildBook2|null findOneByTitle(string $title) Return the first ChildBook2 filtered by the title column
  * @method     ChildBook2|null findOneByStyle(int $style) Return the first ChildBook2 filtered by the style column
  * @method     ChildBook2|null findOneByStyle2(int $style2) Return the first ChildBook2 filtered by the style2 column
- * @method     ChildBook2|null findOneByTags(array $tags) Return the first ChildBook2 filtered by the tags column
+ * @method     ChildBook2|null findOneByTags(string $tags) Return the first ChildBook2 filtered by the tags column
  * @method     ChildBook2|null findOneByUuid(string $uuid) Return the first ChildBook2 filtered by the uuid column
  * @method     ChildBook2|null findOneByUuidBin(string $uuid_bin) Return the first ChildBook2 filtered by the uuid_bin column
  *
@@ -64,7 +64,7 @@ use Propel\Tests\Bookstore\Map\Book2TableMap;
  * @method     ChildBook2 requireOneByTitle(string $title) Return the first ChildBook2 filtered by the title column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook2 requireOneByStyle(int $style) Return the first ChildBook2 filtered by the style column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook2 requireOneByStyle2(int $style2) Return the first ChildBook2 filtered by the style2 column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
- * @method     ChildBook2 requireOneByTags(array $tags) Return the first ChildBook2 filtered by the tags column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
+ * @method     ChildBook2 requireOneByTags(string $tags) Return the first ChildBook2 filtered by the tags column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook2 requireOneByUuid(string $uuid) Return the first ChildBook2 filtered by the uuid column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  * @method     ChildBook2 requireOneByUuidBin(string $uuid_bin) Return the first ChildBook2 filtered by the uuid_bin column and throws \Propel\Runtime\Exception\EntityNotFoundException when not found
  *
@@ -79,8 +79,8 @@ use Propel\Tests\Bookstore\Map\Book2TableMap;
  * @psalm-method Collection&\Traversable<ChildBook2> findByStyle(int|array<int> $style) Return ChildBook2 objects filtered by the style column
  * @method     ChildBook2[]|Collection findByStyle2(int|array<int> $style2) Return ChildBook2 objects filtered by the style2 column
  * @psalm-method Collection&\Traversable<ChildBook2> findByStyle2(int|array<int> $style2) Return ChildBook2 objects filtered by the style2 column
- * @method     ChildBook2[]|Collection findByTags(array|array<array> $tags) Return ChildBook2 objects filtered by the tags column
- * @psalm-method Collection&\Traversable<ChildBook2> findByTags(array|array<array> $tags) Return ChildBook2 objects filtered by the tags column
+ * @method     ChildBook2[]|Collection findByTags(string|array<string> $tags) Return ChildBook2 objects filtered by the tags column
+ * @psalm-method Collection&\Traversable<ChildBook2> findByTags(string|array<string> $tags) Return ChildBook2 objects filtered by the tags column
  * @method     ChildBook2[]|Collection findByUuid(string|array<string> $uuid) Return ChildBook2 objects filtered by the uuid column
  * @psalm-method Collection&\Traversable<ChildBook2> findByUuid(string|array<string> $uuid) Return ChildBook2 objects filtered by the uuid column
  * @method     ChildBook2[]|Collection findByUuidBin(string|array<string> $uuid_bin) Return ChildBook2 objects filtered by the uuid_bin column
@@ -438,81 +438,24 @@ abstract class Book2Query extends ModelCriteria
     /**
      * Filter the query on the tags column
      *
-     * @param array $tags The values to use as filter.
+     * Example usage:
+     * <code>
+     * $query->filterByTags('fooValue');   // WHERE tags = 'fooValue'
+     * $query->filterByTags('%fooValue%', Criteria::LIKE); // WHERE tags LIKE '%fooValue%'
+     * $query->filterByTags(['foo', 'bar']); // WHERE tags IN ('foo', 'bar')
+     * </code>
+     *
+     * @param string|string[] $tags The value to use as filter.
      * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::EQUAL
      *
      * @return $this The current query, for fluid interface
      */
     public function filterByTags($tags = null, ?string $comparison = null)
     {
-        $key = $this->getAliasedColName(Book2TableMap::COL_TAGS);
-        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
-            foreach ($tags as $value) {
-                $value = '%| ' . $value . ' |%';
-                if ($this->containsKey($key)) {
-                    $this->addAnd($key, $value, Criteria::LIKE);
-                } else {
-                    $this->add($key, $value, Criteria::LIKE);
-                }
+        if (null === $comparison) {
+            if (is_array($tags)) {
+                $comparison = Criteria::IN;
             }
-
-            return $this;
-        } elseif ($comparison === Criteria::CONTAINS_SOME) {
-            foreach ($tags as $value) {
-                $value = '%| ' . $value . ' |%';
-                if ($this->containsKey($key)) {
-                    $this->addOr($key, $value, Criteria::LIKE);
-                } else {
-                    $this->add($key, $value, Criteria::LIKE);
-                }
-            }
-
-            return $this;
-        } elseif ($comparison === Criteria::CONTAINS_NONE) {
-            foreach ($tags as $value) {
-                $value = '%| ' . $value . ' |%';
-                if ($this->containsKey($key)) {
-                    $this->addAnd($key, $value, Criteria::NOT_LIKE);
-                } else {
-                    $this->add($key, $value, Criteria::NOT_LIKE);
-                }
-            }
-            $this->addOr($key, null, Criteria::ISNULL);
-
-            return $this;
-        }
-
-        $this->addUsingAlias(Book2TableMap::COL_TAGS, $tags, $comparison);
-
-        return $this;
-    }
-
-    /**
-     * Filter the query on the tags column
-     * @param mixed $tags The value to use as filter
-     * @param string|null $comparison Operator to use for the column comparison, defaults to Criteria::CONTAINS_ALL
-     *
-     * @return $this The current query, for fluid interface
-     */
-    public function filterByTag($tags = null, ?string $comparison = null)
-    {
-        if (null === $comparison || $comparison === Criteria::CONTAINS_ALL) {
-            if (is_scalar($tags)) {
-                $tags = '%| ' . $tags . ' |%';
-                $comparison = Criteria::LIKE;
-            }
-        } elseif ($comparison === Criteria::CONTAINS_NONE) {
-            $tags = '%| ' . $tags . ' |%';
-            $comparison = Criteria::NOT_LIKE;
-            $key = $this->getAliasedColName(Book2TableMap::COL_TAGS);
-            if ($this->containsKey($key)) {
-                $this->addAnd($key, $tags, $comparison);
-            } else {
-                $this->add($key, $tags, $comparison);
-            }
-            $this->addOr($key, null, Criteria::ISNULL);
-
-            return $this;
         }
 
         $this->addUsingAlias(Book2TableMap::COL_TAGS, $tags, $comparison);

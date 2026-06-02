@@ -672,11 +672,32 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             };
         }
 
+        // Phase G.4 (Propel 4.0): asymmetric visibility on column-backed
+        // properties. Read-anywhere via direct property access; writes are
+        // restricted to the generated class hierarchy via `protected(set)`.
+        // External callers that previously did `$book->title = 'x'` must
+        // migrate to `$book->setTitle('x')` — covered by the
+        // PropertyWriteToSetter Rector rule (G.8.5). Documented in
+        // UPGRADE-4.0.md §4.4.
+        //
+        // `protected(set)` (not `private(set)`) is the correct floor here:
+        // PHP 8.4 treats `private(set)` as final-for-set and blocks subclass
+        // redeclaration, breaking ConcreteInheritanceBehavior's child-class
+        // emission and any user subclass that overrides typed properties.
+        // `protected(set)` keeps internal redeclaration working while still
+        // shutting the external-write door — the BC contract the plan called
+        // for at the consumer surface.
         if ($typeDeclaration !== null) {
             $script .= "
-    protected ?" . $typeDeclaration . ' $' . $clo . " = null;
+    public protected(set) ?" . $typeDeclaration . ' $' . $clo . " = null;
 ";
         } else {
+            // PHP 8.4 forbids asymmetric visibility on untyped properties.
+            // Temporal / LOB / SET columns intentionally stay untyped (their
+            // runtime storage is mixed: DateTime, stream, raw bitmask string)
+            // so they keep the legacy `protected` shape. Subclasses that
+            // historically redeclared these with a narrower type continue
+            // working. Documented in UPGRADE-4.0.md §4.4.
             $script .= "
     protected \$" . $clo . ";
 ";

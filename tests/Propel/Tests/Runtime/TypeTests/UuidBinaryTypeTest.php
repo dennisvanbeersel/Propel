@@ -9,7 +9,7 @@
 namespace Propel\Tests\Runtime\TypeTest;
 
 use Propel\Runtime\Util\UuidConverter;
-use Propel\Tests\Bookstore\Base\Book2Query;
+use Propel\Tests\Bookstore\Book2Query;
 use Propel\Tests\Bookstore\Book2;
 use Propel\Tests\Bookstore\Map\Book2TableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;

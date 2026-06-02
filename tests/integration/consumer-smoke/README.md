@@ -9,7 +9,7 @@ Per umbrella spec §7.3, this directory hosts a minimal Propel-consumer project 
 
 ## What the consumer-smoke project will contain
 
-- `composer.json` requiring `maturix/propel: dev-ar-rewrite` via path repository.
+- `composer.json` requiring `dennisvanbeersel/propel: dev-ar-rewrite` via path repository.
 - A trivial schema (one `book` table, one `author`).
 - `tests/SmokeTest.php` that calls every Tier 1 surface method:
   - `BookQuery::create()->find()`

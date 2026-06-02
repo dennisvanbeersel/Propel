@@ -73,21 +73,21 @@ abstract class RecordLabel implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the abbr field.
      *
      * @var        string
      */
-    protected ?string $abbr = null;
+    public protected(set) ?string $abbr = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * @var        ObjectCollection|ChildReleasePool[] Collection to store aggregation of ChildReleasePool objects.

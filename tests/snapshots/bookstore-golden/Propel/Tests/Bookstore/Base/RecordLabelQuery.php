@@ -10,6 +10,7 @@ use Propel\Runtime\Propel;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
+use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
 use Propel\Runtime\Collection\Collection;
 use Propel\Runtime\Collection\ObjectCollection;
 use Propel\Runtime\Connection\ConnectionInterface;
@@ -265,7 +266,7 @@ abstract class RecordLabelQuery extends ModelCriteria
     public function filterByPrimaryKeys($keys)
     {
         if (empty($keys)) {
-            $this->add(null, '1<>1', Criteria::CUSTOM);
+            $this->add(new CustomCriterion($this, '1<>1'));
 
             return $this;
         }

@@ -138,7 +138,7 @@ class ConnectionWrapper implements ConnectionInterface, LoggerAwareInterface
     public function __construct(ConnectionInterface $connection)
     {
         trigger_deprecation(
-            'maturix/propel',
+            'dennisvanbeersel/propel',
             '3.0',
             'Class "%s" is a deprecated BC shim around the new decorator chain. Compose '
             . 'PdoConnection/TransactionalConnection/LoggingConnection/CachingConnection via '

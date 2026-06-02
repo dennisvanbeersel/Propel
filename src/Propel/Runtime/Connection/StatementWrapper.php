@@ -71,7 +71,7 @@ class StatementWrapper implements StatementInterface, IteratorAggregate
     public function __construct(string $sql, ConnectionWrapper $connection)
     {
         trigger_deprecation(
-            'maturix/propel',
+            'dennisvanbeersel/propel',
             '3.0',
             'Class "%s" is a deprecated BC shim. Logging + prepared-statement caching now '
             . 'live on Internal\\LoggingConnection + Internal\\CachingConnection. Use the '

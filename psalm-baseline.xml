@@ -170,25 +170,6 @@
       <code><![CDATA[$table]]></code>
     </PossiblyUnusedProperty>
   </file>
-  <file src="src/Propel/Generator/Behavior/NestedSet/NestedSetBehaviorObjectBuilderModifier.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[objectAttributes]]></code>
-      <code><![CDATA[objectClearReferences]]></code>
-      <code><![CDATA[objectMethods]]></code>
-      <code><![CDATA[postDelete]]></code>
-      <code><![CDATA[preDelete]]></code>
-      <code><![CDATA[preSave]]></code>
-    </PossiblyUnusedMethod>
-    <PossiblyUnusedParam>
-      <code><![CDATA[$builder]]></code>
-    </PossiblyUnusedParam>
-  </file>
-  <file src="src/Propel/Generator/Behavior/NestedSet/NestedSetBehaviorQueryBuilderModifier.php">
-    <PossiblyUnusedMethod>
-      <code><![CDATA[getColumn]]></code>
-      <code><![CDATA[queryMethods]]></code>
-    </PossiblyUnusedMethod>
-  </file>
   <file src="src/Propel/Generator/Behavior/Sluggable/SluggableBehavior.php">
     <UnusedClass>
       <code><![CDATA[SluggableBehavior]]></code>
@@ -1344,8 +1325,6 @@
       <code><![CDATA[\ReflectionClass<T>]]></code>
     </InvalidReturnType>
     <PossiblyUnusedMethod>
-      <code><![CDATA[__construct]]></code>
-      <code><![CDATA[getClass]]></code>
       <code><![CDATA[getDbName]]></code>
       <code><![CDATA[hasLimit]]></code>
       <code><![CDATA[isObjectFormatter]]></code>
@@ -1380,6 +1359,8 @@
     <PossiblyUnusedMethod>
       <code><![CDATA[isObjectFormatter]]></code>
     </PossiblyUnusedMethod>
+  </file>
+  <file src="src/Propel/Runtime/Formatter/ObjectRowHydratorTrait.php">
     <UndefinedMethod>
       <code><![CDATA[populateObject]]></code>
       <code><![CDATA[populateObject]]></code>

@@ -9,6 +9,8 @@
 namespace Propel\Tests\Runtime\ActiveQuery;
 
 use Propel\Runtime\ActiveQuery\ModelCriteria;
+use Propel\Runtime\Adapter\Pdo\SqliteAdapter;
+use Propel\Runtime\Propel;
 use Propel\Tests\Bookstore\AuthorQuery;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\TestCase;
@@ -127,6 +129,12 @@ class CriteriaReplaceNameTest extends TestCase
     public function testReplaceNameFromBookstoreContest(string $origClause, ?string $columnPhpName, string $modifiedClause)
     {
         include self::PROJECT_ROOT . '/tests/Fixtures/bookstore/build/conf/bookstore-conf.php';
+        if (Propel::getServiceContainer()->getAdapter('bookstore') instanceof SqliteAdapter) {
+            $this->markTestSkipped(
+                'SQLite has no native schemas and encodes them with U+00A7 (e.g. "contest§bookstore_contest"), '
+                . 'so the dot-delimited assertion only holds against MySQL/PostgreSQL.',
+            );
+        }
         $c = new ModelCriteria('bookstore-schemas', '\Propel\Tests\BookstoreSchemas\BookstoreContest');
         $this->runTestReplaceName($c, $origClause, $columnPhpName, $modifiedClause);
     }

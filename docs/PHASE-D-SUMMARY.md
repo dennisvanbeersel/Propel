@@ -20,7 +20,7 @@ A new `Generator/Builder/Util/CodeEmitter` class that replaces the string-concat
 ### NestedSet deprecation (Group D.2, complete)
 
 - Class-level `@deprecated` PHPDoc on `NestedSetBehavior`.
-- `trigger_deprecation('maturix/propel', '3.0', ...)` fires on schema parse for any schema using `<behavior name="nested_set">`.
+- `trigger_deprecation('dennisvanbeersel/propel', '3.0', ...)` fires on schema parse for any schema using `<behavior name="nested_set">`.
 - Generated NestedSet methods on AR / Query / TableMap classes get `@deprecated` PHPDoc emission.
 - Concrete recursive-CTE migration cookbook in `MIGRATION-FROM-PRE-AI.md` covering the 5 most-common operations: `getDescendants`, `getAncestors`, `getSiblings`, `makeRoot`/`insertAsChildOf`, `isDescendantOf`. Each entry has before/after examples (NestedSet method call → raw `WITH RECURSIVE` SQL via `Criteria::where()`).
 - CHANGELOG entry under `[Unreleased]` "Deprecated".

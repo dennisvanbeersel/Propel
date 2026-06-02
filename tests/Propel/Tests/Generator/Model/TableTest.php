@@ -37,9 +37,32 @@ class TableTest extends ModelTestCase
         $this->assertFalse($table->isReloadOnUpdate());
         $this->assertFalse($table->isSkipSql());
         $this->assertFalse($table->isReadOnly());
+        $this->assertFalse($table->useLazyObjects());
         $this->assertSame(0, $table->getNumLazyLoadColumns());
         $this->assertNull($table->getChildrenNames());
         $this->assertFalse($table->hasForeignKeys());
+    }
+
+    /**
+     * Phase G.3.1: useLazyObjects opt-in flag round-trips via setter and via
+     * <table useLazyObjects="true"> schema attribute.
+     *
+     * @return void
+     */
+    public function testUseLazyObjectsOptIn(): void
+    {
+        $table = new Table('books');
+        $this->assertFalse($table->useLazyObjects(), 'lazy-objects default to off');
+
+        $table->setUseLazyObjects(true);
+        $this->assertTrue($table->useLazyObjects());
+
+        $database = new Database();
+        $database->addTable(['name' => 'authors']);
+        $database->addTable(['name' => 'reviews', 'useLazyObjects' => 'true']);
+
+        $this->assertFalse($database->getTable('authors')->useLazyObjects());
+        $this->assertTrue($database->getTable('reviews')->useLazyObjects());
     }
 
     /**

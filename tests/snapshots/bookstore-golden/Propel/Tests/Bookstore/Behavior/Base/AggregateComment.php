@@ -70,14 +70,14 @@ abstract class AggregateComment implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the post_id field.
      *
      * @var        int|null
      */
-    protected ?int $post_id = null;
+    public protected(set) ?int $post_id = null;
 
     /**
      * @var        ChildAggregatePost|null
@@ -1074,6 +1074,10 @@ abstract class AggregateComment implements ActiveRecordInterface
      */
     public function setAggregatePost(?ChildAggregatePost $v = null): self
     {
+        // aggregate_column_relation behavior
+        if (null !== $this->aAggregatePost && $v !== $this->aAggregatePost) {
+            $this->oldAggregatePostNbComments = $this->aAggregatePost;
+        }
         if ($v === null) {
             $this->setPostId(NULL);
         } else {

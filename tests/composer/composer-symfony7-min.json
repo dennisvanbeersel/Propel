@@ -1,5 +1,5 @@
 {
-    "name": "maturix/propel",
+    "name": "dennisvanbeersel/propel",
     "type": "library",
     "description": "Propel2 is an open-source Object-Relational Mapping (ORM) for PHP.",
     "keywords": ["ORM", "persistence", "Active Record"],

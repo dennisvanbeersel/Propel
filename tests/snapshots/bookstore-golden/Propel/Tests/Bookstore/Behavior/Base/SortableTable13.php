@@ -70,28 +70,28 @@ abstract class SortableTable13 implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the style field.
      *
      * @var        int|null
      */
-    protected ?int $style = null;
+    public protected(set) ?int $style = null;
 
     /**
      * The value for the sortable_rank field.
      *
      * @var        int|null
      */
-    protected ?int $sortable_rank = null;
+    public protected(set) ?int $sortable_rank = null;
 
     /**
      * Flag to prevent endless save loop, if this object is referenced
@@ -1277,7 +1277,7 @@ abstract class SortableTable13 implements ActiveRecordInterface
     public function getScopeValue($returnNulls = true)
     {
 
-        return array_search($this->getStyle(), SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE));
+        return array_search($this->getStyle()?->value, SortableTable13TableMap::getValueSet(SortableTable13TableMap::COL_STYLE));
 
     }
 

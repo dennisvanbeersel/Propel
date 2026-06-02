@@ -80,7 +80,7 @@ The stretch group F.8 (typed Criterion DSL) is the only **new capability** in Ph
 
 **Modified:**
 
-- `src/Propel/Runtime/ActiveQuery/Criteria.php` — slim down from 2526 LOC to ≤650 LOC. Tier 1 method signatures NOT changed; the ~38 constants NOT changed. Body of every `add*`, `combine`, `addJoin`, `addAscendingOrderByColumn`, `replaceNames` method becomes a one-line delegation into `Plan/*` or `Compiler/*`. Eight Java-Hashtable methods (`put`, `putAll`, `get`, `keys`, `containsKey`, `keyContainsValue`, `size`, `equals`) keep their signatures; gain `trigger_deprecation('maturix/propel', '3.0', '...')` exactly once per call category; documented as removed-in-4.0 in `docs/BACKWARD_COMPATIBILITY.md`. New methods added: `customCondition(string $name, string $sql, array $params = [], bool $allowRawSql = false): static` (Tier 1 additive) — the parameterized alternative to `Criteria::add($name, $sql, Criteria::CUSTOM)` raw-SQL.
+- `src/Propel/Runtime/ActiveQuery/Criteria.php` — slim down from 2526 LOC to ≤650 LOC. Tier 1 method signatures NOT changed; the ~38 constants NOT changed. Body of every `add*`, `combine`, `addJoin`, `addAscendingOrderByColumn`, `replaceNames` method becomes a one-line delegation into `Plan/*` or `Compiler/*`. Eight Java-Hashtable methods (`put`, `putAll`, `get`, `keys`, `containsKey`, `keyContainsValue`, `size`, `equals`) keep their signatures; gain `trigger_deprecation('dennisvanbeersel/propel', '3.0', '...')` exactly once per call category; documented as removed-in-4.0 in `docs/BACKWARD_COMPATIBILITY.md`. New methods added: `customCondition(string $name, string $sql, array $params = [], bool $allowRawSql = false): static` (Tier 1 additive) — the parameterized alternative to `Criteria::add($name, $sql, Criteria::CUSTOM)` raw-SQL.
 - `src/Propel/Runtime/ActiveQuery/ModelCriteria.php` — same treatment for the model-aware flavor of methods that today inline join/where/order-by logic (`addJoinConditions`, `getColumnFromName`, `addUsingOperator`, `combine`). Body delegates into `Plan/*`. Tier 1 method signatures (`find`, `findOne`, `filterBy*`, `use*Query`, `where`, `joinWith`, etc.) NOT changed.
 - `src/Propel/Runtime/ActiveQuery/Criterion/AbstractCriterion.php` — no change to Tier 2 surface. Internal: switch from string-literal operator (`'='`) to `Comparison::Equal` enum case where the type is a runtime-defaulted comparison; the public `getComparison(): string` getter stays string for BC. Tier 2 contract unchanged.
 - `src/Propel/Runtime/ActiveQuery/Criterion/AbstractModelCriterion.php` — same.
@@ -1015,7 +1015,7 @@ Each of the eight methods gains a one-line `trigger_deprecation` at the top of t
 ```php
 public function put(string $key, $value)
 {
-    trigger_deprecation('maturix/propel', '3.0', 'Criteria::put() is a Java-Hashtable rump and is deprecated. Use Criteria::add() / addAnd() / addOr() instead. Removal targeted for 4.0.');
+    trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Criteria::put() is a Java-Hashtable rump and is deprecated. Use Criteria::add() / addAnd() / addOr() instead. Removal targeted for 4.0.');
 
     // ... existing body unchanged ...
 }
@@ -1191,7 +1191,7 @@ git commit -m "feat(runtime/activequery): customCondition() — parameterized al
 public function add(string $columnName, $value = null, $operator = null): static
 {
     if ($operator === Criteria::CUSTOM || $operator === Comparison::Custom) {
-        trigger_deprecation('maturix/propel', '3.0', 'Criteria::add($name, $sql, Criteria::CUSTOM) interpolates raw SQL — vulnerable to injection. Use Criteria::customCondition($name, $sql, $params) instead. Removal of raw CUSTOM is not currently scheduled, but new code should use the parameterized form.');
+        trigger_deprecation('dennisvanbeersel/propel', '3.0', 'Criteria::add($name, $sql, Criteria::CUSTOM) interpolates raw SQL — vulnerable to injection. Use Criteria::customCondition($name, $sql, $params) instead. Removal of raw CUSTOM is not currently scheduled, but new code should use the parameterized form.');
     }
     // ... existing body unchanged ...
 }

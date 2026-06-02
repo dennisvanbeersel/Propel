@@ -81,35 +81,35 @@ abstract class Bookstore implements ActiveRecordInterface
      * Book store ID number
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the store_name field.
      *
      * @var        string
      */
-    protected ?string $store_name = null;
+    public protected(set) ?string $store_name = null;
 
     /**
      * The value for the location field.
      *
      * @var        string|null
      */
-    protected ?string $location = null;
+    public protected(set) ?string $location = null;
 
     /**
      * The value for the population_served field.
      *
      * @var        string|null
      */
-    protected ?string $population_served = null;
+    public protected(set) ?string $population_served = null;
 
     /**
      * The value for the total_books field.
      *
      * @var        int|null
      */
-    protected ?int $total_books = null;
+    public protected(set) ?int $total_books = null;
 
     /**
      * The value for the store_open_time field.
@@ -123,7 +123,7 @@ abstract class Bookstore implements ActiveRecordInterface
      *
      * @var        string|null
      */
-    protected ?string $website = null;
+    public protected(set) ?string $website = null;
 
     /**
      * @var        ObjectCollection|ChildBookstoreSale[] Collection to store aggregation of ChildBookstoreSale objects.

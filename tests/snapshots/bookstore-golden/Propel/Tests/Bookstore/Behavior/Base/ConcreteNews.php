@@ -76,35 +76,35 @@ abstract class ConcreteNews extends ChildConcreteArticle implements ActiveRecord
      *
      * @var        string|null
      */
-    protected ?string $body = null;
+    public protected(set) ?string $body = null;
 
     /**
      * The value for the author_id field.
      *
      * @var        int|null
      */
-    protected ?int $author_id = null;
+    public protected(set) ?int $author_id = null;
 
     /**
      * The value for the id field.
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the title field.
      *
      * @var        string|null
      */
-    protected ?string $title = null;
+    public protected(set) ?string $title = null;
 
     /**
      * The value for the category_id field.
      *
      * @var        int|null
      */
-    protected ?int $category_id = null;
+    public protected(set) ?int $category_id = null;
 
     /**
      * @var        ChildConcreteArticle|null

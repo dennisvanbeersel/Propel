@@ -30,6 +30,13 @@ class ClassTools
             return null;
         }
 
+        // Propel classpaths use dot-notation packages (e.g. "Propel.Tests.Bookstore.Base.Distribution");
+        // fully qualified PHP names use backslashes. Handle dot first, then backslash.
+        $pos = strrpos($qualifiedName, '.');
+        if ($pos !== false) {
+            return substr($qualifiedName, $pos + 1);
+        }
+
         $pos = strrpos($qualifiedName, '\\');
         if ($pos !== false) {
             return substr($qualifiedName, $pos + 1);

@@ -10,32 +10,40 @@ declare(strict_types=1);
 
 namespace Propel\Tests\Runtime\ActiveQuery;
 
-use PHPUnit\Framework\Attributes\Group;
+use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
 use Propel\Runtime\ActiveQuery\Criteria;
 use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
 use Propel\Runtime\ActiveQuery\Criterion\Exception\UnsafeCustomConditionException;
-use Symfony\Bridge\PhpUnit\ExpectUserDeprecationMessageTrait;
 
 /**
  * Phase F task F.7 — parameterized customCondition() replaces raw Criteria::CUSTOM.
+ * Phase G.2.5 — raw add() path is now a hard error in 4.0.
  *
  * Closes umbrella §6.2 risk #2 (raw-SQL injection vector).
  */
-#[Group('legacy')]
 class CustomConditionTest extends TestCase
 {
-    use ExpectUserDeprecationMessageTrait;
-
-    public function testRawCustomEmitsDeprecation(): void
+    public function testRawCustomAddIsHardErrorInPropel4(): void
     {
-        $this->expectUserDeprecationMessage(
-            'Since maturix/propel 3.0: Criteria::add($name, $sql, Criteria::CUSTOM) interpolates raw SQL — vulnerable to injection. Use Criteria::customCondition($name, $sql, $params) instead. Removal of raw CUSTOM is not currently scheduled, but new code should use the parameterized form.',
-        );
-
         $crit = new Criteria();
+
+        $this->expectException(BadMethodCallException::class);
+        $this->expectExceptionMessage('Criteria::add($name, $sql, Criteria::CUSTOM) was removed in Propel 4.0');
+
         $crit->add('foo', '1 = 1', Criteria::CUSTOM);
-        self::assertTrue($crit->getMap() !== []);
+    }
+
+    public function testRawCustomAddWithEmptyStringValueRemainsBenignNoOp(): void
+    {
+        // Carve-out per plan §G.2.5: empty-string $value is harmless because
+        // CustomCriterion::appendPsForUniqueClauseTo() returns early on '' — the SQL
+        // never enters the WHERE clause. Null $value is intentionally NOT carved out
+        // because CriterionFactory would TypeError before the early-return runs.
+        $crit = new Criteria();
+        $crit->add('foo', '', Criteria::CUSTOM);
+
+        self::assertNotEmpty($crit->getMap());
     }
 
     public function testCustomConditionAcceptsParameterizedSql(): void

@@ -70,14 +70,14 @@ abstract class Distribution implements ActiveRecordInterface
      *
      * @var        int
      */
-    protected ?int $id = null;
+    public protected(set) ?int $id = null;
 
     /**
      * The value for the name field.
      *
      * @var        string|null
      */
-    protected ?string $name = null;
+    public protected(set) ?string $name = null;
 
     /**
      * The value for the type field.
@@ -85,14 +85,14 @@ abstract class Distribution implements ActiveRecordInterface
      * Note: this column has a database default value of: 0
      * @var        int
      */
-    protected ?int $type = null;
+    public protected(set) ?int $type = null;
 
     /**
      * The value for the distribution_manager_id field.
      *
      * @var        int
      */
-    protected ?int $distribution_manager_id = null;
+    public protected(set) ?int $distribution_manager_id = null;
 
     /**
      * @var        ChildDistributionManager|null
