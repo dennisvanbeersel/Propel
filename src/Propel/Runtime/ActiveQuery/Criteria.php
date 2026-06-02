@@ -1545,7 +1545,7 @@ class Criteria
     /**
      * Set limit.
      *
-     * @param int|float|string $limit A numeric value for the limit; truncated to int.
+     * @param string|float|int $limit A numeric value for the limit; truncated to int.
      *
      * @return $this Modified Criteria object (for fluent API)
      */
@@ -1571,7 +1571,7 @@ class Criteria
     /**
      * Set offset.
      *
-     * @param int|float|string $offset A numeric value for the offset; truncated to int.
+     * @param string|float|int $offset A numeric value for the offset; truncated to int.
      *
      * @return $this Modified Criteria object (for fluent API)
      */

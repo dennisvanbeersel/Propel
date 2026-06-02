@@ -929,7 +929,7 @@ trait ForeignKeyBuilderTrait
             $signature = array_map(function ($item) {
                 // Typed signature items (e.g. "Foo $bar") need an explicit nullable type when
             // given a null default; PHP 8.4 deprecates implicit "Foo $bar = null".
-            return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
+                return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
             }, $signature);
             $signature = implode(', ', $signature);
             $phpDoc = implode(', ', $phpDoc);
@@ -1174,7 +1174,7 @@ trait ForeignKeyBuilderTrait
             $signature = array_map(function ($item) {
                 // Typed signature items (e.g. "Foo $bar") need an explicit nullable type when
             // given a null default; PHP 8.4 deprecates implicit "Foo $bar = null".
-            return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
+                return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
             }, $signature);
             $signature = implode(', ', $signature);
             $phpDoc = implode(', ', $phpDoc);

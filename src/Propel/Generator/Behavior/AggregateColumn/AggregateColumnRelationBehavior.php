@@ -81,9 +81,9 @@ protected \$old{$relationName}{$aggregateName};
      * methods, so the generated query class does not create it dynamically (deprecated
      * on PHP 8.2+).
      *
-     * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
-     *
      * @psalm-suppress PossiblyUnusedMethod called dynamically by the query builder behavior hook dispatch
+     *
+     * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
      *
      * @return string
      */

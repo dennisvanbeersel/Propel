@@ -603,31 +603,6 @@ class Database extends ScopedMappingModel
     }
 
     /**
-     * @param string $sequence
-     *
-     * @return void
-     */
-    public function removeSequence(string $sequence): void
-    {
-        if ($this->sequences) {
-            $idx = array_search($sequence, $this->sequences);
-            if ($idx !== false) {
-                unset($this->sequences[$idx]);
-            }
-        }
-    }
-
-    /**
-     * @param string $sequence
-     *
-     * @return bool
-     */
-    public function hasSequence(string $sequence): bool
-    {
-        return $this->sequences && in_array($sequence, $this->sequences, true);
-    }
-
-    /**
      * Returns the schema delimiter character.
      *
      * For example, the dot character with mysql when
