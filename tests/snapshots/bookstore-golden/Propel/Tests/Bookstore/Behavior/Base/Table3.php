@@ -96,6 +96,14 @@ abstract class Table3 implements ActiveRecordInterface
 
     // Propel\Tests\Helpers\Bookstore\Behavior\Testallhooksbehavior behavior
     public $customAttribute = 1;
+        public $preSave, $preSaveIsAfterSave, $preSaveBuilder;
+        public $postSave, $postSaveIsAfterSave, $postSaveBuilder;
+        public $preInsert, $preInsertIsAfterSave, $preInsertBuilder;
+        public $postInsert, $postInsertIsAfterSave, $postInsertBuilder;
+        public $preUpdate, $preUpdateIsAfterSave, $preUpdateBuilder;
+        public $postUpdate, $postUpdateIsAfterSave, $postUpdateBuilder;
+        public $preDelete, $preDeleteIsBeforeDelete, $preDeleteBuilder;
+        public $postDelete, $postDeleteIsBeforeDelete, $postDeleteBuilder;
     /**
      * Initializes internal state of Propel\Tests\Bookstore\Behavior\Base\Table3 object.
      */

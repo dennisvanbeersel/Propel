@@ -26,6 +26,11 @@ use Propel\Tests\Helpers\Bookstore\BookstoreEmptyTestBase;
 class OnDemandCollectionTest extends BookstoreEmptyTestBase
 {
     /**
+     * @var \Propel\Runtime\Collection\OnDemandCollection|null
+     */
+    protected $books;
+
+    /**
      * @return void
      */
     protected function setUp(): void

@@ -73,7 +73,17 @@ class TestAllHooksObjectBuilderModifier
      */
     public function objectAttributes($builder)
     {
-        return 'public $customAttribute = 1;';
+        // Declare every property the hook methods below write to, so the generated class
+        // does not trigger PHP 8.2+ "creation of dynamic property" deprecations.
+        return 'public $customAttribute = 1;
+    public $preSave, $preSaveIsAfterSave, $preSaveBuilder;
+    public $postSave, $postSaveIsAfterSave, $postSaveBuilder;
+    public $preInsert, $preInsertIsAfterSave, $preInsertBuilder;
+    public $postInsert, $postInsertIsAfterSave, $postInsertBuilder;
+    public $preUpdate, $preUpdateIsAfterSave, $preUpdateBuilder;
+    public $postUpdate, $postUpdateIsAfterSave, $postUpdateBuilder;
+    public $preDelete, $preDeleteIsBeforeDelete, $preDeleteBuilder;
+    public $postDelete, $postDeleteIsBeforeDelete, $postDeleteBuilder;';
     }
 
     /**

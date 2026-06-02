@@ -148,7 +148,6 @@ class ObjectBehaviorTest extends BookstoreTestBase
     {
         $t = new Table3();
         $t->save();
-        $this->preDelete = 0;
         $t->delete();
         $this->assertEquals($t->preDelete, 1, 'preDelete hook is called on object deletion');
         $this->assertEquals('Propel\Generator\Builder\Om\ObjectBuilder', $t->preDeleteBuilder, 'preDelete hook is called with the object builder as parameter');
@@ -162,7 +161,6 @@ class ObjectBehaviorTest extends BookstoreTestBase
     {
         $t = new Table3();
         $t->save();
-        $this->postDelete = 0;
         $t->delete();
         $this->assertEquals($t->postDelete, 1, 'postDelete hook is called on object deletion');
         $this->assertEquals('Propel\Generator\Builder\Om\ObjectBuilder', $t->postDeleteBuilder, 'postDelete hook is called with the object builder as parameter');
