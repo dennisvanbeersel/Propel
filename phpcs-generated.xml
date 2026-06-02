@@ -1,0 +1,106 @@
+<?xml version="1.0"?>
+<ruleset name="PropelGenerated">
+    <description>
+        Coding standard for Propel-generated model classes.
+
+        Generated code is held to a sanity bar rather than the full hand-written
+        `src/` standard: correctness is enforced separately by PHPStan (level 7) on
+        the same generated tree. This ruleset therefore keeps the structural rules
+        but excludes the formatting / docblock-convention sniffs that generated code
+        legitimately differs on by design — verbose fully-qualified `@method`/`@param`
+        docblocks, alignment, Yoda comparisons, `while ($row = ...)` fetch loops, etc.
+        These cannot be auto-fixed (phpcbf fails to converge on the generated output)
+        and reworking every template to satisfy them is out of scope.
+    </description>
+
+    <config name="installed_paths" value="../../spryker/code-sniffer"/>
+
+    <arg value="nps"/>
+
+    <rule ref="Spryker">
+        <!-- Docblock content/format conventions: generated docblocks intentionally use
+             fully-qualified class names (for IDE @method magic) and fixed alignment. -->
+        <exclude name="Spryker.Commenting"/>
+        <exclude name="SlevomatCodingStandard.Commenting"/>
+        <exclude name="Squiz.Commenting"/>
+        <exclude name="PEAR.Commenting"/>
+        <exclude name="SlevomatCodingStandard.Namespaces.FullyQualifiedClassNameInAnnotation"/>
+
+        <!-- Whitespace / alignment / indentation: generated output uses its own,
+             internally-consistent layout that does not match the strict sniffs. -->
+        <exclude name="SlevomatCodingStandard.Whitespaces"/>
+        <exclude name="Spryker.WhiteSpace"/>
+        <exclude name="Squiz.WhiteSpace"/>
+        <exclude name="Generic.WhiteSpace"/>
+        <exclude name="Generic.Formatting"/>
+        <exclude name="PSR2.Classes.ClassDeclaration"/>
+        <exclude name="PSR12.Classes.OpeningBraceSpace"/>
+        <exclude name="PSR12.Files.FileHeader"/>
+
+        <!-- Control-structure style: generated code uses Yoda comparisons and inline
+             assignment in fetch loops, and does not always use the short ternary. -->
+        <exclude name="SlevomatCodingStandard.ControlStructures.DisallowYodaComparison"/>
+        <exclude name="Spryker.ControlStructures.ConditionalExpressionOrder"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.AssignmentInCondition"/>
+        <exclude name="Spryker.ControlStructures.NoInlineAssignment"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.JumpStatementsSpacing"/>
+
+        <!-- Array / call / operator formatting niceties. -->
+        <exclude name="Generic.Arrays.DisallowLongArraySyntax"/>
+        <exclude name="Spryker.Formatting.ArrayDeclaration"/>
+        <exclude name="SlevomatCodingStandard.Arrays"/>
+        <exclude name="Squiz.Arrays"/>
+        <exclude name="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
+        <exclude name="PSR12.Operators"/>
+
+        <!-- Class-reference / import style niceties that fight generated output. -->
+        <exclude name="Spryker.Classes.SelfAccessor"/>
+        <exclude name="SlevomatCodingStandard.Classes.ModernClassNameReference"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassMemberSpacing"/>
+        <exclude name="Spryker.Namespaces.UseStatement"/>
+        <exclude name="Spryker.PHP.SingleQuote"/>
+        <exclude name="Generic.PHP.LowerCaseConstant"/>
+        <exclude name="PSR12.Classes.ClassInstantiation"/>
+        <exclude name="SlevomatCodingStandard.ControlStructures.NewWithParentheses"/>
+
+        <!-- Import statement style: ordering, leading-backslash (the standard contains
+             mutually-contradictory sniffs here), spacing and unused speculative imports. -->
+        <exclude name="SlevomatCodingStandard.Namespaces"/>
+        <exclude name="PSR12.Files.ImportStatement"/>
+        <exclude name="PSR2.Namespaces"/>
+
+        <!-- Remaining whitespace / layout / declaration-order style. -->
+        <exclude name="Spryker.Formatting.MethodSignatureParametersLineBreakMethod"/>
+        <exclude name="Generic.Functions.FunctionCallArgumentSpacing"/>
+        <exclude name="PSR2.ControlStructures"/>
+        <exclude name="PSR12.ControlStructures"/>
+        <exclude name="PEAR.ControlStructures"/>
+        <exclude name="Squiz.ControlStructures"/>
+        <exclude name="Generic.ControlStructures"/>
+        <exclude name="PSR2.Methods"/>
+        <exclude name="PSR2.Classes.PropertyDeclaration"/>
+        <exclude name="PSR2.Namespaces.NamespaceDeclaration"/>
+        <exclude name="Spryker.Classes.MethodDeclaration"/>
+        <exclude name="Squiz.Operators.ValidLogicalOperators"/>
+        <exclude name="SlevomatCodingStandard.TypeHints.LongTypeHints"/>
+        <exclude name="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+        <exclude name="SlevomatCodingStandard.Classes.ConstantSpacing"/>
+        <exclude name="Spryker.Classes.PropertyDefaultValue"/>
+        <exclude name="Spryker.ControlStructures.DisallowCloakingCheck"/>
+        <exclude name="Spryker.Arrays.DisallowImplicitArrayCreation"/>
+        <exclude name="Spryker.PHP.ShortCast"/>
+        <exclude name="Spryker.PHP.DisallowTrailingCommaInSingleLine"/>
+        <exclude name="Generic.PHP.LowerCaseKeyword"/>
+        <exclude name="Squiz.Functions.MultiLineFunctionDeclaration"/>
+
+        <!-- Class declaration / naming: the only violations come from a deliberate
+             fixture-behavior artifact (a single-line `class testObjectFilter {...}`
+             appended to a generated file to exercise the objectFilter hook). The real
+             generated classes are validated by loading + PHPStan + the test suite. -->
+        <exclude name="PSR1.Classes.ClassDeclaration.MultipleClasses"/>
+        <exclude name="PEAR.Classes.ClassDeclaration.OpenBraceNewLine"/>
+        <exclude name="PEAR.NamingConventions.ValidClassName"/>
+        <exclude name="Squiz.Classes.ValidClassName"/>
+    </rule>
+</ruleset>

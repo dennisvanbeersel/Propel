@@ -1,0 +1,29 @@
+parameters:
+    # Generated model classes target PHP 8.4 (asymmetric visibility, backed enums).
+    phpVersion: 80400
+    # A parse + symbol-resolution sanity bar for generated code. Deep correctness is
+    # enforced by the full test suite (the generated classes load and pass 1229+ tests)
+    # and by PHPStan level 7 on src/. Generated output legitimately uses a handful of
+    # patterns that the strict levels flag but that are correct by construction.
+    level: 0
+    paths:
+        - tests/Fixtures/bookstore/build/classes
+    scanDirectories:
+        - src
+    bootstrapFiles:
+        - vendor/autoload.php
+    ignoreErrors:
+        # Base classes are abstract-by-convention and instantiated through their concrete
+        # ChildXxx subclass; `new static()` in create()/factory helpers is correct here.
+        -
+            identifier: new.static
+        # Generated ORM/behavior classes access dynamically-declared properties (aggregate
+        # back-references, behavior hook flags used by the fixture behaviors, etc.) that
+        # PHPStan cannot statically see on the class.
+        -
+            identifier: property.notFound
+        # Sortable multi-scope getScopeValue()/setScopeValue() return shape.
+        -
+            identifier: return.missing
+            paths:
+                - tests/Fixtures/bookstore/build/classes/Propel/Tests/Bookstore/Behavior/Base/Sortable*.php
