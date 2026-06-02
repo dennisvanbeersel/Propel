@@ -17,6 +17,7 @@ use Propel\Runtime\Adapter\Pdo\MysqlAdapter;
 use Propel\Runtime\Adapter\Pdo\PgsqlAdapter;
 use Propel\Runtime\Exception\PropelException;
 use Propel\Runtime\Propel;
+use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
 use Propel\Tests\Bookstore\BookQuery;
 use Propel\Tests\Bookstore\Map\BookTableMap;
 use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
@@ -901,7 +902,7 @@ class CriteriaTest extends BookstoreTestBase
     {
         $c = new Criteria();
         $c->addSelectColumn('A.COL');
-        $c->add('A.COL', 'date_part(\'YYYY\', A.COL) = \'2007\'', Criteria::CUSTOM);
+        $c->add(new CustomCriterion($c, 'date_part(\'YYYY\', A.COL) = \'2007\''));
 
         $expected = $this->getSql("SELECT A.COL FROM A WHERE date_part('YYYY', A.COL) = '2007'");
         $params = [];

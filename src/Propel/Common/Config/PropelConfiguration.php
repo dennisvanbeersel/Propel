@@ -203,7 +203,7 @@ class PropelConfiguration implements ConfigurationInterface
                                         ->end()
                                     ->end()
                                     ->arrayNode('decorators')
-                                        ->defaultValue(['transactional', 'logging', 'caching'])
+                                        ->defaultValue([])
                                         ->prototype('scalar')->end()
                                     ->end()
                                     ->integerNode('preparedStatementCacheCapacity')->min(1)->defaultValue(256)->end()

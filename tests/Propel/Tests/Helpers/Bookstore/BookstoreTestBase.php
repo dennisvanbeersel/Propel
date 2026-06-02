@@ -65,6 +65,8 @@ abstract class BookstoreTestBase extends TestCaseFixturesDatabase
             }
             $this->con = null;
         }
+
+        parent::tearDown();
     }
 
     /**

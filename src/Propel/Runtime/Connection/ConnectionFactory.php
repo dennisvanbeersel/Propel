@@ -84,7 +84,7 @@ class ConnectionFactory
         AdapterInterface $adapter,
         string $defaultConnectionClass = self::DEFAULT_CONNECTION_CLASS
     ): ConnectionInterface {
-        $hasExplicitDecorators = isset($configuration['decorators']) && is_array($configuration['decorators']);
+        $hasExplicitDecorators = isset($configuration['decorators']) && is_array($configuration['decorators']) && $configuration['decorators'] !== [];
         $hasReplicas = isset($configuration['replicas']) && is_array($configuration['replicas']) && $configuration['replicas'] !== [];
 
         if ($hasExplicitDecorators || $hasReplicas) {

@@ -9,6 +9,7 @@
 namespace Propel\Tests\Generator\Builder\Om;
 
 use Propel\Runtime\ActiveQuery\Criteria;
+use Propel\Runtime\ActiveQuery\Criterion\CustomCriterion;
 use Propel\Runtime\ActiveQuery\Criterion\ExistsCriterion;
 use Propel\Runtime\ActiveQuery\ModelCriteria;
 use Propel\Runtime\ActiveQuery\ModelJoin;
@@ -521,7 +522,7 @@ class QueryBuilderTest extends BookstoreTestBase
         $q->filterByPrimaryKeys([]);
 
         $q1 = BookListRelQuery::create();
-        $q1->add(null, '1<>1', Criteria::CUSTOM);
+        $q1->add(new CustomCriterion($q1, '1<>1'));
         $this->assertEquals($q1, $q, 'filterByPrimaryKeys() translates to an always failing test on empty arrays');
     }
 
