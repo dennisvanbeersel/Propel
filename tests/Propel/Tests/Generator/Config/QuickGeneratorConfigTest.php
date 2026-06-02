@@ -125,7 +125,7 @@ class QuickGeneratorConfigTest extends TestCase
                     'src',
                     'vendor',
                 ],
-                'decorators' => ['transactional', 'logging', 'caching'],
+                'decorators' => [],
                 'preparedStatementCacheCapacity' => 256,
                 'routing' => [
                     'sessionConsistencyWindowSeconds' => 5.0,
@@ -146,7 +146,7 @@ class QuickGeneratorConfigTest extends TestCase
                     'src',
                     'vendor',
                 ],
-                'decorators' => ['transactional', 'logging', 'caching'],
+                'decorators' => [],
                 'preparedStatementCacheCapacity' => 256,
                 'routing' => [
                     'sessionConsistencyWindowSeconds' => 5.0,

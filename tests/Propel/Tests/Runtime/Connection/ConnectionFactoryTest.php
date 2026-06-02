@@ -170,8 +170,11 @@ class ConnectionFactoryTest extends BaseTestCase
     /**
      * @return void
      */
-    public function testEmptyDecoratorListYieldsBareConnection()
+    public function testEmptyDecoratorListYieldsConnectionWrapper()
     {
+        // An empty decorator list (the default) routes to the ORM-ready ConnectionWrapper
+        // rather than a bare adapter connection; the decorator chain is opt-in. A truly bare
+        // PdoConnection remains available via the `classname` configuration key.
         $con = ConnectionFactory::create(
             [
                 'dsn' => 'sqlite::memory:',
@@ -180,7 +183,7 @@ class ConnectionFactoryTest extends BaseTestCase
             new SqliteAdapter(),
         );
 
-        $this->assertInstanceOf('Propel\Runtime\Connection\PdoConnection', $con);
+        $this->assertInstanceOf('Propel\Runtime\Connection\ConnectionWrapper', $con);
     }
 
     /**

@@ -84,6 +84,12 @@ class ConnectionFactory
         AdapterInterface $adapter,
         string $defaultConnectionClass = self::DEFAULT_CONNECTION_CLASS
     ): ConnectionInterface {
+        // A non-empty decorator list composes the explicit decorator chain. An empty list
+        // (the default) routes to the ConnectionWrapper legacy path, which is the ORM-ready
+        // connection: query()/prepare() yield DataFetcher/StatementWrapper instances and debug
+        // logging works. The decorator chain is opt-in because, layered over a bare PdoConnection,
+        // it does not provide those ORM-facing semantics and the caching decorator is not
+        // SQLite-safe. A truly bare PdoConnection remains available via `classname`.
         $hasExplicitDecorators = isset($configuration['decorators']) && is_array($configuration['decorators']) && $configuration['decorators'] !== [];
         $hasReplicas = isset($configuration['replicas']) && is_array($configuration['replicas']) && $configuration['replicas'] !== [];
 
