@@ -22,6 +22,14 @@ use Propel\Tests\Helpers\Bookstore\BookstoreTestBase;
 class ModelCriteriaHooksTest extends BookstoreTestBase
 {
     /**
+     * Scratch space written by the delete/update hook classes below (instead of a dynamic
+     * property on the shared ConnectionWrapper, which is deprecated on PHP 8.2+).
+     *
+     * @var int
+     */
+    public static $lastAffectedRows = 0;
+
+    /**
      * @return void
      */
     protected function setUp(): void
@@ -83,18 +91,18 @@ class ModelCriteriaHooksTest extends BookstoreTestBase
         $count = count($books);
         $book = $books->shift();
 
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPostDeleteHook('bookstore', '\Propel\Tests\Bookstore\Book', 'b');
         $c->where('b.Id = ?', $book->getId());
         $nbBooks = $c->delete($this->con);
-        $this->assertEquals(1, $this->con->lastAffectedRows, 'postDelete() is called after delete()');
+        $this->assertEquals(1, self::$lastAffectedRows, 'postDelete() is called after delete()');
 
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPostDeleteHook('bookstore', '\Propel\Tests\Bookstore\Book');
         $nbBooks = $c->deleteAll($this->con);
-        $this->assertEquals(3, $this->con->lastAffectedRows, 'postDelete() is called after deleteAll()');
+        $this->assertEquals(3, self::$lastAffectedRows, 'postDelete() is called after deleteAll()');
     }
 
     /**
@@ -107,18 +115,18 @@ class ModelCriteriaHooksTest extends BookstoreTestBase
         $count = count($books);
         $book = $books->shift();
 
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPreAndPostDeleteHook('bookstore', '\Propel\Tests\Bookstore\Book', 'b');
         $c->where('b.Id = ?', $book->getId());
         $nbBooks = $c->delete($this->con);
-        $this->assertEquals(12, $this->con->lastAffectedRows, 'postDelete() is called after delete() even if preDelete() returns not null');
+        $this->assertEquals(12, self::$lastAffectedRows, 'postDelete() is called after delete() even if preDelete() returns not null');
 
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPreAndPostDeleteHook('bookstore', '\Propel\Tests\Bookstore\Book');
         $nbBooks = $c->deleteAll($this->con);
-        $this->assertEquals(12, $this->con->lastAffectedRows, 'postDelete() is called after deleteAll() even if preDelete() returns not null');
+        $this->assertEquals(12, self::$lastAffectedRows, 'postDelete() is called after deleteAll() even if preDelete() returns not null');
     }
 
     /**
@@ -142,12 +150,12 @@ class ModelCriteriaHooksTest extends BookstoreTestBase
      */
     public function testPostUpdate()
     {
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPostUpdateHook('bookstore', '\Propel\Tests\Bookstore\Book', 'b');
         $c->where('b.Title = ?', 'Don Juan');
         $nbBooks = $c->update(['Title' => 'foo'], $this->con);
-        $this->assertEquals(1, $this->con->lastAffectedRows, 'postUpdate() is called after update()');
+        $this->assertEquals(1, self::$lastAffectedRows, 'postUpdate() is called after update()');
     }
 
     /**
@@ -155,12 +163,12 @@ class ModelCriteriaHooksTest extends BookstoreTestBase
      */
     public function testPreAndPostUpdate()
     {
-        $this->con->lastAffectedRows = 0;
+        self::$lastAffectedRows = 0;
 
         $c = new ModelCriteriaWithPreAndPostUpdateHook('bookstore', '\Propel\Tests\Bookstore\Book', 'b');
         $c->where('b.Title = ?', 'Don Juan');
         $nbBooks = $c->update(['Title' => 'foo'], $this->con);
-        $this->assertEquals(52, $this->con->lastAffectedRows, 'postUpdate() is called after update() even if preUpdate() returns not null');
+        $this->assertEquals(52, self::$lastAffectedRows, 'postUpdate() is called after update() even if preUpdate() returns not null');
     }
 }
 
@@ -190,7 +198,7 @@ class ModelCriteriaWithPostDeleteHook extends ModelCriteria
      */
     public function postDelete($affectedRows, ConnectionInterface $con): ?int
     {
-        $con->lastAffectedRows = $affectedRows;
+        ModelCriteriaHooksTest::$lastAffectedRows = $affectedRows;
 
         return $affectedRows;
     }
@@ -224,7 +232,7 @@ class ModelCriteriaWithPostUpdateHook extends ModelCriteria
      */
     public function postUpdate($affectedRows, ConnectionInterface $con): ?int
     {
-        $con->lastAffectedRows = $affectedRows;
+        ModelCriteriaHooksTest::$lastAffectedRows = $affectedRows;
 
         return $affectedRows;
     }

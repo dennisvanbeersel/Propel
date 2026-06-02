@@ -84,6 +84,18 @@ use Propel\Tests\Bookstore\Behavior\Map\AggregateMultipleScoreTableMap;
  */
 abstract class AggregateMultipleScoreQuery extends ModelCriteria
 {
+
+    // aggregate_multiple_columns_relation_score_group_aggregates behavior
+    /**
+     * @var array|null
+     */
+    protected $aggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScores;
+
+    // aggregate_multiple_columns_relation_another_score_group_aggregates behavior
+    /**
+     * @var array|null
+     */
+    protected $aggregateMultipleScoreGroupAggregatedColumnsFromAggregateMultipleScore1s;
     protected ?string $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**

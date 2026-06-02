@@ -1545,13 +1545,15 @@ class Criteria
     /**
      * Set limit.
      *
-     * @param int $limit An int with the value for limit.
+     * @param int|float|string $limit A numeric value for the limit; truncated to int.
      *
      * @return $this Modified Criteria object (for fluent API)
      */
-    public function setLimit(int $limit)
+    public function setLimit(int|float|string $limit)
     {
-        $this->limit = $limit;
+        // Cast explicitly so a fractional/numeric-string value does not trigger the PHP 8.1+
+        // "implicit conversion from float to int loses precision" deprecation at the boundary.
+        $this->limit = (int)$limit;
 
         return $this;
     }
@@ -1569,13 +1571,15 @@ class Criteria
     /**
      * Set offset.
      *
-     * @param int $offset An int with the value for offset.
+     * @param int|float|string $offset A numeric value for the offset; truncated to int.
      *
      * @return $this Modified Criteria object (for fluent API)
      */
-    public function setOffset(int $offset)
+    public function setOffset(int|float|string $offset)
     {
-        $this->offset = $offset;
+        // Cast explicitly so a fractional/numeric-string value does not trigger the PHP 8.1+
+        // "implicit conversion from float to int loses precision" deprecation at the boundary.
+        $this->offset = (int)$offset;
 
         return $this;
     }

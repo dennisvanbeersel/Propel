@@ -72,6 +72,12 @@ use Propel\Tests\Bookstore\Behavior\Map\AggregateCommentTableMap;
  */
 abstract class AggregateCommentQuery extends ModelCriteria
 {
+
+    // aggregate_column_relation_aggregate_column behavior
+    /**
+     * @var array|null
+     */
+    protected $aggregatePostNbCommentss;
     protected ?string $entityNotFoundExceptionClass = '\\Propel\\Runtime\\Exception\\EntityNotFoundException';
 
     /**

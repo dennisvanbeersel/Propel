@@ -286,6 +286,16 @@ trait ForeignKeyBuilderTrait
      * @var bool
      */
     protected \$combination" . ucfirst($this->getCrossFKsVarName($crossFKs)) . "Partial;
+
+    /**
+     * @var ObjectCombinationCollection|null Cross CombinationCollection accessed via the combination relation getter.
+     */
+    protected \$" . $this->getCrossFKsVarName($crossFKs) . ";
+
+    /**
+     * @var bool
+     */
+    protected \$" . $this->getCrossFKsVarName($crossFKs) . "Partial;
 ";
         }
 
@@ -743,7 +753,9 @@ trait ForeignKeyBuilderTrait
         $this->extractCrossInformation($crossFKs, [$firstFK], $signature, $shortSignature, $normalizedShortSignature, $phpDoc);
 
         $signature = array_map(function ($item) {
-            return $item . ' = null';
+            // Typed signature items (e.g. "Foo $bar") need an explicit nullable type when
+            // given a null default; PHP 8.4 deprecates implicit "Foo $bar = null".
+            return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
         }, $signature);
         $signature = implode(', ', $signature);
         $phpDoc = implode(', ', $phpDoc);
@@ -915,7 +927,9 @@ trait ForeignKeyBuilderTrait
             $this->extractCrossInformation($crossFKs, [$firstFK], $signature, $shortSignature, $normalizedShortSignature, $phpDoc);
 
             $signature = array_map(function ($item) {
-                return $item . ' = null';
+                // Typed signature items (e.g. "Foo $bar") need an explicit nullable type when
+            // given a null default; PHP 8.4 deprecates implicit "Foo $bar = null".
+            return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
             }, $signature);
             $signature = implode(', ', $signature);
             $phpDoc = implode(', ', $phpDoc);
@@ -1158,7 +1172,9 @@ trait ForeignKeyBuilderTrait
             $this->extractCrossInformation($crossFKs, [$firstFK], $signature, $shortSignature, $normalizedShortSignature, $phpDoc);
 
             $signature = array_map(function ($item) {
-                return $item . ' = null';
+                // Typed signature items (e.g. "Foo $bar") need an explicit nullable type when
+            // given a null default; PHP 8.4 deprecates implicit "Foo $bar = null".
+            return ($item[0] === '$' || $item[0] === '?' ? $item : '?' . $item) . ' = null';
             }, $signature);
             $signature = implode(', ', $signature);
             $phpDoc = implode(', ', $phpDoc);

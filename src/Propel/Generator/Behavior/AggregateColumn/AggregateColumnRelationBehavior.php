@@ -77,6 +77,27 @@ protected \$old{$relationName}{$aggregateName};
     }
 
     /**
+     * Declares the collection property used by the generated find/update-related query
+     * methods, so the generated query class does not create it dynamically (deprecated
+     * on PHP 8.2+).
+     *
+     * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
+     *
+     * @return string
+     */
+    public function queryAttributes(AbstractOMBuilder $builder): string
+    {
+        $relationName = $this->getRelationName($builder);
+        $variableName = lcfirst($relationName . $this->getParameter('aggregate_name'));
+
+        return "/**
+ * @var array|null
+ */
+protected \${$variableName}s;
+";
+    }
+
+    /**
      * @param \Propel\Generator\Builder\Om\AbstractOMBuilder $builder
      *
      * @return string
