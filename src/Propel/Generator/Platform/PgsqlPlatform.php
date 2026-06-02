@@ -805,7 +805,6 @@ ALTER TABLE %s RENAME TO %s;
         $fromColumn = $columnDiff->getFromColumn();
         $toColumn = clone $columnDiff->getToColumn();
 
-        $fromTable = $fromColumn->getTable();
         $table = $toColumn->getTable();
 
         $colName = $this->quoteIdentifier($toColumn->getName());
