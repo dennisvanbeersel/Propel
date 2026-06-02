@@ -126,7 +126,7 @@ protected \$old{$relationName}{$aggregateName};
         if (null !== \$this->a{$relationName} && \$v !== \$this->a{$relationName}) {
             \$this->old{$relationName}{$aggregateName} = \$this->a{$relationName};
         }";
-        $script = preg_replace($pattern, $replace, $script);
+        $script = preg_replace($pattern, $replace, $script) ?? $script;
     }
 
     /**
