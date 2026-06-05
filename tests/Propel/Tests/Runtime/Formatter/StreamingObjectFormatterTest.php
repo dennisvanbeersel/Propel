@@ -14,6 +14,7 @@ use Generator;
 use PHPUnit\Framework\TestCase;
 use Propel\Generator\Util\QuickBuilder;
 use Propel\Runtime\ActiveRecord\ActiveRecordInterface;
+use Propel\Runtime\DataFetcher\DataFetcherInterface;
 use Propel\Runtime\Exception\LogicException;
 use Propel\Runtime\Formatter\StreamingObjectFormatter;
 use Propel\Runtime\Telemetry\TelemetryInterface;
@@ -197,5 +198,71 @@ XML;
             $count++;
         }
         $this->assertSame(7, $count);
+    }
+
+    /**
+     * `findStream()` always hydrates full model objects, so a projected
+     * `select()` query (which omits the model columns) must be rejected
+     * rather than handed to the streaming formatter.
+     *
+     * @return void
+     */
+    public function testFindStreamRejectsSelectQuery(): void
+    {
+        $this->seed(1);
+
+        $this->expectException(LogicException::class);
+        $this->expectExceptionMessage('does not support select()');
+
+        ('StreamingFormatterBench\\StreamAuthorQuery')::create()
+            ->select(['Name'])
+            ->findStream();
+    }
+
+    /**
+     * The one-to-many rejection must still release the underlying cursor —
+     * the guard lives inside the try/finally so the fetcher is closed.
+     *
+     * @return void
+     */
+    public function testFormatClosesFetcherWhenRejectingOneToMany(): void
+    {
+        $this->seed(1);
+
+        $query = ('StreamingFormatterBench\\StreamAuthorQuery')::create()
+            ->leftJoinWith('StreamingFormatterBench\\StreamAuthor.StreamBook');
+
+        $fetcher = $this->createMock(DataFetcherInterface::class);
+        $fetcher->expects($this->once())->method('close');
+
+        $formatter = new StreamingObjectFormatter($query, $fetcher);
+
+        try {
+            foreach ($formatter->format() as $_) {
+                $this->fail('expected throw before any row is yielded');
+            }
+            $this->fail('expected LogicException');
+        } catch (LogicException $e) {
+            $this->assertStringContainsString('one-to-many', $e->getMessage());
+        }
+    }
+
+    /**
+     * `formatOne()` drains the fetcher and must close it so direct callers
+     * don't leak the statement until GC.
+     *
+     * @return void
+     */
+    public function testFormatOneClosesFetcher(): void
+    {
+        $query = ('StreamingFormatterBench\\StreamAuthorQuery')::create();
+
+        // valid() defaults to false on the mock, so iteration is empty.
+        $fetcher = $this->createMock(DataFetcherInterface::class);
+        $fetcher->expects($this->once())->method('close');
+
+        $formatter = new StreamingObjectFormatter($query, $fetcher);
+
+        $this->assertNull($formatter->formatOne());
     }
 }

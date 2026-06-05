@@ -687,11 +687,7 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
         // `protected(set)` keeps internal redeclaration working while still
         // shutting the external-write door — the BC contract the plan called
         // for at the consumer surface.
-        if ($typeDeclaration !== null) {
-            $script .= "
-    public protected(set) ?" . $typeDeclaration . ' $' . $clo . " = null;
-";
-        } else {
+        if ($typeDeclaration === null) {
             // PHP 8.4 forbids asymmetric visibility on untyped properties.
             // Temporal / LOB / SET columns intentionally stay untyped (their
             // runtime storage is mixed: DateTime, stream, raw bitmask string)
@@ -700,6 +696,19 @@ abstract class " . $this->getUnqualifiedClassName() . $parentClass . ' implement
             // working. Documented in UPGRADE-4.0.md §4.4.
             $script .= "
     protected \$" . $clo . ";
+";
+        } elseif ($column->isEnumType()) {
+            // ENUM columns store the int ordinal of the value (ENUM_NATIVE_TYPE),
+            // but getX()/setX() expose the converted enum value object. Exposing
+            // the backing slot for public read would leak that internal ordinal
+            // (e.g. `$obj->style` returning 0 instead of the enum), so the stored
+            // key stays protected — the accessors are the only public surface.
+            $script .= "
+    protected ?" . $typeDeclaration . ' $' . $clo . " = null;
+";
+        } else {
+            $script .= "
+    public protected(set) ?" . $typeDeclaration . ' $' . $clo . " = null;
 ";
         }
     }

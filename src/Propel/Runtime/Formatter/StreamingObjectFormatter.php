@@ -130,18 +130,18 @@ class StreamingObjectFormatter extends AbstractFormatter
             $dataFetcher = $this->getDataFetcher();
         }
 
-        if ($this->isWithOneToMany()) {
-            throw new LogicException(
-                'StreamingObjectFormatter does not support one-to-many with(): '
-                . 'streaming yields rows as they arrive, but parent dedup requires '
-                . 'materializing all rows. Drop the with() on the collection-side '
-                . 'relation, or use the eager ObjectFormatter via find().',
-            );
-        }
-
         $class = (string)$this->getClass();
 
         try {
+            if ($this->isWithOneToMany()) {
+                throw new LogicException(
+                    'StreamingObjectFormatter does not support one-to-many with(): '
+                    . 'streaming yields rows as they arrive, but parent dedup requires '
+                    . 'materializing all rows. Drop the with() on the collection-side '
+                    . 'relation, or use the eager ObjectFormatter via find().',
+                );
+            }
+
             $index = 0;
             foreach ($dataFetcher as $row) {
                 $start = hrtime(true);
@@ -178,8 +178,13 @@ class StreamingObjectFormatter extends AbstractFormatter
         }
 
         $result = null;
-        foreach ($dataFetcher as $row) {
-            $result = $this->getAllObjectsFromRow($row);
+
+        try {
+            foreach ($dataFetcher as $row) {
+                $result = $this->getAllObjectsFromRow($row);
+            }
+        } finally {
+            $dataFetcher->close();
         }
 
         return $result;

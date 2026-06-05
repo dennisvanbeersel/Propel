@@ -86,7 +86,7 @@ abstract class Book2 implements ActiveRecordInterface
      *
      * @var        int|null
      */
-    public protected(set) ?int $style = null;
+    protected ?int $style = null;
 
     /**
      * The value for the style2 field.

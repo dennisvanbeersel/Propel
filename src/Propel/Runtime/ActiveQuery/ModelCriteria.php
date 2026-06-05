@@ -1399,6 +1399,15 @@ class ModelCriteria extends BaseModelCriteria
 
         $this->basePreSelect($con);
         $criteria = $this->isKeepQuery() ? clone $this : $this;
+
+        if ($criteria->getSelect() !== null) {
+            throw new LogicException(
+                'findStream() hydrates full model objects and does not support select(): '
+                . 'select() omits the model columns the streaming formatter needs. '
+                . 'Use find() for projected (column-list) results.',
+            );
+        }
+
         $dataFetcher = $criteria->doSelect($con);
 
         $formatter = new StreamingObjectFormatter();

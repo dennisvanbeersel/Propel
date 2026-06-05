@@ -4,8 +4,9 @@
         Coding standard for Propel-generated model classes.
 
         Generated code is held to a sanity bar rather than the full hand-written
-        `src/` standard: correctness is enforced separately by PHPStan (level 7) on
-        the same generated tree. This ruleset therefore keeps the structural rules
+        `src/` standard: it gets a PHPStan parse + symbol-resolution check (level 0,
+        see `phpstan-generated.neon`), while the strict level 7 analysis applies to the
+        hand-written `src/` tree. This ruleset therefore keeps the structural rules
         but excludes the formatting / docblock-convention sniffs that generated code
         legitimately differs on by design — verbose fully-qualified `@method`/`@param`
         docblocks, alignment, Yoda comparisons, `while ($row = ...)` fetch loops, etc.
